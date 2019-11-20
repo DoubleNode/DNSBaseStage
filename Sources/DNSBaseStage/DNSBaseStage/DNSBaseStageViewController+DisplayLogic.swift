@@ -33,7 +33,7 @@ extension DNSBaseStageViewController: DNSBaseStageDisplayLogic {
     var hud: JGProgressHUD {
         return JGProgressHUD(style: .dark)
     }
-    
+
     // MARK: - Stage Lifecycle Methods
 
     open func stageDidAppear() {

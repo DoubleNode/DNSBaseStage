@@ -215,7 +215,7 @@ open class DNSBaseStageModels {
             public var colors: Colors?
             public var fonts: Fonts?
             
-            public init(message: String, style: Style, title: String) {
+            public init(message: String, percentage: Float = -1, style: Style, title: String) {
                 self.message = message
                 self.style = style
                 self.title = title

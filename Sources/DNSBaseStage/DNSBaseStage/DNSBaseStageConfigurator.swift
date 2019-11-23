@@ -13,60 +13,42 @@ import UIKit
 
 public typealias DNSBaseStageConfiguratorBlock = (String, Bool, DNSBaseStageBaseResults?) -> Void
 
-open class DNSBaseStageConfigurator {
-    // MARK: - VIP Objects Creation
-    open var _interactor: DNSBaseStageInteractor?           // swiftlint:disable:this identifier_name
-    open var _presenter: DNSBaseStagePresenter?             // swiftlint:disable:this identifier_name
-    open var _viewController: DNSBaseStageViewController?   // swiftlint:disable:this identifier_name
+public protocol DNSBaseStageConfiguratorLogic: class {
+    associatedtype InteractorType: DNSBaseStageBusinessLogic
+    associatedtype PresenterType: DNSBaseStagePresentationLogic
+    associatedtype ViewControllerType: DNSBaseStageDisplayLogic
+    associatedtype InitializationObjectType: DNSBaseStageBaseInitialization
+}
 
+open class DNSBaseStageConfigurator {
+    public typealias InteractorType = DNSBaseStageInteractor
+    public typealias PresenterType = DNSBaseStagePresenter
+    public typealias ViewControllerType = DNSBaseStageViewController
+    public typealias InitializationObjectType = DNSBaseStageModels.Base.Initialization
+
+    // MARK: - Public Associated Type Properties
+    public var initializationObject: InitializationObjectType?
+
+    // MARK: - VIP Objects Creation
     public var navigationController: UINavigationController?
     public var tabBarController: UITabBarController?
 
-    open var interactorClassType: DNSBaseStageInteractor.Type {
-        return DNSBaseStageInteractor.self
+    public var interactor: InteractorType {
+        return InteractorType.init(configurator: self)
     }
-    open var presenterClassType: DNSBaseStagePresenter.Type {
-        return DNSBaseStagePresenter.self
+    public var presenter: PresenterType {
+        return PresenterType.init(configurator: self)
     }
-    open var viewControllerClassType: DNSBaseStageViewController.Type {
-        return DNSBaseStageViewController.self
-    }
+    public var viewController: ViewControllerType {
+        let retval: ViewControllerType
 
-    var interactor: some DNSBaseStageInteractor {
-        if _interactor == nil {
-            _interactor = self.createInteractor(for: interactorClassType)
-        }
-        return _interactor!
-    }
-    var presenter: some DNSBaseStagePresenter {
-        if _presenter == nil {
-            _presenter = self.createPresenter(for: presenterClassType)
-        }
-        return _presenter!
-    }
-    var viewController: some DNSBaseStageViewController {
-        if _viewController == nil {
-            _viewController = self.createViewController(for: viewControllerClassType)
-        }
-        return _viewController!
-    }
-
-    func createInteractor(for classType: DNSBaseStageInteractor.Type) -> DNSBaseStageInteractor {
-        return classType.init(configurator: self)
-    }
-    func createPresenter(for classType: DNSBaseStagePresenter.Type) -> DNSBaseStagePresenter {
-        return classType.init(configurator: self)
-    }
-    func createViewController(for classType: DNSBaseStageViewController.Type) -> DNSBaseStageViewController {
-        let retval: DNSBaseStageViewController
-
-        if Bundle.dnsLookupNibBundle(for: classType) != nil {
-            retval = classType.init(nibName: String(describing: classType),
-                                    bundle: Bundle.dnsLookupBundle(for: classType))
+        if Bundle.dnsLookupNibBundle(for: ViewControllerType.self) != nil {
+            retval = ViewControllerType.init(nibName: String(describing: ViewControllerType.self),
+                                             bundle: Bundle.dnsLookupBundle(for: ViewControllerType.self))
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             // swiftlint:disable:next force_cast line_length
-            retval = storyboard.instantiateViewController(withIdentifier: String(describing: classType)) as! DNSBaseStageViewController
+            retval = storyboard.instantiateViewController(withIdentifier: String(describing: ViewControllerType.self)) as! ViewControllerType
         }
 
         retval.configurator = self
@@ -78,17 +60,17 @@ open class DNSBaseStageConfigurator {
     public init() {
     }
 
-    open func configureStage(_ viewController: DNSBaseStageViewController) {
+    open func configureStage(_ viewController: ViewControllerType) {
         // Connect VIP Object Publishers
-        self.interactor.subscribe(to: viewController)
-        self.presenter.subscribe(to: self.interactor)
+        interactor.subscribe(to: viewController)
+        presenter.subscribe(to: self.interactor)
         viewController.subscribe(to: self.presenter)
 
         // Interactor Dependency Injection
-        self.interactor.analyticsWorker = WKRCrashAnalyticsWorker.init()
+        interactor.analyticsWorker = WKRCrashAnalyticsWorker.init()
 
         // Presenter Dependency Injection
-        self.presenter.analyticsWorker  = WKRCrashAnalyticsWorker.init()
+        presenter.analyticsWorker  = WKRCrashAnalyticsWorker.init()
 
         // ViewController Dependency Injection
         viewController.analyticsWorker = WKRCrashAnalyticsWorker.init()
@@ -96,18 +78,22 @@ open class DNSBaseStageConfigurator {
 
     open func runStage(with coordinator: DNSCoordinator,
                        and displayType: DNSBaseStageDisplayType,
-                       and initialization: DNSBaseStageBaseInitialization,
-                       thenRun endBlock: DNSBaseStageConfiguratorBlock?) -> DNSBaseStageViewController {
-        self.endBlock   = endBlock
+                       and initializationObject: InitializationObjectType,
+                       thenRun endBlock: DNSBaseStageConfiguratorBlock?) -> ViewControllerType {
+        self.endBlock = endBlock
+        self.initializationObject = initializationObject
 
-        self.viewController.stageTitle = String(describing: type(of: self))
+        viewController.stageTitle = String(describing: type(of: viewController))
 
-        self.interactor.startStage(with: displayType, and: initialization)
+        interactor.startStage(with: displayType,
+                              and: initializationObject)
 
-        return self.viewController
+        return viewController
     }
 
-    open func endStage(with intent: String, and dataChanged: Bool, and results: DNSBaseStageBaseResults?) {
+    open func endStage(with intent: String,
+                       and dataChanged: Bool,
+                       and results: DNSBaseStageBaseResults?) {
         endBlock?(intent, dataChanged, results)
     }
 

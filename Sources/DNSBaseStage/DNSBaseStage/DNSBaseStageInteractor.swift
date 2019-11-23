@@ -27,7 +27,7 @@ public protocol DNSBaseStageBusinessLogic: class {
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     public typealias ConfiguratorType = DNSBaseStageConfigurator
-    public typealias InitializationObjectType = DNSBaseStageBaseInitialization
+    public typealias InitializationObjectType = DNSBaseStageModels.Base.Initialization
 
     // MARK: - Public Associated Type Properties
     public var configurator: ConfiguratorType?
@@ -84,7 +84,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     }
 
     open func startStage(with displayType: DNSBaseStageDisplayType,
-                         and initialization: DNSBaseStageBaseInitialization?) {
+                         and initialization: InitializationObjectType?) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = displayType

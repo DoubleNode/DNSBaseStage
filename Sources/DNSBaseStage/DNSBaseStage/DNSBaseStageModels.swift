@@ -35,16 +35,22 @@ open class DNSBaseStageModels {
 
     public enum Base {
         public struct Initialization: DNSBaseStageBaseInitialization {
+            public init() {}
         }
         public struct Results: DNSBaseStageBaseResults {
+            public init() {}
         }
         public struct Data: DNSBaseStageBaseData {
+            public init() {}
         }
         public struct Request: DNSBaseStageBaseRequest {
+            public init() {}
         }
         public struct Response: DNSBaseStageBaseResponse {
+            public init() {}
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
+            public init() {}
         }
     }
 

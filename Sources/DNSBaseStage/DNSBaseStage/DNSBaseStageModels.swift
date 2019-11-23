@@ -50,153 +50,153 @@ open class DNSBaseStageModels {
 
     public enum Start {
         public struct Response: DNSBaseStageBaseResponse {
-            var displayType: DNSBaseStageDisplayType
+            public var displayType: DNSBaseStageDisplayType
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
-            var animated: Bool
-            var displayType: DNSBaseStageDisplayType
+            public var animated: Bool
+            public var displayType: DNSBaseStageDisplayType
         }
     }
     public enum Finish {
         public struct Response: DNSBaseStageBaseResponse {
-            var displayType: DNSBaseStageDisplayType
+            public var displayType: DNSBaseStageDisplayType
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
-            var animated: Bool
-            var displayType: DNSBaseStageDisplayType
+            public var animated: Bool
+            public var displayType: DNSBaseStageDisplayType
         }
     }
 
     public class Confirmation {
         public class Request: DNSBaseStageBaseRequest {
             public struct TextField {
-                var value: String?
+                public var value: String?
             }
 
             public init() {}
 
-            var userData: Any?
+            public var userData: Any?
 
-            var selection: String?
-            var textFields: [TextField] = []
+            public var selection: String?
+            public var textFields: [TextField] = []
         }
         public class Response: DNSBaseStageBaseResponse {
             public struct TextField {
-                var contentType: String?
-                var keyboardType: UIKeyboardType?
-                var placeholder: String?
+                public var contentType: String?
+                public var keyboardType: UIKeyboardType?
+                public var placeholder: String?
             }
             public struct Button {
-                var code: String?
-                var style: UIAlertAction.Style?
-                var title: String?
+                public var code: String?
+                public var style: UIAlertAction.Style?
+                public var title: String?
             }
 
             public init() {}
 
-            var alertStyle: UIAlertController.Style?
-            var message: String?
-            var title: String?
+            public var alertStyle: UIAlertController.Style?
+            public var message: String?
+            public var title: String?
 
-            var buttons: [Button] = []
-            var textFields: [TextField] = []
-            var userData: Any?
+            public var buttons: [Button] = []
+            public var textFields: [TextField] = []
+            public var userData: Any?
         }
         public class ViewModel: DNSBaseStageBaseViewModel {
             public struct TextField {
-                var contentType: String?
-                var keyboardType: UIKeyboardType?
-                var placeholder: String?
+                public var contentType: String?
+                public var keyboardType: UIKeyboardType?
+                public var placeholder: String?
             }
             public struct Button {
-                var code: String?
-                var style: UIAlertAction.Style?
-                var title: String?
+                public var code: String?
+                public var style: UIAlertAction.Style?
+                public var title: String?
             }
 
             public init() {}
 
-            var alertStyle: UIAlertController.Style?
-            var message: String?
-            var title: String?
+            public var alertStyle: UIAlertController.Style?
+            public var message: String?
+            public var title: String?
 
-            var buttons: [Button] = []
-            var textFields: [TextField] = []
-            var userData: Any?
+            public var buttons: [Button] = []
+            public var textFields: [TextField] = []
+            public var userData: Any?
         }
     }
     public enum Dismiss {
         public struct Response: DNSBaseStageBaseResponse {
-            var animated: Bool
+            public var animated: Bool
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
-            var animated: Bool
+            public var animated: Bool
         }
     }
     public enum Error {
         public struct Request: DNSBaseStageBaseRequest {
-            var error: NSError
-            var style: Style
-            var title: String
+            public var error: NSError
+            public var style: Style
+            public var title: String
         }
         public struct Response: DNSBaseStageBaseResponse {
-            var error: NSError
-            var style: Style
-            var title: String
+            public var error: NSError
+            public var style: Style
+            public var title: String
         }
     }
     public enum Message {
         public struct Response: DNSBaseStageBaseResponse {
-            var message: String
-            var percentage: Float = -1
-            var style: Style
-            var title: String
+            public var message: String
+            public var percentage: Float = -1
+            public var style: Style
+            public var title: String
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public struct Colors {
-                var background: UIColor?
-                var message: UIColor?
-                var title: UIColor?
+                public var background: UIColor?
+                public var message: UIColor?
+                public var title: UIColor?
             }
             public struct Fonts {
-                var message: UIFont?
-                var title: UIFont?
+                public var message: UIFont?
+                public var title: UIFont?
             }
 
-            var message: String
-            var percentage: Float = -1
-            var style: Style
-            var title: String
+            public var message: String
+            public var percentage: Float = -1
+            public var style: Style
+            public var title: String
 
-            var colors: Colors?
-            var fonts: Fonts?
+            public var colors: Colors?
+            public var fonts: Fonts?
         }
     }
     public enum Spinner {
         public struct Response: DNSBaseStageBaseResponse {
-            var show: Bool
+            public var show: Bool
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
-            var show: Bool
+            public var show: Bool
         }
     }
     public enum Title {
         public struct Response: DNSBaseStageBaseResponse {
-            var title: String
+            public var title: String
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
-            var title: String
+            public var title: String
         }
     }
     public enum Webpage {
         public struct Request: DNSBaseStageBaseRequest {
-            var url: NSURL
+            public var url: NSURL
         }
     }
     public enum WebpageError {
         public struct Request: DNSBaseStageBaseRequest {
-            var url: NSURL
-            var error: NSError
+            public var url: NSURL
+            public var error: NSError
         }
     }
 }

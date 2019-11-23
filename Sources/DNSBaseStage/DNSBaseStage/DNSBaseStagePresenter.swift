@@ -68,7 +68,7 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var configurator: Any DNSBaseStageConfigurator?
+    public var configurator: DNSBaseStageConfigurator?
 
     // MARK: - Public Properties: Default Palette Colors
     public var defaultBackgroundColor:  UIColor = UIColor.blue

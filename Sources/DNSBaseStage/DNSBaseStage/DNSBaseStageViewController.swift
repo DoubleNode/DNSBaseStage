@@ -78,7 +78,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var configurator: Any DNSBaseStageConfigurator? {
+    public var configurator: DNSBaseStageConfigurator? {
         didSet {
             self.configure()
         }

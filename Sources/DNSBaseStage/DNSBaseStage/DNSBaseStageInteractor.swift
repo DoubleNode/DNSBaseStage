@@ -64,8 +64,8 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     var hasStageEnded:  Bool = false
 
     // MARK: - Public Properties
-    public var configurator: Any DNSBaseStageConfigurator?
-    public var initializationObject: Any DNSBaseStageBaseInitialization?
+    public var configurator: DNSBaseStageConfigurator?
+    public var initializationObject: DNSBaseStageBaseInitialization?
     public var displayType: DNSBaseStageDisplayType?
 
     // MARK: - Workers

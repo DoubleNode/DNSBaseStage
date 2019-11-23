@@ -32,19 +32,19 @@ open class DNSBaseStageConfigurator {
         return DNSBaseStageViewController.self
     }
 
-    var interactor: DNSBaseStageInteractor {
+    var interactor: some DNSBaseStageInteractor {
         if _interactor == nil {
             _interactor = self.createInteractor(for: interactorClassType)
         }
         return _interactor!
     }
-    var presenter: DNSBaseStagePresenter {
+    var presenter: some DNSBaseStagePresenter {
         if _presenter == nil {
             _presenter = self.createPresenter(for: presenterClassType)
         }
         return _presenter!
     }
-    var viewController: DNSBaseStageViewController {
+    var viewController: some DNSBaseStageViewController {
         if _viewController == nil {
             _viewController = self.createViewController(for: viewControllerClassType)
         }

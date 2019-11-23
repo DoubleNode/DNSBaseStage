@@ -51,19 +51,37 @@ open class DNSBaseStageModels {
     public enum Start {
         public struct Response: DNSBaseStageBaseResponse {
             public var displayType: DNSBaseStageDisplayType
+            
+            public init(displayType: DNSBaseStageDisplayType) {
+                self.displayType = displayType
+            }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
             public var displayType: DNSBaseStageDisplayType
+            
+            public init(animated: Bool, displayType: DNSBaseStageDisplayType) {
+                self.animated = animated
+                self.displayType = displayType
+            }
         }
     }
     public enum Finish {
         public struct Response: DNSBaseStageBaseResponse {
             public var displayType: DNSBaseStageDisplayType
+            
+            public init(displayType: DNSBaseStageDisplayType) {
+                self.displayType = displayType
+            }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
             public var displayType: DNSBaseStageDisplayType
+            
+            public init(animated: Bool, displayType: DNSBaseStageDisplayType) {
+                self.animated = animated
+                self.displayType = displayType
+            }
         }
     }
 
@@ -128,9 +146,17 @@ open class DNSBaseStageModels {
     public enum Dismiss {
         public struct Response: DNSBaseStageBaseResponse {
             public var animated: Bool
+            
+            public init(animated: Bool) {
+                self.animated = animated
+            }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
+            
+            public init(animated: Bool) {
+                self.animated = animated
+            }
         }
     }
     public enum Error {
@@ -138,11 +164,23 @@ open class DNSBaseStageModels {
             public var error: NSError
             public var style: Style
             public var title: String
+            
+            public init(error: NSError, style: Style, title: String) {
+                self.error = error
+                self.style = style
+                self.title = title
+            }
         }
         public struct Response: DNSBaseStageBaseResponse {
             public var error: NSError
             public var style: Style
             public var title: String
+            
+            public init(error: NSError, style: Style, title: String) {
+                self.error = error
+                self.style = style
+                self.title = title
+            }
         }
     }
     public enum Message {
@@ -151,6 +189,12 @@ open class DNSBaseStageModels {
             public var percentage: Float = -1
             public var style: Style
             public var title: String
+            
+            public init(message: String, style: Style, title: String) {
+                self.message = message
+                self.style = style
+                self.title = title
+            }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public struct Colors {
@@ -170,33 +214,64 @@ open class DNSBaseStageModels {
 
             public var colors: Colors?
             public var fonts: Fonts?
+            
+            public init(message: String, style: Style, title: String) {
+                self.message = message
+                self.style = style
+                self.title = title
+            }
         }
     }
     public enum Spinner {
         public struct Response: DNSBaseStageBaseResponse {
             public var show: Bool
+            
+            public init(show: Bool) {
+                self.show = show
+            }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var show: Bool
+            
+            public init(show: Bool) {
+                self.show = show
+            }
         }
     }
     public enum Title {
         public struct Response: DNSBaseStageBaseResponse {
             public var title: String
+            
+            public init(title: String) {
+                self.title = title
+            }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var title: String
+            
+            public init(title: String) {
+                self.title = title
+            }
         }
     }
     public enum Webpage {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: NSURL
+            
+            public init(url: NSURL) {
+                self.url = url
+            }
         }
     }
     public enum WebpageError {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: NSURL
             public var error: NSError
+            
+            public init(url: NSURL, error: NSError) {
+                self.url = url
+                self.error = error
+            }
         }
     }
 }

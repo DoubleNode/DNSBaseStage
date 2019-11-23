@@ -30,6 +30,8 @@ public protocol DNSBaseStageDisplayLogic: class {
 }
 
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
+    public typealias ConfiguratorType = DNSBaseStageConfigurator
+    
     // MARK: - Outgoing Pipelines
     public let stageDidAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageDidClosePublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
@@ -55,7 +57,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
     
-    open func subscribe(to presenter: DNSBaseStagePresentationLogic) {
+    open func subscribe<T: DNSBaseStagePresentationLogic>(to presenter: T) {
         stageStartSubscriber = presenter.stageStartPublisher
             .sink { viewModel in self.startStage(viewModel) }
         stageEndSubscriber = presenter.stageEndPublisher

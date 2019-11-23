@@ -10,6 +10,8 @@ import Combine
 import DNSProtocols
 
 public protocol DNSBaseStageBusinessLogic: class {
+    associatedtype ConfiguratorType: DNSBaseStageConfigurator
+    
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }
@@ -23,6 +25,8 @@ public protocol DNSBaseStageBusinessLogic: class {
 }
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
+    public typealias ConfiguratorType = DNSBaseStageConfigurator
+    
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
     public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.Response, Never>()
@@ -43,7 +47,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     var stageWillAppearSubscriber: AnyCancellable?
     var stageWillDisappearSubscriber: AnyCancellable?
 
-    open func subscribe(to viewController: DNSBaseStageDisplayLogic) {
+    open func subscribe<T: DNSBaseStageDisplayLogic>(to viewController: T) {
         stageDidAppearSubscriber = viewController.stageDidAppearPublisher
             .sink { request in self.stageDidAppear(request) }
         stageDidCloseSubscriber = viewController.stageDidClosePublisher

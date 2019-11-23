@@ -11,6 +11,8 @@ import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStagePresentationLogic: class {
+    associatedtype ConfiguratorType: DNSBaseStageConfigurator
+    
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never> { get }
@@ -23,6 +25,8 @@ public protocol DNSBaseStagePresentationLogic: class {
 }
 
 open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
+    public typealias ConfiguratorType = DNSBaseStageConfigurator
+    
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never>()
     public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never>()
@@ -44,7 +48,7 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
     
-    open func subscribe(to interactor: DNSBaseStageBusinessLogic) {
+    open func subscribe<T: DNSBaseStageBusinessLogic>(to interactor: T) {
         stageStartSubscriber = interactor.stageStartPublisher
             .sink { response in self.startStage(response) }
         stageEndSubscriber = interactor.stageEndPublisher
@@ -68,7 +72,7 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var configurator: DNSBaseStageConfigurator?
+    public var configurator: ConfiguratorType?
 
     // MARK: - Public Properties: Default Palette Colors
     public var defaultBackgroundColor:  UIColor = UIColor.blue

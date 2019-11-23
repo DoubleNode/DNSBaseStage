@@ -8,7 +8,7 @@
 
 import DNSCore
 import DNSCoreThreading
-//import FTLinearActivityIndicator
+// FIXME: import FTLinearActivityIndicator
 import UIKit
 
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void

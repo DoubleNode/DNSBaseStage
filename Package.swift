@@ -21,7 +21,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.0.0"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.0.0"),
-        //.package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.3.0"),
+        //.package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.2.1"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.1.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.5.0"),
     ],

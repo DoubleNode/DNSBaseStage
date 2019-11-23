@@ -27,6 +27,9 @@ public protocol DNSBaseStagePresentationLogic: class {
 open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     public typealias ConfiguratorType = DNSBaseStageConfigurator
     
+    // MARK: - Public Associated Type Properties
+    public var configurator: ConfiguratorType?
+
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never>()
     public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never>()
@@ -72,7 +75,6 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var configurator: ConfiguratorType?
 
     // MARK: - Public Properties: Default Palette Colors
     public var defaultBackgroundColor:  UIColor = UIColor.blue

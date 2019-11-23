@@ -11,7 +11,8 @@ import DNSProtocols
 
 public protocol DNSBaseStageBusinessLogic: class {
     associatedtype ConfiguratorType: DNSBaseStageConfigurator
-    
+    associatedtype InitializationObjectType: DNSBaseStageBaseInitialization
+
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }
@@ -26,7 +27,12 @@ public protocol DNSBaseStageBusinessLogic: class {
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     public typealias ConfiguratorType = DNSBaseStageConfigurator
-    
+    public typealias InitializationObjectType = DNSBaseStageBaseInitialization
+
+    // MARK: - Public Associated Type Properties
+    public var configurator: ConfiguratorType?
+    public var initializationObject: InitializationObjectType?
+
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
     public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.Response, Never>()
@@ -68,8 +74,6 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     var hasStageEnded:  Bool = false
 
     // MARK: - Public Properties
-    public var configurator: DNSBaseStageConfigurator?
-    public var initializationObject: DNSBaseStageBaseInitialization?
     public var displayType: DNSBaseStageDisplayType?
 
     // MARK: - Workers

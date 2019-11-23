@@ -13,6 +13,8 @@ import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: class {
+   associatedtype ConfiguratorType: DNSBaseStageConfigurator
+
    // MARK: - Outgoing Pipelines
     var stageDidAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
     var stageDidClosePublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
@@ -32,6 +34,13 @@ public protocol DNSBaseStageDisplayLogic: class {
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
     public typealias ConfiguratorType = DNSBaseStageConfigurator
     
+    // MARK: - Public Associated Type Properties
+    public var configurator: ConfiguratorType? {
+        didSet {
+            self.configure()
+        }
+    }
+
     // MARK: - Outgoing Pipelines
     public let stageDidAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageDidClosePublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
@@ -80,12 +89,6 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var configurator: DNSBaseStageConfigurator? {
-        didSet {
-            self.configure()
-        }
-    }
-
     public var displayType:     DNSBaseStageDisplayType?
     public var keyboardBounds:  CGRect = CGRect.zero
     public var visibleMargin:   CGFloat = 0.0

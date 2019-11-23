@@ -6,25 +6,85 @@
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
 //
 
+import Combine
 import DNSCore
 import DNSCoreThreading
 import DNSProtocols
 import UIKit
 
-open class DNSBaseStageViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+public protocol DNSBaseStageDisplayLogic: class {
+   // MARK: - Outgoing Pipelines
+    var stageDidAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageDidClosePublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageDidDisappearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageDidHidePublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageDidLoadPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageWillAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageWillDisappearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+
+    var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never> { get }
+    var errorOccurredPublisher: PassthroughSubject<DNSBaseStageModels.Error.Request, Never> { get }
+    var webStartNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
+    var webFinishNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
+    var webErrorNavigationPublisher: PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never> { get }
+}
+
+open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
+    // MARK: - Outgoing Pipelines
+    public let stageDidAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageDidClosePublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageDidDisappearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageDidHidePublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageDidLoadPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageWillAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageWillDisappearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+
+    public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never>()
+    public let errorOccurredPublisher = PassthroughSubject<DNSBaseStageModels.Error.Request, Never>()
+    public let webStartNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
+    public let webFinishNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
+    public let webErrorNavigationPublisher = PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never>()
+
+    // MARK: - Incoming Pipelines
+    var stageStartSubscriber: AnyCancellable?
+    var stageEndSubscriber: AnyCancellable?
+
+    var confirmationSubscriber: AnyCancellable?
+    var dismissSubscriber: AnyCancellable?
+    var messageSubscriber: AnyCancellable?
+    var spinnerSubscriber: AnyCancellable?
+    var titleSubscriber: AnyCancellable?
+    
+    open func subscribe(to presenter: DNSBaseStagePresentationLogic) {
+        stageStartSubscriber = presenter.stageStartPublisher
+            .sink { viewModel in self.startStage(viewModel) }
+        stageEndSubscriber = presenter.stageEndPublisher
+            .sink { viewModel in self.endStage(viewModel) }
+        
+        confirmationSubscriber = presenter.confirmationPublisher
+            .sink { viewModel in self.displayConfirmation(viewModel) }
+        dismissSubscriber = presenter.dismissPublisher
+            .sink { viewModel in self.displayDismiss(viewModel) }
+        messageSubscriber = presenter.messagePublisher
+            .sink { viewModel in self.displayMessage(viewModel) }
+        spinnerSubscriber = presenter.spinnerPublisher
+            .sink { viewModel in self.displaySpinner(viewModel) }
+        titleSubscriber = presenter.titlePublisher
+            .sink { viewModel in self.displayTitle(viewModel) }
+    }
+    
     // MARK: - Private Properties
     var stageBackTitle: String = ""
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var baseInteractor:  DNSBaseStageBusinessLogic?
-    public var configurator:    DNSBaseStageConfigurator? {
+    public var configurator: Any DNSBaseStageConfigurator? {
         didSet {
             self.configure()
         }
     }
-    public var displayType:     DNSBaseStageDisplayType?
 
+    public var displayType:     DNSBaseStageDisplayType?
     public var keyboardBounds:  CGRect = CGRect.zero
     public var visibleMargin:   CGFloat = 0.0
 

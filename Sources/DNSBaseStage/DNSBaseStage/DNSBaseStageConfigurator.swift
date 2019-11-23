@@ -73,16 +73,16 @@ open class DNSBaseStageConfigurator {
         return retval
     }
 
-    public var endBlock:    DNSBaseStageConfiguratorBlock?
+    public var endBlock: DNSBaseStageConfiguratorBlock?
 
     public init() {
     }
 
     open func configureStage(_ viewController: DNSBaseStageViewController) {
-        // Connect VIP Objects
-        self.interactor.basePresenter   = self.presenter
-        self.presenter.baseDisplay      = viewController
-        viewController.baseInteractor   = self.interactor
+        // Connect VIP Object Publishers
+        self.interactor.subscribe(to: viewController)
+        self.presenter.subscribe(to: self.interactor)
+        viewController.subscribe(to: self.presenter)
 
         // Interactor Dependency Injection
         self.interactor.analyticsWorker = WKRCrashAnalyticsWorker.init()

@@ -6,30 +6,69 @@
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
 //
 
+import Combine
 import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStagePresentationLogic: class {
-    // MARK: - Lifecycle Methods
-    func startStage(_ response: DNSBaseStageModels.Start.Response)
-    func endStage(_ response: DNSBaseStageModels.Finish.Response)
+    // MARK: - Outgoing Pipelines
+    var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never> { get }
+    var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never> { get }
 
-    // MARK: - Presentation logic
-    func presentConfirmation(_ response: DNSBaseStageModels.Confirmation.Response)
-    func presentDismiss(_ response: DNSBaseStageModels.Dismiss.Response)
-    func presentError(_ response: DNSBaseStageModels.Error.Response)
-    func presentMessage(_ response: DNSBaseStageModels.Message.Response)
-    func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response)
-    func presentTitle(_ response: DNSBaseStageModels.Title.Response)
+    var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.ViewModel, Never> { get }
+    var dismissPublisher: PassthroughSubject<DNSBaseStageModels.Dismiss.ViewModel, Never> { get }
+    var messagePublisher: PassthroughSubject<DNSBaseStageModels.Message.ViewModel, Never> { get }
+    var spinnerPublisher: PassthroughSubject<DNSBaseStageModels.Spinner.ViewModel, Never> { get }
+    var titlePublisher: PassthroughSubject<DNSBaseStageModels.Title.ViewModel, Never> { get }
 }
 
 open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
+    // MARK: - Outgoing Pipelines
+    public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never>()
+    public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never>()
+
+    public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.ViewModel, Never>()
+    public let dismissPublisher = PassthroughSubject<DNSBaseStageModels.Dismiss.ViewModel, Never>()
+    public let messagePublisher = PassthroughSubject<DNSBaseStageModels.Message.ViewModel, Never>()
+    public let spinnerPublisher = PassthroughSubject<DNSBaseStageModels.Spinner.ViewModel, Never>()
+    public let titlePublisher = PassthroughSubject<DNSBaseStageModels.Title.ViewModel, Never>()
+
+    // MARK: - Incoming Pipelines
+    var stageStartSubscriber: AnyCancellable?
+    var stageEndSubscriber: AnyCancellable?
+
+    var confirmationSubscriber: AnyCancellable?
+    var dismissSubscriber: AnyCancellable?
+    var errorSubscriber: AnyCancellable?
+    var messageSubscriber: AnyCancellable?
+    var spinnerSubscriber: AnyCancellable?
+    var titleSubscriber: AnyCancellable?
+    
+    open func subscribe(to interactor: DNSBaseStageBusinessLogic) {
+        stageStartSubscriber = interactor.stageStartPublisher
+            .sink { response in self.startStage(response) }
+        stageEndSubscriber = interactor.stageEndPublisher
+            .sink { response in self.endStage(response) }
+
+        confirmationSubscriber = interactor.confirmationPublisher
+            .sink { response in self.presentConfirmation(response) }
+        dismissSubscriber = interactor.dismissPublisher
+            .sink { response in self.presentDismiss(response) }
+        errorSubscriber = interactor.errorPublisher
+            .sink { response in self.presentError(response) }
+        messageSubscriber = interactor.messagePublisher
+            .sink { response in self.presentMessage(response) }
+        spinnerSubscriber = interactor.spinnerPublisher
+            .sink { response in self.presentSpinner(response) }
+        titleSubscriber = interactor.titlePublisher
+            .sink { response in self.presentTitle(response) }
+    }
+
     // MARK: - Private Properties
     var spinnerCount:   Int = 0
 
     // MARK: - Public Properties
-    public var baseDisplay:     DNSBaseStageDisplayLogic?
-    public var configurator:    DNSBaseStageConfigurator?
+    public var configurator: Any DNSBaseStageConfigurator?
 
     // MARK: - Public Properties: Default Palette Colors
     public var defaultBackgroundColor:  UIColor = UIColor.blue
@@ -62,15 +101,16 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
 
         self.spinnerCount = 0
 
-        self.baseDisplay?.startStage(DNSBaseStageModels.Start.ViewModel(animated: true,
-                                                                        displayType: response.displayType))
+        stageStartPublisher.send(DNSBaseStageModels.Start.ViewModel(animated: true,
+                                                                    displayType: response.displayType))
     }
     open func endStage(_ response: DNSBaseStageModels.Finish.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.spinnerCount = 0
 
-        self.baseDisplay?.endStage(DNSBaseStageModels.Finish.ViewModel(animated: true, displayType: response.displayType))
+        stageEndPublisher.send(DNSBaseStageModels.Finish.ViewModel(animated: true,
+                                                                   displayType: response.displayType))
     }
 
     // MARK: - Presentation logic
@@ -97,12 +137,12 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
                                                                  title: button.title)
             )
         }
-        self.baseDisplay?.displayConfirmation(viewModel)
+        self.confirmationPublisher.send(viewModel)
     }
     open func presentDismiss(_ response: DNSBaseStageModels.Dismiss.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseDisplay?.displayDismiss(DNSBaseStageModels.Dismiss.ViewModel(animated: response.animated))
+        self.dismissPublisher.send(DNSBaseStageModels.Dismiss.ViewModel(animated: response.animated))
     }
     open func presentError(_ response: DNSBaseStageModels.Error.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
@@ -120,7 +160,7 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
                                                                        title: errorTitleColor)
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: errorMessageFont,
                                                                      title: errorTitleFont)
-        self.baseDisplay?.displayMessage(viewModel)
+        self.messagePublisher.send(viewModel)
     }
     open func presentMessage(_ response: DNSBaseStageModels.Message.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
@@ -134,7 +174,7 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
                                                                        title: defaultTitleColor)
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: defaultMessageFont,
                                                                      title: defaultTitleFont)
-        self.baseDisplay?.displayMessage(viewModel)
+        self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
@@ -148,11 +188,11 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
             }
             guard spinnerCount == 0 else { return }
         }
-        self.baseDisplay?.displaySpinner(DNSBaseStageModels.Spinner.ViewModel(show: response.show))
+        self.spinnerPublisher.send(DNSBaseStageModels.Spinner.ViewModel(show: response.show))
     }
     open func presentTitle(_ response: DNSBaseStageModels.Title.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseDisplay?.displayTitle(DNSBaseStageModels.Title.ViewModel(title: response.title))
+        titlePublisher.send(DNSBaseStageModels.Title.ViewModel(title: response.title))
     }
 }

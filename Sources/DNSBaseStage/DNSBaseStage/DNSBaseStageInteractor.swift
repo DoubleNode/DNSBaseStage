@@ -6,41 +6,73 @@
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
 //
 
+import Combine
 import DNSProtocols
 
 public protocol DNSBaseStageBusinessLogic: class {
-    // MARK: - Stage Lifecycle
-    func stageDidAppear(_ request: DNSBaseStageBaseRequest)
-    func stageDidClose(_ request: DNSBaseStageBaseRequest)
-    func stageDidDisappear(_ request: DNSBaseStageBaseRequest)
-    func stageDidHide(_ request: DNSBaseStageBaseRequest)
-    func stageDidLoad(_ request: DNSBaseStageBaseRequest)
-    func stageWillAppear(_ request: DNSBaseStageBaseRequest)
-    func stageWillDisappear(_ request: DNSBaseStageBaseRequest)
+    // MARK: - Outgoing Pipelines
+    var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
+    var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }
 
-    // MARK: - Business Logic
-    func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request)
-    func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request)
-    func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request)
-    func doWebFinishNavigation(_ request: DNSBaseStageModels.Webpage.Request)
-    func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request)
+    var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Response, Never> { get }
+    var dismissPublisher: PassthroughSubject<DNSBaseStageModels.Dismiss.Response, Never> { get }
+    var errorPublisher: PassthroughSubject<DNSBaseStageModels.Error.Response, Never> { get }
+    var messagePublisher: PassthroughSubject<DNSBaseStageModels.Message.Response, Never> { get }
+    var spinnerPublisher: PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never> { get }
+    var titlePublisher: PassthroughSubject<DNSBaseStageModels.Title.Response, Never> { get }
 }
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
+    // MARK: - Outgoing Pipelines
+    public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
+    public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.Response, Never>()
+
+    public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Response, Never>()
+    public let dismissPublisher = PassthroughSubject<DNSBaseStageModels.Dismiss.Response, Never>()
+    public let errorPublisher = PassthroughSubject<DNSBaseStageModels.Error.Response, Never>()
+    public let messagePublisher = PassthroughSubject<DNSBaseStageModels.Message.Response, Never>()
+    public let spinnerPublisher = PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never>()
+    public let titlePublisher = PassthroughSubject<DNSBaseStageModels.Title.Response, Never>()
+
+    // MARK: - Incoming Pipelines
+    var stageDidAppearSubscriber: AnyCancellable?
+    var stageDidCloseSubscriber: AnyCancellable?
+    var stageDidDisappearSubscriber: AnyCancellable?
+    var stageDidHideSubscriber: AnyCancellable?
+    var stageDidLoadSubscriber: AnyCancellable?
+    var stageWillAppearSubscriber: AnyCancellable?
+    var stageWillDisappearSubscriber: AnyCancellable?
+
+    open func subscribe(to viewController: DNSBaseStageDisplayLogic) {
+        stageDidAppearSubscriber = viewController.stageDidAppearPublisher
+            .sink { request in self.stageDidAppear(request) }
+        stageDidCloseSubscriber = viewController.stageDidClosePublisher
+            .sink { request in self.stageDidClose(request) }
+        stageDidDisappearSubscriber = viewController.stageDidDisappearPublisher
+            .sink { request in self.stageDidDisappear(request) }
+        stageDidHideSubscriber = viewController.stageDidHidePublisher
+            .sink { request in self.stageDidHide(request) }
+        stageDidLoadSubscriber = viewController.stageDidLoadPublisher
+            .sink { request in self.stageDidLoad(request) }
+        stageWillAppearSubscriber = viewController.stageWillAppearPublisher
+            .sink { request in self.stageWillAppear(request) }
+        stageWillDisappearSubscriber = viewController.stageWillDisappearPublisher
+            .sink { request in self.stageWillDisappear(request) }
+    }
+    
     // MARK: - Private Properties
     var hasStageEnded:  Bool = false
 
     // MARK: - Public Properties
-    public var basePresenter:               DNSBaseStagePresentationLogic?
-    public var baseConfigurator:            DNSBaseStageConfigurator?
-    public var baseInitializationObject:    DNSBaseStageBaseInitialization?
-    public var displayType:                 DNSBaseStageDisplayType?
+    public var configurator: Any DNSBaseStageConfigurator?
+    public var initializationObject: Any DNSBaseStageBaseInitialization?
+    public var displayType: DNSBaseStageDisplayType?
 
     // MARK: - Workers
-    public var analyticsWorker:     PTCLAnalytics_Protocol?
+    public var analyticsWorker: PTCLAnalytics_Protocol?
 
     required public init(configurator: DNSBaseStageConfigurator) {
-        self.baseConfigurator = configurator
+        self.configurator = configurator
     }
 
     open func startStage(with displayType: DNSBaseStageDisplayType,
@@ -48,9 +80,9 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = displayType
-        self.baseInitializationObject = initialization
+        self.initializationObject = initialization
 
-        self.basePresenter?.startStage(DNSBaseStageModels.Start.Response(displayType: displayType))
+        stageStartPublisher.send(DNSBaseStageModels.Start.Response(displayType: displayType))
     }
 
     open func shouldEndStage() -> Bool {
@@ -78,7 +110,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
 
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseConfigurator?.endStage(with: intent,
+        self.configurator?.endStage(with: intent,
                                         and: dataChanged,
                                         and: results)
     }
@@ -86,7 +118,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     open func removeStage(displayType: DNSBaseStageDisplayType) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.basePresenter?.endStage(DNSBaseStageModels.Finish.Response(displayType: displayType))
+        stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: displayType))
     }
 
     // MARK: - Stage Lifecycle
@@ -94,6 +126,8 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.hasStageEnded  = false
+        
+        titlePublisher.send(DNSBaseStageModels.Title.Response(title: "Test Title"))
     }
 
     open func stageDidClose(_ request: DNSBaseStageBaseRequest) {
@@ -130,9 +164,9 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     open func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.basePresenter?.presentError(DNSBaseStageModels.Error.Response(error: request.error,
-                                                                           style: .popup,
-                                                                           title: request.title))
+        self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
+                                                                   style: .popup,
+                                                                   title: request.title))
     }
 
     open func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
@@ -146,8 +180,8 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     open func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.basePresenter?.presentError(DNSBaseStageModels.Error.Response(error: request.error,
-                                                                           style: .popup,
-                                                                           title: "Web Error"))
+        self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
+                                                                   style: .popup,
+                                                                   title: "Web Error"))
     }
 }

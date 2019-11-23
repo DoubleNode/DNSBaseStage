@@ -6,26 +6,14 @@
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
 //
 
+import Combine
 import DNSCore
 import DNSCoreThreading
 import JGProgressHUD
 import Loaf
 import UIKit
 
-public protocol DNSBaseStageDisplayLogic: class {
-    // MARK: - Lifecycle Methods
-    func startStage(_ viewModel: DNSBaseStageModels.Start.ViewModel)
-    func endStage(_ viewModel: DNSBaseStageModels.Finish.ViewModel)
-
-    // MARK: - Presentation logic
-    func displayConfirmation(_ viewModel: DNSBaseStageModels.Confirmation.ViewModel)
-    func displayDismiss(_ viewModel: DNSBaseStageModels.Dismiss.ViewModel)
-    func displayMessage(_ viewModel: DNSBaseStageModels.Message.ViewModel)
-    func displaySpinner(_ viewModel: DNSBaseStageModels.Spinner.ViewModel)
-    func displayTitle(_ viewModel: DNSBaseStageModels.Title.ViewModel)
-}
-
-extension DNSBaseStageViewController: DNSBaseStageDisplayLogic {
+extension DNSBaseStageViewController {
     public enum ToastState {
         case error, info, success, warning
     }
@@ -39,43 +27,43 @@ extension DNSBaseStageViewController: DNSBaseStageDisplayLogic {
     open func stageDidAppear() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageDidAppear(DNSBaseStageModels.Base.Request())
+        stageDidAppearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidClose() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageDidClose(DNSBaseStageModels.Base.Request())
+        stageDidClosePublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidDisappear() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageDidDisappear(DNSBaseStageModels.Base.Request())
+        stageDidDisappearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidHide() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageDidHide(DNSBaseStageModels.Base.Request())
+        stageDidHidePublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidLoad() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageDidLoad(DNSBaseStageModels.Base.Request())
+        stageDidLoadPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageWillAppear() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageWillAppear(DNSBaseStageModels.Base.Request())
+        stageWillAppearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageWillDisappear() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.baseInteractor?.stageWillDisappear(DNSBaseStageModels.Base.Request())
+        stageWillDisappearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     // MARK: - Lifecycle Methods
@@ -233,8 +221,7 @@ extension DNSBaseStageViewController: DNSBaseStageDisplayLogic {
             }
             for viewModelButton in viewModel.buttons where viewModelButton.title?.count ?? 0 > 0 {
                 let button = UIAlertAction.init(title: viewModelButton.title,
-                                                style: viewModelButton.style!,
-                                                handler: { (_) in
+                                                style: viewModelButton.style!) { (_) in
                     var value1: String?
                     var value2: String?
 
@@ -246,12 +233,13 @@ extension DNSBaseStageViewController: DNSBaseStageDisplayLogic {
                     }
 
                     let request = DNSBaseStageModels.Confirmation.Request()
-                    request.selection           = viewModelButton.code
+                    request.selection = viewModelButton.code
                     request.textFields[0].value = value1
                     request.textFields[1].value = value2
-                    request.userData            = viewModel.userData
-                    self.baseInteractor?.doConfirmation(request)
-                })
+                    request.userData = viewModel.userData
+                                                    
+                    self.confirmationPublisher.send(request)
+                }
 
                 alertController.addAction(button)
             }

@@ -22,19 +22,19 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         super.init()
     }
 
-    override public func start() {
+    override open func start() {
         super.start()
 
         DNSUIThread.run {
             self.savedViewControllers = self.tabBarController.viewControllers
         }
     }
-    override public func reset() {
+    override open func reset() {
         super.reset()
 
         self.savedViewControllers = nil
     }
-    override public func stop() {
+    override open func stop() {
         super.stop()
 
         if self.savedViewControllers != nil {

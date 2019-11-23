@@ -33,7 +33,7 @@ open class DNSCoordinator {
 
     // MARK: - Coordinator lifecycle
 
-    public func start() {
+    open func start() {
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -43,7 +43,7 @@ open class DNSCoordinator {
             self.runState = .started
         }
     }
-    public func reset() {
+    open func reset() {
         self.runState = .notStarted
 
         for child: DNSCoordinator in self.children {
@@ -52,16 +52,16 @@ open class DNSCoordinator {
 
         self.children = []
     }
-    public func stop() {
+    open func stop() {
         self.runState = .notStarted
     }
 
     // MARK: - Intent processing
 
-    public func run(actions: [String: DNSBlock],
-                    for intent: String,
-                    onBlank: DNSBlock = { },
-                    orNoMatch: DNSBlock = { }) {
+    open func run(actions: [String: DNSBlock],
+                  for intent: String,
+                  onBlank: DNSBlock = { },
+                  orNoMatch: DNSBlock = { }) {
         if intent.isEmpty {
             onBlank()
             return

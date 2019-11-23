@@ -11,7 +11,6 @@ import DNSProtocols
 
 public protocol DNSBaseStageBusinessLogic: class {
     associatedtype ConfiguratorType: DNSBaseStageConfigurator
-    associatedtype InitializationObjectType: DNSBaseStageBaseInitialization
 
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
@@ -27,11 +26,10 @@ public protocol DNSBaseStageBusinessLogic: class {
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     public typealias ConfiguratorType = DNSBaseStageConfigurator
-    public typealias InitializationObjectType = DNSBaseStageModels.Base.Initialization
 
     // MARK: - Public Associated Type Properties
     public var configurator: ConfiguratorType?
-    public var initializationObject: InitializationObjectType?
+    public var initializationObject: DNSBaseStageBaseInitialization?
 
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
@@ -84,7 +82,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     }
 
     open func startStage(with displayType: DNSBaseStageDisplayType,
-                         and initialization: InitializationObjectType?) {
+                         and initialization: DNSBaseStageBaseInitialization?) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = displayType

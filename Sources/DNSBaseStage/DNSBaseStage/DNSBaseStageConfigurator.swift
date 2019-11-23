@@ -17,17 +17,15 @@ public protocol DNSBaseStageConfiguratorLogic: class {
     associatedtype InteractorType: DNSBaseStageBusinessLogic
     associatedtype PresenterType: DNSBaseStagePresentationLogic
     associatedtype ViewControllerType: DNSBaseStageDisplayLogic
-    associatedtype InitializationObjectType: DNSBaseStageBaseInitialization
 }
 
 open class DNSBaseStageConfigurator {
     public typealias InteractorType = DNSBaseStageInteractor
     public typealias PresenterType = DNSBaseStagePresenter
     public typealias ViewControllerType = DNSBaseStageViewController
-    public typealias InitializationObjectType = DNSBaseStageModels.Base.Initialization
 
     // MARK: - Public Associated Type Properties
-    public var initializationObject: InitializationObjectType?
+    public var initializationObject: DNSBaseStageBaseInitialization?
 
     // MARK: - VIP Objects Creation
     public var navigationController: UINavigationController?
@@ -78,7 +76,7 @@ open class DNSBaseStageConfigurator {
 
     open func runStage(with coordinator: DNSCoordinator,
                        and displayType: DNSBaseStageDisplayType,
-                       and initializationObject: InitializationObjectType,
+                       and initializationObject: DNSBaseStageBaseInitialization,
                        thenRun endBlock: DNSBaseStageConfiguratorBlock?) -> ViewControllerType {
         self.endBlock = endBlock
         self.initializationObject = initializationObject

@@ -132,7 +132,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.hasStageEnded  = false
-        
+
         titlePublisher.send(DNSBaseStageModels.Title.Response(title: "Test Title"))
     }
 

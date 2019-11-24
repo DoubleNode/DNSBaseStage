@@ -83,7 +83,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         titleSubscriber = presenter.titlePublisher
             .sink { viewModel in self.displayTitle(viewModel) }
     }
-    
+
     // MARK: - Private Properties
     var stageBackTitle: String = ""
     var spinnerCount:   Int = 0

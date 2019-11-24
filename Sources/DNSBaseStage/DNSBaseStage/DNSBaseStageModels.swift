@@ -273,7 +273,7 @@ open class DNSBaseStageModels {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: NSURL
             public var error: NSError
-            
+
             public init(url: NSURL, error: NSError) {
                 self.url = url
                 self.error = error

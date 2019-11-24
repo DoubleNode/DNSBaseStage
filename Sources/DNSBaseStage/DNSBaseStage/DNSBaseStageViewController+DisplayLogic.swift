@@ -237,7 +237,7 @@ extension DNSBaseStageViewController {
                     request.textFields[0].value = value1
                     request.textFields[1].value = value2
                     request.userData = viewModel.userData
-                                                    
+
                     self.confirmationPublisher.send(request)
                 }
 

@@ -50,7 +50,7 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     var messageSubscriber: AnyCancellable?
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
-    
+
     open func subscribe<T: DNSBaseStageBusinessLogic>(to interactor: T) {
         stageStartSubscriber = interactor.stageStartPublisher
             .sink { response in self.startStage(response) }

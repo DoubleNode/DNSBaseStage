@@ -33,7 +33,7 @@ public protocol DNSBaseStageDisplayLogic: class {
 
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
     public typealias ConfiguratorType = DNSBaseStageConfigurator
-    
+
     // MARK: - Public Associated Type Properties
     public var configurator: ConfiguratorType? {
         didSet {
@@ -65,13 +65,13 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     var messageSubscriber: AnyCancellable?
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
-    
+
     open func subscribe<T: DNSBaseStagePresentationLogic>(to presenter: T) {
         stageStartSubscriber = presenter.stageStartPublisher
             .sink { viewModel in self.startStage(viewModel) }
         stageEndSubscriber = presenter.stageEndPublisher
             .sink { viewModel in self.endStage(viewModel) }
-        
+
         confirmationSubscriber = presenter.confirmationPublisher
             .sink { viewModel in self.displayConfirmation(viewModel) }
         dismissSubscriber = presenter.dismissPublisher

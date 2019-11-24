@@ -67,7 +67,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
         stageWillDisappearSubscriber = viewController.stageWillDisappearPublisher
             .sink { request in self.stageWillDisappear(request) }
     }
-    
+
     // MARK: - Private Properties
     var hasStageEnded:  Bool = false
 

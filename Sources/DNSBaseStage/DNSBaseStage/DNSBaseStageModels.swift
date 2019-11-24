@@ -57,7 +57,7 @@ open class DNSBaseStageModels {
     public enum Start {
         public struct Response: DNSBaseStageBaseResponse {
             public var displayType: DNSBaseStageDisplayType
-            
+
             public init(displayType: DNSBaseStageDisplayType) {
                 self.displayType = displayType
             }
@@ -65,7 +65,7 @@ open class DNSBaseStageModels {
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
             public var displayType: DNSBaseStageDisplayType
-            
+
             public init(animated: Bool, displayType: DNSBaseStageDisplayType) {
                 self.animated = animated
                 self.displayType = displayType
@@ -75,7 +75,7 @@ open class DNSBaseStageModels {
     public enum Finish {
         public struct Response: DNSBaseStageBaseResponse {
             public var displayType: DNSBaseStageDisplayType
-            
+
             public init(displayType: DNSBaseStageDisplayType) {
                 self.displayType = displayType
             }
@@ -83,7 +83,7 @@ open class DNSBaseStageModels {
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
             public var displayType: DNSBaseStageDisplayType
-            
+
             public init(animated: Bool, displayType: DNSBaseStageDisplayType) {
                 self.animated = animated
                 self.displayType = displayType
@@ -152,14 +152,14 @@ open class DNSBaseStageModels {
     public enum Dismiss {
         public struct Response: DNSBaseStageBaseResponse {
             public var animated: Bool
-            
+
             public init(animated: Bool) {
                 self.animated = animated
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
-            
+
             public init(animated: Bool) {
                 self.animated = animated
             }
@@ -170,7 +170,7 @@ open class DNSBaseStageModels {
             public var error: NSError
             public var style: Style
             public var title: String
-            
+
             public init(error: NSError, style: Style, title: String) {
                 self.error = error
                 self.style = style
@@ -181,7 +181,7 @@ open class DNSBaseStageModels {
             public var error: NSError
             public var style: Style
             public var title: String
-            
+
             public init(error: NSError, style: Style, title: String) {
                 self.error = error
                 self.style = style
@@ -195,7 +195,7 @@ open class DNSBaseStageModels {
             public var percentage: Float = -1
             public var style: Style
             public var title: String
-            
+
             public init(message: String, style: Style, title: String) {
                 self.message = message
                 self.style = style
@@ -220,7 +220,7 @@ open class DNSBaseStageModels {
 
             public var colors: Colors?
             public var fonts: Fonts?
-            
+
             public init(message: String, percentage: Float = -1, style: Style, title: String) {
                 self.message = message
                 self.style = style
@@ -231,14 +231,14 @@ open class DNSBaseStageModels {
     public enum Spinner {
         public struct Response: DNSBaseStageBaseResponse {
             public var show: Bool
-            
+
             public init(show: Bool) {
                 self.show = show
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var show: Bool
-            
+
             public init(show: Bool) {
                 self.show = show
             }
@@ -247,14 +247,14 @@ open class DNSBaseStageModels {
     public enum Title {
         public struct Response: DNSBaseStageBaseResponse {
             public var title: String
-            
+
             public init(title: String) {
                 self.title = title
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var title: String
-            
+
             public init(title: String) {
                 self.title = title
             }
@@ -263,7 +263,7 @@ open class DNSBaseStageModels {
     public enum Webpage {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: NSURL
-            
+
             public init(url: NSURL) {
                 self.url = url
             }

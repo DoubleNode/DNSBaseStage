@@ -13,7 +13,9 @@ import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: class {
-   associatedtype ConfiguratorType: DNSBaseStageConfigurator
+   associatedtype ConfiguratorType
+
+   var configurator: ConfiguratorType? { get }
 
    // MARK: - Outgoing Pipelines
     var stageDidAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
@@ -32,10 +34,8 @@ public protocol DNSBaseStageDisplayLogic: class {
 }
 
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
-    public typealias ConfiguratorType = DNSBaseStageConfigurator
-
     // MARK: - Public Associated Type Properties
-    public var configurator: ConfiguratorType? {
+    public var configurator: DNSBaseStageConfigurator? {
         didSet {
             self.configure()
         }

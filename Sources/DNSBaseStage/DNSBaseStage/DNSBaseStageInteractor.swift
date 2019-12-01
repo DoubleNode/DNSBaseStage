@@ -10,7 +10,11 @@ import Combine
 import DNSProtocols
 
 public protocol DNSBaseStageBusinessLogic: class {
-    associatedtype ConfiguratorType: DNSBaseStageConfigurator
+    associatedtype ConfiguratorType
+    associatedtype InitializationObjectType
+
+    var configurator: ConfiguratorType? { get }
+    var initializationObject: InitializationObjectType? { get }
 
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
@@ -25,10 +29,8 @@ public protocol DNSBaseStageBusinessLogic: class {
 }
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
-    public typealias ConfiguratorType = DNSBaseStageConfigurator
-
     // MARK: - Public Associated Type Properties
-    public var configurator: ConfiguratorType?
+    public var configurator: DNSBaseStageConfigurator?
     public var initializationObject: DNSBaseStageBaseInitialization?
 
     // MARK: - Outgoing Pipelines

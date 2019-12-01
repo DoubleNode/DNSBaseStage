@@ -11,7 +11,9 @@ import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStagePresentationLogic: class {
-    associatedtype ConfiguratorType: DNSBaseStageConfigurator
+    associatedtype ConfiguratorType
+
+    var configurator: ConfiguratorType? { get }
 
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never> { get }
@@ -25,10 +27,8 @@ public protocol DNSBaseStagePresentationLogic: class {
 }
 
 open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
-    public typealias ConfiguratorType = DNSBaseStageConfigurator
-
     // MARK: - Public Associated Type Properties
-    public var configurator: ConfiguratorType?
+    public var configurator: DNSBaseStageConfigurator?
 
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never>()

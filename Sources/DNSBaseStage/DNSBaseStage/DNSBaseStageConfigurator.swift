@@ -14,10 +14,10 @@ import UIKit
 public typealias DNSBaseStageConfiguratorBlock = (String, Bool, DNSBaseStageBaseResults?) -> Void
 
 public protocol DNSBaseStageConfiguratorLogic: class {
-    associatedtype InitializationObjectType: DNSBaseStageBaseInitialization
-    associatedtype InteractorType: DNSBaseStageBusinessLogic
-    associatedtype PresenterType: DNSBaseStagePresentationLogic
-    associatedtype ViewControllerType: DNSBaseStageDisplayLogic
+    associatedtype InitializationObjectType
+    associatedtype InteractorType
+    associatedtype PresenterType
+    associatedtype ViewControllerType
 
     var initializationObject: InitializationObjectType? { get }
     var interactorType: InteractorType.Type { get }

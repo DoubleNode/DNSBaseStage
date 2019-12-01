@@ -26,36 +26,31 @@ public protocol DNSBaseStageConfiguratorLogic: class {
 }
 
 open class DNSBaseStageConfigurator {
-    public typealias InitializationObjectType = DNSBaseStageBaseInitialization
-    public typealias InteractorType = DNSBaseStageInteractor
-    public typealias PresenterType = DNSBaseStagePresenter
-    public typealias ViewControllerType = DNSBaseStageViewController
-
     // MARK: - Public Associated Type Properties
-    open var initializationObject: InitializationObjectType?
+    open var initializationObject: DNSBaseStageBaseInitialization?
 
-    open var interactorType: InteractorType.Type {
-        return InteractorType.self
+    open var interactorType: DNSBaseStageInteractor.Type {
+        return DNSBaseStageInteractor.self
     }
-    open var presenterType: PresenterType.Type {
-        return PresenterType.self
+    open var presenterType: DNSBaseStagePresenter.Type {
+        return DNSBaseStagePresenter.self
     }
-    open var viewControllerType: ViewControllerType.Type {
-        return ViewControllerType.self
+    open var viewControllerType: DNSBaseStageViewController.Type {
+        return DNSBaseStageViewController.self
     }
 
     // MARK: - VIP Objects Creation
     public var navigationController: UINavigationController?
     public var tabBarController: UITabBarController?
 
-    public var interactor: InteractorType {
+    public var interactor: DNSBaseStageInteractor {
         return interactorType.init(configurator: self)
     }
-    public var presenter: PresenterType {
+    public var presenter: DNSBaseStagePresenter {
         return presenterType.init(configurator: self)
     }
-    public var viewController: ViewControllerType {
-        let retval: ViewControllerType
+    public var viewController: DNSBaseStageViewController {
+        let retval: DNSBaseStageViewController
 
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
             retval = viewControllerType.init(nibName: String(describing: viewControllerType),
@@ -63,7 +58,7 @@ open class DNSBaseStageConfigurator {
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             // swiftlint:disable:next force_cast line_length
-            retval = storyboard.instantiateViewController(withIdentifier: String(describing: viewControllerType)) as! ViewControllerType
+            retval = storyboard.instantiateViewController(withIdentifier: String(describing: viewControllerType)) as! DNSBaseStageViewController
         }
 
         retval.configurator = self
@@ -75,7 +70,7 @@ open class DNSBaseStageConfigurator {
     public init() {
     }
 
-    open func configureStage(_ viewController: ViewControllerType) {
+    open func configureStage(_ viewController: DNSBaseStageViewController) {
         // Connect VIP Object Publishers
         interactor.subscribe(to: viewController)
         presenter.subscribe(to: self.interactor)
@@ -93,8 +88,8 @@ open class DNSBaseStageConfigurator {
 
     open func runStage(with coordinator: DNSCoordinator,
                        and displayType: DNSBaseStageDisplayType,
-                       and initializationObject: InitializationObjectType,
-                       thenRun endBlock: DNSBaseStageConfiguratorBlock?) -> ViewControllerType {
+                       and initializationObject: DNSBaseStageBaseInitialization,
+                       thenRun endBlock: DNSBaseStageConfiguratorBlock?) -> DNSBaseStageViewController {
         self.endBlock = endBlock
         self.initializationObject = initializationObject
 

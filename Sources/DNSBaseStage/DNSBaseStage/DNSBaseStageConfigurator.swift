@@ -19,11 +19,10 @@ public protocol DNSBaseStageConfiguratorLogic: class {
     associatedtype PresenterType: DNSBaseStagePresentationLogic
     associatedtype ViewControllerType: DNSBaseStageDisplayLogic
 
+    var initializationObject: InitializationObjectType? { get }
     var interactorType: InteractorType.Type { get }
     var presenterType: PresenterType.Type { get }
     var viewControllerType: ViewControllerType.Type { get }
-
-    var initializationObject: InitializationObjectType? { get }
 }
 
 open class DNSBaseStageConfigurator {
@@ -32,18 +31,18 @@ open class DNSBaseStageConfigurator {
     public typealias PresenterType = DNSBaseStagePresenter
     public typealias ViewControllerType = DNSBaseStageViewController
 
-    public var interactorType: InteractorType.Type {
+    // MARK: - Public Associated Type Properties
+    open var initializationObject: InitializationObjectType?
+
+    open var interactorType: InteractorType.Type {
         return InteractorType.self
     }
-    public var presenterType: PresenterType.Type {
+    open var presenterType: PresenterType.Type {
         return PresenterType.self
     }
-    public var viewControllerType: ViewControllerType.Type {
+    open var viewControllerType: ViewControllerType.Type {
         return ViewControllerType.self
     }
-
-    // MARK: - Public Associated Type Properties
-    public var initializationObject: InitializationObjectType?
 
     // MARK: - VIP Objects Creation
     public var navigationController: UINavigationController?

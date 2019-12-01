@@ -43,13 +43,22 @@ open class DNSBaseStageConfigurator {
     public var navigationController: UINavigationController?
     public var tabBarController: UITabBarController?
 
-    public var interactor: DNSBaseStageInteractor {
+    public lazy var interactor: DNSBaseStageInteractor = createInteractor()
+    public lazy var presenter: DNSBaseStagePresenter = createPresenter()
+    public lazy var viewController: DNSBaseStageViewController = createViewController()
+
+    public var endBlock: DNSBaseStageConfiguratorBlock?
+
+    public init() {
+    }
+
+    private func createInteractor() -> DNSBaseStageInteractor {
         return interactorType.init(configurator: self)
     }
-    public var presenter: DNSBaseStagePresenter {
+    private func createPresenter() -> DNSBaseStagePresenter {
         return presenterType.init(configurator: self)
     }
-    public var viewController: DNSBaseStageViewController {
+    private func createViewController() -> DNSBaseStageViewController {
         let retval: DNSBaseStageViewController
 
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
@@ -63,11 +72,6 @@ open class DNSBaseStageConfigurator {
 
         retval.configurator = self
         return retval
-    }
-
-    public var endBlock: DNSBaseStageConfiguratorBlock?
-
-    public init() {
     }
 
     open func configureStage(_ viewController: DNSBaseStageViewController) {

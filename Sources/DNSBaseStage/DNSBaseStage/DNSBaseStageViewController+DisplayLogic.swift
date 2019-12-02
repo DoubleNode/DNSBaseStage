@@ -82,29 +82,29 @@ extension DNSBaseStageViewController {
             }
 
         case .navBarPush?, .navBarPushInstant?:
-            guard self.configurator?.navigationController != nil else { return }
+            guard self.baseConfigurator?.navigationController != nil else { return }
 
             self.startStageNavBarPush(viewModel)
 
         case .navBarRoot?, .navBarRootInstant?:
-            guard self.configurator?.navigationController != nil else { return }
+            guard self.baseConfigurator?.navigationController != nil else { return }
 
             let animated: Bool = (self.displayType == .navBarRoot)
 
             DNSUIThread.run {
-                self.configurator?.navigationController?.setViewControllers([ self ], animated: animated)
+                self.baseConfigurator?.navigationController?.setViewControllers([ self ], animated: animated)
             }
 
         case.tabBarAdd?, .tabBarAddInstant?:
-            guard self.configurator?.tabBarController != nil else { return }
+            guard self.baseConfigurator?.tabBarController != nil else { return }
 
             let animated: Bool = (self.displayType == .tabBarAdd)
 
             DNSUIThread.run {
-                var viewControllers = self.configurator?.tabBarController?.viewControllers ?? []
+                var viewControllers = self.baseConfigurator?.tabBarController?.viewControllers ?? []
                 viewControllers.append(self)
 
-                self.configurator?.tabBarController?.setViewControllers(viewControllers, animated: animated)
+                self.baseConfigurator?.tabBarController?.setViewControllers(viewControllers, animated: animated)
             }
 
         default:
@@ -116,24 +116,24 @@ extension DNSBaseStageViewController {
         let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
 
         DNSUIThread.run {
-            guard self.configurator?.navigationController?.viewControllers.count ?? 0 > 0 else {
-                self.configurator?.navigationController?.setViewControllers([ self ], animated: animated)
+            guard self.baseConfigurator?.navigationController?.viewControllers.count ?? 0 > 0 else {
+                self.baseConfigurator?.navigationController?.setViewControllers([ self ], animated: animated)
                 return
             }
-            guard self.configurator?.navigationController?.viewControllers.last != self else { return }
+            guard self.baseConfigurator?.navigationController?.viewControllers.last != self else { return }
 
-            if self.configurator?.navigationController?.viewControllers.contains(self) ?? false {
-                let index = self.configurator?.navigationController?.viewControllers.firstIndex(of: self)
+            if self.baseConfigurator?.navigationController?.viewControllers.contains(self) ?? false {
+                let index = self.baseConfigurator?.navigationController?.viewControllers.firstIndex(of: self)
                 if index != nil {
-                    self.configurator?.navigationController?.viewControllers.remove(at: index!)
+                    self.baseConfigurator?.navigationController?.viewControllers.remove(at: index!)
                 }
             }
 
-            let viewController      = self.configurator?.navigationController?.viewControllers.last
+            let viewController      = self.baseConfigurator?.navigationController?.viewControllers.last
             let dnsViewController   = viewController as? DNSBaseStageViewController
             dnsViewController?.updateStageBackTitle()
 
-            self.configurator?.navigationController?.pushViewController(self, animated: animated)
+            self.baseConfigurator?.navigationController?.pushViewController(self, animated: animated)
         }
     }
 
@@ -152,25 +152,25 @@ extension DNSBaseStageViewController {
             }
 
         case .navBarPush?, .navBarPushInstant?:
-            guard self.configurator?.navigationController != nil else { return }
+            guard self.baseConfigurator?.navigationController != nil else { return }
 
             self.endStageNavBarPush(viewModel)
 
         case .navBarRoot?, .navBarRootInstant?:
-            guard self.configurator?.navigationController != nil else { return }
+            guard self.baseConfigurator?.navigationController != nil else { return }
 
         case.tabBarAdd?, .tabBarAddInstant?:
-            guard self.configurator?.tabBarController != nil else { return }
-            guard self.configurator?.tabBarController?.viewControllers?.contains(self) ?? false else { return }
+            guard self.baseConfigurator?.tabBarController != nil else { return }
+            guard self.baseConfigurator?.tabBarController?.viewControllers?.contains(self) ?? false else { return }
 
             let animated: Bool = (viewModel.animated && (self.displayType == .tabBarAdd))
 
-            var viewControllers = self.configurator?.tabBarController?.viewControllers
+            var viewControllers = self.baseConfigurator?.tabBarController?.viewControllers
             let index = viewControllers?.firstIndex(of: self)
             viewControllers?.remove(at: index!)
 
             DNSUIThread.run {
-                self.configurator?.tabBarController?.setViewControllers(viewControllers, animated: animated)
+                self.baseConfigurator?.tabBarController?.setViewControllers(viewControllers, animated: animated)
             }
 
             DNSUIThread.run {
@@ -185,11 +185,11 @@ extension DNSBaseStageViewController {
     private func endStageNavBarPush(_ viewModel: DNSBaseStageModels.Finish.ViewModel) {
         let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
 
-        guard self.configurator?.navigationController?.viewControllers.contains(self) ?? false else { return }
-        guard self.configurator?.navigationController?.viewControllers.count ?? 0 > 1 else { return }
+        guard self.baseConfigurator?.navigationController?.viewControllers.contains(self) ?? false else { return }
+        guard self.baseConfigurator?.navigationController?.viewControllers.count ?? 0 > 1 else { return }
 
         _ = DNSUIThread.run(after: 0.1) {
-            self.configurator?.navigationController?.popViewController(animated: animated)
+            self.baseConfigurator?.navigationController?.popViewController(animated: animated)
         }
     }
 

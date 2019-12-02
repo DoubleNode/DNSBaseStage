@@ -13,18 +13,6 @@ import UIKit
 
 public typealias DNSBaseStageConfiguratorBlock = (String, Bool, DNSBaseStageBaseResults?) -> Void
 
-public protocol DNSBaseStageConfiguratorLogic: class {
-    associatedtype InitializationObjectType
-    associatedtype InteractorType
-    associatedtype PresenterType
-    associatedtype ViewControllerType
-
-    var initializationObject: InitializationObjectType? { get }
-    var interactorType: InteractorType.Type { get }
-    var presenterType: PresenterType.Type { get }
-    var viewControllerType: ViewControllerType.Type { get }
-}
-
 open class DNSBaseStageConfigurator {
     // MARK: - Public Associated Type Properties
     open var initializationObject: DNSBaseStageBaseInitialization?
@@ -43,9 +31,9 @@ open class DNSBaseStageConfigurator {
     public var navigationController: UINavigationController?
     public var tabBarController: UITabBarController?
 
-    public lazy var interactor: DNSBaseStageInteractor = createInteractor()
-    public lazy var presenter: DNSBaseStagePresenter = createPresenter()
-    public lazy var viewController: DNSBaseStageViewController = createViewController()
+    public lazy var baseInteractor: DNSBaseStageInteractor = createInteractor()
+    public lazy var basePresenter: DNSBaseStagePresenter = createPresenter()
+    public lazy var baseViewController: DNSBaseStageViewController = createViewController()
 
     public var endBlock: DNSBaseStageConfiguratorBlock?
 
@@ -70,21 +58,21 @@ open class DNSBaseStageConfigurator {
             retval = storyboard.instantiateViewController(withIdentifier: String(describing: viewControllerType)) as! DNSBaseStageViewController
         }
 
-        retval.configurator = self
+        retval.baseConfigurator = self
         return retval
     }
 
     open func configureStage(_ viewController: DNSBaseStageViewController) {
         // Connect VIP Object Publishers
-        interactor.subscribe(to: viewController)
-        presenter.subscribe(to: self.interactor)
-        viewController.subscribe(to: self.presenter)
+        baseInteractor.subscribe(to: viewController)
+        basePresenter.subscribe(to: self.baseInteractor)
+        baseViewController.subscribe(to: self.basePresenter)
 
         // Interactor Dependency Injection
-        interactor.analyticsWorker = WKRCrashAnalyticsWorker.init()
+        baseInteractor.analyticsWorker = WKRCrashAnalyticsWorker.init()
 
         // Presenter Dependency Injection
-        presenter.analyticsWorker  = WKRCrashAnalyticsWorker.init()
+        basePresenter.analyticsWorker  = WKRCrashAnalyticsWorker.init()
 
         // ViewController Dependency Injection
         viewController.analyticsWorker = WKRCrashAnalyticsWorker.init()
@@ -97,12 +85,12 @@ open class DNSBaseStageConfigurator {
         self.endBlock = endBlock
         self.initializationObject = initializationObject
 
-        viewController.stageTitle = String(describing: type(of: viewController))
+        baseViewController.stageTitle = String(describing: type(of: baseViewController))
 
-        interactor.startStage(with: displayType,
-                              and: initializationObject)
+        baseInteractor.startStage(with: displayType,
+                                  and: initializationObject)
 
-        return viewController
+        return baseViewController
     }
 
     open func endStage(with intent: String,
@@ -112,6 +100,6 @@ open class DNSBaseStageConfigurator {
     }
 
     open func removeStage(displayType: DNSBaseStageDisplayType) {
-        interactor.removeStage(displayType: displayType)
+        baseInteractor.removeStage(displayType: displayType)
     }
 }

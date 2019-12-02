@@ -10,12 +10,6 @@ import Combine
 import DNSProtocols
 
 public protocol DNSBaseStageBusinessLogic: class {
-    associatedtype ConfiguratorType
-    associatedtype InitializationObjectType
-
-    var configurator: ConfiguratorType? { get }
-    var initializationObject: InitializationObjectType? { get }
-
     // MARK: - Outgoing Pipelines
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }
@@ -30,8 +24,8 @@ public protocol DNSBaseStageBusinessLogic: class {
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     // MARK: - Public Associated Type Properties
-    open var configurator: DNSBaseStageConfigurator?
-    open var initializationObject: DNSBaseStageBaseInitialization?
+    public var baseConfigurator: DNSBaseStageConfigurator?
+    public var baseInitializationObject: DNSBaseStageBaseInitialization?
 
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
@@ -80,7 +74,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     public var analyticsWorker: PTCLAnalytics_Protocol?
 
     required public init(configurator: DNSBaseStageConfigurator) {
-        self.configurator = configurator
+        self.baseConfigurator = configurator
     }
 
     open func startStage(with displayType: DNSBaseStageDisplayType,
@@ -88,7 +82,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = displayType
-        self.initializationObject = initialization
+        self.baseInitializationObject = initialization
 
         stageStartPublisher.send(DNSBaseStageModels.Start.Response(displayType: displayType))
     }
@@ -118,7 +112,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
 
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.configurator?.endStage(with: intent,
+        self.baseConfigurator?.endStage(with: intent,
                                         and: dataChanged,
                                         and: results)
     }

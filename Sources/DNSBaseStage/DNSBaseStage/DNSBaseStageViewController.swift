@@ -13,10 +13,6 @@ import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: class {
-   associatedtype ConfiguratorType
-
-   var configurator: ConfiguratorType? { get }
-
    // MARK: - Outgoing Pipelines
     var stageDidAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
     var stageDidClosePublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
@@ -35,7 +31,7 @@ public protocol DNSBaseStageDisplayLogic: class {
 
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
     // MARK: - Public Associated Type Properties
-    open var configurator: DNSBaseStageConfigurator? {
+    public var baseConfigurator: DNSBaseStageConfigurator? {
         didSet {
             self.configure()
         }
@@ -132,7 +128,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     // MARK: - Object settings
 
     public func configure() {
-        self.configurator?.configureStage(self)
+        self.baseConfigurator?.configureStage(self)
     }
 
     open func preferredStatusBarStyle() -> UIStatusBarStyle {

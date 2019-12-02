@@ -47,8 +47,6 @@ open class DNSBaseStageConfigurator {
         return presenterType.init(configurator: self)
     }
     private func createViewController() -> DNSBaseStageViewController {
-        let retval: DNSBaseStageViewController
-
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
             return viewControllerType.init(nibName: String(describing: viewControllerType),
                                              bundle: Bundle.dnsLookupBundle(for: viewControllerType))

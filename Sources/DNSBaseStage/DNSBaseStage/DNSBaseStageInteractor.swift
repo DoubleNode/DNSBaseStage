@@ -47,7 +47,7 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     var stageWillAppearSubscriber: AnyCancellable?
     var stageWillDisappearSubscriber: AnyCancellable?
 
-    open func subscribe<T: DNSBaseStageDisplayLogic>(to viewController: T) {
+    open func subscribe(to viewController: DNSBaseStageDisplayLogic) {
         stageDidAppearSubscriber = viewController.stageDidAppearPublisher
             .sink { request in self.stageDidAppear(request) }
         stageDidCloseSubscriber = viewController.stageDidClosePublisher

@@ -33,7 +33,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     // MARK: - Public Associated Type Properties
     public var baseConfigurator: DNSBaseStageConfigurator? {
         didSet {
-            self.configure()
+            self.baseConfigurator?.configureStage()
         }
     }
 
@@ -126,10 +126,6 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     public var analyticsWorker: PTCLAnalytics_Protocol?
 
     // MARK: - Object settings
-
-    public func configure() {
-        self.baseConfigurator?.configureStage(self)
-    }
 
     open func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.default

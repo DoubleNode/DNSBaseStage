@@ -62,11 +62,11 @@ open class DNSBaseStageConfigurator {
         return retval
     }
 
-    open func configureStage(_ viewController: DNSBaseStageViewController) {
+    open func configureStage() {
         // Connect VIP Object Publishers
-        baseInteractor.subscribe(to: viewController)
-        basePresenter.subscribe(to: self.baseInteractor)
-        baseViewController.subscribe(to: self.basePresenter)
+        baseInteractor.subscribe(to: baseViewController)
+        basePresenter.subscribe(to: baseInteractor)
+        baseViewController.subscribe(to: basePresenter)
 
         // Interactor Dependency Injection
         baseInteractor.analyticsWorker = WKRCrashAnalyticsWorker.init()
@@ -75,7 +75,7 @@ open class DNSBaseStageConfigurator {
         basePresenter.analyticsWorker  = WKRCrashAnalyticsWorker.init()
 
         // ViewController Dependency Injection
-        viewController.analyticsWorker = WKRCrashAnalyticsWorker.init()
+        baseViewController.analyticsWorker = WKRCrashAnalyticsWorker.init()
     }
 
     open func runStage(with coordinator: DNSCoordinator,

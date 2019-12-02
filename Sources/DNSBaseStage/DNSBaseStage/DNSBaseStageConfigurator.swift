@@ -50,16 +50,13 @@ open class DNSBaseStageConfigurator {
         let retval: DNSBaseStageViewController
 
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
-            retval = viewControllerType.init(nibName: String(describing: viewControllerType),
+            return viewControllerType.init(nibName: String(describing: viewControllerType),
                                              bundle: Bundle.dnsLookupBundle(for: viewControllerType))
-        } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            // swiftlint:disable:next force_cast line_length
-            retval = storyboard.instantiateViewController(withIdentifier: String(describing: viewControllerType)) as! DNSBaseStageViewController
         }
 
-        retval.baseConfigurator = self
-        return retval
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        // swiftlint:disable:next force_cast line_length
+        return storyboard.instantiateViewController(withIdentifier: String(describing: viewControllerType)) as! DNSBaseStageViewController
     }
 
     open func configureStage() {
@@ -85,6 +82,7 @@ open class DNSBaseStageConfigurator {
         self.endBlock = endBlock
         self.initializationObject = initializationObject
 
+        baseViewController.baseConfigurator = self
         baseViewController.stageTitle = String(describing: type(of: baseViewController))
 
         baseInteractor.startStage(with: displayType,

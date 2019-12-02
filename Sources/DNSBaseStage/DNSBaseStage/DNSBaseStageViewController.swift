@@ -35,7 +35,7 @@ public protocol DNSBaseStageDisplayLogic: class {
 
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
     // MARK: - Public Associated Type Properties
-    public var configurator: DNSBaseStageConfigurator? {
+    open var configurator: DNSBaseStageConfigurator? {
         didSet {
             self.configure()
         }

@@ -30,8 +30,8 @@ public protocol DNSBaseStageBusinessLogic: class {
 
 open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     // MARK: - Public Associated Type Properties
-    public var configurator: DNSBaseStageConfigurator?
-    public var initializationObject: DNSBaseStageBaseInitialization?
+    open var configurator: DNSBaseStageConfigurator?
+    open var initializationObject: DNSBaseStageBaseInitialization?
 
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()

@@ -28,7 +28,7 @@ public protocol DNSBaseStagePresentationLogic: class {
 
 open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     // MARK: - Public Associated Type Properties
-    public var configurator: DNSBaseStageConfigurator?
+    open var configurator: DNSBaseStageConfigurator?
 
     // MARK: - Outgoing Pipelines
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never>()

@@ -47,23 +47,23 @@ open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
 
-    open func subscribe(to interactor: DNSBaseStageBusinessLogic) {
-        stageStartSubscriber = interactor.stageStartPublisher
+    open func subscribe(to baseInteractor: DNSBaseStageBusinessLogic) {
+        stageStartSubscriber = baseInteractor.stageStartPublisher
             .sink { response in self.startStage(response) }
-        stageEndSubscriber = interactor.stageEndPublisher
+        stageEndSubscriber = baseInteractor.stageEndPublisher
             .sink { response in self.endStage(response) }
 
-        confirmationSubscriber = interactor.confirmationPublisher
+        confirmationSubscriber = baseInteractor.confirmationPublisher
             .sink { response in self.presentConfirmation(response) }
-        dismissSubscriber = interactor.dismissPublisher
+        dismissSubscriber = baseInteractor.dismissPublisher
             .sink { response in self.presentDismiss(response) }
-        errorSubscriber = interactor.errorPublisher
+        errorSubscriber = baseInteractor.errorPublisher
             .sink { response in self.presentError(response) }
-        messageSubscriber = interactor.messagePublisher
+        messageSubscriber = baseInteractor.messagePublisher
             .sink { response in self.presentMessage(response) }
-        spinnerSubscriber = interactor.spinnerPublisher
+        spinnerSubscriber = baseInteractor.spinnerPublisher
             .sink { response in self.presentSpinner(response) }
-        titleSubscriber = interactor.titlePublisher
+        titleSubscriber = baseInteractor.titlePublisher
             .sink { response in self.presentTitle(response) }
     }
 

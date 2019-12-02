@@ -47,20 +47,20 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     var stageWillAppearSubscriber: AnyCancellable?
     var stageWillDisappearSubscriber: AnyCancellable?
 
-    open func subscribe(to viewController: DNSBaseStageDisplayLogic) {
-        stageDidAppearSubscriber = viewController.stageDidAppearPublisher
+    open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
+        stageDidAppearSubscriber = baseViewController.stageDidAppearPublisher
             .sink { request in self.stageDidAppear(request) }
-        stageDidCloseSubscriber = viewController.stageDidClosePublisher
+        stageDidCloseSubscriber = baseViewController.stageDidClosePublisher
             .sink { request in self.stageDidClose(request) }
-        stageDidDisappearSubscriber = viewController.stageDidDisappearPublisher
+        stageDidDisappearSubscriber = baseViewController.stageDidDisappearPublisher
             .sink { request in self.stageDidDisappear(request) }
-        stageDidHideSubscriber = viewController.stageDidHidePublisher
+        stageDidHideSubscriber = baseViewController.stageDidHidePublisher
             .sink { request in self.stageDidHide(request) }
-        stageDidLoadSubscriber = viewController.stageDidLoadPublisher
+        stageDidLoadSubscriber = baseViewController.stageDidLoadPublisher
             .sink { request in self.stageDidLoad(request) }
-        stageWillAppearSubscriber = viewController.stageWillAppearPublisher
+        stageWillAppearSubscriber = baseViewController.stageWillAppearPublisher
             .sink { request in self.stageWillAppear(request) }
-        stageWillDisappearSubscriber = viewController.stageWillDisappearPublisher
+        stageWillDisappearSubscriber = baseViewController.stageWillDisappearPublisher
             .sink { request in self.stageWillDisappear(request) }
     }
 

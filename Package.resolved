@@ -30,56 +30,65 @@
       },
       {
         "package": "DNSBlankWorkers",
-        "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
+        "repositoryURL": "git@github.com:DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "0caecc73138ecf128c7cce146e63167bab870b68",
-          "version": "1.0.4"
+          "revision": "46e341462c4cfb80f02b8ac6143c627bc9ed2a66",
+          "version": "1.0.5"
         }
       },
       {
         "package": "DNSCore",
-        "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
+        "repositoryURL": "git@github.com:DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "ed82cc9f5cc80e00232a5826bbb41a240222a069",
-          "version": "1.0.4"
+          "revision": "d1e672297c89fbd1807069ae6d20ee7c98ae8536",
+          "version": "1.0.5"
         }
       },
       {
         "package": "DNSCoreThreading",
-        "repositoryURL": "https://github.com/DoubleNode/DNSCoreThreading.git",
+        "repositoryURL": "git@github.com:DoubleNode/DNSCoreThreading.git",
         "state": {
           "branch": null,
-          "revision": "aaf603f768e0da8917a3f353222a7f190842c33f",
-          "version": "1.0.2"
+          "revision": "59f7fdd6603f67dcf084e0fa279b5a64789eda67",
+          "version": "1.0.3"
         }
       },
       {
         "package": "DNSCrashWorkers",
-        "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
+        "repositoryURL": "git@github.com:DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "f120363cc95389bc20ad924f47f08eb0bd3eec52",
-          "version": "1.0.0"
+          "revision": "7435c54aacf392f00f9a48895f2d4f21ecace811",
+          "version": "1.0.1"
         }
       },
       {
         "package": "DNSNetwork",
-        "repositoryURL": "https://github.com/DoubleNode/DNSNetwork.git",
+        "repositoryURL": "git@github.com:DoubleNode/DNSNetwork.git",
         "state": {
           "branch": null,
-          "revision": "7bba33bfc252688a3dd551c3ca8482e96c153b89",
-          "version": "1.0.0"
+          "revision": "8497e162fb417a7552cb971320effe2141695b5a",
+          "version": "1.0.3"
         }
       },
       {
         "package": "DNSProtocols",
-        "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
+        "repositoryURL": "git@github.com:DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "dc4e4a3b21c102628bb27773a4ec910857201970",
-          "version": "1.0.4"
+          "revision": "960055d6d34b8d7663e2bf76e2360eab8f27abbb",
+          "version": "1.0.5"
+        }
+      },
+      {
+        "package": "FTLinearActivityIndicator",
+        "repositoryURL": "https://github.com/futuretap/FTLinearActivityIndicator.git",
+        "state": {
+          "branch": null,
+          "revision": "d8b196450f5d8b76369002c1178b47e00f1df81a",
+          "version": "1.3.1"
         }
       },
       {

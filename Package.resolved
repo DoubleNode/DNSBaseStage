@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "0caecc73138ecf128c7cce146e63167bab870b68",
-          "version": "1.0.4"
+          "revision": "7af6d623e5884c09e11ac016add201cff144156d",
+          "version": "1.0.7"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "ed82cc9f5cc80e00232a5826bbb41a240222a069",
-          "version": "1.0.4"
+          "revision": "7a47aa54725b6b35c0162e001bcf5e61d954d0c6",
+          "version": "1.0.7"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCoreThreading.git",
         "state": {
           "branch": null,
-          "revision": "aaf603f768e0da8917a3f353222a7f190842c33f",
-          "version": "1.0.2"
+          "revision": "603a550434ba1bc53a8f09d1c984409db65bba92",
+          "version": "1.0.4"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "f120363cc95389bc20ad924f47f08eb0bd3eec52",
-          "version": "1.0.0"
+          "revision": "94c36835ec586047a52c901684002b1fa28d809c",
+          "version": "1.0.3"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSNetwork.git",
         "state": {
           "branch": null,
-          "revision": "7bba33bfc252688a3dd551c3ca8482e96c153b89",
-          "version": "1.0.0"
+          "revision": "1c3f63d1b252e4d36fb3c816ebae820187e1f097",
+          "version": "1.0.5"
         }
       },
       {
@@ -78,8 +78,17 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "dc4e4a3b21c102628bb27773a4ec910857201970",
-          "version": "1.0.4"
+          "revision": "7026f486173f7919a6e46672123162ce1d1d1b29",
+          "version": "1.0.6"
+        }
+      },
+      {
+        "package": "FTLinearActivityIndicator",
+        "repositoryURL": "https://github.com/futuretap/FTLinearActivityIndicator.git",
+        "state": {
+          "branch": null,
+          "revision": "d8b196450f5d8b76369002c1178b47e00f1df81a",
+          "version": "1.3.1"
         }
       },
       {

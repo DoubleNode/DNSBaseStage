@@ -137,6 +137,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         DNSUIThread.run {
             self.title                  = self.stageTitle
             self.navigationItem.title   = self.stageTitle
+            self.tabBarItem.title       = self.stageTitle
             self.titleLabel?.text       = self.stageTitle
         }
     }

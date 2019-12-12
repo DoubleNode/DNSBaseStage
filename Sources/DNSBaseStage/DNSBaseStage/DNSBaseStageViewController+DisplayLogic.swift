@@ -271,13 +271,13 @@ extension DNSBaseStageViewController {
 
                 self.present(alertController, animated: true)
             case .toastError:
-                self.updateToastDisplay(title: viewModel.title, state: .error)
+                self.updateToastDisplay(message: viewModel.message, state: .error)
             case .toastInfo:
-                self.updateToastDisplay(title: viewModel.title, state: .info)
+                self.updateToastDisplay(message: viewModel.message, state: .info)
             case .toastSuccess:
-                self.updateToastDisplay(title: viewModel.title, state: .success)
+                self.updateToastDisplay(message: viewModel.message, state: .success)
             case .toastWarning:
-                self.updateToastDisplay(title: viewModel.title, state: .warning)
+                self.updateToastDisplay(message: viewModel.message, state: .warning)
             }
         }
     }
@@ -356,17 +356,17 @@ extension DNSBaseStageViewController {
         }
     }
 
-    public func updateToastDisplay(title: String? = nil,
+    public func updateToastDisplay(message: String? = nil,
                                    state: ToastState = .success ) {
         switch state {
         case .error:
-            Loaf(title ?? "", state: .error, sender: self).show()
+            Loaf(message ?? "", state: .error, sender: self).show()
         case .info:
-            Loaf(title ?? "", state: .info, sender: self).show()
+            Loaf(message ?? "", state: .info, sender: self).show()
         case .success:
-            Loaf(title ?? "", state: .success, sender: self).show()
+            Loaf(message ?? "", state: .success, sender: self).show()
         case .warning:
-            Loaf(title ?? "", state: .warning, sender: self).show()
+            Loaf(message ?? "", state: .warning, sender: self).show()
         }
     }
 }

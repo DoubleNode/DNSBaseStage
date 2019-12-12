@@ -8,7 +8,7 @@
 
 import DNSCore
 import DNSCoreThreading
-// FIXME: import FTLinearActivityIndicator
+import FTLinearActivityIndicator
 import UIKit
 
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void
@@ -28,7 +28,7 @@ open class DNSCoordinator {
     // MARK: - Object lifecycle
 
     public init() {
-        // FIXME: UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
+        UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
     }
 
     // MARK: - Coordinator lifecycle

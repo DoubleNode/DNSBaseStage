@@ -47,6 +47,12 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
     var stageWillAppearSubscriber: AnyCancellable?
     var stageWillDisappearSubscriber: AnyCancellable?
 
+    var confirmationSubscriber: AnyCancellable?
+    var errorOccurredSubscriber: AnyCancellable?
+    var webStartNavigationSubscriber: AnyCancellable?
+    var webFinishNavigationSubscriber: AnyCancellable?
+    var webErrorNavigationSubscriber: AnyCancellable?
+
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
         stageDidAppearSubscriber = baseViewController.stageDidAppearPublisher
             .sink { request in self.stageDidAppear(request) }
@@ -62,6 +68,17 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
             .sink { request in self.stageWillAppear(request) }
         stageWillDisappearSubscriber = baseViewController.stageWillDisappearPublisher
             .sink { request in self.stageWillDisappear(request) }
+
+        confirmationSubscriber = baseViewController.confirmationPublisher
+            .sink { request in self.doConfirmation(request) }
+        errorOccurredSubscriber = baseViewController.errorOccurredPublisher
+            .sink { request in self.doErrorOccurred(request) }
+        webStartNavigationSubscriber = baseViewController.webStartNavigationPublisher
+            .sink { request in self.doWebStartNavigation(request) }
+        webFinishNavigationSubscriber = baseViewController.webFinishNavigationPublisher
+            .sink { request in self.doWebFinishNavigation(request) }
+        webErrorNavigationSubscriber = baseViewController.webErrorNavigationPublisher
+            .sink { request in self.doWebErrorNavigation(request) }
     }
 
     // MARK: - Private Properties

@@ -259,6 +259,8 @@ extension DNSBaseStageViewController {
 
         DNSUIThread.run {
             switch viewModel.style {
+            case .none:
+                break
             case .hudShow:
                 self.updateHudDisplay(display: true, percent: viewModel.percentage, with: viewModel.title)
             case .hudHide:

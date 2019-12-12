@@ -29,7 +29,7 @@ public protocol DNSBaseStageBaseViewModel {
 
 open class DNSBaseStageModels {
     public enum Style {
-        case hudShow, hudHide, popup
+        case none, hudShow, hudHide, popup
         case toastSuccess, toastError, toastWarning, toastInfo
     }
 

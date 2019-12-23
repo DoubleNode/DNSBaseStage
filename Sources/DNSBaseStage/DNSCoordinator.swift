@@ -43,7 +43,7 @@ open class DNSCoordinator {
             self.runState = .started
         }
     }
-    open func start(with openURLContexts: Set<UIOpenURLContext> = nil) {
+    open func start(with openURLContexts: Set<UIOpenURLContext>) {
         switch self.runState {
         case .started, .terminated:
             self.reset()

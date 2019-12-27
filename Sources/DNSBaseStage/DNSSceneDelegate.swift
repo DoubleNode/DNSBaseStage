@@ -35,7 +35,7 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
 
-        coordinator?.start()
+        coordinator?.start(with: URLContexts)
     }
 
     open func sceneDidDisconnect(_ scene: UIScene) {

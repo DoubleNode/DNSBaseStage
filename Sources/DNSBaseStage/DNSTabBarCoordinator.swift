@@ -27,6 +27,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
 
         DNSUIThread.run {
             self.savedViewControllers = self.tabBarController.viewControllers
+            self.tabBarController.setViewControllers([], animated: false)
         }
     }
     override open func start(with openURLContexts: Set<UIOpenURLContext>) {
@@ -34,8 +35,18 @@ open class DNSTabBarCoordinator: DNSCoordinator {
 
         DNSUIThread.run {
             self.savedViewControllers = self.tabBarController.viewControllers
+            self.tabBarController.setViewControllers([], animated: false)
         }
     }
+    override open func start(with userActivity: NSUserActivity) {
+        super.start(with: userActivity)
+
+        DNSUIThread.run {
+            self.savedViewControllers = self.tabBarController.viewControllers
+            self.tabBarController.setViewControllers([], animated: false)
+        }
+    }
+    
     override open func reset() {
         super.reset()
 

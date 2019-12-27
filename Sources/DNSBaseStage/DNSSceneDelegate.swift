@@ -37,7 +37,14 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         coordinator?.start(with: URLContexts)
     }
+    
+    open func scene(_ scene: UIScene,
+                    continue userActivity: NSUserActivity) {
+        guard (scene as? UIWindowScene) != nil else { return }
 
+        coordinator?.start(with: userActivity)
+    }
+    
     open func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

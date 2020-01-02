@@ -95,7 +95,7 @@ open class DNSBaseStageConfigurator {
         endBlock?(intent, dataChanged, results)
     }
 
-    open func removeStage(displayType: DNSBaseStageDisplayType) {
-        baseInteractor.removeStage(displayType: displayType)
+    open func removeStage() {
+        baseInteractor.removeStage()
     }
 }

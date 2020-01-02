@@ -134,10 +134,11 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
                                         and: results)
     }
 
-    open func removeStage(displayType: DNSBaseStageDisplayType) {
+    open func removeStage() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: displayType))
+        guard self.displayType != nil else { return }
+        stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: self.displayType!))
     }
 
     // MARK: - Stage Lifecycle

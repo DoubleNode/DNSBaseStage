@@ -127,8 +127,6 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
             return
         }
 
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.baseConfigurator?.endStage(with: intent,
                                         and: dataChanged,
                                         and: results)
@@ -139,6 +137,16 @@ open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
 
         guard self.displayType != nil else { return }
         stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: self.displayType!))
+    }
+
+    open func send(intent: String,
+                   with dataChanged: Bool,
+                   and results: DNSBaseStageBaseResults?) {
+        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+
+        self.baseConfigurator?.send(intent: intent,
+                                    with: dataChanged,
+                                    and: results)
     }
 
     // MARK: - Stage Lifecycle

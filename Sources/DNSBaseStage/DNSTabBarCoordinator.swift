@@ -46,7 +46,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
             self.tabBarController.setViewControllers([], animated: false)
         }
     }
-    
+
     override open func reset() {
         super.reset()
 

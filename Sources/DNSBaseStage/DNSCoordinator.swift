@@ -63,7 +63,7 @@ open class DNSCoordinator {
             self.runState = .started
         }
     }
-    
+
     open func reset() {
         self.runState = .notStarted
 

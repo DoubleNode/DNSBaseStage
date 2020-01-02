@@ -7,11 +7,12 @@
 //
 
 import DNSCore
+import DNSCoreThreading
 import DNSCrashWorkers
 import DNSProtocols
 import UIKit
 
-public typealias DNSBaseStageConfiguratorBlock = (String, Bool, DNSBaseStageBaseResults?) -> Void
+public typealias DNSBaseStageConfiguratorBlock = (Bool, String, Bool, DNSBaseStageBaseResults?) -> Void
 
 open class DNSBaseStageConfigurator {
     // MARK: - Public Associated Type Properties
@@ -35,7 +36,7 @@ open class DNSBaseStageConfigurator {
     public lazy var basePresenter: DNSBaseStagePresenter = createPresenter()
     public lazy var baseViewController: DNSBaseStageViewController = createViewController()
 
-    public var endBlock: DNSBaseStageConfiguratorBlock?
+    public var intentBlock: DNSBaseStageConfiguratorBlock?
 
     public init() {
     }
@@ -73,11 +74,21 @@ open class DNSBaseStageConfigurator {
         baseViewController.analyticsWorker = WKRCrashAnalyticsWorker.init()
     }
 
+    open func endStage(with intent: String,
+                       and dataChanged: Bool,
+                       and results: DNSBaseStageBaseResults?) {
+        baseInteractor.removeStage()
+
+        _ = DNSUIThread.run(after: 0.3) {
+            self.intentBlock?(true, intent, dataChanged, results)
+        }
+    }
+
     open func runStage(with coordinator: DNSCoordinator,
                        and displayType: DNSBaseStageDisplayType,
                        and initializationObject: DNSBaseStageBaseInitialization,
-                       thenRun endBlock: DNSBaseStageConfiguratorBlock?) -> DNSBaseStageViewController {
-        self.endBlock = endBlock
+                       thenRun intentBlock: DNSBaseStageConfiguratorBlock?) -> DNSBaseStageViewController {
+        self.intentBlock = intentBlock
         self.initializationObject = initializationObject
 
         baseViewController.baseConfigurator = self
@@ -89,13 +100,9 @@ open class DNSBaseStageConfigurator {
         return baseViewController
     }
 
-    open func endStage(with intent: String,
-                       and dataChanged: Bool,
-                       and results: DNSBaseStageBaseResults?) {
-        endBlock?(intent, dataChanged, results)
-    }
-
-    open func removeStage() {
-        baseInteractor.removeStage()
+    open func send(intent: String,
+                   with dataChanged: Bool,
+                   and results: DNSBaseStageBaseResults?) {
+        intentBlock?(false, intent, dataChanged, results)
     }
 }

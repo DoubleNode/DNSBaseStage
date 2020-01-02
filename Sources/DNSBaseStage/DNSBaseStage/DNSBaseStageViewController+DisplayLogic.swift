@@ -102,6 +102,10 @@ extension DNSBaseStageViewController {
 
             DNSUIThread.run {
                 var viewControllers = self.baseConfigurator?.tabBarController?.viewControllers ?? []
+                if viewControllers.contains(self) {
+                    let index = viewControllers.firstIndex(of: self)
+                    viewControllers.remove(at: index!)
+                }
                 viewControllers.append(self)
 
                 self.baseConfigurator?.tabBarController?.setViewControllers(viewControllers, animated: animated)
@@ -171,9 +175,6 @@ extension DNSBaseStageViewController {
 
             DNSUIThread.run {
                 self.baseConfigurator?.tabBarController?.setViewControllers(viewControllers, animated: animated)
-            }
-
-            DNSUIThread.run {
                 self.removeFromParent()
             }
 

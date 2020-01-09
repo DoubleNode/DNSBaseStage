@@ -8,6 +8,7 @@
 
 import Combine
 import DNSProtocols
+import Foundation
 
 public protocol DNSBaseStageBusinessLogic: class {
     // MARK: - Outgoing Pipelines
@@ -22,7 +23,7 @@ public protocol DNSBaseStageBusinessLogic: class {
     var titlePublisher: PassthroughSubject<DNSBaseStageModels.Title.Response, Never> { get }
 }
 
-open class DNSBaseStageInteractor: DNSBaseStageBusinessLogic {
+open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     // MARK: - Public Associated Type Properties
     public var baseConfigurator: DNSBaseStageConfigurator?
     public var baseInitializationObject: DNSBaseStageBaseInitialization?

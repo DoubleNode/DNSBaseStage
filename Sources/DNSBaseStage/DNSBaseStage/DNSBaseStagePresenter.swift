@@ -22,7 +22,7 @@ public protocol DNSBaseStagePresentationLogic: class {
     var titlePublisher: PassthroughSubject<DNSBaseStageModels.Title.ViewModel, Never> { get }
 }
 
-open class DNSBaseStagePresenter: DNSBaseStagePresentationLogic {
+open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     // MARK: - Public Associated Type Properties
     public var baseConfigurator: DNSBaseStageConfigurator?
 

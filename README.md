@@ -40,8 +40,13 @@ dependencies: [
 
 ## Dependencies
 
+-   DNSCrashSystems v1.0.0+
 -   DNSCrashWorkers v1.0.0+
+-   DNSDataObjects v1.0.0+
 -   DNSNetwork v1.0.0+
+-   FTLinearActivityIndicator v1.2.1+
+-   JGProgressHUD v2.1.0+
+-   Loaf v0.5.0+
 
 ## Credits
 

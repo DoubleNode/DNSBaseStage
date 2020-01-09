@@ -29,8 +29,17 @@
         }
       },
       {
+        "package": "DNSBlankSystems",
+        "repositoryURL": "https://github.com/DoubleNode/DNSBlankSystems.git",
+        "state": {
+          "branch": null,
+          "revision": "7652f5f118e20ba604721215f1d387de23b13cd4",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "DNSBlankWorkers",
-        "repositoryURL": "git@github.com:DoubleNode/DNSBlankWorkers.git",
+        "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
           "revision": "ad4ff30f1e45c89d860747152e30a4e7100f1af4",
@@ -51,8 +60,17 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCoreThreading.git",
         "state": {
           "branch": null,
-          "revision": "59f7fdd6603f67dcf084e0fa279b5a64789eda67",
+          "revision": "66d5e01881d1d822789051fa79332a5e0ffd93b8",
           "version": "1.0.3"
+        }
+      },
+      {
+        "package": "DNSCrashSystems",
+        "repositoryURL": "https://github.com/DoubleNode/DNSCrashSystems.git",
+        "state": {
+          "branch": null,
+          "revision": "3017cb269e5a03e3bc45e8eff64ba99813403ae8",
+          "version": "1.0.0"
         }
       },
       {
@@ -60,7 +78,7 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "7435c54aacf392f00f9a48895f2d4f21ecace811",
+          "revision": "0debc8c9829537dccce8b2df16eef82b19e83f06",
           "version": "1.0.1"
         }
       },
@@ -71,6 +89,15 @@
           "branch": null,
           "revision": "1c3f63d1b252e4d36fb3c816ebae820187e1f097",
           "version": "1.0.5"
+        }
+      },
+      {
+        "package": "DNSProtocols",
+        "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
+        "state": {
+          "branch": null,
+          "revision": "e90cde6bc45dd0bcc9597cc58e74e56c430aae10",
+          "version": "1.0.9"
         }
       },
       {

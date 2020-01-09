@@ -19,6 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.0.0"),
         .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.0.0"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.0.0"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.2.1"),
@@ -31,6 +32,7 @@ let package = Package(
         .target(
             name: "DNSBaseStage",
             dependencies: [
+                "DNSCrashSystems",
                 "DNSCrashWorkers",
                 "DNSNetwork",
                 "FTLinearActivityIndicator",

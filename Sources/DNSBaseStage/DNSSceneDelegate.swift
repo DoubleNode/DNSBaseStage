@@ -7,6 +7,7 @@
 //
 
 import DNSCore
+import DNSCoreThreading
 import UIKit
 
 open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -25,7 +26,9 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
 
-        coordinator?.start()
+        DNSLowThread.run(.asynchronously) {
+            coordinator?.start()
+        }
     }
 
     open func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -35,14 +38,18 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
 
-        coordinator?.start(with: URLContexts)
+        DNSLowThread.run(.asynchronously) {
+            coordinator?.start(with: URLContexts)
+        }
     }
 
     open func scene(_ scene: UIScene,
                     continue userActivity: NSUserActivity) {
         guard (scene as? UIWindowScene) != nil else { return }
 
-        coordinator?.start(with: userActivity)
+        DNSLowThread.run(.asynchronously) {
+            coordinator?.start(with: userActivity)
+        }
     }
 
     open func sceneDidDisconnect(_ scene: UIScene) {
@@ -52,7 +59,9 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // The scene may re-connect later, as its session was not neccessarily discarded
         // (see `application:didDiscardSceneSessions` instead).
 
-        coordinator?.stop()
+        DNSLowThread.run(.synchronously) {
+            coordinator?.stop()
+        }
         coordinator = nil
     }
 

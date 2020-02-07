@@ -49,13 +49,21 @@ open class DNSBaseStageConfigurator {
     }
     private func createViewController() -> DNSBaseStageViewController {
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
-            return viewControllerType.init(nibName: String(describing: viewControllerType),
-                                             bundle: Bundle.dnsLookupBundle(for: viewControllerType))
+            var retval: DNSBaseStageViewController?
+            DNSUIThread.run {
+                retval = self.viewControllerType.init(nibName: String(describing: self.viewControllerType),
+                                                      bundle: Bundle.dnsLookupBundle(for: self.viewControllerType))
+            }
+            return retval!
         }
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        // swiftlint:disable:next force_cast line_length
-        return storyboard.instantiateViewController(withIdentifier: String(describing: viewControllerType)) as! DNSBaseStageViewController
+        var retval: DNSBaseStageViewController?
+        DNSUIThread.run {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            // swiftlint:disable:next force_cast line_length
+            retval = storyboard.instantiateViewController(withIdentifier: String(describing: self.viewControllerType)) as! DNSBaseStageViewController
+        }
+        return retval!
     }
 
     open func configureStage() {

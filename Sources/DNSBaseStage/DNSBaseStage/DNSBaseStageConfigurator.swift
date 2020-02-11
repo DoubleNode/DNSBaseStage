@@ -12,6 +12,7 @@ import DNSCrashWorkers
 import DNSProtocols
 import UIKit
 
+// (end: Bool, intent: String, dataChanged: Bool, results: DNSBaseStageBaseResults?)
 public typealias DNSBaseStageConfiguratorBlock = (Bool, String, Bool, DNSBaseStageBaseResults?) -> Void
 
 open class DNSBaseStageConfigurator {

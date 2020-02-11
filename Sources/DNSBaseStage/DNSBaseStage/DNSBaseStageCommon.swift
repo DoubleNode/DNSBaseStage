@@ -11,7 +11,6 @@ import Foundation
 public enum DNSBaseStageDisplayType {
     case none
     case modal
-    case modalBlurFullScreen
     case modalCurrentContext
     case modalFormSheet
     case modalFullScreen

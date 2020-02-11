@@ -104,6 +104,17 @@ open class DNSCoordinator {
 
     // MARK: - Utility methods
 
+    public func utilityRunStage(_ coordinator: DNSBaseStageConfigurator,
+                                and displayType: DNSBaseStageDisplayType,
+                                and initializationObject: DNSBaseStageBaseInitialization,
+                                thenRunActions actions: [String: DNSBlock]) {
+        _ = coordinator.runStage(with: self,
+                                 and: displayType,
+                                 and: initializationObject) { (_, intent, _, _) in
+                                    self.run(actions: actions, for: intent)
+        }
+    }
+
     public func utilityShowSectionStatusMessage(with title: String,
                                                 and message: String,
                                                 continueBlock: DNSBlock? = nil,

@@ -78,6 +78,43 @@ extension DNSBaseStageViewController {
 
         case .modal?:
             DNSUIThread.run {
+                self.modalPresentationStyle = UIModalPresentationStyle.automatic
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+                DNSCore.appDelegate.rootViewController().present(self, animated: viewModel.animated)
+            }
+
+        case .modalCurrentContext?:
+            DNSUIThread.run {
+                self.modalPresentationStyle = UIModalPresentationStyle.currentContext
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+                DNSCore.appDelegate.rootViewController().present(self, animated: viewModel.animated)
+            }
+
+        case .modalFormSheet?:
+            DNSUIThread.run {
+                self.modalPresentationStyle = UIModalPresentationStyle.formSheet
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+                DNSCore.appDelegate.rootViewController().present(self, animated: viewModel.animated)
+            }
+
+        case .modalFullScreen?:
+            DNSUIThread.run {
+                self.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+                DNSCore.appDelegate.rootViewController().present(self, animated: viewModel.animated)
+            }
+
+        case .modalPageSheet?:
+            DNSUIThread.run {
+                self.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+                DNSCore.appDelegate.rootViewController().present(self, animated: viewModel.animated)
+            }
+
+        case .modalPopover?:
+            DNSUIThread.run {
+                self.modalPresentationStyle = UIModalPresentationStyle.popover
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
                 DNSCore.appDelegate.rootViewController().present(self, animated: viewModel.animated)
             }
 
@@ -150,7 +187,8 @@ extension DNSBaseStageViewController {
         case .none?:
             break
 
-        case .modal?:
+        case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
+             .modalPageSheet?, .modalPopover?:
             _ = DNSUIThread.run(after: 1.0) {
                 self.dismiss(animated: viewModel.animated)
             }

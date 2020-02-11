@@ -62,7 +62,7 @@ open class DNSBaseStageConfigurator {
         DNSUIThread.run {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             // swiftlint:disable:next force_cast line_length
-            retval = storyboard.instantiateViewController(withIdentifier: String(describing: self.viewControllerType)) as! DNSBaseStageViewController
+            retval = storyboard.instantiateViewController(withIdentifier: String(describing: self.viewControllerType)) as? DNSBaseStageViewController
         }
         return retval!
     }

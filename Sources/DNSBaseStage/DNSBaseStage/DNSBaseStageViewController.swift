@@ -234,11 +234,17 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     // MARK: - Notification Observer methods
 
+    lazy var saveIsModalInPresentation = self.isModalInPresentation
+
     @objc
     open func keyboardWillShow(notification: Notification) {
         guard !self.keyboardShowing else { return }
         guard self.lastVisibleView != nil else { return }
-
+        
+        // Save state to avoid pull-to-dismiss view
+        self.saveIsModalInPresentation = self.isModalInPresentation
+        self.isModalInPresentation = true
+        
         self.keyboardShowing = true
 
         let keyboardBounds: CGRect? = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
@@ -260,6 +266,9 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         guard self.keyboardShowing else { return }
         guard self.lastVisibleView != nil else { return }
 
+        // Restore state
+        self.isModalInPresentation = self.saveIsModalInPresentation
+        
         self.keyboardShowing = false
 
         let duration: TimeInterval =

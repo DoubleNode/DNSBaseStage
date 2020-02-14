@@ -401,6 +401,9 @@ extension DNSBaseStageViewController {
     // MARK: - parent class methods
 
     public func updateDisabledViewDisplay(display: Bool) {
+        guard self.disabledView != nil else { return }
+        let disabledView = self.disabledView!
+        
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
             (self.navigationController?.navigationBar.height ?? 0)
         if headerHeight > 0 && (self.disabledViewTopConstraint?.constant ?? 0 >= CGFloat(0)) {
@@ -411,9 +414,11 @@ extension DNSBaseStageViewController {
             self.navigationController?.navigationBar.layer.zPosition = -1
         }
         
+        self.view.addSubview(disabledView)
+        
         UIView.animate(withDuration: 0.3,
                        animations: {
-                        self.disabledView?.alpha = display ? 1.0 : 0.0
+                        disabledView.alpha = display ? 1.0 : 0.0
         },
             completion: { (_) in
             if !display {

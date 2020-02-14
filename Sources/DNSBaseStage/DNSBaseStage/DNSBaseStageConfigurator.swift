@@ -30,6 +30,7 @@ open class DNSBaseStageConfigurator {
     }
 
     // MARK: - VIP Objects Creation
+    public var parentConfigurator: DNSBaseStageConfigurator?
     public var navigationController: UINavigationController?
     public var tabBarController: UITabBarController?
 

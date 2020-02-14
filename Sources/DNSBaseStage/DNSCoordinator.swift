@@ -11,6 +11,7 @@ import DNSCoreThreading
 import FTLinearActivityIndicator
 import UIKit
 
+public typealias DNSCoordinatorBlock = () -> Void
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void
 
 open class DNSCoordinator {
@@ -24,11 +25,17 @@ open class DNSCoordinator {
 
     public var children: [DNSCoordinator] = []
     public var runState: RunState = .notStarted
+    public var latestConfigurator: DNSBaseStageConfigurator?
 
     // MARK: - Object lifecycle
 
-    public init() {
-        UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
+    public init(with delegate: DNSCoordinator? = nil) {
+        self.delegate = delegate
+        delegate?.children.append(self)
+        
+        _ = DNSUIThread.run {
+            UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
+        }
     }
 
     // MARK: - Coordinator lifecycle
@@ -63,7 +70,6 @@ open class DNSCoordinator {
             self.runState = .started
         }
     }
-
     open func reset() {
         self.runState = .notStarted
 
@@ -79,10 +85,10 @@ open class DNSCoordinator {
 
     // MARK: - Intent processing
 
-    open func run(actions: [String: DNSBlock],
+    open func run(actions: [String: DNSCoordinatorBlock],
                   for intent: String,
-                  onBlank: DNSBlock = { },
-                  orNoMatch: DNSBlock = { }) {
+                  onBlank: DNSCoordinatorBlock = { },
+                  orNoMatch: DNSCoordinatorBlock = { }) {
         if intent.isEmpty {
             onBlank()
             return
@@ -102,18 +108,20 @@ open class DNSCoordinator {
         }
     }
 
-    // MARK: - Utility methods
-
-    public func utilityRunStage(_ coordinator: DNSBaseStageConfigurator,
-                                and displayType: DNSBaseStageDisplayType,
-                                and initializationObject: DNSBaseStageBaseInitialization,
-                                thenRunActions actions: [String: DNSBlock]) {
-        _ = coordinator.runStage(with: self,
-                                 and: displayType,
-                                 and: initializationObject) { (_, intent, _, _) in
+    public func startStage(_ configurator: DNSBaseStageConfigurator,
+                           and displayType: DNSBaseStageDisplayType,
+                           and initializationObject: DNSBaseStageBaseInitialization,
+                           thenRunActions actions: [String: DNSCoordinatorBlock]) {
+        configurator.parentConfigurator = self.latestConfigurator
+        _ = configurator.runStage(with: self,
+                                  and: displayType,
+                                  and: initializationObject) { (_, intent, _, _) in
+                                    self.latestConfigurator = configurator
                                     self.run(actions: actions, for: intent)
         }
     }
+
+    // MARK: - Utility methods
 
     public func utilityShowSectionStatusMessage(with title: String,
                                                 and message: String,

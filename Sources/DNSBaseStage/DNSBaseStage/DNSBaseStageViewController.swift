@@ -335,6 +335,6 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     // MARK: - Gesture Recognizer methods
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
-        self.lastVisibleView?.resignFirstResponder()
+        view.endEditing(true)
     }
 }

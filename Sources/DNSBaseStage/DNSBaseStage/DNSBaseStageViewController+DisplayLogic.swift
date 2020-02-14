@@ -374,7 +374,7 @@ extension DNSBaseStageViewController {
         if display {
             self.navigationController?.navigationBar.layer.zPosition = -1
         }
-
+        
         UIView.animate(withDuration: 0.3,
                        animations: {
                         self.disabledView?.alpha = display ? 1.0 : 0.0

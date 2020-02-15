@@ -169,15 +169,17 @@ extension DNSBaseStageViewController {
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
 
-            let animated: Bool = (self.displayType == .navBarRoot)
+            var animated: Bool = (self.displayType == .navBarRoot)
 
             _ = DNSUIThread.run {
-                if navigationController.parent == nil {
+                if navigationController.view.superview == nil {
+                    self.isModalInPresentation = true
                     self.definesPresentationContext = true
-                    self.modalPresentationStyle = UIModalPresentationStyle.automatic
+                    self.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
                     self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
                     presentingViewController!.present(navigationController,
                                                       animated: viewModel.animated)
+                    animated = false
                 }
                 navigationController.setViewControllers([ self ], animated: animated)
             }
@@ -255,8 +257,12 @@ extension DNSBaseStageViewController {
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
 
+            guard navigationController.viewControllers.contains(self) else { return }
+            
             _ = DNSUIThread.run {
-                navigationController.dismiss(animated: viewModel.animated)
+                navigationController.dismiss(animated: viewModel.animated) {
+                    self.baseConfigurator?.navigationController = nil
+                }
             }
 
         case.tabBarAdd?, .tabBarAddInstant?:

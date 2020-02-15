@@ -175,7 +175,7 @@ extension DNSBaseStageViewController {
                 if navigationController.view.superview == nil {
                     self.isModalInPresentation = true
                     self.definesPresentationContext = true
-                    self.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+                    self.modalPresentationStyle = UIModalPresentationStyle.fullScreen
                     self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
                     presentingViewController!.present(navigationController,
                                                       animated: viewModel.animated)

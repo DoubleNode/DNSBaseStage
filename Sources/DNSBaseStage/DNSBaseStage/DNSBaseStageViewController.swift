@@ -234,7 +234,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     // MARK: - Notification Observer methods
 
-    lazy var saveIsModalInPresentation = self.isModalInPresentation
+    //lazy var saveIsModalInPresentation = self.isModalInPresentation
 
     @objc
     open func keyboardWillShow(notification: Notification) {
@@ -242,8 +242,8 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         guard self.lastVisibleView != nil else { return }
         
         // Save state to avoid pull-to-dismiss view
-        self.saveIsModalInPresentation = self.isModalInPresentation
-        self.isModalInPresentation = true
+        //self.saveIsModalInPresentation = self.isModalInPresentation
+        //self.isModalInPresentation = true
         
         self.keyboardShowing = true
 
@@ -267,7 +267,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         guard self.lastVisibleView != nil else { return }
 
         // Restore state
-        self.isModalInPresentation = self.saveIsModalInPresentation
+        //self.isModalInPresentation = self.saveIsModalInPresentation
         
         self.keyboardShowing = false
 

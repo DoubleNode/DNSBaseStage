@@ -8,6 +8,12 @@
 
 import Foundation
 
+public enum DNSBaseStage {
+    enum C {
+        //static let dnsNavBarClose = "dnsNavBarClose"
+    }
+}
+
 public enum DNSBaseStageDisplayType {
     case none
     case modal

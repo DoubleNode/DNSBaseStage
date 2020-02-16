@@ -104,7 +104,8 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.spinnerCount = 0
 
         stageStartPublisher.send(DNSBaseStageModels.Start.ViewModel(animated: true,
-                                                                    displayType: response.displayType))
+                                                                    displayType: response.displayType,
+                                                                    displayOptions: response.displayOptions))
     }
     open func endStage(_ response: DNSBaseStageModels.Finish.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }

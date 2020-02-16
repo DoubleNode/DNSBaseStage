@@ -48,6 +48,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var stageWillAppearSubscriber: AnyCancellable?
     var stageWillDisappearSubscriber: AnyCancellable?
 
+    var closeNavBarButtonSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
     var errorOccurredSubscriber: AnyCancellable?
     var webStartNavigationSubscriber: AnyCancellable?
@@ -70,6 +71,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         stageWillDisappearSubscriber = baseViewController.stageWillDisappearPublisher
             .sink { request in self.stageWillDisappear(request) }
 
+        closeNavBarButtonSubscriber = baseViewController.closeNavBarButtonPublisher
+            .sink { request in self.doCloseNavBar(request) }
         confirmationSubscriber = baseViewController.confirmationPublisher
             .sink { request in self.doConfirmation(request) }
         errorOccurredSubscriber = baseViewController.errorOccurredPublisher
@@ -87,6 +90,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     // MARK: - Public Properties
     public var displayType: DNSBaseStageDisplayType?
+    public var displayOptions: DNSBaseStageDisplayOptions?
 
     // MARK: - Workers
     public var analyticsWorker: PTCLAnalytics_Protocol?
@@ -96,13 +100,16 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     open func startStage(with displayType: DNSBaseStageDisplayType,
+                         with displayOptions: DNSBaseStageDisplayOptions? = nil,
                          and initialization: DNSBaseStageBaseInitialization?) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = displayType
+        self.displayOptions = displayOptions
         self.baseInitializationObject = initialization
 
-        stageStartPublisher.send(DNSBaseStageModels.Start.Response(displayType: displayType))
+        stageStartPublisher.send(DNSBaseStageModels.Start.Response(displayType: displayType,
+                                                                   displayOptions: displayOptions))
     }
 
     open func shouldEndStage() -> Bool {
@@ -184,6 +191,12 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     // MARK: - Business Logic
+    open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {
+        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        
+        self.endStage(conditionally: true, with: "", and: false, and: nil)
+    }
+    
     open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }

@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+public typealias DNSBaseStageDisplayOptions = Any
+
 public protocol DNSBaseStageBaseInitialization {
 }
 
@@ -57,18 +59,25 @@ open class DNSBaseStageModels {
     public enum Start {
         public struct Response: DNSBaseStageBaseResponse {
             public var displayType: DNSBaseStageDisplayType
+            public var displayOptions: DNSBaseStageDisplayOptions?
 
-            public init(displayType: DNSBaseStageDisplayType) {
+            public init(displayType: DNSBaseStageDisplayType,
+                        displayOptions: DNSBaseStageDisplayOptions?) {
                 self.displayType = displayType
+                self.displayOptions = displayOptions
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
             public var displayType: DNSBaseStageDisplayType
+            public var displayOptions: DNSBaseStageDisplayOptions?
 
-            public init(animated: Bool, displayType: DNSBaseStageDisplayType) {
+            public init(animated: Bool,
+                        displayType: DNSBaseStageDisplayType,
+                        displayOptions: DNSBaseStageDisplayOptions?) {
                 self.animated = animated
                 self.displayType = displayType
+                self.displayOptions = displayOptions
             }
         }
     }

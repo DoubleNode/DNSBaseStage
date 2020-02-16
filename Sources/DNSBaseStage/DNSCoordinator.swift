@@ -110,11 +110,13 @@ open class DNSCoordinator {
 
     public func startStage(_ configurator: DNSBaseStageConfigurator,
                            and displayType: DNSBaseStageDisplayType,
+                           with displayOptions: DNSBaseStageDisplayOptions? = nil,
                            and initializationObject: DNSBaseStageBaseInitialization,
                            thenRunActions actions: [String: DNSCoordinatorBlock]) {
         configurator.parentConfigurator = self.latestConfigurator
         _ = configurator.runStage(with: self,
                                   and: displayType,
+                                  with: displayOptions,
                                   and: initializationObject) { (_, intent, _, _) in
                                     self.latestConfigurator = configurator
                                     self.run(actions: actions, for: intent)

@@ -71,6 +71,7 @@ extension DNSBaseStageViewController {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = viewModel.displayType
+        self.displayOptions = viewModel.displayOptions
 
         var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
         if presentingViewController != nil {

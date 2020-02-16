@@ -10,6 +10,7 @@ import Combine
 import DNSCore
 import DNSCoreThreading
 import DNSProtocols
+import SFSymbol
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: class {
@@ -22,6 +23,7 @@ public protocol DNSBaseStageDisplayLogic: class {
     var stageWillAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
     var stageWillDisappearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
 
+    var closeNavBarButtonPublisher: PassthroughSubject<DNSBaseStageModels.Base.Request, Never> { get }
     var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never> { get }
     var errorOccurredPublisher: PassthroughSubject<DNSBaseStageModels.Error.Request, Never> { get }
     var webStartNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
@@ -46,6 +48,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     public let stageWillAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageWillDisappearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
 
+    public let closeNavBarButtonPublisher = PassthroughSubject<DNSBaseStageModels.Base.Request, Never>()
     public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never>()
     public let errorOccurredPublisher = PassthroughSubject<DNSBaseStageModels.Error.Request, Never>()
     public let webStartNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
@@ -86,6 +89,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     // MARK: - Public Properties
     public var displayType:     DNSBaseStageDisplayType?
+    public var displayOptions:  DNSBaseStageDisplayOptions?
     public var keyboardBounds:  CGRect = CGRect.zero
     public var visibleMargin:   CGFloat = 0.0
 
@@ -127,6 +131,13 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     // MARK: - Object settings
 
+    open func implementDisplayOptions() {
+        guard displayOptions != nil else { return }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeNavBarButtonAction))
+        navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
+    }
+    
     open func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.default
     }
@@ -197,6 +208,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()
+        self.implementDisplayOptions()
         self.stageWillAppear()
     }
 
@@ -336,5 +348,14 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    
+    // MARK: - Action methods
+
+    @IBAction func closeNavBarButtonAction(sender: UIBarButtonItem) {
+        try? self.analyticsWorker?.doTrack(event: "\(#function)")
+
+        closeNavBarButtonPublisher.send(DNSBaseStageModels.Base.Request())
     }
 }

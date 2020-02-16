@@ -25,6 +25,7 @@ let package = Package(
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.0.0"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.2.1"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.1.0"),
+        .package(url: "https://github.com/Nirma/SFSymbol", from: "0.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.5.0"),
     ],
     targets: [
@@ -39,6 +40,7 @@ let package = Package(
                 "DNSNetwork",
                 "FTLinearActivityIndicator",
                 "JGProgressHUD",
+                "SFSymbol",
                 "Loaf",
         ]),
         .testTarget(

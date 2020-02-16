@@ -22,6 +22,7 @@ open class DNSCoordinator {
     }
 
     public var delegate: Any?   // swiftlint:disable:this weak_delegate
+    var completionBlock: DNSBlock?
 
     public var children: [DNSCoordinator] = []
     public var runState: RunState = .notStarted
@@ -40,7 +41,9 @@ open class DNSCoordinator {
 
     // MARK: - Coordinator lifecycle
 
-    open func start() {
+    open func start(then completionBlock: DNSBlock?) {
+        self.completionBlock = completionBlock
+        
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -50,7 +53,10 @@ open class DNSCoordinator {
             self.runState = .started
         }
     }
-    open func start(with openURLContexts: Set<UIOpenURLContext>) {
+    open func start(with openURLContexts: Set<UIOpenURLContext>,
+                    then completionBlock: DNSBlock?) {
+        self.completionBlock = completionBlock
+        
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -60,7 +66,10 @@ open class DNSCoordinator {
             self.runState = .started
         }
     }
-    open func start(with userActivity: NSUserActivity) {
+    open func start(with userActivity: NSUserActivity,
+                    then completionBlock: DNSBlock?) {
+        self.completionBlock = completionBlock
+        
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -81,6 +90,8 @@ open class DNSCoordinator {
     }
     open func stop() {
         self.runState = .notStarted
+        
+        completionBlock?()
     }
 
     // MARK: - Intent processing

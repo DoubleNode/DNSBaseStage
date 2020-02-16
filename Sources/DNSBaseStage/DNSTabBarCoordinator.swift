@@ -22,24 +22,28 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         super.init()
     }
 
-    override open func start() {
-        super.start()
+    override open func start(then completionBlock: DNSBlock?) {
+        super.start(then: completionBlock)
 
         DNSUIThread.run {
             self.savedViewControllers = self.tabBarController.viewControllers
             self.tabBarController.setViewControllers([], animated: false)
         }
     }
-    override open func start(with openURLContexts: Set<UIOpenURLContext>) {
-        super.start(with: openURLContexts)
+    override open func start(with openURLContexts: Set<UIOpenURLContext>,
+                             then completionBlock: DNSBlock?) {
+        super.start(with: openURLContexts,
+                    then: completionBlock)
 
         DNSUIThread.run {
             self.savedViewControllers = self.tabBarController.viewControllers
             self.tabBarController.setViewControllers([], animated: false)
         }
     }
-    override open func start(with userActivity: NSUserActivity) {
-        super.start(with: userActivity)
+    override open func start(with userActivity: NSUserActivity,
+                             then completionBlock: DNSBlock?) {
+        super.start(with: userActivity,
+                    then: completionBlock)
 
         DNSUIThread.run {
             self.savedViewControllers = self.tabBarController.viewControllers
@@ -53,8 +57,6 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         self.savedViewControllers = nil
     }
     override open func stop() {
-        super.stop()
-
         if self.savedViewControllers != nil {
             DNSUIThread.run {
                 self.tabBarController.setViewControllers(self.savedViewControllers!,
@@ -63,5 +65,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         }
 
         self.savedViewControllers = nil
+        
+        super.stop()
     }
 }

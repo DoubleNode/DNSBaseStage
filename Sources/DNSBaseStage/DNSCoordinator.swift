@@ -14,14 +14,21 @@ import UIKit
 public typealias DNSCoordinatorBlock = () -> Void
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void
 
-open class DNSCoordinator {
+open class DNSCoordinator: NSObject {
     public enum RunState {
         case notStarted
         case started
         case terminated
     }
 
-    public var delegate: Any?   // swiftlint:disable:this weak_delegate
+    public var parent: DNSCoordinator? {
+        willSet {
+            parent?.children.removeAll(where: { $0 == self })
+        }
+        didSet {
+            parent?.children.append(self)
+        }
+    }
     var completionBlock: DNSBlock?
 
     public var children: [DNSCoordinator] = []
@@ -30,9 +37,8 @@ open class DNSCoordinator {
 
     // MARK: - Object lifecycle
 
-    public init(with delegate: DNSCoordinator? = nil) {
-        self.delegate = delegate
-        delegate?.children.append(self)
+    public init(with parent: DNSCoordinator? = nil) {
+        self.parent = parent
         
         _ = DNSUIThread.run {
             UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()

@@ -16,7 +16,7 @@ import UIKit
 public typealias DNSBaseStageConfiguratorBlock = (Bool, String, Bool, DNSBaseStageBaseResults?) -> Void
 
 open class DNSBaseStageConfigurator {
-    // MARK: - Public Associated Type Properties
+    // MARK: - Public Associated Type Properties -
     open var initializationObject: DNSBaseStageBaseInitialization?
 
     open var interactorType: DNSBaseStageInteractor.Type {
@@ -29,7 +29,7 @@ open class DNSBaseStageConfigurator {
         return DNSBaseStageViewController.self
     }
 
-    // MARK: - VIP Objects Creation
+    // MARK: - VIP Objects Creation -
     public var parentConfigurator: DNSBaseStageConfigurator?
     public var navigationController: UINavigationController?
     public var tabBarController: UITabBarController?
@@ -95,8 +95,8 @@ open class DNSBaseStageConfigurator {
     }
 
     open func runStage(with coordinator: DNSCoordinator,
-                       and displayType: DNSBaseStageDisplayType,
-                       with displayOptions: DNSBaseStageDisplayOptions? = nil,
+                       and displayType: DNSBaseStage.DisplayType,
+                       with displayOptions: DNSBaseStageDisplayOptions = [],
                        and initializationObject: DNSBaseStageBaseInitialization,
                        thenRun intentBlock: DNSBaseStageConfiguratorBlock?) -> DNSBaseStageViewController {
         self.intentBlock = intentBlock

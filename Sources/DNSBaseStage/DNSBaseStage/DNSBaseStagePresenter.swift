@@ -11,7 +11,7 @@ import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStagePresentationLogic: class {
-    // MARK: - Outgoing Pipelines
+    // MARK: - Outgoing Pipelines -
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never> { get }
 
@@ -23,10 +23,10 @@ public protocol DNSBaseStagePresentationLogic: class {
 }
 
 open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
-    // MARK: - Public Associated Type Properties
+    // MARK: - Public Associated Type Properties -
     public var baseConfigurator: DNSBaseStageConfigurator?
 
-    // MARK: - Outgoing Pipelines
+    // MARK: - Outgoing Pipelines -
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never>()
     public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never>()
 
@@ -36,7 +36,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public let spinnerPublisher = PassthroughSubject<DNSBaseStageModels.Spinner.ViewModel, Never>()
     public let titlePublisher = PassthroughSubject<DNSBaseStageModels.Title.ViewModel, Never>()
 
-    // MARK: - Incoming Pipelines
+    // MARK: - Incoming Pipelines -
     var stageStartSubscriber: AnyCancellable?
     var stageEndSubscriber: AnyCancellable?
 
@@ -67,37 +67,37 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             .sink { response in self.presentTitle(response) }
     }
 
-    // MARK: - Private Properties
+    // MARK: - Private Properties -
     var spinnerCount:   Int = 0
 
-    // MARK: - Public Properties
+    // MARK: - Public Properties -
 
-    // MARK: - Public Properties: Default Palette Colors
+    // MARK: - Public Properties: Default Palette Colors -
     public var defaultBackgroundColor:  UIColor = UIColor.blue
     public var defaultMessageColor:     UIColor = UIColor.white
     public var defaultTitleColor:       UIColor = UIColor.white
 
-    // MARK: - Public Properties: Error Palette Colors
+    // MARK: - Public Properties: Error Palette Colors -
     public var errorBackgroundColor:    UIColor = UIColor.red
     public var errorMessageColor:       UIColor = UIColor.white
     public var errorTitleColor:         UIColor = UIColor.white
 
-    // MARK: - Public Properties: Default Palette Fonts
+    // MARK: - Public Properties: Default Palette Fonts -
     public var defaultMessageFont:  UIFont = UIFont.systemFont(ofSize: 14)
     public var defaultTitleFont:    UIFont = UIFont.boldSystemFont(ofSize: 16)
 
-    // MARK: - Public Properties: Error Palette Fonts
+    // MARK: - Public Properties: Error Palette Fonts -
     public var errorMessageFont:    UIFont = UIFont.systemFont(ofSize: 14)
     public var errorTitleFont:      UIFont = UIFont.boldSystemFont(ofSize: 16)
 
-    // MARK: - Workers
+    // MARK: - Workers -
     public var analyticsWorker: PTCLAnalytics_Protocol?
 
     required public init(configurator: DNSBaseStageConfigurator) {
         self.baseConfigurator = configurator
     }
 
-    // MARK: - Lifecycle Methods
+    // MARK: - Lifecycle Methods -
     open func startStage(_ response: DNSBaseStageModels.Start.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
@@ -116,7 +116,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                    displayType: response.displayType))
     }
 
-    // MARK: - Presentation logic
+    // MARK: - Presentation logic -
     open func presentConfirmation(_ response: DNSBaseStageModels.Confirmation.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 

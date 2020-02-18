@@ -10,23 +10,28 @@ import Foundation
 
 public enum DNSBaseStage {
     public enum C {
-        public static let dnsOnBlank = "DNSBaseStage_C_dnsOnBlank"
-        public static let dnsOrNoMatch = "DNSBaseStage_C_dnsOrNoMatch"
+        public static let onBlank = "DNSBaseStage_C_onBlank"
+        public static let orNoMatch = "DNSBaseStage_C_orNoMatch"
+    }
+    public enum DisplayOption {
+        case navBarRightClose
+        case navController
+    }
+    public enum DisplayType {
+        case none
+        case modal
+        case modalCurrentContext
+        case modalFormSheet
+        case modalFullScreen
+        case modalPageSheet
+        case modalPopover
+        case navBarPush
+        case navBarPushInstant
+        case navBarRoot
+        case navBarRootInstant
+        case tabBarAdd
+        case tabBarAddInstant
     }
 }
 
-public enum DNSBaseStageDisplayType {
-    case none
-    case modal
-    case modalCurrentContext
-    case modalFormSheet
-    case modalFullScreen
-    case modalPageSheet
-    case modalPopover
-    case navBarPush
-    case navBarPushInstant
-    case navBarRoot
-    case navBarRootInstant
-    case tabBarAdd
-    case tabBarAddInstant
-}
+public typealias DNSBaseStageDisplayOptions = [DNSBaseStage.DisplayOption]

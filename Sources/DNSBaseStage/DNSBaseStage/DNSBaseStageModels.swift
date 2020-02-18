@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-public typealias DNSBaseStageDisplayOptions = Any
-
 public protocol DNSBaseStageBaseInitialization {
 }
 
@@ -58,23 +56,23 @@ open class DNSBaseStageModels {
 
     public enum Start {
         public struct Response: DNSBaseStageBaseResponse {
-            public var displayType: DNSBaseStageDisplayType
-            public var displayOptions: DNSBaseStageDisplayOptions?
+            public var displayType: DNSBaseStage.DisplayType
+            public var displayOptions: DNSBaseStageDisplayOptions = []
 
-            public init(displayType: DNSBaseStageDisplayType,
-                        displayOptions: DNSBaseStageDisplayOptions?) {
+            public init(displayType: DNSBaseStage.DisplayType,
+                        displayOptions: DNSBaseStageDisplayOptions) {
                 self.displayType = displayType
                 self.displayOptions = displayOptions
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
-            public var displayType: DNSBaseStageDisplayType
-            public var displayOptions: DNSBaseStageDisplayOptions?
+            public var displayType: DNSBaseStage.DisplayType
+            public var displayOptions: DNSBaseStageDisplayOptions = []
 
             public init(animated: Bool,
-                        displayType: DNSBaseStageDisplayType,
-                        displayOptions: DNSBaseStageDisplayOptions?) {
+                        displayType: DNSBaseStage.DisplayType,
+                        displayOptions: DNSBaseStageDisplayOptions) {
                 self.animated = animated
                 self.displayType = displayType
                 self.displayOptions = displayOptions
@@ -83,17 +81,17 @@ open class DNSBaseStageModels {
     }
     public enum Finish {
         public struct Response: DNSBaseStageBaseResponse {
-            public var displayType: DNSBaseStageDisplayType
+            public var displayType: DNSBaseStage.DisplayType
 
-            public init(displayType: DNSBaseStageDisplayType) {
+            public init(displayType: DNSBaseStage.DisplayType) {
                 self.displayType = displayType
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
-            public var displayType: DNSBaseStageDisplayType
+            public var displayType: DNSBaseStage.DisplayType
 
-            public init(animated: Bool, displayType: DNSBaseStageDisplayType) {
+            public init(animated: Bool, displayType: DNSBaseStage.DisplayType) {
                 self.animated = animated
                 self.displayType = displayType
             }

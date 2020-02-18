@@ -132,8 +132,8 @@ open class DNSCoordinator: NSObject {
     }
 
     public func startStage(_ configurator: DNSBaseStageConfigurator,
-                           and displayType: DNSBaseStageDisplayType,
-                           with displayOptions: DNSBaseStageDisplayOptions? = nil,
+                           and displayType: DNSBaseStage.DisplayType,
+                           with displayOptions: DNSBaseStageDisplayOptions = [],
                            and initializationObject: DNSBaseStageBaseInitialization,
                            thenRunActions actions: [String: DNSCoordinatorBlock]) {
         configurator.parentConfigurator = self.latestConfigurator
@@ -144,8 +144,8 @@ open class DNSCoordinator: NSObject {
                                     self.latestConfigurator = configurator
                                     self.run(actions: actions,
                                              for: intent,
-                                             onBlank: actions[DNSBaseStage.C.dnsOnBlank] ?? { },
-                                             orNoMatch: actions[DNSBaseStage.C.dnsOrNoMatch] ?? { })
+                                             onBlank: actions[DNSBaseStage.C.onBlank] ?? { },
+                                             orNoMatch: actions[DNSBaseStage.C.orNoMatch] ?? { })
         }
     }
 

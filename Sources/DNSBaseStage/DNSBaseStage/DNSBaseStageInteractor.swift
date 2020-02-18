@@ -11,7 +11,7 @@ import DNSProtocols
 import Foundation
 
 public protocol DNSBaseStageBusinessLogic: class {
-    // MARK: - Outgoing Pipelines
+    // MARK: - Outgoing Pipelines -
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }
 
@@ -24,11 +24,11 @@ public protocol DNSBaseStageBusinessLogic: class {
 }
 
 open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
-    // MARK: - Public Associated Type Properties
+    // MARK: - Public Associated Type Properties -
     public var baseConfigurator: DNSBaseStageConfigurator?
     public var baseInitializationObject: DNSBaseStageBaseInitialization?
 
-    // MARK: - Outgoing Pipelines
+    // MARK: - Outgoing Pipelines -
     public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
     public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.Response, Never>()
 
@@ -39,7 +39,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public let spinnerPublisher = PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never>()
     public let titlePublisher = PassthroughSubject<DNSBaseStageModels.Title.Response, Never>()
 
-    // MARK: - Incoming Pipelines
+    // MARK: - Incoming Pipelines -
     var stageDidAppearSubscriber: AnyCancellable?
     var stageDidCloseSubscriber: AnyCancellable?
     var stageDidDisappearSubscriber: AnyCancellable?
@@ -85,22 +85,22 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
             .sink { request in self.doWebErrorNavigation(request) }
     }
 
-    // MARK: - Private Properties
+    // MARK: - Private Properties -
     var hasStageEnded:  Bool = false
 
-    // MARK: - Public Properties
-    public var displayType: DNSBaseStageDisplayType?
-    public var displayOptions: DNSBaseStageDisplayOptions?
+    // MARK: - Public Properties -
+    public var displayType: DNSBaseStage.DisplayType?
+    public var displayOptions: DNSBaseStageDisplayOptions = []
 
-    // MARK: - Workers
+    // MARK: - Workers -
     public var analyticsWorker: PTCLAnalytics_Protocol?
 
     required public init(configurator: DNSBaseStageConfigurator) {
         self.baseConfigurator = configurator
     }
 
-    open func startStage(with displayType: DNSBaseStageDisplayType,
-                         with displayOptions: DNSBaseStageDisplayOptions? = nil,
+    open func startStage(with displayType: DNSBaseStage.DisplayType,
+                         with displayOptions: DNSBaseStageDisplayOptions = [],
                          and initialization: DNSBaseStageBaseInitialization?) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
@@ -157,7 +157,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
                                     and: results)
     }
 
-    // MARK: - Stage Lifecycle
+    // MARK: - Stage Lifecycle -
+    
     open func stageDidAppear(_ request: DNSBaseStageBaseRequest) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
@@ -190,17 +191,16 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
 
-    // MARK: - Business Logic
+    // MARK: - Business Logic -
+    
     open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
         
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
-    
     open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 

@@ -11,6 +11,7 @@ import DNSCore
 import DNSCoreThreading
 import JGProgressHUD
 import Loaf
+import SFSymbol
 import UIKit
 
 extension DNSBaseStageViewController {
@@ -22,7 +23,7 @@ extension DNSBaseStageViewController {
         return JGProgressHUD(style: .dark)
     }
 
-    // MARK: - Stage Lifecycle Methods
+    // MARK: - Stage Lifecycle Methods -
 
     open func stageDidAppear() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
@@ -66,12 +67,18 @@ extension DNSBaseStageViewController {
         stageWillDisappearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
-    // MARK: - Lifecycle Methods
+    // MARK: - Lifecycle Methods -
+    
     public func startStage(_ viewModel: DNSBaseStageModels.Start.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.displayType = viewModel.displayType
         self.displayOptions = viewModel.displayOptions
+
+        self.implementDisplayOptionsPreStart()
+        defer {
+            self.implementDisplayOptionsPostStart()
+        }
 
         var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
         if presentingViewController != nil {
@@ -84,6 +91,12 @@ extension DNSBaseStageViewController {
             presentingViewController = DNSCore.appDelegate.rootViewController()
         }
 
+        var viewControllerToPresent: UIViewController = self
+        if self.baseConfigurator?.navigationController != nil {
+            // swiftlint:disable:next force_cast line_length
+            viewControllerToPresent = self.baseConfigurator!.navigationController!
+        }
+        
         switch self.displayType {
         case .none?:
             break
@@ -96,7 +109,7 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = UIModalPresentationStyle.automatic
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(self, animated: viewModel.animated)
+                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
             }
 
         case .modalCurrentContext?:
@@ -107,7 +120,7 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(self, animated: viewModel.animated)
+                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
             }
 
         case .modalFormSheet?:
@@ -118,7 +131,7 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = UIModalPresentationStyle.formSheet
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(self, animated: viewModel.animated)
+                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
             }
 
         case .modalFullScreen?:
@@ -129,7 +142,7 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(self, animated: viewModel.animated)
+                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
             }
 
         case .modalPageSheet?:
@@ -140,7 +153,7 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = UIModalPresentationStyle.pageSheet
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(self, animated: viewModel.animated)
+                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
             }
 
         case .modalPopover?:
@@ -151,7 +164,7 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = UIModalPresentationStyle.popover
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(self, animated: viewModel.animated)
+                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
             }
 
         case .navBarPush?, .navBarPushInstant?:
@@ -161,27 +174,12 @@ extension DNSBaseStageViewController {
             self.startStageNavBarPush(navBarController: navigationController, viewModel)
 
         case .navBarRoot?, .navBarRootInstant?:
-            if self.baseConfigurator?.navigationController == nil {
-                _ = DNSUIThread.run {
-                    self.baseConfigurator?.navigationController = UINavigationController(rootViewController: self)
-                }
-            }
-
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
 
-            var animated: Bool = (self.displayType == .navBarRoot)
+            let animated: Bool = (self.displayType == .navBarRoot)
 
             _ = DNSUIThread.run {
-                if navigationController.view.superview == nil {
-                    self.isModalInPresentation = true
-                    self.definesPresentationContext = true
-                    self.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-                    self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                    presentingViewController!.present(navigationController,
-                                                      animated: viewModel.animated)
-                    animated = false
-                }
                 navigationController.setViewControllers([ self ], animated: animated)
             }
 
@@ -193,11 +191,11 @@ extension DNSBaseStageViewController {
 
             _ = DNSUIThread.run {
                 var viewControllers = tabBarController.viewControllers ?? []
-                if viewControllers.contains(self) {
-                    let index = viewControllers.firstIndex(of: self)
+                if viewControllers.contains(viewControllerToPresent) {
+                    let index = viewControllers.firstIndex(of: viewControllerToPresent)
                     viewControllers.remove(at: index!)
                 }
-                viewControllers.append(self)
+                viewControllers.append(viewControllerToPresent)
 
                 tabBarController.setViewControllers(viewControllers, animated: animated)
             }
@@ -300,7 +298,40 @@ extension DNSBaseStageViewController {
         }
     }
 
-    // MARK: - Display logic
+    private func implementDisplayOptionsPreStart() {
+        guard !displayOptions.isEmpty else { return }
+
+        for displayOption in displayOptions {
+            switch displayOption {
+            case .navController:
+                if self.baseConfigurator?.navigationController == nil {
+                    self.baseConfigurator?.navigationController = UINavigationController(rootViewController: self)
+                }
+            default:
+                return
+            }
+        }
+    }
+
+    private func implementDisplayOptionsPostStart() {
+        guard !displayOptions.isEmpty else { return }
+
+        for displayOption in displayOptions {
+            switch displayOption {
+            case .navBarRightClose:
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close",
+                                                                    style: .plain,
+                                                                    target: self,
+                                                                    action: #selector(closeNavBarButtonAction))
+                navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
+            default:
+                return
+            }
+        }
+    }
+
+    // MARK: - Display logic -
+
     public func displayConfirmation(_ viewModel: DNSBaseStageModels.Confirmation.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
@@ -405,12 +436,12 @@ extension DNSBaseStageViewController {
         self.stageTitle = viewModel.title
     }
 
-    // MARK: - parent class methods
+    // MARK: - parent class methods -
 
     public func updateDisabledViewDisplay(display: Bool) {
         guard self.disabledView != nil else { return }
         let disabledView = self.disabledView!
-        
+
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
             (self.navigationController?.navigationBar.height ?? 0)
         if headerHeight > 0 && (self.disabledViewTopConstraint?.constant ?? 0 >= CGFloat(0)) {
@@ -420,9 +451,9 @@ extension DNSBaseStageViewController {
         if display {
             self.navigationController?.navigationBar.layer.zPosition = -1
         }
-        
+
         self.view.addSubview(disabledView)
-        
+
         UIView.animate(withDuration: 0.3,
                        animations: {
                         disabledView.alpha = display ? 1.0 : 0.0

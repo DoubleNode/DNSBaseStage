@@ -10,7 +10,6 @@ import Combine
 import DNSCore
 import DNSCoreThreading
 import DNSProtocols
-import SFSymbol
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: class {
@@ -32,14 +31,14 @@ public protocol DNSBaseStageDisplayLogic: class {
 }
 
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
-    // MARK: - Public Associated Type Properties
+    // MARK: - Public Associated Type Properties -
     public var baseConfigurator: DNSBaseStageConfigurator? {
         didSet {
             self.baseConfigurator?.configureStage()
         }
     }
 
-    // MARK: - Outgoing Pipelines
+    // MARK: - Outgoing Pipelines -
     public let stageDidAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageDidClosePublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageDidDisappearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
@@ -55,7 +54,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     public let webFinishNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
     public let webErrorNavigationPublisher = PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never>()
 
-    // MARK: - Incoming Pipelines
+    // MARK: - Incoming Pipelines -
     var stageStartSubscriber: AnyCancellable?
     var stageEndSubscriber: AnyCancellable?
 
@@ -83,18 +82,18 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
             .sink { viewModel in self.displayTitle(viewModel) }
     }
 
-    // MARK: - Private Properties
+    // MARK: - Private Properties -
     var stageBackTitle: String = ""
-    var spinnerCount:   Int = 0
+    var spinnerCount: Int = 0
 
-    // MARK: - Public Properties
-    public var displayType:     DNSBaseStageDisplayType?
-    public var displayOptions:  DNSBaseStageDisplayOptions?
-    public var keyboardBounds:  CGRect = CGRect.zero
-    public var visibleMargin:   CGFloat = 0.0
+    // MARK: - Public Properties -
+    public var displayType: DNSBaseStage.DisplayType?
+    public var displayOptions: DNSBaseStageDisplayOptions = []
+    public var keyboardBounds: CGRect = CGRect.zero
+    public var visibleMargin: CGFloat = 0.0
 
-    private var keyboardShowing:    Bool = false
-    private var visibleOffset:      CGFloat = 0.0
+    private var keyboardShowing: Bool = false
+    private var visibleOffset: CGFloat = 0.0
 
     public var lastVisibleView: UIView? {
         willSet(newLastVisibleView) {
@@ -126,18 +125,11 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     @IBOutlet weak var tapToDismissView: UIView?
     @IBOutlet weak var titleLabel: UILabel?
 
-    // MARK: - Workers
+    // MARK: - Workers -
     public var analyticsWorker: PTCLAnalytics_Protocol?
 
-    // MARK: - Object settings
+    // MARK: - Object settings -
 
-    open func implementDisplayOptions() {
-        guard displayOptions != nil else { return }
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeNavBarButtonAction))
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
-    }
-    
     open func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.default
     }
@@ -161,7 +153,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         }
     }
 
-    // MARK: - Object lifecycle
+    // MARK: - Object lifecycle -
 
     required public override init(nibName nibNameOrNil: String? = nil,
                                   bundle nibBundleOrNil: Bundle? = nil) {
@@ -177,7 +169,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         super.awakeFromNib()
     }
 
-    // MARK: - View lifecycle
+    // MARK: - View lifecycle -
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -208,7 +200,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()
-        self.implementDisplayOptions()
+        //self.implementDisplayOptionsPostStart()
         self.stageWillAppear()
     }
 
@@ -244,18 +236,12 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         self.stageDidClose()
     }
 
-    // MARK: - Notification Observer methods
-
-    //lazy var saveIsModalInPresentation = self.isModalInPresentation
+    // MARK: - Notification Observer methods -
 
     @objc
     open func keyboardWillShow(notification: Notification) {
         guard !self.keyboardShowing else { return }
         guard self.lastVisibleView != nil else { return }
-        
-        // Save state to avoid pull-to-dismiss view
-        //self.saveIsModalInPresentation = self.isModalInPresentation
-        //self.isModalInPresentation = true
         
         self.keyboardShowing = true
 
@@ -278,9 +264,6 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         guard self.keyboardShowing else { return }
         guard self.lastVisibleView != nil else { return }
 
-        // Restore state
-        //self.isModalInPresentation = self.saveIsModalInPresentation
-        
         self.keyboardShowing = false
 
         let duration: TimeInterval =
@@ -329,7 +312,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         })
     }
 
-    // MARK: - UITextFieldDelegate methods
+    // MARK: - UITextFieldDelegate methods -
 
     open func textFieldDidBeginEditing(_ textField: UITextField) {
         self.lastVisibleView = textField
@@ -338,20 +321,20 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         self.view.endEditing(true)
     }
 
-    // MARK: - UITextViewDelegate methods
+    // MARK: - UITextViewDelegate methods -
 
     open func textViewDidBeginEditing(_ textView: UITextView) {
         self.lastVisibleView = textView
     }
 
-    // MARK: - Gesture Recognizer methods
+    // MARK: - Gesture Recognizer methods -
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
     
-    // MARK: - Action methods
+    // MARK: - Action methods -
 
     @IBAction func closeNavBarButtonAction(sender: UIBarButtonItem) {
         try? self.analyticsWorker?.doTrack(event: "\(#function)")

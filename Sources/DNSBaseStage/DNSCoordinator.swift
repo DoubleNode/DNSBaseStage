@@ -136,7 +136,10 @@ open class DNSCoordinator: NSObject {
                                   with: displayOptions,
                                   and: initializationObject) { (_, intent, _, _) in
                                     self.latestConfigurator = configurator
-                                    self.run(actions: actions, for: intent)
+                                    self.run(actions: actions,
+                                             for: intent,
+                                             onBlank: actions[DNSBaseStage.C.dnsOnBlank] ?? { },
+                                             orNoMatch: actions[DNSBaseStage.C.dnsOrNoMatch] ?? { })
         }
     }
 

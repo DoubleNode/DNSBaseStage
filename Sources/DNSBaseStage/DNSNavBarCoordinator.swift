@@ -22,7 +22,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         super.init()
     }
 
-    override open func start(then completionBlock: DNSBlock?) {
+    override open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(then: completionBlock)
 
         DNSUIThread.run {
@@ -30,7 +30,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         }
     }
     override open func start(with openURLContexts: Set<UIOpenURLContext>,
-                             then completionBlock: DNSBlock?) {
+                             then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(with: openURLContexts,
                     then: completionBlock)
 
@@ -39,7 +39,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         }
     }
     override open func start(with userActivity: NSUserActivity,
-                             then completionBlock: DNSBlock?) {
+                             then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(with: userActivity,
                     then: completionBlock)
 

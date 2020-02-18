@@ -12,6 +12,7 @@ import FTLinearActivityIndicator
 import UIKit
 
 public typealias DNSCoordinatorBlock = () -> Void
+public typealias DNSCoordinatorBoolBlock = (Bool) -> Void
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void
 
 open class DNSCoordinator: NSObject {
@@ -29,7 +30,7 @@ open class DNSCoordinator: NSObject {
             parent?.children.append(self)
         }
     }
-    var completionBlock: DNSBlock?
+    var completionBlock: DNSCoordinatorBoolBlock?
 
     public var children: [DNSCoordinator] = []
     public var runState: RunState = .notStarted
@@ -47,7 +48,7 @@ open class DNSCoordinator: NSObject {
 
     // MARK: - Coordinator lifecycle
 
-    open func start(then completionBlock: DNSBlock?) {
+    open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
         
         switch self.runState {
@@ -60,7 +61,7 @@ open class DNSCoordinator: NSObject {
         }
     }
     open func start(with openURLContexts: Set<UIOpenURLContext>,
-                    then completionBlock: DNSBlock?) {
+                    then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
         
         switch self.runState {
@@ -73,7 +74,7 @@ open class DNSCoordinator: NSObject {
         }
     }
     open func start(with userActivity: NSUserActivity,
-                    then completionBlock: DNSBlock?) {
+                    then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
         
         switch self.runState {
@@ -97,7 +98,12 @@ open class DNSCoordinator: NSObject {
     open func stop() {
         self.runState = .notStarted
         
-        completionBlock?()
+        completionBlock?(true)
+    }
+    open func stopAndCancel() {
+        self.runState = .notStarted
+        
+        completionBlock?(false)
     }
 
     // MARK: - Intent processing

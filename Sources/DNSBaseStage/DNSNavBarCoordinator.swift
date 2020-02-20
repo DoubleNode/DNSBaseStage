@@ -11,12 +11,12 @@ import DNSCoreThreading
 import UIKit
 
 open class DNSNavBarCoordinator: DNSCoordinator {
-    public var navigationController: UINavigationController
+    public var navigationController: UINavigationController?
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Object lifecycle
 
-    public init(with navigationController: UINavigationController) {
+    public init(with navigationController: UINavigationController? = nil) {
         self.navigationController = navigationController
 
         super.init()
@@ -26,7 +26,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         super.start(then: completionBlock)
 
         DNSUIThread.run {
-            self.savedViewControllers = self.navigationController.viewControllers
+            self.savedViewControllers = self.navigationController?.viewControllers
         }
     }
     override open func start(with openURLContexts: Set<UIOpenURLContext>,
@@ -35,7 +35,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
                     then: completionBlock)
 
         DNSUIThread.run {
-            self.savedViewControllers = self.navigationController.viewControllers
+            self.savedViewControllers = self.navigationController?.viewControllers
         }
     }
     override open func start(with userActivity: NSUserActivity,
@@ -44,7 +44,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
                     then: completionBlock)
 
         DNSUIThread.run {
-            self.savedViewControllers = self.navigationController.viewControllers
+            self.savedViewControllers = self.navigationController?.viewControllers
         }
     }
 
@@ -56,8 +56,8 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     override open func stop() {
         if self.savedViewControllers != nil {
             DNSUIThread.run {
-                self.navigationController.setViewControllers(self.savedViewControllers!,
-                                                             animated: true)
+                self.navigationController?.setViewControllers(self.savedViewControllers!,
+                                                              animated: true)
             }
         }
 

@@ -269,19 +269,19 @@ open class DNSBaseStageModels {
     }
     public enum Webpage {
         public struct Request: DNSBaseStageBaseRequest {
-            public var url: NSURL
+            public var url: URL
 
-            public init(url: NSURL) {
+            public init(url: URL) {
                 self.url = url
             }
         }
     }
     public enum WebpageError {
         public struct Request: DNSBaseStageBaseRequest {
-            public var url: NSURL
+            public var url: URL
             public var error: NSError
 
-            public init(url: NSURL, error: NSError) {
+            public init(url: URL, error: NSError) {
                 self.url = url
                 self.error = error
             }

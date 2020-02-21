@@ -301,14 +301,19 @@ extension DNSBaseStageViewController {
     private func implementDisplayOptionsPreStart() {
         guard !displayOptions.isEmpty else { return }
 
-        for displayOption in displayOptions {
-            switch displayOption {
-            case .navController:
-                if self.baseConfigurator?.navigationController == nil {
-                    self.baseConfigurator?.navigationController = UINavigationController(rootViewController: self)
+        weak var weakSelf = self
+        _ = DNSUIThread.run {
+            guard weakSelf != nil else { return }
+            let weakSelf = weakSelf!
+            for displayOption in weakSelf.displayOptions {
+                switch displayOption {
+                case .navController:
+                    if weakSelf.baseConfigurator?.navigationController == nil {
+                        weakSelf.baseConfigurator?.navigationController = UINavigationController(rootViewController: weakSelf)
+                    }
+                default:
+                    break
                 }
-            default:
-                break
             }
         }
     }
@@ -316,16 +321,42 @@ extension DNSBaseStageViewController {
     private func implementDisplayOptionsPostStart() {
         guard !displayOptions.isEmpty else { return }
 
-        for displayOption in displayOptions {
-            switch displayOption {
-            case .navBarRightClose:
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close",
-                                                                    style: .plain,
-                                                                    target: self,
-                                                                    action: #selector(closeNavBarButtonAction))
-                navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
-            default:
-                break
+        weak var weakSelf = self
+        _ = DNSUIThread.run {
+            guard weakSelf != nil else { return }
+            let weakSelf = weakSelf!
+
+            var containsNavBarForced = false
+
+            for displayOption in weakSelf.displayOptions {
+                switch displayOption {
+                case .navBarRightClose:
+                    weakSelf.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close",
+                                                                        style: .plain,
+                                                                        target: weakSelf,
+                                                                        action: #selector(weakSelf.closeNavBarButtonAction))
+                    weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
+                case .navBarHidden, .navBarHiddenInstant:
+                    containsNavBarForced = true
+                    let animated: Bool = (displayOption == .navBarHidden)
+                    weakSelf.navigationController?.setNavigationBarHidden(true, animated: animated)
+                    _ = DNSUIThread.run(after:0.1) {
+                        weakSelf.navigationController?.setNavigationBarHidden(true, animated: animated)
+                    }
+                case .navBarShown, .navBarShownInstant:
+                    containsNavBarForced = true
+                    let animated: Bool = (displayOption == .navBarShown)
+                    weakSelf.navigationController?.setNavigationBarHidden(false, animated: animated)
+                    _ = DNSUIThread.run(after:0.1) {
+                        weakSelf.navigationController?.setNavigationBarHidden(false, animated: animated)
+                    }
+                default:
+                    break
+                }
+            }
+            
+            if !containsNavBarForced {
+                weakSelf.navigationController?.setNavigationBarHidden(false, animated: true)
             }
         }
     }

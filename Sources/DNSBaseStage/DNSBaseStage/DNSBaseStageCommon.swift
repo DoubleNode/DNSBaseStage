@@ -16,6 +16,10 @@ public enum DNSBaseStage {
     public enum DisplayOption {
         case navBarRightClose
         case navController
+        case navBarHidden
+        case navBarHiddenInstant
+        case navBarShown
+        case navBarShownInstant
     }
     public enum DisplayType {
         case none

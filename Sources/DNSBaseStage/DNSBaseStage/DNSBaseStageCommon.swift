@@ -33,6 +33,7 @@ public enum DNSBaseStage {
         case navBarPushInstant
         case navBarRoot
         case navBarRootInstant
+        case navBarRootReplace
         case tabBarAdd
         case tabBarAddInstant
     }

@@ -65,4 +65,9 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         
         super.stop()
     }
+    override open func cancel() {
+        self.savedViewControllers = nil
+        
+        super.cancel()
+    }
 }

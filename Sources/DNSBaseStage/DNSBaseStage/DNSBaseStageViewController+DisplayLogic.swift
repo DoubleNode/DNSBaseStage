@@ -183,6 +183,23 @@ extension DNSBaseStageViewController {
                 navigationController.setViewControllers([ self ], animated: animated)
             }
 
+        case .navBarRootReplace:
+            guard self.baseConfigurator?.navigationController != nil else { return }
+            let navigationController = self.baseConfigurator!.navigationController!
+            
+            _ = DNSUIThread.run {
+                var viewControllers = navigationController.viewControllers
+                if viewControllers.contains(self) {
+                    let index = viewControllers.firstIndex(of: self)
+                    if index! > 0 {
+                        viewControllers.remove(at: index!)
+                    }
+                }
+                viewControllers[0] = self
+
+                navigationController.setViewControllers(viewControllers, animated: false)
+            }
+            
         case.tabBarAdd?, .tabBarAddInstant?:
             guard self.baseConfigurator?.tabBarController != nil else { return }
             let tabBarController = self.baseConfigurator!.tabBarController!
@@ -252,7 +269,7 @@ extension DNSBaseStageViewController {
 
             self.endStageNavBarPush(navBarController: navigationController, viewModel)
 
-        case .navBarRoot?, .navBarRootInstant?:
+        case .navBarRoot?, .navBarRootInstant?, .navBarRootReplace? :
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
 

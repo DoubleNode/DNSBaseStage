@@ -105,6 +105,11 @@ open class DNSCoordinator: NSObject {
         
         completionBlock?(false)
     }
+    open func cancel() {
+        self.runState = .notStarted
+        
+        completionBlock?(false)
+    }
 
     // MARK: - Intent processing
 

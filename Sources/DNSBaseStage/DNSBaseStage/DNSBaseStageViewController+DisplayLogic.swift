@@ -308,7 +308,7 @@ extension DNSBaseStageViewController {
                     self.baseConfigurator?.navigationController = UINavigationController(rootViewController: self)
                 }
             default:
-                return
+                break
             }
         }
     }
@@ -325,7 +325,7 @@ extension DNSBaseStageViewController {
                                                                     action: #selector(closeNavBarButtonAction))
                 navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
             default:
-                return
+                break
             }
         }
     }

@@ -102,70 +102,40 @@ extension DNSBaseStageViewController {
             break
 
         case .modal?:
-            guard presentingViewController != nil else {
-                return
-            }
-            _ = DNSUIThread.run {
-                self.definesPresentationContext = true
-                self.modalPresentationStyle = UIModalPresentationStyle.automatic
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
-            }
+            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
+                                 animated: viewModel.animated,
+                                 presentingViewController: presentingViewController,
+                                 viewControllerToPresent: viewControllerToPresent)
 
         case .modalCurrentContext?:
-            guard presentingViewController != nil else {
-                return
-            }
-            _ = DNSUIThread.run {
-                self.definesPresentationContext = true
-                self.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
-            }
+            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
+                                 animated: viewModel.animated,
+                                 presentingViewController: presentingViewController,
+                                 viewControllerToPresent: viewControllerToPresent)
 
         case .modalFormSheet?:
-            guard presentingViewController != nil else {
-                return
-            }
-            _ = DNSUIThread.run {
-                self.definesPresentationContext = true
-                self.modalPresentationStyle = UIModalPresentationStyle.formSheet
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
-            }
+            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
+                                 animated: viewModel.animated,
+                                 presentingViewController: presentingViewController,
+                                 viewControllerToPresent: viewControllerToPresent)
 
         case .modalFullScreen?:
-            guard presentingViewController != nil else {
-                return
-            }
-            _ = DNSUIThread.run {
-                self.definesPresentationContext = true
-                self.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
-            }
+            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
+                                 animated: viewModel.animated,
+                                 presentingViewController: presentingViewController,
+                                 viewControllerToPresent: viewControllerToPresent)
 
         case .modalPageSheet?:
-            guard presentingViewController != nil else {
-                return
-            }
-            _ = DNSUIThread.run {
-                self.definesPresentationContext = true
-                self.modalPresentationStyle = UIModalPresentationStyle.pageSheet
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
-            }
+            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
+                                 animated: viewModel.animated,
+                                 presentingViewController: presentingViewController,
+                                 viewControllerToPresent: viewControllerToPresent)
 
         case .modalPopover?:
-            guard presentingViewController != nil else {
-                return
-            }
-            _ = DNSUIThread.run {
-                self.definesPresentationContext = true
-                self.modalPresentationStyle = UIModalPresentationStyle.popover
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-                presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated)
-            }
+            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
+                                 animated: viewModel.animated,
+                                 presentingViewController: presentingViewController,
+                                 viewControllerToPresent: viewControllerToPresent)
 
         case .navBarPush?, .navBarPushInstant?:
             guard self.baseConfigurator?.navigationController != nil else { return }
@@ -222,6 +192,24 @@ extension DNSBaseStageViewController {
         }
     }
 
+    private func startStageModal(modalPresentationStyle: UIModalPresentationStyle,
+                                 animated: Bool,
+                                 presentingViewController: UIViewController?,
+                                 viewControllerToPresent: UIViewController) {
+        guard presentingViewController != nil else {
+            return
+        }
+        _ = DNSUIThread.run {
+            self.definesPresentationContext = true
+            self.modalPresentationStyle = UIModalPresentationStyle.automatic
+            self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+            
+            presentingViewController!.present(viewControllerToPresent, animated: animated) {
+                (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
+            }
+        }
+    }
+    
     private func startStageNavBarPush(navBarController: UINavigationController,
                                       _ viewModel: DNSBaseStageModels.Start.ViewModel) {
         let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
@@ -253,6 +241,14 @@ extension DNSBaseStageViewController {
 
         self.displayType = viewModel.displayType
 
+        var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
+        if presentingViewController != nil {
+            if presentingViewController!.view.superview == nil ||
+                presentingViewController!.isBeingDismissed {
+                presentingViewController = presentingViewController!.parent
+            }
+        }
+
         switch self.displayType {
         case .none?:
             break
@@ -260,7 +256,10 @@ extension DNSBaseStageViewController {
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
             _ = DNSUIThread.run {
-                self.dismiss(animated: viewModel.animated)
+                (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
+                self.dismiss(animated: viewModel.animated) {
+                    (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
+                }
             }
 
         case .navBarPush?, .navBarPushInstant?:

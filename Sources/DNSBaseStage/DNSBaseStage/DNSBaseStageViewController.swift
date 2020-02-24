@@ -200,7 +200,6 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()
-        //self.implementDisplayOptionsPostStart()
         self.stageWillAppear()
     }
 

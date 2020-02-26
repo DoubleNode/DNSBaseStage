@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
           "branch": null,
-          "revision": "0c8cb78d05b6d067ee331c05058ff4dedcb45ffa",
-          "version": "5.0.0"
+          "revision": "b02c4ee7f1659090f7ac543c022f922beeb04bc6",
+          "version": "5.0.2"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/Alamofire/AlamofireImage.git",
         "state": {
           "branch": null,
-          "revision": "249c411e512e3017b6b426d099db448289db7eb3",
-          "version": "4.0.0-beta.6"
+          "revision": "d1337d47b9815185f71b1d60e2641dc80af0120b",
+          "version": "4.0.1"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "6475214c21fdd9c4e4186e7ac642514656332d80",
-          "version": "1.0.21"
+          "revision": "387ac472037836e888780e8435b1ba69c76906c6",
+          "version": "1.0.22"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "1879df7454f49c4daadc7c4d6992abd6ded3501b",
-          "version": "1.0.26"
+          "revision": "5066252fc18c2495d18f98a635e61868dd2f2dec",
+          "version": "1.0.31"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "ced723f1f1e106f29482c431650d592b721d0c9e",
-          "version": "1.0.9"
+          "revision": "4a69ad5510acea9ab757868e34920ca3f7c3cb03",
+          "version": "1.0.10"
         }
       },
       {
@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "42d3fc17a76e9e7faf15ccbb6c16fd66bae7e25a",
-          "version": "1.0.20"
+          "revision": "2af1bd7598dd3da418020fceb2b93e947613626d",
+          "version": "1.0.21"
         }
       },
       {
@@ -134,6 +134,15 @@
           "branch": null,
           "revision": "215191ff9e13160333157900d7954ef62054d64e",
           "version": "1.1.0"
+        }
+      },
+      {
+        "package": "IQKeyboardManagerSwift",
+        "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager.git",
+        "state": {
+          "branch": null,
+          "revision": "b0f0a127cca6bb39378447baa2afff74123abd09",
+          "version": "6.5.5"
         }
       },
       {

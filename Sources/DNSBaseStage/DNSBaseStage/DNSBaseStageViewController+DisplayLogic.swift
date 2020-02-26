@@ -67,6 +67,12 @@ extension DNSBaseStageViewController {
         stageWillDisappearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
+    open func stageWillHide() {
+        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        
+        stageWillHidePublisher.send(DNSBaseStageModels.Base.Request())
+    }
+
     // MARK: - Lifecycle Methods -
     
     public func startStage(_ viewModel: DNSBaseStageModels.Start.ViewModel) {
@@ -204,6 +210,7 @@ extension DNSBaseStageViewController {
             self.modalPresentationStyle = UIModalPresentationStyle.automatic
             self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
             
+            (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
             presentingViewController!.present(viewControllerToPresent, animated: animated) {
                 (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
             }
@@ -351,7 +358,7 @@ extension DNSBaseStageViewController {
                                                                         style: .plain,
                                                                         target: weakSelf,
                                                                         action: #selector(weakSelf.closeNavBarButtonAction))
-                    weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(systemName: SFSymbol.xmark.rawValue)
+                    weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
                 case .navBarHidden, .navBarHiddenInstant:
                     containsNavBarForced = true
                     let animated: Bool = (displayOption == .navBarHidden)

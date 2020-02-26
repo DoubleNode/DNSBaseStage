@@ -10,6 +10,7 @@ import Combine
 import DNSCore
 import DNSCoreThreading
 import DNSProtocols
+import IQKeyboardManagerSwift
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: class {
@@ -21,6 +22,7 @@ public protocol DNSBaseStageDisplayLogic: class {
     var stageDidLoadPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
     var stageWillAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
     var stageWillDisappearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
+    var stageWillHidePublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
 
     var closeNavBarButtonPublisher: PassthroughSubject<DNSBaseStageModels.Base.Request, Never> { get }
     var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never> { get }
@@ -30,7 +32,7 @@ public protocol DNSBaseStageDisplayLogic: class {
     var webErrorNavigationPublisher: PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never> { get }
 }
 
-open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic, UITextFieldDelegate, UITextViewDelegate {
+open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic {
     // MARK: - Public Associated Type Properties -
     public var baseConfigurator: DNSBaseStageConfigurator? {
         didSet {
@@ -46,6 +48,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     public let stageDidLoadPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageWillAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
     public let stageWillDisappearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
+    public let stageWillHidePublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
 
     public let closeNavBarButtonPublisher = PassthroughSubject<DNSBaseStageModels.Base.Request, Never>()
     public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never>()
@@ -89,25 +92,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     // MARK: - Public Properties -
     public var displayType: DNSBaseStage.DisplayType?
     public var displayOptions: DNSBaseStageDisplayOptions = []
-    public var keyboardBounds: CGRect = CGRect.zero
-    public var visibleMargin: CGFloat = 0.0
 
-    private var keyboardShowing: Bool = false
-    private var visibleOffset: CGFloat = 0.0
-
-    public var lastVisibleView: UIView? {
-        willSet(newLastVisibleView) {
-            if lastVisibleView == nil {
-                self.keyboardBounds = CGRect.zero
-            }
-
-            if self.keyboardShowing {
-                self.animateViewToAvoid(rect: self.keyboardBounds,
-                    with: 0.2,
-                    and: UIView.AnimationOptions.curveEaseInOut)
-            }
-        }
-    }
     public var stageTitle: String = "" {
         willSet(newStageTitle) {
             if stageBackTitle == stageTitle || stageBackTitle == "" {
@@ -187,17 +172,11 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-
-        self.visibleMargin = 10.0
-
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.toolbarManageBehaviour = .bySubviews
+        IQKeyboardManager.shared.toolbarPreviousNextAllowedClasses.append(DNSBaseStageFormView.self)
+        
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()
         self.stageWillAppear()
@@ -220,7 +199,6 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        self.stageDidDisappear()
         if (self.navigationController != nil) &&
             self.navigationController?.viewControllers.contains(self) ?? false {
             self.stageDidHide()
@@ -232,98 +210,8 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
             return
         }
 
+        self.stageDidDisappear()
         self.stageDidClose()
-    }
-
-    // MARK: - Notification Observer methods -
-
-    @objc
-    open func keyboardWillShow(notification: Notification) {
-        guard !self.keyboardShowing else { return }
-        guard self.lastVisibleView != nil else { return }
-        
-        self.keyboardShowing = true
-
-        let keyboardBounds: CGRect? = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-        guard keyboardBounds != nil else { return }
-
-        let duration: TimeInterval =
-            notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval ?? 0.2
-        let curve: UIView.AnimationOptions =
-            notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UIView.AnimationOptions ??
-                UIView.AnimationOptions.curveEaseInOut
-
-        self.animateViewToAvoid(rect: keyboardBounds!,
-            with: duration,
-            and: curve)
-    }
-
-    @objc
-    open func keyboardWillHide(notification: Notification) {
-        guard self.keyboardShowing else { return }
-        guard self.lastVisibleView != nil else { return }
-
-        self.keyboardShowing = false
-
-        let duration: TimeInterval =
-            notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval ?? 0.2
-        let curve: UIView.AnimationOptions =
-            notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UIView.AnimationOptions ??
-                UIView.AnimationOptions.curveEaseInOut
-
-        UIView.animate(withDuration: duration,
-                       delay: 0,
-                       options: [curve, UIView.AnimationOptions.beginFromCurrentState],
-                       animations: {
-                        self.view.y += self.visibleOffset
-                        self.visibleOffset = 0
-        }, completion: { (_) in
-            self.keyboardBounds = CGRect.zero
-        })
-    }
-
-    func animateViewToAvoid(rect: CGRect, with duration: TimeInterval, and curve: UIView.AnimationOptions) {
-        guard self.view.visible else { return }
-
-        let lastVisibleBounds = self.lastVisibleView?.superview?.convert(self.lastVisibleView!.frame,
-                                                                         to: self.view)
-        guard lastVisibleBounds != nil else { return }
-
-        UIView.animate(withDuration: duration,
-                       delay: 0,
-                       options: [curve, UIView.AnimationOptions.beginFromCurrentState],
-                       animations: {
-            let visibleHeight = self.view.height - rect.height
-            let lastVisiblePointY = lastVisibleBounds!.origin.y + lastVisibleBounds!.size.height + 14.0
-
-            if self.visibleOffset != 0 {
-                self.view.y += self.visibleOffset
-                self.visibleOffset = 0
-            }
-
-            if (self.lastVisibleView != nil) && (self.visibleOffset == 0) &&
-                (visibleHeight < (lastVisiblePointY + self.visibleMargin)) {
-                self.visibleOffset = lastVisiblePointY - visibleHeight + self.visibleMargin
-                self.view.y -= self.visibleOffset
-            }
-        }, completion: { (_) in
-            self.keyboardBounds = rect
-        })
-    }
-
-    // MARK: - UITextFieldDelegate methods -
-
-    open func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.lastVisibleView = textField
-    }
-    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-    }
-
-    // MARK: - UITextViewDelegate methods -
-
-    open func textViewDidBeginEditing(_ textView: UITextView) {
-        self.lastVisibleView = textView
     }
 
     // MARK: - Gesture Recognizer methods -
@@ -331,8 +219,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
     }
-    
-    
+
     // MARK: - Action methods -
 
     @IBAction func closeNavBarButtonAction(sender: UIBarButtonItem) {

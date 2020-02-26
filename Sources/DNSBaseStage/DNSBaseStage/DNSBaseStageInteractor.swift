@@ -47,6 +47,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var stageDidLoadSubscriber: AnyCancellable?
     var stageWillAppearSubscriber: AnyCancellable?
     var stageWillDisappearSubscriber: AnyCancellable?
+    var stageWillHideSubscriber: AnyCancellable?
 
     var closeNavBarButtonSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
@@ -70,6 +71,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
             .sink { request in self.stageWillAppear(request) }
         stageWillDisappearSubscriber = baseViewController.stageWillDisappearPublisher
             .sink { request in self.stageWillDisappear(request) }
+        stageWillHideSubscriber = baseViewController.stageWillHidePublisher
+            .sink { request in self.stageWillHide(request) }
 
         closeNavBarButtonSubscriber = baseViewController.closeNavBarButtonPublisher
             .sink { request in self.doCloseNavBar(request) }
@@ -191,6 +194,10 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
 
+    open func stageWillHide(_ request: DNSBaseStageBaseRequest) {
+        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+    }
+    
     // MARK: - Business Logic -
     
     open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {

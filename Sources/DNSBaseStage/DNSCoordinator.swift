@@ -96,17 +96,23 @@ open class DNSCoordinator: NSObject {
         self.children = []
     }
     open func stop() {
-        self.runState = .notStarted
+        guard self.runState != .terminated else { return }
+
+        self.runState = .terminated
         
         completionBlock?(true)
     }
     open func stopAndCancel() {
-        self.runState = .notStarted
+        guard self.runState != .terminated else { return }
+        
+        self.runState = .terminated
         
         completionBlock?(false)
     }
     open func cancel() {
-        self.runState = .notStarted
+        guard self.runState != .terminated else { return }
+        
+        self.runState = .terminated
         
         completionBlock?(false)
     }

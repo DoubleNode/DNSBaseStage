@@ -156,6 +156,15 @@ extension DNSBaseStageViewController {
             let animated: Bool = (self.displayType == .navBarRoot)
 
             _ = DNSUIThread.run {
+                if navigationController.view.superview == nil {
+                    presentingViewController?.present(navigationController,
+                                                      animated: animated,
+                                                      completion: {
+                                                        navigationController.setViewControllers([ self ], animated: animated)
+                    })
+                    return
+                }
+                
                 navigationController.setViewControllers([ self ], animated: animated)
             }
 

@@ -254,6 +254,7 @@ open class DNSBaseStageModels {
     public enum Title {
         public struct Response: DNSBaseStageBaseResponse {
             public var title: String
+            public var tabBarImageName: String = ""
 
             public init(title: String) {
                 self.title = title
@@ -261,6 +262,8 @@ open class DNSBaseStageModels {
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var title: String
+            public var tabBarSelectedImage: UIImage?
+            public var tabBarUnselectedImage: UIImage?
 
             public init(title: String) {
                 self.title = title

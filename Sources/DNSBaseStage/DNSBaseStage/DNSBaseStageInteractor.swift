@@ -202,7 +202,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     
     open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-        
+
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
     open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {

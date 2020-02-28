@@ -69,7 +69,7 @@ extension DNSBaseStageViewController {
 
     open func stageWillHide() {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-        
+
         stageWillHidePublisher.send(DNSBaseStageModels.Base.Request())
     }
 
@@ -102,7 +102,7 @@ extension DNSBaseStageViewController {
             // swiftlint:disable:next force_cast line_length
             viewControllerToPresent = self.baseConfigurator!.navigationController!
         }
-        
+
         switch self.displayType {
         case .none?:
             break
@@ -496,7 +496,16 @@ extension DNSBaseStageViewController {
     public func displayTitle(_ viewModel: DNSBaseStageModels.Title.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.stageTitle = viewModel.title
+        _ = DNSUIThread.run {
+            self.tabBarItem.image = viewModel.tabBarUnselectedImage
+            self.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+
+            self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage
+            self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+
+            // This need to be AFTER the tabBar image assignments above
+            self.stageTitle = viewModel.title
+        }
     }
 
     // MARK: - parent class methods -

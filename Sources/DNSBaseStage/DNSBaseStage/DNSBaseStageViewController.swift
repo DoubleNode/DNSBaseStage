@@ -176,7 +176,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.toolbarManageBehaviour = .bySubviews
         IQKeyboardManager.shared.toolbarPreviousNextAllowedClasses.append(DNSBaseStageFormView.self)
-        
+
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()
         self.stageWillAppear()

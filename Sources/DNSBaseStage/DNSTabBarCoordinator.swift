@@ -65,12 +65,12 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         }
 
         self.savedViewControllers = nil
-        
+
         super.stop()
     }
     override open func cancel() {
         self.savedViewControllers = nil
-        
+
         super.cancel()
     }
 }

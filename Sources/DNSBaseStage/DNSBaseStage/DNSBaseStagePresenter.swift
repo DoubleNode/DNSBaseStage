@@ -196,6 +196,11 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     open func presentTitle(_ response: DNSBaseStageModels.Title.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        titlePublisher.send(DNSBaseStageModels.Title.ViewModel(title: response.title))
+        var viewModel = DNSBaseStageModels.Title.ViewModel(title: response.title)
+        if !(response.tabBarImageName.isEmpty) {
+            viewModel.tabBarSelectedImage = UIImage(named: "\(response.tabBarImageName)Selected")
+            viewModel.tabBarUnselectedImage = UIImage(named: "\(response.tabBarImageName)Unselected")
+        }
+        titlePublisher.send(viewModel)
     }
 }

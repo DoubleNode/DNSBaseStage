@@ -40,7 +40,7 @@ open class DNSCoordinator: NSObject {
 
     public init(with parent: DNSCoordinator? = nil) {
         self.parent = parent
-        
+
         _ = DNSUIThread.run {
             UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
         }
@@ -50,7 +50,7 @@ open class DNSCoordinator: NSObject {
 
     open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
-        
+
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -63,7 +63,7 @@ open class DNSCoordinator: NSObject {
     open func start(with openURLContexts: Set<UIOpenURLContext>,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
-        
+
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -76,7 +76,7 @@ open class DNSCoordinator: NSObject {
     open func start(with userActivity: NSUserActivity,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
-        
+
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -99,21 +99,21 @@ open class DNSCoordinator: NSObject {
         guard self.runState != .terminated else { return }
 
         self.runState = .terminated
-        
+
         completionBlock?(true)
     }
     open func stopAndCancel() {
         guard self.runState != .terminated else { return }
-        
+
         self.runState = .terminated
-        
+
         completionBlock?(false)
     }
     open func cancel() {
         guard self.runState != .terminated else { return }
-        
+
         self.runState = .terminated
-        
+
         completionBlock?(false)
     }
 
@@ -154,7 +154,7 @@ open class DNSCoordinator: NSObject {
                 lastCoordinator = lastCoordinator?.parent
                 configurator.parentConfigurator = lastCoordinator?.latestConfigurator
         }
-        
+
         _ = configurator.runStage(with: self,
                                   and: displayType,
                                   with: displayOptions,

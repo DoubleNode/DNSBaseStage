@@ -191,7 +191,7 @@ extension DNSBaseStageViewController {
 
             let animated: Bool = (self.displayType == .tabBarAdd)
 
-            _ = DNSUIThread.run {
+            _ = DNSUIThread.run(after: 0.1) {
                 var viewControllers = tabBarController.viewControllers ?? []
                 if viewControllers.contains(viewControllerToPresent) {
                     let index = viewControllers.firstIndex(of: viewControllerToPresent)
@@ -497,11 +497,14 @@ extension DNSBaseStageViewController {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         _ = DNSUIThread.run {
-            self.tabBarItem.image = viewModel.tabBarUnselectedImage
-            self.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
-
-            self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage
-            self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+            if viewModel.tabBarUnselectedImage != nil {
+                self.tabBarItem.image = viewModel.tabBarUnselectedImage
+                self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage
+            }
+            if viewModel.tabBarSelectedImage != nil {
+                self.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+                self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+            }
 
             // This need to be AFTER the tabBar image assignments above
             self.stageTitle = viewModel.title

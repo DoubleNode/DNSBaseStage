@@ -14,6 +14,7 @@ import UIKit
 public typealias DNSCoordinatorBlock = () -> Void
 public typealias DNSCoordinatorBoolBlock = (Bool) -> Void
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void
+public typealias DNSCoordinatorResultsBlock = (DNSBaseStageBaseResults?) -> Void
 
 open class DNSCoordinator: NSObject {
     public enum RunState {
@@ -119,12 +120,13 @@ open class DNSCoordinator: NSObject {
 
     // MARK: - Intent processing
 
-    open func run(actions: [String: DNSCoordinatorBlock],
+    open func run(actions: [String: DNSCoordinatorResultsBlock],
                   for intent: String,
-                  onBlank: DNSCoordinatorBlock = { },
-                  orNoMatch: DNSCoordinatorBlock = { }) {
+                  with results: DNSBaseStageBaseResults?,
+                  onBlank: DNSCoordinatorResultsBlock = { _ in },
+                  orNoMatch: DNSCoordinatorResultsBlock = { _ in }) {
         if intent.isEmpty {
-            onBlank()
+            onBlank(results)
             return
         }
 
@@ -133,12 +135,12 @@ open class DNSCoordinator: NSObject {
         actions.forEach { (key, value) in
             if key == intent {
                 matchFound = true
-                value()
+                value(results)
             }
         }
 
         if !matchFound {
-            orNoMatch()
+            orNoMatch(results)
         }
     }
 
@@ -146,7 +148,7 @@ open class DNSCoordinator: NSObject {
                            and displayType: DNSBaseStage.DisplayType,
                            with displayOptions: DNSBaseStageDisplayOptions = [],
                            and initializationObject: DNSBaseStageBaseInitialization,
-                           thenRunActions actions: [String: DNSCoordinatorBlock]) {
+                           thenRunActions actions: [String: DNSCoordinatorResultsBlock]) {
         var lastCoordinator: DNSCoordinator? = self
         configurator.parentConfigurator = lastCoordinator?.latestConfigurator
         while (lastCoordinator != nil) &&
@@ -158,12 +160,13 @@ open class DNSCoordinator: NSObject {
         _ = configurator.runStage(with: self,
                                   and: displayType,
                                   with: displayOptions,
-                                  and: initializationObject) { (_, intent, _, _) in
+                                  and: initializationObject) { (_, intent, _, results) in
                                     self.latestConfigurator = configurator
                                     self.run(actions: actions,
                                              for: intent,
-                                             onBlank: actions[DNSBaseStage.C.onBlank] ?? { },
-                                             orNoMatch: actions[DNSBaseStage.C.orNoMatch] ?? { })
+                                             with: results,
+                                             onBlank: actions[DNSBaseStage.C.onBlank] ?? { _ in },
+                                             orNoMatch: actions[DNSBaseStage.C.orNoMatch] ?? { _ in })
                                     self.latestConfigurator = nil
         }
     }

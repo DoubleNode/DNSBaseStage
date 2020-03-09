@@ -104,11 +104,11 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         }
     }
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet weak var disabledView: UIView?
-    @IBOutlet weak var disabledViewTopConstraint: NSLayoutConstraint?
-    @IBOutlet weak var tapToDismissView: UIView?
-    @IBOutlet weak var titleLabel: UILabel?
+    @IBOutlet public weak var activityIndicator: UIActivityIndicatorView?
+    @IBOutlet public weak var disabledView: UIView?
+    @IBOutlet public weak var disabledViewTopConstraint: NSLayoutConstraint?
+    @IBOutlet public weak var tapToDismissView: UIView?
+    @IBOutlet public weak var titleLabel: UILabel?
 
     // MARK: - Workers -
     public var analyticsWorker: PTCLAnalytics_Protocol?

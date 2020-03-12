@@ -174,6 +174,12 @@ extension DNSBaseStageViewController {
             
             _ = DNSUIThread.run {
                 var viewControllers = navigationController.viewControllers
+                
+                self.tabBarItem.image = self.navigationController?.tabBarItem.image ??
+                    viewControllers.first?.tabBarItem.image
+                self.tabBarItem.selectedImage = self.navigationController?.tabBarItem.selectedImage ??
+                    viewControllers.first?.tabBarItem.selectedImage
+                
                 if viewControllers.contains(self) {
                     let index = viewControllers.firstIndex(of: self)
                     if index! > 0 {
@@ -181,7 +187,7 @@ extension DNSBaseStageViewController {
                     }
                 }
                 viewControllers[0] = self
-
+                
                 navigationController.setViewControllers(viewControllers, animated: false)
             }
             

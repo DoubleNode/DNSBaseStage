@@ -118,6 +118,16 @@ open class DNSCoordinator: NSObject {
         completionBlock?(false)
     }
 
+    open func update(from sender: DNSCoordinator? = nil) {
+        guard self.runState != .terminated else { return }
+        
+        for child in children {
+            if child != sender {
+                child.update()
+            }
+        }
+    }
+    
     // MARK: - Intent processing
 
     open func run(actions: [String: DNSCoordinatorResultsBlock],

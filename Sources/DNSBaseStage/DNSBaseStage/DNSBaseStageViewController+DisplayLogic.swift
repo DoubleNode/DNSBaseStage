@@ -478,7 +478,14 @@ extension DNSBaseStageViewController {
                                                              preferredStyle: UIAlertController.Style.alert)
                 alertController.addAction(UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default))
 
-                self.present(alertController, animated: true)
+                var presentingViewController: UIViewController = self
+                if presentingViewController.view.superview == nil ||
+                    presentingViewController.isBeingDismissed {
+                    if presentingViewController.parent != nil {
+                        presentingViewController = presentingViewController.parent!
+                    }
+                }
+                presentingViewController.present(alertController, animated: true)
             case .toastError:
                 self.updateToastDisplay(message: viewModel.message, state: .error)
             case .toastInfo:

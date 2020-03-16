@@ -87,10 +87,10 @@ open class DNSBaseStageConfigurator {
     open func endStage(with intent: String,
                        and dataChanged: Bool,
                        and results: DNSBaseStageBaseResults?) {
-        baseInteractor.removeStage()
-
         _ = DNSUIThread.run(after: 0.3) {
             self.intentBlock?(true, intent, dataChanged, results)
+
+            self.baseInteractor.removeStage()
         }
     }
 

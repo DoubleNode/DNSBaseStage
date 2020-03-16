@@ -329,9 +329,14 @@ extension DNSBaseStageViewController {
         let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
 
         guard navBarController.viewControllers.contains(self) else { return }
-        guard navBarController.viewControllers.count > 1 else { return }
+        guard !navBarController.viewControllers.isEmpty else { return }
 
-        _ = DNSUIThread.run(after: 0.1) {
+        var delay = 0.1
+        if !self.children.isEmpty {
+            delay = 0.5
+        }
+        
+        _ = DNSUIThread.run(after: delay) {
             navBarController.popViewController(animated: animated)
         }
     }

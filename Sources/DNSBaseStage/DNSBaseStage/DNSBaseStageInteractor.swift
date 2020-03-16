@@ -133,8 +133,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
                        with intent: String,
                        and dataChanged: Bool,
                        and results: DNSBaseStageBaseResults?) {
+        let shouldEndStage = self.shouldEndStage()
         if conditionally &&
-            !self.shouldEndStage() {
+            !shouldEndStage {
             return
         }
 

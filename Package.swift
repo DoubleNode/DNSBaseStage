@@ -1,5 +1,11 @@
-// swift-tools-version:5.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.3
+//
+//  Package.swift
+//  DoubleNode Swift Framework (DNSFramework) - DNSBaseStage
+//
+//  Created by Darren Ehlers.
+//  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
+//
 
 import PackageDescription
 
@@ -19,13 +25,14 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.0.4"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.0.32"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.0.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.0.0"),
-        .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.0.8"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.1.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.1.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.1.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.1.0"),
+        .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.1.0"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.2.1"),
-        .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.5"),
+        .package(name: "IQKeyboardManagerSwift",
+                 url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.5"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.1.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.5.0"),
         .package(url: "https://github.com/Nirma/SFSymbol", from: "0.2.0"),
@@ -50,5 +57,6 @@ let package = Package(
         .testTarget(
             name: "DNSBaseStageTests",
             dependencies: ["DNSBaseStage"]),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )

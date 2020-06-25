@@ -1,9 +1,9 @@
 //
 //  DNSBaseStageViewController+DisplayLogic.swift
-//  DoubleNode Core - DNSBaseScene
+//  DoubleNode Swift Framework (DNSFramework) - DNSBaseStage
 //
-//  Created by Darren Ehlers on 2019/08/12.
-//  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
+//  Created by Darren Ehlers.
+//  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import Combine
@@ -155,7 +155,7 @@ extension DNSBaseStageViewController {
 
             let animated: Bool = (self.displayType == .navBarRoot)
 
-            _ = DNSUIThread.run {
+            DNSUIThread.run {
                 if navigationController.view.superview == nil {
                     presentingViewController?.present(navigationController,
                                                       animated: animated,
@@ -172,7 +172,7 @@ extension DNSBaseStageViewController {
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
             
-            _ = DNSUIThread.run {
+            DNSUIThread.run {
                 var viewControllers = navigationController.viewControllers
                 
                 self.tabBarItem.image = self.navigationController?.tabBarItem.image ??
@@ -220,7 +220,7 @@ extension DNSBaseStageViewController {
         guard presentingViewController != nil else {
             return
         }
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             self.definesPresentationContext = true
             self.modalPresentationStyle = UIModalPresentationStyle.automatic
             self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
@@ -236,7 +236,7 @@ extension DNSBaseStageViewController {
                                       _ viewModel: DNSBaseStageModels.Start.ViewModel) {
         let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
 
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             guard !navBarController.viewControllers.isEmpty else {
                 navBarController.setViewControllers([ self ], animated: animated)
                 return
@@ -277,7 +277,7 @@ extension DNSBaseStageViewController {
 
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
-            _ = DNSUIThread.run {
+            DNSUIThread.run {
                 (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
                 self.dismiss(animated: viewModel.animated) {
                     (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
@@ -296,7 +296,7 @@ extension DNSBaseStageViewController {
 
             guard navigationController.viewControllers.contains(self) else { return }
             
-            _ = DNSUIThread.run {
+            DNSUIThread.run {
                 navigationController.dismiss(animated: viewModel.animated) {
                     self.baseConfigurator?.navigationController = nil
                 }
@@ -314,7 +314,7 @@ extension DNSBaseStageViewController {
             let index = viewControllers?.firstIndex(of: self)
             viewControllers?.remove(at: index!)
 
-            _ = DNSUIThread.run {
+            DNSUIThread.run {
                 tabBarController.setViewControllers(viewControllers, animated: animated)
                 self.removeFromParent()
             }
@@ -345,7 +345,7 @@ extension DNSBaseStageViewController {
         guard !displayOptions.isEmpty else { return }
 
         weak var weakSelf = self
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             guard weakSelf != nil else { return }
             let weakSelf = weakSelf!
             for displayOption in weakSelf.displayOptions {
@@ -365,7 +365,7 @@ extension DNSBaseStageViewController {
         guard !displayOptions.isEmpty else { return }
 
         weak var weakSelf = self
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             guard weakSelf != nil else { return }
             let weakSelf = weakSelf!
 
@@ -409,7 +409,7 @@ extension DNSBaseStageViewController {
     public func displayConfirmation(_ viewModel: DNSBaseStageModels.Confirmation.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             var alertStyle = viewModel.alertStyle
             if DNSDevice.iPad {
                 alertStyle = UIAlertController.Style.alert
@@ -469,7 +469,7 @@ extension DNSBaseStageViewController {
     public func displayMessage(_ viewModel: DNSBaseStageModels.Message.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             switch viewModel.style {
             case .none:
                 break
@@ -506,7 +506,7 @@ extension DNSBaseStageViewController {
     public func displaySpinner(_ viewModel: DNSBaseStageModels.Spinner.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
@@ -514,7 +514,7 @@ extension DNSBaseStageViewController {
     public func displayTitle(_ viewModel: DNSBaseStageModels.Title.ViewModel) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        _ = DNSUIThread.run {
+        DNSUIThread.run {
             if viewModel.tabBarUnselectedImage != nil {
                 self.tabBarItem.image = viewModel.tabBarUnselectedImage
                 self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage

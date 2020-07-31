@@ -27,7 +27,7 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard (scene as? UIWindowScene) != nil else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start() { (success) in }
+            self.coordinator?.start() { (success: Bool) in }
         }
     }
 
@@ -39,7 +39,7 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard (scene as? UIWindowScene) != nil else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start(with: URLContexts) { (success) in }
+            self.coordinator?.start(with: URLContexts) { (success: Bool) in }
         }
     }
 
@@ -48,7 +48,7 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard (scene as? UIWindowScene) != nil else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start(with: userActivity) { (success) in }
+            self.coordinator?.start(with: userActivity) { (success: Bool) in }
         }
     }
 

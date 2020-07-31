@@ -48,6 +48,32 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         }
     }
 
+    override open func start(then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        super.start(then: completionResultsBlock)
+        
+        DNSUIThread.run {
+            self.savedViewControllers = self.navigationController?.viewControllers
+        }
+    }
+    override open func start(with openURLContexts: Set<UIOpenURLContext>,
+                             then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        super.start(with: openURLContexts,
+                    then: completionResultsBlock)
+        
+        DNSUIThread.run {
+            self.savedViewControllers = self.navigationController?.viewControllers
+        }
+    }
+    override open func start(with userActivity: NSUserActivity,
+                             then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        super.start(with: userActivity,
+                    then: completionResultsBlock)
+        
+        DNSUIThread.run {
+            self.savedViewControllers = self.navigationController?.viewControllers
+        }
+    }
+
     override open func reset() {
         super.reset()
 

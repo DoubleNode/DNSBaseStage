@@ -32,6 +32,7 @@ open class DNSCoordinator: NSObject {
         }
     }
     var completionBlock: DNSCoordinatorBoolBlock?
+    var completionResultsBlock: DNSCoordinatorResultsBlock?
 
     public var children: [DNSCoordinator] = []
     public var runState: RunState = .notStarted
@@ -64,6 +65,7 @@ open class DNSCoordinator: NSObject {
     open func start(with openURLContexts: Set<UIOpenURLContext>,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
+        self.completionResultsBlock = nil
 
         switch self.runState {
         case .started, .terminated:
@@ -77,6 +79,7 @@ open class DNSCoordinator: NSObject {
     open func start(with userActivity: NSUserActivity,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
+        self.completionResultsBlock = nil
 
         switch self.runState {
         case .started, .terminated:
@@ -87,6 +90,49 @@ open class DNSCoordinator: NSObject {
             self.runState = .started
         }
     }
+    
+    open func start(then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        self.completionBlock = nil
+        self.completionResultsBlock = completionResultsBlock
+        
+        switch self.runState {
+        case .started, .terminated:
+            self.reset()
+            
+        //case .notStarted:
+        default:
+            self.runState = .started
+        }
+    }
+    open func start(with openURLContexts: Set<UIOpenURLContext>,
+                    then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        self.completionBlock = nil
+        self.completionResultsBlock = completionResultsBlock
+
+        switch self.runState {
+        case .started, .terminated:
+            self.reset()
+            
+        //case .notStarted:
+        default:
+            self.runState = .started
+        }
+    }
+    open func start(with userActivity: NSUserActivity,
+                    then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        self.completionBlock = nil
+        self.completionResultsBlock = completionResultsBlock
+        
+        switch self.runState {
+        case .started, .terminated:
+            self.reset()
+            
+        //case .notStarted:
+        default:
+            self.runState = .started
+        }
+    }
+
     open func reset() {
         self.runState = .notStarted
 
@@ -102,6 +148,7 @@ open class DNSCoordinator: NSObject {
         self.runState = .terminated
 
         completionBlock?(true)
+        completionResultsBlock?(nil)
     }
     open func stopAndCancel() {
         guard self.runState != .terminated else { return }
@@ -109,6 +156,7 @@ open class DNSCoordinator: NSObject {
         self.runState = .terminated
 
         completionBlock?(false)
+        completionResultsBlock?(nil)
     }
     open func cancel() {
         guard self.runState != .terminated else { return }
@@ -116,6 +164,7 @@ open class DNSCoordinator: NSObject {
         self.runState = .terminated
 
         completionBlock?(false)
+        completionResultsBlock?(nil)
     }
 
     open func update(from sender: DNSCoordinator? = nil) {

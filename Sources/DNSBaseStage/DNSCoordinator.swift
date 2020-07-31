@@ -142,13 +142,13 @@ open class DNSCoordinator: NSObject {
 
         self.children = []
     }
-    open func stop() {
+    open func stop(with results: DNSBaseStageBaseResults? = nil) {
         guard self.runState != .terminated else { return }
 
         self.runState = .terminated
 
         completionBlock?(true)
-        completionResultsBlock?(nil)
+        completionResultsBlock?(results)
     }
     open func stopAndCancel() {
         guard self.runState != .terminated else { return }

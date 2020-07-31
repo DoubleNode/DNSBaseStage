@@ -79,7 +79,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
 
         self.savedViewControllers = nil
     }
-    override open func stop() {
+    override open func stop(with results: DNSBaseStageBaseResults? = nil) {
         if self.savedViewControllers != nil {
             DNSUIThread.run {
                 self.navigationController?.setViewControllers(self.savedViewControllers!,
@@ -89,7 +89,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
 
         self.savedViewControllers = nil
 
-        super.stop()
+        super.stop(with: results)
     }
     override open func cancel() {
         self.savedViewControllers = nil

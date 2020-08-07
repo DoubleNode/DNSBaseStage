@@ -132,18 +132,6 @@ extension DNSBaseStageViewController {
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalPageSheet?:
-            guard viewControllerToPresent.view.superview == nil else {
-                viewControllerToPresent.dismiss(animated: false) {
-                    _ = DNSUIThread.run(after: 10) {
-                        self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
-                                             animated: false,
-                                             presentingViewController: presentingViewController,
-                                             viewControllerToPresent: viewControllerToPresent)
-                    }
-                }
-                return
-            }
-
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,

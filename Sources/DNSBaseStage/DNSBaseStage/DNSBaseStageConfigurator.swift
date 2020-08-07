@@ -112,6 +112,12 @@ open class DNSBaseStageConfigurator {
         return baseViewController
     }
 
+    open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {
+        self.initializationObject = initializationObject
+
+        baseInteractor.updateStage(with: initializationObject)
+    }
+
     open func send(intent: String,
                    with dataChanged: Bool,
                    and results: DNSBaseStageBaseResults?) {

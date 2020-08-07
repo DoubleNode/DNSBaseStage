@@ -230,6 +230,11 @@ open class DNSCoordinator: NSObject {
         }
     }
 
+    public func updateStage(_ configurator: DNSBaseStageConfigurator,
+                            with initializationObject: DNSBaseStageBaseInitialization) {
+        configurator.updateStage(with: initializationObject)
+    }
+
     // MARK: - Utility methods
 
     public func utilityShowSectionStatusMessage(with title: String,

@@ -115,6 +115,10 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
                                                                    displayOptions: displayOptions))
     }
 
+    open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {
+        self.baseInitializationObject = initializationObject
+    }
+
     open func shouldEndStage() -> Bool {
         let retval = !self.hasStageEnded
 

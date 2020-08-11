@@ -25,5 +25,16 @@ open class DNSBaseStageCollectionReusableView: UICollectionReusableView, DNSBase
 
     override open func awakeFromNib() {
         super.awakeFromNib()
+
+        self.contentInit()
+    }
+
+    override open func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.contentInit()
+    }
+
+    open func contentInit() {
     }
 }

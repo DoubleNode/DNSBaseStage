@@ -481,7 +481,10 @@ extension DNSBaseStageViewController {
                 let alertController = UIAlertController.init(title: viewModel.title,
                                                              message: viewModel.message,
                                                              preferredStyle: UIAlertController.Style.alert)
-                alertController.addAction(UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default))
+                let alertAction = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default) { (_) in
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request())
+                }
+                alertController.addAction(alertAction)
 
                 var presentingViewController: UIViewController = self
                 if presentingViewController.view.superview == nil ||

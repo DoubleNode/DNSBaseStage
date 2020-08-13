@@ -197,6 +197,8 @@ open class DNSBaseStageModels {
         }
     }
     public enum Message {
+        public struct Request: DNSBaseStageBaseRequest {
+        }
         public struct Response: DNSBaseStageBaseResponse {
             public var message: String
             public var percentage: Float = -1

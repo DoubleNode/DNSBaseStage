@@ -27,6 +27,7 @@ public protocol DNSBaseStageDisplayLogic: class {
     var closeNavBarButtonPublisher: PassthroughSubject<DNSBaseStageModels.Base.Request, Never> { get }
     var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never> { get }
     var errorOccurredPublisher: PassthroughSubject<DNSBaseStageModels.Error.Request, Never> { get }
+    var messageDonePublisher: PassthroughSubject<DNSBaseStageModels.Message.Request, Never> { get }
     var webStartNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
     var webFinishNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
     var webErrorNavigationPublisher: PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never> { get }
@@ -53,6 +54,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     public let closeNavBarButtonPublisher = PassthroughSubject<DNSBaseStageModels.Base.Request, Never>()
     public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Request, Never>()
     public let errorOccurredPublisher = PassthroughSubject<DNSBaseStageModels.Error.Request, Never>()
+    public let messageDonePublisher = PassthroughSubject<DNSBaseStageModels.Message.Request, Never>()
     public let webStartNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
     public let webFinishNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
     public let webErrorNavigationPublisher = PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never>()

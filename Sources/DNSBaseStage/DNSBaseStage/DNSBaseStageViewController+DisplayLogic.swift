@@ -436,20 +436,26 @@ extension DNSBaseStageViewController {
             for viewModelButton in viewModel.buttons where viewModelButton.title?.count ?? 0 > 0 {
                 let button = UIAlertAction.init(title: viewModelButton.title,
                                                 style: viewModelButton.style!) { (_) in
-                    var value1: String?
-                    var value2: String?
+                    var textField1: DNSBaseStageModels.Confirmation.Request.TextField?
+                    var textField2: DNSBaseStageModels.Confirmation.Request.TextField?
 
                     if alertController.textFields?.count ?? 0 > 0 {
-                        value1 = alertController.textFields?[0].text
+                        textField1 = DNSBaseStageModels.Confirmation.Request.TextField()
+                        textField1!.value = alertController.textFields?[0].text
                     }
                     if alertController.textFields?.count ?? 0 > 1 {
-                        value2 = alertController.textFields?[1].text
+                        textField2 = DNSBaseStageModels.Confirmation.Request.TextField()
+                        textField2!.value = alertController.textFields?[1].text
                     }
 
                     let request = DNSBaseStageModels.Confirmation.Request()
                     request.selection = viewModelButton.code
-                    request.textFields[0].value = value1
-                    request.textFields[1].value = value2
+                    if textField1 != nil {
+                        request.textFields.append(textField1!)
+                    }
+                    if textField2 != nil {
+                        request.textFields.append(textField2!)
+                    }
                     request.userData = viewModel.userData
 
                     self.confirmationPublisher.send(request)

@@ -116,11 +116,15 @@ open class DNSBaseStageModels {
                 public var contentType: String?
                 public var keyboardType: UIKeyboardType?
                 public var placeholder: String?
+
+                public init() {}
             }
             public struct Button {
                 public var code: String?
                 public var style: UIAlertAction.Style?
                 public var title: String?
+
+                public init() {}
             }
 
             public init() {}

@@ -414,8 +414,10 @@ extension DNSBaseStageViewController {
             if DNSDevice.iPad {
                 alertStyle = UIAlertController.Style.alert
             }
-            if viewModel.textFields[0].placeholder?.count ?? 0 > 0 ||
-                viewModel.textFields[1].placeholder?.count ?? 0 > 0 {
+            let textFieldPlaceholder0 = (viewModel.textFields.count >= 1) ? viewModel.textFields[0].placeholder : ""
+            let textFieldPlaceholder1 = (viewModel.textFields.count >= 2) ? viewModel.textFields[1].placeholder : ""
+            if textFieldPlaceholder0?.count ?? 0 > 0 ||
+                textFieldPlaceholder1?.count ?? 0 > 0 {
                 alertStyle = UIAlertController.Style.alert
             }
 

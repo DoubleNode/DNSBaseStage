@@ -23,6 +23,10 @@ let package = Package(
             name: "DNSBaseStage",
             type: .static,
             targets: ["DNSBaseStage"]),
+        .library(
+            name: "kCustomAlert",
+            type: .static,
+            targets: ["kCustomAlert"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -52,9 +56,13 @@ let package = Package(
                 "FTLinearActivityIndicator",
                 "IQKeyboardManagerSwift",
                 "JGProgressHUD",
+                "kCustomAlert",
                 "Loaf",
                 "SFSymbol",
         ]),
+        .target(
+            name: "kCustomAlert",
+            dependencies: ["DNSCore"]),
         .testTarget(
             name: "DNSBaseStageTests",
             dependencies: ["DNSBaseStage"]),

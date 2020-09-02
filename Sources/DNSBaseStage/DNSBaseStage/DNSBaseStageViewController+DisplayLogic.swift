@@ -10,6 +10,7 @@ import Combine
 import DNSCore
 import DNSCoreThreading
 import JGProgressHUD
+import kCustomAlert
 import Loaf
 import SFSymbol
 import UIKit
@@ -486,22 +487,27 @@ extension DNSBaseStageViewController {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup:
-                let alertController = UIAlertController.init(title: viewModel.title,
-                                                             message: viewModel.message,
-                                                             preferredStyle: UIAlertController.Style.alert)
-                let alertAction = UIAlertAction.init(title: "OK", style: UIAlertAction.Style.default) { (_) in
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request())
-                }
-                alertController.addAction(alertAction)
+                var nibName = "DNSBaseStagePopupViewController"
+                var okayButton = "OK"
 
-                var presentingViewController: UIViewController = self
-                if presentingViewController.view.superview == nil ||
-                    presentingViewController.isBeingDismissed {
-                    if presentingViewController.parent != nil {
-                        presentingViewController = presentingViewController.parent!
-                    }
+                if !viewModel.nibName.isEmpty {
+                    nibName = viewModel.nibName
                 }
-                presentingViewController.present(alertController, animated: true)
+                if !viewModel.okayButton.isEmpty {
+                    okayButton = viewModel.okayButton
+                }
+
+                let actionOkay : [String: () -> Void] = [ okayButton : { (
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request())
+                ) }]
+                let actions = [ actionOkay ]
+
+                self.showCustomAlertWith(nibName: nibName,
+                                         title: viewModel.title,
+                                         message: viewModel.message,
+                                         descMsg: viewModel.message2,
+                                         itemimage: nil,
+                                         actions: actions)
             case .toastError:
                 self.updateToastDisplay(message: viewModel.message, state: .error)
             case .toastInfo:

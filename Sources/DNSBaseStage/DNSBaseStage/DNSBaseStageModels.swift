@@ -182,6 +182,9 @@ open class DNSBaseStageModels {
             public var style: Style
             public var title: String
 
+            public var nibName: String = ""
+            public var okayButton: String = ""
+
             public init(error: NSError, style: Style, title: String) {
                 self.error = error
                 self.style = style
@@ -192,6 +195,9 @@ open class DNSBaseStageModels {
             public var error: NSError
             public var style: Style
             public var title: String
+
+            public var nibName: String = ""
+            public var okayButton: String = ""
 
             public init(error: NSError, style: Style, title: String) {
                 self.error = error
@@ -205,9 +211,13 @@ open class DNSBaseStageModels {
         }
         public struct Response: DNSBaseStageBaseResponse {
             public var message: String
+            public var message2: String = ""
             public var percentage: Float = -1
             public var style: Style
             public var title: String
+
+            public var nibName: String = ""
+            public var okayButton: String = ""
 
             public init(message: String, style: Style, title: String) {
                 self.message = message
@@ -219,20 +229,25 @@ open class DNSBaseStageModels {
             public struct Colors {
                 public var background: UIColor?
                 public var message: UIColor?
+                public var message2: UIColor?
                 public var title: UIColor?
             }
             public struct Fonts {
                 public var message: UIFont?
+                public var message2: UIFont?
                 public var title: UIFont?
             }
 
             public var message: String
+            public var message2: String = ""
             public var percentage: Float = -1
             public var style: Style
             public var title: String
 
             public var colors: Colors?
             public var fonts: Fonts?
+            public var nibName: String = ""
+            public var okayButton: String = ""
 
             public init(message: String, percentage: Float = -1, style: Style, title: String) {
                 self.message = message

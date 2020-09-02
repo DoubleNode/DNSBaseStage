@@ -163,6 +163,8 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                        title: errorTitleColor)
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: errorMessageFont,
                                                                      title: errorTitleFont)
+        viewModel.nibName = response.nibName
+        viewModel.okayButton = response.okayButton
         self.messagePublisher.send(viewModel)
     }
     open func presentMessage(_ response: DNSBaseStageModels.Message.Response) {
@@ -172,11 +174,17 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                              percentage: response.percentage,
                                                              style: response.style,
                                                              title: response.title)
+        viewModel.message2 = response.message2
         viewModel.colors = DNSBaseStageModels.Message.ViewModel.Colors(background: defaultBackgroundColor,
                                                                        message: defaultMessageColor,
                                                                        title: defaultTitleColor)
+        viewModel.colors?.message2 = defaultMessageColor
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: defaultMessageFont,
                                                                      title: defaultTitleFont)
+        viewModel.fonts?.message2 = defaultMessageFont
+
+        viewModel.nibName = response.nibName
+        viewModel.okayButton = response.okayButton
         self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response) {

@@ -216,9 +216,11 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
-        self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
-                                                                   style: .popup,
-                                                                   title: request.title))
+        var response = DNSBaseStageModels.Error.Response(error: request.error,
+                                                         style: .popup,
+                                                         title: request.title)
+        response.okayButton = request.okayButton
+        self.errorPublisher.send(response)
     }
 
     open func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request) {

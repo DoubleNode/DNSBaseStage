@@ -133,6 +133,7 @@ extension DNSBaseStageViewController {
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalPageSheet?:
+            viewControllerToPresent = self
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,

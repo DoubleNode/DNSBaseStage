@@ -33,6 +33,13 @@ public protocol DNSBaseStageDisplayLogic: class {
     var webErrorNavigationPublisher: PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never> { get }
 }
 
+extension DNSBaseStageViewController: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                                  shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
 open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic {
     // MARK: - Public Associated Type Properties -
     public var baseConfigurator: DNSBaseStageConfigurator? {
@@ -178,6 +185,9 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.toolbarManageBehaviour = .bySubviews
         IQKeyboardManager.shared.toolbarPreviousNextAllowedClasses.append(DNSBaseStageFormView.self)
+
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()

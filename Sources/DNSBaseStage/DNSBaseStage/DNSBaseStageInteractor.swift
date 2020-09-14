@@ -55,6 +55,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var webStartNavigationSubscriber: AnyCancellable?
     var webFinishNavigationSubscriber: AnyCancellable?
     var webErrorNavigationSubscriber: AnyCancellable?
+    var webLoadProgressSubscriber: AnyCancellable?
 
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
         stageDidAppearSubscriber = baseViewController.stageDidAppearPublisher
@@ -86,6 +87,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
             .sink { request in self.doWebFinishNavigation(request) }
         webErrorNavigationSubscriber = baseViewController.webErrorNavigationPublisher
             .sink { request in self.doWebErrorNavigation(request) }
+        webLoadProgressSubscriber = baseViewController.webLoadProgressPublisher
+            .sink { request in self.doWebLoadProgress(request) }
     }
 
     // MARK: - Private Properties -
@@ -226,16 +229,17 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func doWebFinishNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
 
         self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
                                                                    style: .popup,
                                                                    title: "Web Error"))
+    }
+    open func doWebLoadProgress(_ request: DNSBaseStageModels.WebpageProgress.Request) {
+        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
 }

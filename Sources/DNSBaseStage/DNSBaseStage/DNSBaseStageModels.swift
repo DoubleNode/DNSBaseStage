@@ -300,6 +300,15 @@ open class DNSBaseStageModels {
             }
         }
     }
+    public enum WebpageProgress {
+        public struct Request: DNSBaseStageBaseRequest {
+            public var percentage: Double
+
+            public init(percentage: Double) {
+                self.percentage = percentage
+            }
+        }
+    }
     public enum WebpageError {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: URL

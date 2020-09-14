@@ -31,6 +31,7 @@ public protocol DNSBaseStageDisplayLogic: class {
     var webStartNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
     var webFinishNavigationPublisher: PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never> { get }
     var webErrorNavigationPublisher: PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never> { get }
+    var webLoadProgressPublisher: PassthroughSubject<DNSBaseStageModels.WebpageProgress.Request, Never> { get }
 }
 
 extension DNSBaseStageViewController: UIGestureRecognizerDelegate {
@@ -65,6 +66,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     public let webStartNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
     public let webFinishNavigationPublisher = PassthroughSubject<DNSBaseStageModels.Webpage.Request, Never>()
     public let webErrorNavigationPublisher = PassthroughSubject<DNSBaseStageModels.WebpageError.Request, Never>()
+    public var webLoadProgressPublisher = PassthroughSubject<DNSBaseStageModels.WebpageProgress.Request, Never>()
 
     // MARK: - Incoming Pipelines -
     var stageStartSubscriber: AnyCancellable?

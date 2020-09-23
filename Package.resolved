@@ -155,6 +155,24 @@
         }
       },
       {
+        "package": "Realm",
+        "repositoryURL": "https://github.com/realm/realm-cocoa.git",
+        "state": {
+          "branch": null,
+          "revision": "7f521797614f1331225d6444de0150e064e97b07",
+          "version": "5.4.3"
+        }
+      },
+      {
+        "package": "RealmCore",
+        "repositoryURL": "https://github.com/realm/realm-core",
+        "state": {
+          "branch": null,
+          "revision": "e051fc73c56830bf3ab0b8a82f7a613968cec6c6",
+          "version": "6.0.26"
+        }
+      },
+      {
         "package": "SFSymbol",
         "repositoryURL": "https://github.com/Nirma/SFSymbol",
         "state": {

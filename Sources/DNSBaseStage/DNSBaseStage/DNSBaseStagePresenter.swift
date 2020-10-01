@@ -196,7 +196,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             guard spinnerCount == 1 else { return }
 
             DNSThread.run(after: 0.3) {
-                guard spinnerCount >= 1 else { return }
+                guard self.spinnerCount >= 1 else { return }
 
                 let viewModel = DNSBaseStageModels.Spinner.ViewModel(show: response.show)
                 self.spinnerPublisher.send(viewModel)

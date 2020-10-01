@@ -7,6 +7,7 @@
 //
 
 import Combine
+import DNSCoreThreading
 import DNSProtocols
 import UIKit
 
@@ -193,13 +194,22 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         if response.show {
             spinnerCount += 1
             guard spinnerCount == 1 else { return }
+
+            DNSThread.run(after: 0.3) {
+                guard spinnerCount >= 1 else { return }
+
+                let viewModel = DNSBaseStageModels.Spinner.ViewModel(show: response.show)
+                self.spinnerPublisher.send(viewModel)
+            }
         } else {
             if spinnerCount > 0 {
                 spinnerCount -= 1
             }
             guard spinnerCount == 0 else { return }
+
+            let viewModel = DNSBaseStageModels.Spinner.ViewModel(show: response.show)
+            self.spinnerPublisher.send(viewModel)
         }
-        self.spinnerPublisher.send(DNSBaseStageModels.Spinner.ViewModel(show: response.show))
     }
     open func presentTitle(_ response: DNSBaseStageModels.Title.Response) {
         do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }

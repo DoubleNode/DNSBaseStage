@@ -23,6 +23,7 @@ public enum DNSBaseStage {
     }
     public enum DisplayType {
         case none
+        case simple
         case modal
         case modalCurrentContext
         case modalFormSheet

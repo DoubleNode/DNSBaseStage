@@ -105,12 +105,6 @@ extension DNSBaseStageViewController {
         }
 
         switch self.displayType {
-        case .simple?:
-            (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
-            presentingViewController!.present(viewControllerToPresent, animated: viewModel.animated) {
-                (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
-            }
-
         case .modal?:
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
                                  animated: viewModel.animated,
@@ -227,7 +221,7 @@ extension DNSBaseStageViewController {
         }
         DNSUIThread.run {
             self.definesPresentationContext = true
-            self.modalPresentationStyle = UIModalPresentationStyle.automatic
+            self.modalPresentationStyle = modalPresentationStyle
             self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
             
             (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
@@ -277,14 +271,6 @@ extension DNSBaseStageViewController {
         }
 
         switch self.displayType {
-        case .simple?:
-            DNSUIThread.run {
-                (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
-                self.dismiss(animated: viewModel.animated) {
-                    (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
-                }
-            }
-            
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
             DNSUIThread.run {

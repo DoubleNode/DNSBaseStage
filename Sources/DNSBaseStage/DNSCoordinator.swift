@@ -6,6 +6,7 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import AtomicSwift
 import DNSCore
 import DNSCoreThreading
 import FTLinearActivityIndicator
@@ -34,9 +35,13 @@ open class DNSCoordinator: NSObject {
     var completionBlock: DNSCoordinatorBoolBlock?
     var completionResultsBlock: DNSCoordinatorResultsBlock?
 
-    public var children: [DNSCoordinator] = []
-    public var runState: RunState = .notStarted
-    public var latestConfigurator: DNSBaseStageConfigurator?
+    @Atomic public var children: [DNSCoordinator] = []
+    @Atomic public var runState: RunState = .notStarted
+    @Atomic public var latestConfigurator: DNSBaseStageConfigurator?
+
+    public var isRunning: Bool {
+        return self.runState == .started
+    }
 
     // MARK: - Object lifecycle
 

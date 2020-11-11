@@ -42,6 +42,13 @@ open class DNSCoordinator: NSObject {
     public var isRunning: Bool {
         return self.runState == .started
     }
+    public var runningChildren: [DNSCoordinator] {
+        return self.children.filter { $0.isRunning }
+    }
+
+    open func cancelRunningChildren() {
+        self.runningChildren.forEach { $0.cancel() }
+    }
 
     // MARK: - Object lifecycle
 

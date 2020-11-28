@@ -95,6 +95,9 @@ extension DNSBaseStageViewController {
             }
         }
         if presentingViewController == nil {
+            presentingViewController = self.baseConfigurator?.rootViewController
+        }
+        if presentingViewController == nil {
             presentingViewController = DNSCore.appDelegate.rootViewController()
         }
 
@@ -216,20 +219,28 @@ extension DNSBaseStageViewController {
                                  animated: Bool,
                                  presentingViewController: UIViewController?,
                                  viewControllerToPresent: UIViewController) {
-        guard presentingViewController != nil else {
+        guard let presentingViewController = presentingViewController else {
             return
         }
         guard !self.isModal else {
             return
         }
         DNSUIThread.run {
-            self.definesPresentationContext = true
-            self.modalPresentationStyle = modalPresentationStyle
-            self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-            
-            (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
-            presentingViewController!.present(viewControllerToPresent, animated: animated) {
-                (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
+            if let topController = self.topController as? DNSBaseStageViewController {
+                if topController.isModal {
+                    let viewModel = DNSBaseStageModels.Dismiss.ViewModel(animated: animated)
+                    topController.displayDismiss(viewModel)
+                }
+            }
+            _ = DNSUIThread.run(after: 0.1) {
+                self.definesPresentationContext = true
+                self.modalPresentationStyle = modalPresentationStyle
+                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+
+                (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
+                presentingViewController.present(viewControllerToPresent, animated: animated) {
+                    (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
+                }
             }
         }
     }
@@ -463,7 +474,9 @@ extension DNSBaseStageViewController {
                 alertController.addAction(button)
             }
 
-            self.present(alertController, animated: true)
+            if self.isOnTop {
+                self.present(alertController, animated: true)
+            }
         }
     }
 
@@ -500,12 +513,14 @@ extension DNSBaseStageViewController {
                 ) }]
                 let actions = [ actionOkay ]
 
-                self.showCustomAlertWith(nibName: nibName,
-                                         title: viewModel.title,
-                                         message: viewModel.message,
-                                         descMsg: viewModel.message2,
-                                         itemimage: nil,
-                                         actions: actions)
+                if self.isOnTop {
+                    self.showCustomAlertWith(nibName: nibName,
+                                             title: viewModel.title,
+                                             message: viewModel.message,
+                                             descMsg: viewModel.message2,
+                                             itemimage: nil,
+                                             actions: actions)
+                }
             case .toastError:
                 self.updateToastDisplay(message: viewModel.message, state: .error)
             case .toastInfo:
@@ -611,15 +626,16 @@ extension DNSBaseStageViewController {
 
     public func updateToastDisplay(message: String? = nil,
                                    state: ToastState = .success ) {
+        let viewController = self.topController ?? self
         switch state {
         case .error:
-            Loaf(message ?? "", state: .error, sender: self).show()
+            Loaf(message ?? "", state: .error, sender: viewController).show()
         case .info:
-            Loaf(message ?? "", state: .info, sender: self).show()
+            Loaf(message ?? "", state: .info, sender: viewController).show()
         case .success:
-            Loaf(message ?? "", state: .success, sender: self).show()
+            Loaf(message ?? "", state: .success, sender: viewController).show()
         case .warning:
-            Loaf(message ?? "", state: .warning, sender: self).show()
+            Loaf(message ?? "", state: .warning, sender: viewController).show()
         }
     }
 }

@@ -24,6 +24,7 @@ open class DNSCoordinator: NSObject {
         case terminated
     }
 
+    public var defaultRootViewController: DNSBaseStageViewController?
     public var parent: DNSCoordinator? {
         willSet {
             parent?.children.removeAll(where: { $0 == self })
@@ -32,6 +33,7 @@ open class DNSCoordinator: NSObject {
             parent?.children.append(self)
         }
     }
+
     var completionBlock: DNSCoordinatorBoolBlock?
     var completionResultsBlock: DNSCoordinatorResultsBlock?
 

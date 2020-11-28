@@ -259,4 +259,18 @@ extension DNSBaseStageViewController {
         }
         return false
     }
+    var isOnTop: Bool {
+        return topController == self
+    }
+    var topController: UIViewController? {
+        var topController = UIApplication.shared.windows.filter {$0.isKeyWindow}
+            .first?.rootViewController
+        guard topController != nil else {
+            return nil
+        }
+        while let presentedViewController = topController?.presentedViewController {
+            topController = presentedViewController
+        }
+        return topController
+    }
 }

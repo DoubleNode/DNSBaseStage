@@ -30,8 +30,9 @@ open class DNSBaseStageConfigurator {
     }
 
     // MARK: - VIP Objects Creation -
-    public var parentConfigurator: DNSBaseStageConfigurator?
     public var navigationController: UINavigationController?
+    public var parentConfigurator: DNSBaseStageConfigurator?
+    public var rootViewController: DNSBaseStageViewController?
     public var tabBarController: UITabBarController?
 
     public lazy var baseInteractor: DNSBaseStageInteractor = createInteractor()
@@ -101,6 +102,7 @@ open class DNSBaseStageConfigurator {
                        thenRun intentBlock: DNSBaseStageConfiguratorBlock?) -> DNSBaseStageViewController {
         self.intentBlock = intentBlock
         self.initializationObject = initializationObject
+        self.rootViewController = coordinator.defaultRootViewController
 
         baseViewController.baseConfigurator = self
         baseViewController.stageTitle = String(describing: type(of: baseViewController))

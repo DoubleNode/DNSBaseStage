@@ -102,4 +102,10 @@ open class DNSTabBarCoordinator: DNSCoordinator {
 
         super.cancel()
     }
+
+    public func change(to tabIndex: Int) {
+        DNSUIThread.run {
+            self.tabBarController?.selectedIndex = tabIndex
+        }
+    }
 }

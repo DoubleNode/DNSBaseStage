@@ -219,6 +219,9 @@ extension DNSBaseStageViewController {
         guard presentingViewController != nil else {
             return
         }
+        guard !self.isModal else {
+            return
+        }
         DNSUIThread.run {
             self.definesPresentationContext = true
             self.modalPresentationStyle = modalPresentationStyle

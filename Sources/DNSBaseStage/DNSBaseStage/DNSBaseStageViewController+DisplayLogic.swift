@@ -98,7 +98,7 @@ extension DNSBaseStageViewController {
             presentingViewController = self.baseConfigurator?.rootViewController
         }
         if presentingViewController == nil {
-            presentingViewController = DNSCore.appDelegate.rootViewController()
+            presentingViewController = DNSCore.appDelegate?.rootViewController()
         }
 
         var viewControllerToPresent: UIViewController = self

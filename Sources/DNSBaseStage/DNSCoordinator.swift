@@ -276,9 +276,9 @@ open class DNSCoordinator: NSObject {
                 cancelBlock()
             })
 
-            DNSCore.appDelegate.rootViewController().present(alertController,
-                                                             animated: true,
-                                                             completion: nil)
+            DNSCore.appDelegate?.rootViewController().present(alertController,
+                                                              animated: true,
+                                                              completion: nil)
 
         }
     }

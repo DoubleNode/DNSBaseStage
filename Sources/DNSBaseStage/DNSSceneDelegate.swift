@@ -12,7 +12,11 @@ import UIKit
 
 open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    public var coordinator: DNSCoordinator?
+    public var coordinator: DNSCoordinator? {
+        didSet {
+            print("didSet - DNSSceneDelegate:coordinator")
+        }
+    }
     public var window: UIWindow?
 
     // MARK: - UIWindowSceneDelegate methods

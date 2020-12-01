@@ -12,11 +12,7 @@ import UIKit
 
 open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    public var coordinator: DNSCoordinator? {
-        didSet {
-            print("didSet - DNSSceneDelegate:coordinator")
-        }
-    }
+    public var coordinator: DNSCoordinator?
     public var window: UIWindow?
 
     // MARK: - UIWindowSceneDelegate methods
@@ -29,9 +25,14 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
+        guard let coordinator = self.coordinator else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start(with: connectionOptions) { (success: Bool) in }
+            if coordinator.isRunning {
+                coordinator.continueRunning(with: connectionOptions)
+            } else {
+                coordinator.start(with: connectionOptions) { (success: Bool) in }
+            }
         }
     }
 
@@ -41,18 +42,28 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
+        guard let coordinator = self.coordinator else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start(with: URLContexts) { (success: Bool) in }
+            if coordinator.isRunning {
+                coordinator.continueRunning(with: URLContexts)
+            } else {
+                coordinator.start(with: URLContexts) { (success: Bool) in }
+            }
         }
     }
 
     open func scene(_ scene: UIScene,
                     continue userActivity: NSUserActivity) {
         guard (scene as? UIWindowScene) != nil else { return }
+        guard let coordinator = self.coordinator else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start(with: userActivity) { (success: Bool) in }
+            if coordinator.isRunning {
+                coordinator.continueRunning(with: userActivity)
+            } else {
+                coordinator.start(with: userActivity) { (success: Bool) in }
+            }
         }
     }
 

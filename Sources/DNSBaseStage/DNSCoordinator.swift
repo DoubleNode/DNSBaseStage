@@ -115,6 +115,18 @@ open class DNSCoordinator: NSObject {
         self.start(then: completionResultsBlock)
     }
 
+    open func continueRunning() {
+    }
+    open func continueRunning(with connectionOptions: UIScene.ConnectionOptions) {
+        self.continueRunning()
+    }
+    open func continueRunning(with openURLContexts: Set<UIOpenURLContext>) {
+        self.continueRunning()
+    }
+    open func continueRunning(with userActivity: NSUserActivity) {
+        self.continueRunning()
+    }
+    
     open func reset() {
         self.runState = .notStarted
 

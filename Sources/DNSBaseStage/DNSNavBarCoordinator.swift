@@ -73,6 +73,16 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         }
     }
 
+    override open func continueRunning(with connectionOptions: UIScene.ConnectionOptions) {
+        super.continueRunning(with: connectionOptions)
+    }
+    override open func continueRunning(with openURLContexts: Set<UIOpenURLContext>) {
+        super.continueRunning(with: openURLContexts)
+    }
+    override open func continueRunning(with userActivity: NSUserActivity) {
+        super.continueRunning(with: userActivity)
+    }
+    
     override open func reset() {
         super.reset()
 

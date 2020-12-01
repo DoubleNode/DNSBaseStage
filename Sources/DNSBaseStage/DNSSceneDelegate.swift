@@ -26,9 +26,9 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
 
-//        DNSLowThread.run(.asynchronously) {
+        DNSLowThread.run(.asynchronously) {
             self.coordinator?.start() { (success: Bool) in }
-//        }
+        }
     }
 
     open func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -38,18 +38,18 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // (see `application:configurationForConnectingSceneSession` instead).
         guard (scene as? UIWindowScene) != nil else { return }
 
-//        DNSLowThread.run(.asynchronously) {
+        DNSLowThread.run(.asynchronously) {
             self.coordinator?.start(with: URLContexts) { (success: Bool) in }
-//        }
+        }
     }
 
     open func scene(_ scene: UIScene,
                     continue userActivity: NSUserActivity) {
         guard (scene as? UIWindowScene) != nil else { return }
 
-//        DNSLowThread.run(.asynchronously) {
+        DNSLowThread.run(.asynchronously) {
             self.coordinator?.start(with: userActivity) { (success: Bool) in }
-//        }
+        }
     }
 
     open func sceneDidDisconnect(_ scene: UIScene) {

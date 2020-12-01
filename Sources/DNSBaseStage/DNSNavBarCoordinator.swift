@@ -24,51 +24,50 @@ open class DNSNavBarCoordinator: DNSCoordinator {
 
     override open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(then: completionBlock)
-
-        DNSUIThread.run {
-            self.savedViewControllers = self.navigationController?.viewControllers
-        }
+        self.commonStart()
+    }
+    override open func start(with connectionOptions: UIScene.ConnectionOptions,
+                             then completionBlock: DNSCoordinatorBoolBlock?) {
+        super.start(with: connectionOptions,
+                    then: completionBlock)
+        self.commonStart()
     }
     override open func start(with openURLContexts: Set<UIOpenURLContext>,
                              then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(with: openURLContexts,
                     then: completionBlock)
-
-        DNSUIThread.run {
-            self.savedViewControllers = self.navigationController?.viewControllers
-        }
+        self.commonStart()
     }
     override open func start(with userActivity: NSUserActivity,
                              then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(with: userActivity,
                     then: completionBlock)
-
-        DNSUIThread.run {
-            self.savedViewControllers = self.navigationController?.viewControllers
-        }
+        self.commonStart()
     }
 
     override open func start(then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         super.start(then: completionResultsBlock)
-        
-        DNSUIThread.run {
-            self.savedViewControllers = self.navigationController?.viewControllers
-        }
+        self.commonStart()
+    }
+    override open func start(with connectionOptions: UIScene.ConnectionOptions,
+                             then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        super.start(with: connectionOptions,
+                    then: completionResultsBlock)
+        self.commonStart()
     }
     override open func start(with openURLContexts: Set<UIOpenURLContext>,
                              then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         super.start(with: openURLContexts,
                     then: completionResultsBlock)
-        
-        DNSUIThread.run {
-            self.savedViewControllers = self.navigationController?.viewControllers
-        }
+        self.commonStart()
     }
     override open func start(with userActivity: NSUserActivity,
                              then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         super.start(with: userActivity,
                     then: completionResultsBlock)
-        
+        self.commonStart()
+    }
+    open func commonStart() {
         DNSUIThread.run {
             self.savedViewControllers = self.navigationController?.viewControllers
         }

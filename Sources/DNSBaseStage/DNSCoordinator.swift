@@ -66,43 +66,27 @@ open class DNSCoordinator: NSObject {
 
     open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         self.completionBlock = completionBlock
-
+        
         switch self.runState {
         case .started, .terminated:
             self.reset()
-
+            
         //case .notStarted:
         default:
             self.runState = .started
         }
+    }
+    open func start(with connectionOptions: UIScene.ConnectionOptions,
+                    then completionBlock: DNSCoordinatorBoolBlock?) {
+        self.start(then: completionBlock)
     }
     open func start(with openURLContexts: Set<UIOpenURLContext>,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
-        self.completionBlock = completionBlock
-        self.completionResultsBlock = nil
-
-        switch self.runState {
-        case .started, .terminated:
-            self.reset()
-
-        //case .notStarted:
-        default:
-            self.runState = .started
-        }
+        self.start(then: completionBlock)
     }
     open func start(with userActivity: NSUserActivity,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
-        self.completionBlock = completionBlock
-        self.completionResultsBlock = nil
-
-        switch self.runState {
-        case .started, .terminated:
-            self.reset()
-
-        //case .notStarted:
-        default:
-            self.runState = .started
-        }
+        self.start(then: completionBlock)
     }
     
     open func start(then completionResultsBlock: DNSCoordinatorResultsBlock?) {
@@ -118,33 +102,17 @@ open class DNSCoordinator: NSObject {
             self.runState = .started
         }
     }
+    open func start(with connectionOptions: UIScene.ConnectionOptions,
+                    then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        self.start(then: completionResultsBlock)
+    }
     open func start(with openURLContexts: Set<UIOpenURLContext>,
                     then completionResultsBlock: DNSCoordinatorResultsBlock?) {
-        self.completionBlock = nil
-        self.completionResultsBlock = completionResultsBlock
-
-        switch self.runState {
-        case .started, .terminated:
-            self.reset()
-            
-        //case .notStarted:
-        default:
-            self.runState = .started
-        }
+        self.start(then: completionResultsBlock)
     }
     open func start(with userActivity: NSUserActivity,
                     then completionResultsBlock: DNSCoordinatorResultsBlock?) {
-        self.completionBlock = nil
-        self.completionResultsBlock = completionResultsBlock
-        
-        switch self.runState {
-        case .started, .terminated:
-            self.reset()
-            
-        //case .notStarted:
-        default:
-            self.runState = .started
-        }
+        self.start(then: completionResultsBlock)
     }
 
     open func reset() {

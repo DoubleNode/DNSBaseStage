@@ -27,7 +27,7 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard (scene as? UIWindowScene) != nil else { return }
 
         DNSLowThread.run(.asynchronously) {
-            self.coordinator?.start() { (success: Bool) in }
+            self.coordinator?.start(with: connectionOptions) { (success: Bool) in }
         }
     }
 

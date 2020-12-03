@@ -61,12 +61,7 @@ open class DNSCoordinator: NSObject {
             UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
         }
     }
-
-    // MARK: - Coordinator lifecycle
-
-    open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
-        self.completionBlock = completionBlock
-        
+    open func commonStart() {
         switch self.runState {
         case .started, .terminated:
             self.reset()
@@ -75,6 +70,14 @@ open class DNSCoordinator: NSObject {
         default:
             self.runState = .started
         }
+    }
+
+    // MARK: - Coordinator lifecycle
+
+    open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
+        self.completionBlock = completionBlock
+        self.completionResultsBlock = nil
+        self.commonStart()
     }
     open func start(with connectionOptions: UIScene.ConnectionOptions,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
@@ -92,15 +95,7 @@ open class DNSCoordinator: NSObject {
     open func start(then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         self.completionBlock = nil
         self.completionResultsBlock = completionResultsBlock
-        
-        switch self.runState {
-        case .started, .terminated:
-            self.reset()
-            
-        //case .notStarted:
-        default:
-            self.runState = .started
-        }
+        self.commonStart()
     }
     open func start(with connectionOptions: UIScene.ConnectionOptions,
                     then completionResultsBlock: DNSCoordinatorResultsBlock?) {

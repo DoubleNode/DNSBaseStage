@@ -219,7 +219,7 @@ extension DNSBaseStageViewController {
                                  animated: Bool,
                                  presentingViewController: UIViewController?,
                                  viewControllerToPresent: UIViewController) {
-        guard let presentingViewController = presentingViewController else {
+        guard var presentingViewController = presentingViewController else {
             return
         }
         guard !self.isModal else {
@@ -228,8 +228,7 @@ extension DNSBaseStageViewController {
         DNSUIThread.run {
             if let topController = self.topController as? DNSBaseStageViewController {
                 if topController.isModal {
-                    let viewModel = DNSBaseStageModels.Dismiss.ViewModel(animated: animated)
-                    topController.displayDismiss(viewModel)
+                    presentingViewController = topController
                 }
             }
             _ = DNSUIThread.run(after: 0.1) {

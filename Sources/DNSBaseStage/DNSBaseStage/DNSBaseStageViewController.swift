@@ -268,8 +268,21 @@ extension DNSBaseStageViewController {
         guard topController != nil else {
             return nil
         }
-        while let presentedViewController = topController?.presentedViewController {
+        var presentedViewController = topController
+        while presentedViewController != nil {
             topController = presentedViewController
+            presentedViewController = topController?.presentedViewController
+            if presentedViewController == nil {
+                let navBarController = topController as? UINavigationController
+                let tabBarController = topController as? UITabBarController
+                if navBarController != nil {
+                    presentedViewController = navBarController!.children.last
+                } else if tabBarController != nil {
+                    if tabBarController!.selectedIndex < tabBarController!.children.count {
+                        presentedViewController = tabBarController!.children[tabBarController!.selectedIndex]
+                    }
+                }
+            }
         }
         return topController
     }

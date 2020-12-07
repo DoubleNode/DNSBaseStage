@@ -25,6 +25,9 @@ open class DNSBaseStageCollectionViewCell: UICollectionViewCell, DNSBaseStageCel
 
     override open func awakeFromNib() {
         super.awakeFromNib()
+        if let identifier = "\(type(of: self))".split(separator: ".").last {
+            self.accessibilityIdentifier = String(identifier)
+        }
 
         self.contentInit()
     }

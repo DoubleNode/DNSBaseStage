@@ -169,6 +169,9 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+        if let identifier = "\(type(of: self))".split(separator: ".").last {
+            self.view.accessibilityIdentifier = String(identifier)
+        }
 
         if self.tapToDismissView != nil {
             let tapRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tapToDismiss))

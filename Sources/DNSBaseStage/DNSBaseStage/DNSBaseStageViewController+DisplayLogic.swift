@@ -651,7 +651,11 @@ extension DNSBaseStageViewController {
                              using presentingViewController: UIViewController,
                              animated: Bool,
                              completion: (() -> Void)? = nil) {
+        DNSCore.reportLog("start: presenting \(type(of: viewControllerToPresent))" +
+                            " on \(type(of: presentingViewController))")
         presentingViewController.present(viewControllerToPresent, animated: animated) {
+            DNSCore.reportLog("start: presenting \(type(of: viewControllerToPresent))" +
+                                " on \(type(of: presentingViewController))")
             completion?()
         }
     }

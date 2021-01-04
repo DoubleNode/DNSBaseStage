@@ -157,13 +157,16 @@ extension DNSBaseStageViewController {
 
             let animated: Bool = (self.displayType == .navBarRoot)
 
+            guard let presentingViewController = presentingViewController else { return }
+
             DNSUIThread.run {
                 if navigationController.view.superview == nil {
-                    presentingViewController?.present(navigationController,
-                                                      animated: animated,
-                                                      completion: {
-                                                        navigationController.setViewControllers([ self ], animated: animated)
-                    })
+                    self.utilityPresent(viewControllerToPresent: navigationController,
+                                        using: presentingViewController,
+                                        animated: animated) {
+                        navigationController.setViewControllers([ self ],
+                                                                animated: animated)
+                    }
                     return
                 }
                 
@@ -237,13 +240,15 @@ extension DNSBaseStageViewController {
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
 
                 (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
-                presentingViewController.present(viewControllerToPresent, animated: animated) {
+                self.utilityPresent(viewControllerToPresent: viewControllerToPresent,
+                                    using: presentingViewController,
+                                    animated: animated) {
                     (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
                 }
             }
         }
     }
-    
+
     private func startStageNavBarPush(navBarController: UINavigationController,
                                       _ viewModel: DNSBaseStageModels.Start.ViewModel) {
         let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
@@ -474,7 +479,9 @@ extension DNSBaseStageViewController {
             }
 
             if self.isOnTop {
-                self.present(alertController, animated: true)
+                self.utilityPresent(viewControllerToPresent: alertController,
+                                    using: self,
+                                    animated: true)
             }
         }
     }
@@ -635,6 +642,17 @@ extension DNSBaseStageViewController {
             Loaf(message ?? "", state: .success, sender: viewController).show()
         case .warning:
             Loaf(message ?? "", state: .warning, sender: viewController).show()
+        }
+    }
+
+    // MARK: - Utility methods -
+
+    open func utilityPresent(viewControllerToPresent: UIViewController,
+                             using presentingViewController: UIViewController,
+                             animated: Bool,
+                             completion: (() -> Void)? = nil) {
+        presentingViewController.present(viewControllerToPresent, animated: animated) {
+            completion?()
         }
     }
 }

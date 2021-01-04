@@ -10,7 +10,6 @@ import DNSCore
 import UIKit
 
 extension UIViewController {
-
     public func showCustomAlertWith(nibName: String = "CommonAlertVC",
                                     okButtonAction: (() -> Void)? = {},
                                     title: String,
@@ -38,7 +37,5 @@ extension UIViewController {
             }
         }
         presentingViewController.present(alertVC, animated: true)
-
-       // self.present(alertVC, animated: true, completion: nil)
     }
 }

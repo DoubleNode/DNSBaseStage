@@ -29,6 +29,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
             return
         }
         if coordinator.isRunning {
+            self.changeCoordinator(to: tabNdx)
             coordinator.update(from: self)
         } else {
             coordinator.start { (result: Bool) in }
@@ -38,6 +39,11 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     open func runCoordinators() {
         Array(Int(0)..<self.numberOfTabs())
             .forEach { self.runCoordinator(for: $0) }
+    }
+    open func changeCoordinator(to tabIndex: Int) {
+        DNSUIThread.run {
+            self.tabBarController?.selectedIndex = tabIndex
+        }
     }
 
     // MARK: - Object lifecycle
@@ -123,11 +129,5 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         self.savedViewControllers = nil
 
         super.cancel()
-    }
-
-    public func change(to tabIndex: Int) {
-        DNSUIThread.run {
-            self.tabBarController?.selectedIndex = tabIndex
-        }
     }
 }

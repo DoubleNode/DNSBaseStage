@@ -23,25 +23,36 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         return nil
     }
     open func runCoordinator(for tabNdx: Int,
-                             then block: DNSBoolBlock? = nil) {
+                             then block: DNSCoordinatorChildBoolBlock? = nil) {
+        self.runCoordinator(for: tabNdx,
+                            with: true,
+                            then: block)
+    }
+    private func runCoordinator(for tabNdx: Int,
+                                with changing: Bool,
+                                then block: DNSCoordinatorChildBoolBlock? = nil) {
         guard let coordinator = self.coordinator(for: tabNdx) else {
-            block?(false)
+            block?(nil, false)
             return
         }
         if coordinator.isRunning {
-            self.changeCoordinator(to: tabNdx)
+            if changing {
+                self.changeCoordinator(to: tabNdx)
+            }
             coordinator.update(from: self)
         } else {
             coordinator.start { (result: Bool) in }
-            _ = DNSUIThread.run(after: 0.1) {
-                self.changeCoordinator(to: tabNdx)
+            if changing {
+                _ = DNSUIThread.run(after: 0.3) {
+                    self.changeCoordinator(to: tabNdx)
+                }
             }
         }
-        block?(true)
+        block?(coordinator, true)
     }
-    open func runCoordinators() {
+    open func startCoordinators(andShow tabNdx: Int = 0) {
         Array(Int(0)..<self.numberOfTabs())
-            .forEach { self.runCoordinator(for: $0) }
+            .forEach { self.runCoordinator(for: $0, with: $0 == tabNdx) }
     }
     open func changeCoordinator(to tabIndex: Int) {
         DNSUIThread.run {

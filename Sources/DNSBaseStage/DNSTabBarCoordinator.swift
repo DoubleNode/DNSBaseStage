@@ -22,6 +22,15 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
         return nil
     }
+    open func runCoordinator(for tabNdx: Int) {
+        guard let coordinator = self.coordinator(for: tabNdx) else { return }
+        if coordinator.isRunning {
+            coordinator.update(from: self)
+        } else {
+            coordinator.start { (_: Bool) in
+            }
+        }
+    }
 
     // MARK: - Object lifecycle
 

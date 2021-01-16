@@ -31,6 +31,10 @@ open class DNSTabBarCoordinator: DNSCoordinator {
             }
         }
     }
+    open func runCoordinators() {
+        Array(Int(0)..<self.numberOfTabs())
+            .forEach { self.runCoordinator(for: $0) }
+    }
 
     // MARK: - Object lifecycle
 

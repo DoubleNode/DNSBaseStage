@@ -145,17 +145,15 @@ extension DNSBaseStageViewController {
                                  presentingViewController: presentingViewController,
                                  viewControllerToPresent: viewControllerToPresent)
 
-        case .navBarPush?, .navBarPushInstant?:
+        case .navBarPush(let animated)?:
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
             
-            self.startStageNavBarPush(navBarController: navigationController, viewModel)
+            self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
 
-        case .navBarRoot?, .navBarRootInstant?:
+        case .navBarRoot(let animated)?:
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
-
-            let animated: Bool = (self.displayType == .navBarRoot)
 
             guard let presentingViewController = presentingViewController else { return }
 
@@ -251,8 +249,9 @@ extension DNSBaseStageViewController {
     }
 
     private func startStageNavBarPush(navBarController: UINavigationController,
-                                      _ viewModel: DNSBaseStageModels.Start.ViewModel) {
-        let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
+                                      _ viewModel: DNSBaseStageModels.Start.ViewModel,
+                                      _ animated: Bool) {
+        let animated: Bool = viewModel.animated && animated
 
         DNSUIThread.run {
             guard !navBarController.viewControllers.isEmpty else {
@@ -299,18 +298,25 @@ extension DNSBaseStageViewController {
                 }
             }
 
-        case .navBarPush?, .navBarPushInstant?:
+        case .navBarPush(let animated)?:
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
 
-            self.endStageNavBarPush(navBarController: navigationController, viewModel)
+            self.endStageNavBarPush(navBarController: navigationController, viewModel, animated)
 
-        case .navBarRoot?, .navBarRootInstant?, .navBarRootReplace? :
+        case .navBarRoot(let animated)?:
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
-
             guard navigationController.viewControllers.contains(self) else { return }
-            
+            DNSUIThread.run {
+                navigationController.dismiss(animated: viewModel.animated && animated) {
+                    self.baseConfigurator?.navigationController = nil
+                }
+            }
+        case .navBarRootReplace?:
+            guard self.baseConfigurator?.navigationController != nil else { return }
+            let navigationController = self.baseConfigurator!.navigationController!
+            guard navigationController.viewControllers.contains(self) else { return }
             DNSUIThread.run {
                 navigationController.dismiss(animated: viewModel.animated) {
                     self.baseConfigurator?.navigationController = nil
@@ -339,8 +345,9 @@ extension DNSBaseStageViewController {
     }
 
     private func endStageNavBarPush(navBarController: UINavigationController,
-                                    _ viewModel: DNSBaseStageModels.Finish.ViewModel) {
-        let animated: Bool = (viewModel.animated && (self.displayType == .navBarPush))
+                                    _ viewModel: DNSBaseStageModels.Finish.ViewModel,
+                                    _ animated: Bool) {
+        let animated: Bool = viewModel.animated && animated
 
         guard navBarController.viewControllers.contains(self) else { return }
         guard !navBarController.viewControllers.isEmpty else { return }
@@ -393,16 +400,14 @@ extension DNSBaseStageViewController {
                                                                         target: weakSelf,
                                                                         action: #selector(weakSelf.closeNavBarButtonAction))
                     weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
-                case .navBarHidden, .navBarHiddenInstant:
+                case .navBarHidden(let animated):
                     containsNavBarForced = true
-                    let animated: Bool = (displayOption == .navBarHidden)
                     weakSelf.navigationController?.setNavigationBarHidden(true, animated: animated)
                     _ = DNSUIThread.run(after:0.1) {
                         weakSelf.navigationController?.setNavigationBarHidden(true, animated: animated)
                     }
-                case .navBarShown, .navBarShownInstant:
+                case .navBarShown(let animated):
                     containsNavBarForced = true
-                    let animated: Bool = (displayOption == .navBarShown)
                     weakSelf.navigationController?.setNavigationBarHidden(false, animated: animated)
                     _ = DNSUIThread.run(after:0.1) {
                         weakSelf.navigationController?.setNavigationBarHidden(false, animated: animated)

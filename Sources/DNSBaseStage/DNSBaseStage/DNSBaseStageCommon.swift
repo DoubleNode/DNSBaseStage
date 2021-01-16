@@ -16,10 +16,8 @@ public enum DNSBaseStage {
     public enum DisplayOption {
         case navBarRightClose
         case navController
-        case navBarHidden
-        case navBarHiddenInstant
-        case navBarShown
-        case navBarShownInstant
+        case navBarHidden(animated: Bool)
+        case navBarShown(animated: Bool)
     }
     public enum DisplayType: Equatable {
         case none
@@ -29,10 +27,8 @@ public enum DNSBaseStage {
         case modalFullScreen
         case modalPageSheet
         case modalPopover
-        case navBarPush
-        case navBarPushInstant
-        case navBarRoot
-        case navBarRootInstant
+        case navBarPush(animated: Bool)
+        case navBarRoot(animated: Bool)
         case navBarRootReplace
         case tabBarAdd(animated: Bool, tabNdx: Int)
     }

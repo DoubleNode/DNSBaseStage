@@ -16,17 +16,11 @@ open class DNSTabBarCoordinator: DNSCoordinator {
 
     // MARK: - Tab management
 
-    private var tabCoordinators: [DNSCoordinator] = []
     open func numberOfTabs() -> Int {
         return 0
     }
     open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
-        guard tabNdx < self.numberOfTabs() else { return nil }
-        return tabCoordinators[tabNdx]
-    }
-    open func set(coordinator: DNSCoordinator,
-                  for tabNdx: Int) {
-        tabCoordinators[tabNdx] = coordinator
+        return nil
     }
 
     // MARK: - Object lifecycle

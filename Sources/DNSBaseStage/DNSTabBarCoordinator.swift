@@ -22,14 +22,18 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
         return nil
     }
-    open func runCoordinator(for tabNdx: Int) {
-        guard let coordinator = self.coordinator(for: tabNdx) else { return }
+    open func runCoordinator(for tabNdx: Int,
+                             then block: DNSBoolBlock? = nil) {
+        guard let coordinator = self.coordinator(for: tabNdx) else {
+            block?(false)
+            return
+        }
         if coordinator.isRunning {
             coordinator.update(from: self)
         } else {
-            coordinator.start { (_: Bool) in
-            }
+            coordinator.start { (result: Bool) in }
         }
+        block?(true)
     }
     open func runCoordinators() {
         Array(Int(0)..<self.numberOfTabs())

@@ -33,6 +33,9 @@ open class DNSTabBarCoordinator: DNSCoordinator {
             coordinator.update(from: self)
         } else {
             coordinator.start { (result: Bool) in }
+            _ = DNSUIThread.run(after: 0.1) {
+                self.changeCoordinator(to: tabNdx)
+            }
         }
         block?(true)
     }

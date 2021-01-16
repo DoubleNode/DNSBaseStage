@@ -196,11 +196,9 @@ extension DNSBaseStageViewController {
                 navigationController.setViewControllers(viewControllers, animated: false)
             }
             
-        case.tabBarAdd?, .tabBarAddInstant?:
+        case.tabBarAdd(let animated, let tabNdx)?:
             guard self.baseConfigurator?.tabBarController != nil else { return }
             let tabBarController = self.baseConfigurator!.tabBarController!
-
-            let animated: Bool = (self.displayType == .tabBarAdd)
 
             _ = DNSUIThread.run(after: 0.1) {
                 var viewControllers = tabBarController.viewControllers ?? []
@@ -208,8 +206,11 @@ extension DNSBaseStageViewController {
                     let index = viewControllers.firstIndex(of: viewControllerToPresent)
                     viewControllers.remove(at: index!)
                 }
-                viewControllers.append(viewControllerToPresent)
-
+                if tabNdx < viewControllers.count {
+                    viewControllers.insert(viewControllerToPresent, at: tabNdx)
+                } else {
+                    viewControllers.append(viewControllerToPresent)
+                }
                 tabBarController.setViewControllers(viewControllers, animated: animated)
             }
 
@@ -316,19 +317,18 @@ extension DNSBaseStageViewController {
                 }
             }
 
-        case.tabBarAdd?, .tabBarAddInstant?:
+        case.tabBarAdd(let animated, _/*tabNdx*/)?:
             guard self.baseConfigurator?.tabBarController != nil else { return }
             let tabBarController = self.baseConfigurator!.tabBarController!
 
             guard tabBarController.viewControllers?.contains(self) ?? false else { return }
 
-            let animated: Bool = (viewModel.animated && (self.displayType == .tabBarAdd))
-
-            var viewControllers = tabBarController.viewControllers
-            let index = viewControllers?.firstIndex(of: self)
-            viewControllers?.remove(at: index!)
-
             DNSUIThread.run {
+                var viewControllers = tabBarController.viewControllers ?? []
+                if viewControllers.contains(self) {
+                    let index = viewControllers.firstIndex(of: self)
+                    viewControllers.remove(at: index!)
+                }
                 tabBarController.setViewControllers(viewControllers, animated: animated)
                 self.removeFromParent()
             }

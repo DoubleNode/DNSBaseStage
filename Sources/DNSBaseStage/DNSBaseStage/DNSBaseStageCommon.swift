@@ -21,7 +21,7 @@ public enum DNSBaseStage {
         case navBarShown
         case navBarShownInstant
     }
-    public enum DisplayType {
+    public enum DisplayType: Equatable {
         case none
         case modal
         case modalCurrentContext
@@ -34,8 +34,7 @@ public enum DNSBaseStage {
         case navBarRoot
         case navBarRootInstant
         case navBarRootReplace
-        case tabBarAdd
-        case tabBarAddInstant
+        case tabBarAdd(animated: Bool, tabNdx: Int)
     }
 }
 

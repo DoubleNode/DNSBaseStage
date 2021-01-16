@@ -14,6 +14,21 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     public var tabBarController: UITabBarController?
     public var savedViewControllers: [UIViewController]? = []
 
+    // MARK: - Tab management
+
+    private var tabCoordinators: [DNSCoordinator] = []
+    open func numberOfTabs() -> Int {
+        return 0
+    }
+    open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
+        guard tabNdx < self.numberOfTabs() else { return nil }
+        return tabCoordinators[tabNdx]
+    }
+    open func set(coordinator: DNSCoordinator,
+                  for tabNdx: Int) {
+        tabCoordinators[tabNdx] = coordinator
+    }
+
     // MARK: - Object lifecycle
 
     public init(with tabBarController: UITabBarController? = nil) {

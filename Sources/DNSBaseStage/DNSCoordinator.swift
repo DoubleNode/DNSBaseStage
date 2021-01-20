@@ -9,6 +9,7 @@
 import AtomicSwift
 import DNSCore
 import DNSCoreThreading
+import DNSDataObjects
 import FTLinearActivityIndicator
 import UIKit
 
@@ -84,6 +85,10 @@ open class DNSCoordinator: NSObject {
                     then completionBlock: DNSCoordinatorBoolBlock?) {
         self.start(then: completionBlock)
     }
+    open func start(with notification: DAONotification,
+                    then completionBlock: DNSCoordinatorBoolBlock?) {
+        self.start(then: completionBlock)
+    }
     open func start(with openURLContexts: Set<UIOpenURLContext>,
                     then completionBlock: DNSCoordinatorBoolBlock?) {
         self.start(then: completionBlock)
@@ -102,6 +107,10 @@ open class DNSCoordinator: NSObject {
                     then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         self.start(then: completionResultsBlock)
     }
+    open func start(with notification: DAONotification,
+                    then completionBlock: DNSCoordinatorResultsBlock?) {
+        self.start(then: completionBlock)
+    }
     open func start(with openURLContexts: Set<UIOpenURLContext>,
                     then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         self.start(then: completionResultsBlock)
@@ -114,6 +123,9 @@ open class DNSCoordinator: NSObject {
     open func continueRunning() {
     }
     open func continueRunning(with connectionOptions: UIScene.ConnectionOptions) {
+        self.continueRunning()
+    }
+    open func continueRunning(with notification: DAONotification) {
         self.continueRunning()
     }
     open func continueRunning(with openURLContexts: Set<UIOpenURLContext>) {

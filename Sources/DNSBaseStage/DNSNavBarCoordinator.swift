@@ -8,6 +8,7 @@
 
 import DNSCore
 import DNSCoreThreading
+import DNSDataObjects
 import UIKit
 
 open class DNSNavBarCoordinator: DNSCoordinator {
@@ -29,6 +30,11 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         super.start(with: connectionOptions,
                     then: completionBlock)
     }
+    override open func start(with notification: DAONotification,
+                             then completionBlock: DNSCoordinatorBoolBlock?) {
+        super.start(with: notification,
+                    then: completionBlock)
+    }
     override open func start(with openURLContexts: Set<UIOpenURLContext>,
                              then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(with: openURLContexts,
@@ -46,6 +52,11 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     override open func start(with connectionOptions: UIScene.ConnectionOptions,
                              then completionResultsBlock: DNSCoordinatorResultsBlock?) {
         super.start(with: connectionOptions,
+                    then: completionResultsBlock)
+    }
+    override open func start(with notification: DAONotification,
+                             then completionResultsBlock: DNSCoordinatorResultsBlock?) {
+        super.start(with: notification,
                     then: completionResultsBlock)
     }
     override open func start(with openURLContexts: Set<UIOpenURLContext>,
@@ -67,6 +78,9 @@ open class DNSNavBarCoordinator: DNSCoordinator {
 
     override open func continueRunning(with connectionOptions: UIScene.ConnectionOptions) {
         super.continueRunning(with: connectionOptions)
+    }
+    override open func continueRunning(with notification: DAONotification) {
+        super.continueRunning(with: notification)
     }
     override open func continueRunning(with openURLContexts: Set<UIOpenURLContext>) {
         super.continueRunning(with: openURLContexts)

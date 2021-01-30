@@ -177,7 +177,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func stageDidLoad(_ request: DNSBaseStageBaseRequest) {
     }
     open func stageWillAppear(_ request: DNSBaseStageBaseRequest) {
-        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator))
+        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator!))
     }
     open func stageWillDisappear(_ request: DNSBaseStageBaseRequest) {
     }

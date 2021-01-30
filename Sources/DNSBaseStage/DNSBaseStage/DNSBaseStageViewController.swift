@@ -201,7 +201,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator))
+        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator!))
 
         self.stageDidAppear()
     }

@@ -100,8 +100,6 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
     // MARK: - Lifecycle Methods -
     open func startStage(_ response: DNSBaseStageModels.Start.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.spinnerCount = 0
 
         stageStartPublisher.send(DNSBaseStageModels.Start.ViewModel(animated: true,
@@ -109,8 +107,6 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                     displayOptions: response.displayOptions))
     }
     open func endStage(_ response: DNSBaseStageModels.Finish.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.spinnerCount = 0
 
         stageEndPublisher.send(DNSBaseStageModels.Finish.ViewModel(animated: true,
@@ -119,7 +115,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
     // MARK: - Presentation logic -
     open func presentConfirmation(_ response: DNSBaseStageModels.Confirmation.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         let viewModel = DNSBaseStageModels.Confirmation.ViewModel()
         viewModel.alertStyle    = response.alertStyle
@@ -144,12 +140,12 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.confirmationPublisher.send(viewModel)
     }
     open func presentDismiss(_ response: DNSBaseStageModels.Dismiss.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         self.dismissPublisher.send(DNSBaseStageModels.Dismiss.ViewModel(animated: response.animated))
     }
     open func presentError(_ response: DNSBaseStageModels.Error.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         var errorMessage = response.error.localizedDescription
         if (response.error.localizedFailureReason?.count ?? 0) > 0 {
@@ -169,7 +165,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.messagePublisher.send(viewModel)
     }
     open func presentMessage(_ response: DNSBaseStageModels.Message.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         var viewModel = DNSBaseStageModels.Message.ViewModel(message: response.message,
                                                              percentage: response.percentage,
@@ -189,7 +185,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         if response.show {
             spinnerCount += 1
@@ -212,7 +208,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentTitle(_ response: DNSBaseStageModels.Title.Response) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         var viewModel = DNSBaseStageModels.Title.ViewModel(title: response.title)
         if !(response.tabBarImageName.isEmpty) {

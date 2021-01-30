@@ -27,58 +27,40 @@ extension DNSBaseStageViewController {
     // MARK: - Stage Lifecycle Methods -
 
     open func stageDidAppear() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageDidAppearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidClose() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageDidClosePublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidDisappear() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageDidDisappearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidHide() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageDidHidePublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageDidLoad() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageDidLoadPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageWillAppear() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageWillAppearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageWillDisappear() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageWillDisappearPublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     open func stageWillHide() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         stageWillHidePublisher.send(DNSBaseStageModels.Base.Request())
     }
 
     // MARK: - Lifecycle Methods -
     
     public func startStage(_ viewModel: DNSBaseStageModels.Start.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.displayType = viewModel.displayType
         self.displayOptions = viewModel.displayOptions
 
@@ -276,8 +258,6 @@ extension DNSBaseStageViewController {
     }
 
     public func endStage(_ viewModel: DNSBaseStageModels.Finish.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.displayType = viewModel.displayType
 
         var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
@@ -426,7 +406,7 @@ extension DNSBaseStageViewController {
     // MARK: - Display logic -
 
     public func displayConfirmation(_ viewModel: DNSBaseStageModels.Confirmation.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSUIThread.run {
             var alertStyle = viewModel.alertStyle
@@ -490,15 +470,13 @@ extension DNSBaseStageViewController {
             }
         }
     }
-
     public func displayDismiss(_ viewModel: DNSBaseStageModels.Dismiss.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         self.endStage(DNSBaseStageModels.Finish.ViewModel(animated: viewModel.animated, displayType: self.displayType!))
     }
-
     public func displayMessage(_ viewModel: DNSBaseStageModels.Message.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSUIThread.run {
             switch viewModel.style {
@@ -543,17 +521,15 @@ extension DNSBaseStageViewController {
             }
         }
     }
-
     public func displaySpinner(_ viewModel: DNSBaseStageModels.Spinner.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSUIThread.run {
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
-
     public func displayTitle(_ viewModel: DNSBaseStageModels.Title.ViewModel) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSUIThread.run {
             if viewModel.tabBarUnselectedImage != nil {
@@ -598,7 +574,6 @@ extension DNSBaseStageViewController {
             }
         })
     }
-
     public func updateHudDisplay(display: Bool, percent: Float = -1, with title: String? = nil) {
         if display {
             self.updateDisabledViewDisplay(display: true)
@@ -622,7 +597,6 @@ extension DNSBaseStageViewController {
             }
         }
     }
-
     public func updateSpinnerDisplay(display: Bool) {
         self.updateDisabledViewDisplay(display: display)
 
@@ -634,7 +608,6 @@ extension DNSBaseStageViewController {
             }
         }
     }
-
     public func updateToastDisplay(message: String? = nil,
                                    state: ToastState = .success ) {
         let viewController = self.topController ?? self

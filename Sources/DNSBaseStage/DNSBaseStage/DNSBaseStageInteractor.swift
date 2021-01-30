@@ -108,8 +108,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func startStage(with displayType: DNSBaseStage.DisplayType,
                          with displayOptions: DNSBaseStageDisplayOptions = [],
                          and initialization: DNSBaseStageBaseInitialization?) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.displayType = displayType
         self.displayOptions = displayOptions
         self.baseInitializationObject = initialization
@@ -152,8 +150,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     open func removeStage() {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         guard self.displayType != nil else { return }
         stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: self.displayType!))
     }
@@ -161,8 +157,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func send(intent: String,
                    with dataChanged: Bool,
                    and results: DNSBaseStageBaseResults?) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.baseConfigurator?.send(intent: intent,
                                     with: dataChanged,
                                     and: results)
@@ -171,53 +165,37 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     // MARK: - Stage Lifecycle -
     
     open func stageDidAppear(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.hasStageEnded  = false
     }
-
     open func stageDidClose(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
-
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
-
     open func stageDidDisappear(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func stageDidHide(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func stageDidLoad(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func stageWillAppear(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator))
     }
-
     open func stageWillDisappear(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
-
     open func stageWillHide(_ request: DNSBaseStageBaseRequest) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
     }
     
     // MARK: - Business Logic -
     
     open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
     open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     open func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         var response = DNSBaseStageModels.Error.Response(error: request.error,
                                                          style: .popup,
@@ -227,19 +205,19 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     open func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     open func doWebFinishNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     open func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
                                                                    style: .popup,
                                                                    title: "Web Error"))
     }
     open func doWebLoadProgress(_ request: DNSBaseStageModels.WebpageProgress.Request) {
-        do { try self.analyticsWorker?.doTrack(event: "\(#function)") } catch { }
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
 }

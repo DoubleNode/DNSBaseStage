@@ -33,7 +33,7 @@ let package = Package(
         .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.3.0"),
         .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.3.0"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.3.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.3.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.3.2"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.3.0"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.2.1"),
         .package(name: "IQKeyboardManagerSwift",

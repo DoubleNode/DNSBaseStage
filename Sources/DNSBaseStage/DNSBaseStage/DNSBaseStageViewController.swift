@@ -201,8 +201,8 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator))
 
-        do { try self.analyticsWorker?.doScreen(screenTitle: String(describing: type(of: self))) } catch { }
         self.stageDidAppear()
     }
 
@@ -234,13 +234,14 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     // MARK: - Gesture Recognizer methods -
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
         view.endEditing(true)
     }
 
     // MARK: - Action methods -
 
     @IBAction func closeNavBarButtonAction(sender: UIBarButtonItem) {
-        try? self.analyticsWorker?.doTrack(event: "\(#function)")
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         closeNavBarButtonPublisher.send(DNSBaseStageModels.Base.Request())
     }

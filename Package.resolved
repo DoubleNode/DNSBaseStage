@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSAppCore.git",
         "state": {
           "branch": null,
-          "revision": "6d6c26572ffe0179d9caae789c08ec56fe3473dc",
-          "version": "1.3.0"
+          "revision": "a1c64edb0bedced3a871320c40f8b83ed031875e",
+          "version": "1.3.1"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "1191d22fcfe57cf055cfbf72f31cc1cf936a0afd",
-          "version": "1.3.18"
+          "revision": "893f4554d07898cb50228b12892515e92990e5ac",
+          "version": "1.3.23"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCoreThreading.git",
         "state": {
           "branch": null,
-          "revision": "46258c60d2d1f418d1ebd2b928c84db3ece5bfa5",
-          "version": "1.3.4"
+          "revision": "7b8134557fb9a6e2c5a97627d5fdcb11e13c646b",
+          "version": "1.3.8"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSDataObjects.git",
         "state": {
           "branch": null,
-          "revision": "d797ef1d1f9117908a4b98d13aa88b8de1a18079",
-          "version": "1.3.8"
+          "revision": "5d3fdf2d4687d90dde9114194dc7c1e0d9a61f23",
+          "version": "1.3.10"
         }
       },
       {
@@ -159,17 +159,17 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
-          "revision": "11ac74e1cc1faec1cad0e6a9a41652ef1432d4c1",
-          "version": "5.5.0"
+          "revision": "4274b9c8ba717d7a81c953c34b715d5f587fa92f",
+          "version": "10.5.1"
         }
       },
       {
-        "package": "RealmCore",
+        "package": "RealmDatabase",
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "612057010f5521d41559970306054f4c5b12632a",
-          "version": "6.1.4"
+          "revision": "8af0f8d609491986b49f2c986e771d9dc445664d",
+          "version": "10.3.3"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/Nirma/SFSymbol",
         "state": {
           "branch": null,
-          "revision": "01bda7aadcedd27fdd599e1370c7989e8d746b85",
-          "version": "0.5.1"
+          "revision": "08dda98b2ba4a36653becaab6f4234f5fc2592d2",
+          "version": "1.0.0"
         }
       },
       {

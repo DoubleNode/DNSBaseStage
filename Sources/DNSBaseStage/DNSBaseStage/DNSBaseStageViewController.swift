@@ -249,41 +249,50 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
 extension DNSBaseStageViewController {
     // returns true only if the viewcontroller is presented.
     var isModal: Bool {
-        if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
-            return false
-        } else if presentingViewController != nil {
-            if let parent = parent, !(parent is UINavigationController || parent is UITabBarController) {
-                return false
+        var retval = false
+        DNSUIThread.run {
+            if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
+                retval = false
+            } else if presentingViewController != nil {
+                if let parent = parent,
+                   !(parent is UINavigationController || parent is UITabBarController) {
+                    retval = false
+                } else {
+                    retval = true
+                }
+            } else if let navController = navigationController,
+                      navController.presentingViewController?.presentedViewController == navController {
+                retval = true
+            } else if tabBarController?.presentingViewController is UITabBarController {
+                retval = true
             }
-            return true
-        } else if let navController = navigationController, navController.presentingViewController?.presentedViewController == navController {
-            return true
-        } else if tabBarController?.presentingViewController is UITabBarController {
-            return true
         }
-        return false
+        return retval
     }
     var isOnTop: Bool {
         return topController == self
     }
     var topController: UIViewController? {
-        var topController = UIApplication.shared.windows.filter {$0.isKeyWindow}
-            .first?.rootViewController
-        guard topController != nil else {
-            return nil
-        }
-        var presentedViewController = topController
-        while presentedViewController != nil {
-            topController = presentedViewController
-            presentedViewController = topController?.presentedViewController
-            if presentedViewController == nil {
-                let navBarController = topController as? UINavigationController
-                let tabBarController = topController as? UITabBarController
-                if navBarController != nil {
-                    presentedViewController = navBarController!.children.last
-                } else if tabBarController != nil {
-                    if tabBarController!.selectedIndex < tabBarController!.children.count {
-                        presentedViewController = tabBarController!.children[tabBarController!.selectedIndex]
+        var topController: UIViewController?
+        DNSUIThread.run {
+            topController = UIApplication.shared.windows
+                .filter {$0.isKeyWindow}
+                .first?.rootViewController
+            guard topController != nil else { return }
+
+            var presentedViewController = topController
+            while presentedViewController != nil {
+                topController = presentedViewController
+                presentedViewController = topController?.presentedViewController
+                if presentedViewController == nil {
+                    let navBarController = topController as? UINavigationController
+                    let tabBarController = topController as? UITabBarController
+                    if navBarController != nil {
+                        presentedViewController = navBarController!.children.last
+                    } else if tabBarController != nil {
+                        if tabBarController!.selectedIndex < tabBarController!.children.count {
+                            presentedViewController = tabBarController!.children[tabBarController!.selectedIndex]
+                        }
                     }
                 }
             }

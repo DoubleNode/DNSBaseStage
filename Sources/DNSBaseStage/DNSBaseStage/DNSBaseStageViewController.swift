@@ -251,19 +251,19 @@ extension DNSBaseStageViewController {
     var isModal: Bool {
         var retval = false
         DNSUIThread.run {
-            if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
+            if let index = self.navigationController?.viewControllers.firstIndex(of: self), index > 0 {
                 retval = false
-            } else if presentingViewController != nil {
-                if let parent = parent,
+            } else if self.presentingViewController != nil {
+                if let parent = self.parent,
                    !(parent is UINavigationController || parent is UITabBarController) {
                     retval = false
                 } else {
                     retval = true
                 }
-            } else if let navController = navigationController,
+            } else if let navController = self.navigationController,
                       navController.presentingViewController?.presentedViewController == navController {
                 retval = true
-            } else if tabBarController?.presentingViewController is UITabBarController {
+            } else if self.tabBarController?.presentingViewController is UITabBarController {
                 retval = true
             }
         }

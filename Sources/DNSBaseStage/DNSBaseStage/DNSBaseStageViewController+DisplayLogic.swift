@@ -91,30 +91,35 @@ extension DNSBaseStageViewController {
 
         switch self.displayType {
         case .modal?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:modal")
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalCurrentContext?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:modalCurrentContext")
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalFormSheet?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:modalFormSheet")
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalFullScreen?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:modalFullScreen")
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalPageSheet?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:modalPageSheet")
             viewControllerToPresent = self
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
                                  animated: viewModel.animated,
@@ -122,18 +127,21 @@ extension DNSBaseStageViewController {
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .modalPopover?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:modalPopover")
             self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
                                  animated: viewModel.animated,
                                  presentingViewController: presentingViewController,
                                  viewControllerToPresent: viewControllerToPresent)
 
         case .navBarPush(let animated)?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:navBarPush")
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
             
             self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
 
         case .navBarRoot(let animated)?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:navBarRoot")
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
 
@@ -154,6 +162,7 @@ extension DNSBaseStageViewController {
             }
 
         case .navBarRootReplace:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:navBarRootReplace")
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
             
@@ -177,6 +186,7 @@ extension DNSBaseStageViewController {
             }
             
         case.tabBarAdd(let animated, let tabNdx)?:
+            self.utilityLogDisplayType(class: String(describing: self), "startStage:tabBarAdd")
             guard self.baseConfigurator?.tabBarController != nil else { return }
             let tabBarController = self.baseConfigurator!.tabBarController!
 
@@ -625,6 +635,21 @@ extension DNSBaseStageViewController {
 
     // MARK: - Utility methods -
 
+    func utilityCleanupClass(_ class: String) -> String {
+        var retval = `class`
+            .replacingOccurrences(of: "<", with: "")
+            .replacingOccurrences(of: ">", with: "")
+        guard let split1 = retval.split(separator: ":").first else { return retval }
+        retval = "\(split1)"
+        guard let split2 = retval.split(separator: ".").last else { return retval }
+        retval = "\(split2)"
+        return retval
+    }
+    func utilityLogDisplayType(class: String, _ message: String) {
+        let classClean = self.utilityCleanupClass(`class`)
+        print("DNS:DISPLAYTYPE:\(classClean):\(message)")
+    }
+    
     open func utilityPresent(viewControllerToPresent: UIViewController,
                              using presentingViewController: UIViewController,
                              animated: Bool,

@@ -30,19 +30,19 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.4.2"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.4.3"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.4.3"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.4.12"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.4.2"),
         .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.4.6"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.4.0"),
-        .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.3.1"),
+        .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.4.1"),
         .package(name: "IQKeyboardManagerSwift",
                  url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.6"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.7.0"),
         .package(url: "https://github.com/Nirma/SFSymbol", from: "1.0.0"),
         .package(name: "Realm",
-                 url: "https://github.com/realm/realm-cocoa.git", from: "10.5.1"),
+                 url: "https://github.com/realm/realm-cocoa.git", from: "10.5.5"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

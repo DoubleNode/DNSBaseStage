@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSAppCore.git",
         "state": {
           "branch": null,
-          "revision": "3d7703291774e38ee0a7c9484e5a14c1b5c0f09e",
-          "version": "1.4.2"
+          "revision": "9c00f517372ea0071efdb3ceb2dac0cb3ebcfa01",
+          "version": "1.4.3"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSError.git",
         "state": {
           "branch": null,
-          "revision": "5c27adb41433cd491b40434c1aabc094f048ae8f",
-          "version": "1.4.2"
+          "revision": "9be62245c02c9dfcbab55aa53666dcac4f65a530",
+          "version": "1.4.3"
         }
       },
       {

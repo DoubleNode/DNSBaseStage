@@ -143,7 +143,13 @@ extension DNSBaseStageViewController {
                 if navigationController.view.superview == nil {
                     self.utilityPresent(viewControllerToPresent: navigationController,
                                         using: presentingViewController,
-                                        animated: animated) {
+                                        animated: animated) { success in
+                        guard success else {
+                            DNSCore.reportLog("navBarRoot - utilityPresent failed:" +
+                                                " presenting \(type(of: navigationController))" +
+                                                " on \(type(of: presentingViewController))")
+                            return
+                        }
                         navigationController.setViewControllers([ self ],
                                                                 animated: animated)
                     }
@@ -223,7 +229,13 @@ extension DNSBaseStageViewController {
                 (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
                 self.utilityPresent(viewControllerToPresent: viewControllerToPresent,
                                     using: presentingViewController,
-                                    animated: animated) {
+                                    animated: animated) { success in
+                    guard success else {
+                        DNSCore.reportLog("startStageModal - utilityPresent failed:" +
+                                            " presenting \(type(of: viewControllerToPresent))" +
+                                            " on \(type(of: presentingViewController))")
+                        return
+                    }
                     (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
                 }
             }
@@ -466,7 +478,14 @@ extension DNSBaseStageViewController {
             if self.isOnTop {
                 self.utilityPresent(viewControllerToPresent: alertController,
                                     using: self,
-                                    animated: true)
+                                    animated: true) { success in
+                    guard success else {
+                        DNSCore.reportLog("displayConfirmation - utilityPresent failed:" +
+                                            " presenting \(type(of: alertController))" +
+                                            " on \(type(of: self))")
+                        return
+                    }
+                }
             }
         }
     }
@@ -628,13 +647,19 @@ extension DNSBaseStageViewController {
     open func utilityPresent(viewControllerToPresent: UIViewController,
                              using presentingViewController: UIViewController,
                              animated: Bool,
-                             completion: (() -> Void)? = nil) {
+                             completion: ((Bool) -> Void)? = nil) {
+        if viewControllerToPresent.isBeingPresented {
+            DNSCore.reportLog("cancel: presenting \(type(of: viewControllerToPresent))" +
+                                " on \(type(of: presentingViewController))")
+            completion?(false)
+            return
+        }
         DNSCore.reportLog("start: presenting \(type(of: viewControllerToPresent))" +
                             " on \(type(of: presentingViewController))")
         presentingViewController.present(viewControllerToPresent, animated: animated) {
-            DNSCore.reportLog("start: presenting \(type(of: viewControllerToPresent))" +
+            DNSCore.reportLog("stop: presenting \(type(of: viewControllerToPresent))" +
                                 " on \(type(of: presentingViewController))")
-            completion?()
+            completion?(true)
         }
     }
 }

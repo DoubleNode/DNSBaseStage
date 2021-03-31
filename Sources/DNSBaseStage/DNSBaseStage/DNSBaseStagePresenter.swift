@@ -7,6 +7,7 @@
 //
 
 import Combine
+import DNSAppCore
 import DNSCoreThreading
 import DNSProtocols
 import UIKit
@@ -147,9 +148,11 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     open func presentError(_ response: DNSBaseStageModels.Error.Response) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
-        var errorMessage = response.error.localizedDescription
-        if (response.error.localizedFailureReason?.count ?? 0) > 0 {
-            errorMessage += "\n\n\(response.error.localizedFailureReason ?? "")"
+        DNSAppGlobals.appLastDisplayedError = response.error
+        
+        var errorMessage = response.error.nsError.localizedDescription
+        if (response.error.nsError.localizedFailureReason?.count ?? 0) > 0 {
+            errorMessage += "\n\n\(response.error.nsError.localizedFailureReason ?? "")"
         }
 
         var viewModel = DNSBaseStageModels.Message.ViewModel(message: errorMessage,

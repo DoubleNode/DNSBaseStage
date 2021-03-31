@@ -30,11 +30,11 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.3.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.3.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.3.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.3.2"),
-        .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.3.0"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.4.2"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.4.3"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.4.2"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.4.6"),
+        .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.4.0"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.3.1"),
         .package(name: "IQKeyboardManagerSwift",
                  url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.6"),

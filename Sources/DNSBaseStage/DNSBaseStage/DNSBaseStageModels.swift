@@ -6,6 +6,7 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSError
 import Foundation
 import UIKit
 
@@ -178,28 +179,28 @@ open class DNSBaseStageModels {
     }
     public enum Error {
         public struct Request: DNSBaseStageBaseRequest {
-            public var error: NSError
+            public var error: DNSError
             public var style: Style
             public var title: String
 
             public var nibName: String = ""
             public var okayButton: String = ""
 
-            public init(error: NSError, style: Style, title: String) {
+            public init(error: DNSError, style: Style, title: String) {
                 self.error = error
                 self.style = style
                 self.title = title
             }
         }
         public struct Response: DNSBaseStageBaseResponse {
-            public var error: NSError
+            public var error: DNSError
             public var style: Style
             public var title: String
 
             public var nibName: String = ""
             public var okayButton: String = ""
 
-            public init(error: NSError, style: Style, title: String) {
+            public init(error: DNSError, style: Style, title: String) {
                 self.error = error
                 self.style = style
                 self.title = title
@@ -312,9 +313,9 @@ open class DNSBaseStageModels {
     public enum WebpageError {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: URL
-            public var error: NSError
+            public var error: DNSError
 
-            public init(url: URL, error: NSError) {
+            public init(url: URL, error: DNSError) {
                 self.url = url
                 self.error = error
             }

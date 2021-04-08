@@ -61,147 +61,149 @@ extension DNSBaseStageViewController {
     // MARK: - Lifecycle Methods -
     
     public func startStage(_ viewModel: DNSBaseStageModels.Start.ViewModel) {
-        self.displayType = viewModel.displayType
-        self.displayOptions = viewModel.displayOptions
+        DNSUIThread.run {
+            self.displayType = viewModel.displayType
+            self.displayOptions = viewModel.displayOptions
 
-        self.implementDisplayOptionsPreStart()
-        defer {
-            self.implementDisplayOptionsPostStart()
-        }
-
-        var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
-        if presentingViewController != nil {
-            if presentingViewController!.view.superview == nil ||
-                presentingViewController!.isBeingDismissed {
-                presentingViewController = presentingViewController!.parent
+            self.implementDisplayOptionsPreStart()
+            defer {
+                self.implementDisplayOptionsPostStart()
             }
-        }
-        if presentingViewController == nil {
-            presentingViewController = self.baseConfigurator?.rootViewController
-        }
-        if presentingViewController == nil {
-            presentingViewController = DNSCore.appDelegate?.rootViewController()
-        }
 
-        var viewControllerToPresent: UIViewController = self
-        if self.baseConfigurator?.navigationController != nil {
-            // swiftlint:disable:next force_cast line_length
-            viewControllerToPresent = self.baseConfigurator!.navigationController!
-        }
+            var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
+            if presentingViewController != nil {
+                if presentingViewController!.view.superview == nil ||
+                    presentingViewController!.isBeingDismissed {
+                    presentingViewController = presentingViewController!.parent
+                }
+            }
+            if presentingViewController == nil {
+                presentingViewController = self.baseConfigurator?.rootViewController
+            }
+            if presentingViewController == nil {
+                presentingViewController = DNSCore.appDelegate?.rootViewController()
+            }
 
-        switch self.displayType {
-        case .modal?:
-            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
-                                 animated: viewModel.animated,
-                                 presentingViewController: presentingViewController,
-                                 viewControllerToPresent: viewControllerToPresent)
+            var viewControllerToPresent: UIViewController = self
+            if self.baseConfigurator?.navigationController != nil {
+                // swiftlint:disable:next force_cast line_length
+                viewControllerToPresent = self.baseConfigurator!.navigationController!
+            }
 
-        case .modalCurrentContext?:
-            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
-                                 animated: viewModel.animated,
-                                 presentingViewController: presentingViewController,
-                                 viewControllerToPresent: viewControllerToPresent)
+            switch self.displayType {
+            case .modal?:
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
+                                     animated: viewModel.animated,
+                                     presentingViewController: presentingViewController,
+                                     viewControllerToPresent: viewControllerToPresent)
 
-        case .modalFormSheet?:
-            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
-                                 animated: viewModel.animated,
-                                 presentingViewController: presentingViewController,
-                                 viewControllerToPresent: viewControllerToPresent)
+            case .modalCurrentContext?:
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
+                                     animated: viewModel.animated,
+                                     presentingViewController: presentingViewController,
+                                     viewControllerToPresent: viewControllerToPresent)
 
-        case .modalFullScreen?:
-            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
-                                 animated: viewModel.animated,
-                                 presentingViewController: presentingViewController,
-                                 viewControllerToPresent: viewControllerToPresent)
+            case .modalFormSheet?:
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
+                                     animated: viewModel.animated,
+                                     presentingViewController: presentingViewController,
+                                     viewControllerToPresent: viewControllerToPresent)
 
-        case .modalPageSheet?:
-            viewControllerToPresent = self
-            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
-                                 animated: viewModel.animated,
-                                 presentingViewController: presentingViewController,
-                                 viewControllerToPresent: viewControllerToPresent)
+            case .modalFullScreen?:
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
+                                     animated: viewModel.animated,
+                                     presentingViewController: presentingViewController,
+                                     viewControllerToPresent: viewControllerToPresent)
 
-        case .modalPopover?:
-            self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
-                                 animated: viewModel.animated,
-                                 presentingViewController: presentingViewController,
-                                 viewControllerToPresent: viewControllerToPresent)
+            case .modalPageSheet?:
+                viewControllerToPresent = self
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
+                                     animated: viewModel.animated,
+                                     presentingViewController: presentingViewController,
+                                     viewControllerToPresent: viewControllerToPresent)
 
-        case .navBarPush(let animated)?:
-            guard self.baseConfigurator?.navigationController != nil else { return }
-            let navigationController = self.baseConfigurator!.navigationController!
-            
-            self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
+            case .modalPopover?:
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
+                                     animated: viewModel.animated,
+                                     presentingViewController: presentingViewController,
+                                     viewControllerToPresent: viewControllerToPresent)
 
-        case .navBarRoot(let animated)?:
-            guard self.baseConfigurator?.navigationController != nil else { return }
-            let navigationController = self.baseConfigurator!.navigationController!
+            case .navBarPush(let animated)?:
+                guard self.baseConfigurator?.navigationController != nil else { return }
+                let navigationController = self.baseConfigurator!.navigationController!
+                
+                self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
 
-            guard let presentingViewController = presentingViewController else { return }
+            case .navBarRoot(let animated)?:
+                guard self.baseConfigurator?.navigationController != nil else { return }
+                let navigationController = self.baseConfigurator!.navigationController!
 
-            DNSUIThread.run {
-                if navigationController.view.superview == nil {
-                    self.utilityPresent(viewControllerToPresent: navigationController,
-                                        using: presentingViewController,
-                                        animated: animated) { success in
-                        guard success else {
-                            DNSCore.reportLog("navBarRoot - utilityPresent failed:" +
-                                                " presenting \(type(of: navigationController))" +
-                                                " on \(type(of: presentingViewController))")
-                            return
+                guard let presentingViewController = presentingViewController else { return }
+
+                DNSUIThread.run {
+                    if navigationController.view.superview == nil {
+                        self.utilityPresent(viewControllerToPresent: navigationController,
+                                            using: presentingViewController,
+                                            animated: animated) { success in
+                            guard success else {
+                                DNSCore.reportLog("navBarRoot - utilityPresent failed:" +
+                                                    " presenting \(type(of: navigationController))" +
+                                                    " on \(type(of: presentingViewController))")
+                                return
+                            }
+                            navigationController.setViewControllers([ self ],
+                                                                    animated: animated)
                         }
-                        navigationController.setViewControllers([ self ],
-                                                                animated: animated)
+                        return
                     }
-                    return
+                    
+                    navigationController.setViewControllers([ self ], animated: animated)
+                }
+
+            case .navBarRootReplace:
+                guard self.baseConfigurator?.navigationController != nil else { return }
+                let navigationController = self.baseConfigurator!.navigationController!
+                
+                DNSUIThread.run {
+                    var viewControllers = navigationController.viewControllers
+                    
+                    self.tabBarItem.image = self.navigationController?.tabBarItem.image ??
+                        viewControllers.first?.tabBarItem.image
+                    self.tabBarItem.selectedImage = self.navigationController?.tabBarItem.selectedImage ??
+                        viewControllers.first?.tabBarItem.selectedImage
+                    
+                    if viewControllers.contains(self) {
+                        let index = viewControllers.firstIndex(of: self)
+                        if index! > 0 {
+                            viewControllers.remove(at: index!)
+                        }
+                    }
+                    viewControllers[0] = self
+                    
+                    navigationController.setViewControllers(viewControllers, animated: false)
                 }
                 
-                navigationController.setViewControllers([ self ], animated: animated)
-            }
+            case.tabBarAdd(let animated, let tabNdx)?:
+                guard self.baseConfigurator?.tabBarController != nil else { return }
+                let tabBarController = self.baseConfigurator!.tabBarController!
 
-        case .navBarRootReplace:
-            guard self.baseConfigurator?.navigationController != nil else { return }
-            let navigationController = self.baseConfigurator!.navigationController!
-            
-            DNSUIThread.run {
-                var viewControllers = navigationController.viewControllers
-                
-                self.tabBarItem.image = self.navigationController?.tabBarItem.image ??
-                    viewControllers.first?.tabBarItem.image
-                self.tabBarItem.selectedImage = self.navigationController?.tabBarItem.selectedImage ??
-                    viewControllers.first?.tabBarItem.selectedImage
-                
-                if viewControllers.contains(self) {
-                    let index = viewControllers.firstIndex(of: self)
-                    if index! > 0 {
+                _ = DNSUIThread.run(after: 0.1) {
+                    var viewControllers = tabBarController.viewControllers ?? []
+                    if viewControllers.contains(viewControllerToPresent) {
+                        let index = viewControllers.firstIndex(of: viewControllerToPresent)
                         viewControllers.remove(at: index!)
                     }
+                    if tabNdx < viewControllers.count {
+                        viewControllers.insert(viewControllerToPresent, at: tabNdx)
+                    } else {
+                        viewControllers.append(viewControllerToPresent)
+                    }
+                    tabBarController.setViewControllers(viewControllers, animated: animated)
                 }
-                viewControllers[0] = self
-                
-                navigationController.setViewControllers(viewControllers, animated: false)
-            }
-            
-        case.tabBarAdd(let animated, let tabNdx)?:
-            guard self.baseConfigurator?.tabBarController != nil else { return }
-            let tabBarController = self.baseConfigurator!.tabBarController!
 
-            _ = DNSUIThread.run(after: 0.1) {
-                var viewControllers = tabBarController.viewControllers ?? []
-                if viewControllers.contains(viewControllerToPresent) {
-                    let index = viewControllers.firstIndex(of: viewControllerToPresent)
-                    viewControllers.remove(at: index!)
-                }
-                if tabNdx < viewControllers.count {
-                    viewControllers.insert(viewControllerToPresent, at: tabNdx)
-                } else {
-                    viewControllers.append(viewControllerToPresent)
-                }
-                tabBarController.setViewControllers(viewControllers, animated: animated)
+            default:
+                break
             }
-
-        default:
-            break
         }
     }
 

@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
           "branch": null,
-          "revision": "eaf6e622dd41b07b251d8f01752eab31bc811493",
-          "version": "5.4.1"
+          "revision": "4d19ad82f80cc71ff829b941ded114c56f4f604c",
+          "version": "5.4.2"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/Alamofire/AlamofireImage.git",
         "state": {
           "branch": null,
-          "revision": "3e8edbeb75227f8542aa87f90240cf0424d6362f",
-          "version": "4.1.0"
+          "revision": "98cbb00ce0ec5fc8e52a5b50a6bfc08d3e5aee10",
+          "version": "4.2.0"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "f6b2b59da0d9367a49f71279a06459e37da5e6b3",
-          "version": "1.4.7"
+          "revision": "1166a7342c06a65b6196ab4f13ef16e868153602",
+          "version": "1.5.0"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "9f802671553e111a1c7de0da90ea7bd0f3a1c8e5",
-          "version": "1.4.12"
+          "revision": "a783f4bdf699455c1c730af7739029c33b5da838",
+          "version": "1.5.1"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "1b23f3bebcf162a71d3678085ecdea6022c6640a",
-          "version": "1.4.6"
+          "revision": "4642f882ac2bf7b6a2fefa03c41fb01a5e581801",
+          "version": "1.5.0"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSDataObjects.git",
         "state": {
           "branch": null,
-          "revision": "739c7e71ec907d4a2f2cf7cb14b9cd5a3df54c56",
-          "version": "1.4.5"
+          "revision": "0f741ef51a48842540d6dcd3a06617fed66a7472",
+          "version": "1.4.8"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "e6c798c6a429ace2ada625a79f7531e6ca8b231b",
-          "version": "1.4.16"
+          "revision": "04481feaf7b8ebb7b5005a43708a94fff0454ec5",
+          "version": "1.5.1"
         }
       },
       {

@@ -29,38 +29,35 @@ public protocol DNSBaseStageBaseViewModel {
 }
 
 open class DNSBaseStageModels {
+    public struct ToastDefaults {
+        public var dismissingDirection: Direction = .default
+        public var duration: Duration = .default
+        public var location: Location = .default
+        public var presentingDirection: Direction = .default
+        public init() { }
+    }
     public struct Defaults {
-        public var dismissingDirection: Direction = .vertical
-        public var duration: Duration = .average
-        public var location: Location = .bottom
-        public var presentingDirection: Direction = .vertical
-
+        var error: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
+        var message: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
         public init() { }
     }
     static var defaults: DNSBaseStageModels.Defaults = DNSBaseStageModels.Defaults()
 
     public enum Direction {
+        case `default`
         case left
         case right
         case vertical
     }
     public enum Duration {
+        case `default`
         case short
         case average
         case long
         case custom(TimeInterval)
-        
-        var length: TimeInterval {
-            switch self {
-            case .short:   return 2.0
-            case .average: return 4.0
-            case .long:    return 8.0
-            case .custom(let timeInterval):
-                return timeInterval
-            }
-        }
     }
     public enum Location {
+        case `default`
         case top
         case bottom
     }
@@ -228,11 +225,11 @@ open class DNSBaseStageModels {
             }
         }
         public struct Response: DNSBaseStageBaseResponse {
-            public var dismissingDirection: Direction = DNSBaseStageModels.defaults.dismissingDirection
-            public var duration: Duration = DNSBaseStageModels.defaults.duration
+            public var dismissingDirection: Direction = DNSBaseStageModels.defaults.error.dismissingDirection
+            public var duration: Duration = DNSBaseStageModels.defaults.error.duration
             public var error: DNSError
-            public var location: Location = DNSBaseStageModels.defaults.location
-            public var presentingDirection: Direction = DNSBaseStageModels.defaults.presentingDirection
+            public var location: Location = DNSBaseStageModels.defaults.error.location
+            public var presentingDirection: Direction = DNSBaseStageModels.defaults.error.presentingDirection
             public var style: Style
             public var title: String
 
@@ -250,13 +247,13 @@ open class DNSBaseStageModels {
         public struct Request: DNSBaseStageBaseRequest {
         }
         public struct Response: DNSBaseStageBaseResponse {
-            public var dismissingDirection: Direction = DNSBaseStageModels.defaults.dismissingDirection
-            public var duration: Duration = DNSBaseStageModels.defaults.duration
-            public var location: Location = DNSBaseStageModels.defaults.location
+            public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
+            public var duration: Duration = DNSBaseStageModels.defaults.message.duration
+            public var location: Location = DNSBaseStageModels.defaults.message.location
             public var message: String
             public var message2: String = ""
             public var percentage: Float = -1
-            public var presentingDirection: Direction = DNSBaseStageModels.defaults.presentingDirection
+            public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
             public var style: Style
             public var title: String
 
@@ -282,13 +279,13 @@ open class DNSBaseStageModels {
                 public var title: UIFont?
             }
 
-            public var dismissingDirection: Direction = DNSBaseStageModels.defaults.dismissingDirection
-            public var duration: Duration = DNSBaseStageModels.defaults.duration
-            public var location: Location = DNSBaseStageModels.defaults.location
+            public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
+            public var duration: Duration = DNSBaseStageModels.defaults.message.duration
+            public var location: Location = DNSBaseStageModels.defaults.message.location
             public var message: String
             public var message2: String = ""
             public var percentage: Float = -1
-            public var presentingDirection: Direction = DNSBaseStageModels.defaults.presentingDirection
+            public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
             public var style: Style
             public var title: String
 

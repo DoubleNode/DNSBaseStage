@@ -671,7 +671,7 @@ extension DNSBaseStageViewController {
         switch location {
         case .top:
             loafLocation = .top
-        case .bottom:
+        case .bottom, .default:
             loafLocation = .bottom
         }
         let loafPresentingDirection: Loaf.Direction
@@ -680,7 +680,7 @@ extension DNSBaseStageViewController {
             loafPresentingDirection = .left
         case .right:
             loafPresentingDirection = .right
-        case .vertical:
+        case .vertical, .default:
             loafPresentingDirection = .vertical
         }
         let loafDismissingDirection: Loaf.Direction
@@ -689,7 +689,7 @@ extension DNSBaseStageViewController {
             loafDismissingDirection = .left
         case .right:
             loafDismissingDirection = .right
-        case .vertical:
+        case .vertical, .default:
             loafDismissingDirection = .vertical
         }
         let loaf = Loaf(message ?? "",
@@ -702,7 +702,7 @@ extension DNSBaseStageViewController {
         switch duration {
         case .short:
             loafDuration = .short
-        case .average:
+        case .average, .default:
             loafDuration = .average
         case .long:
             loafDuration = .long

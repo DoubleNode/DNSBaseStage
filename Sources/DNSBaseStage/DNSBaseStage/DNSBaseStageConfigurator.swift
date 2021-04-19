@@ -70,6 +70,9 @@ open class DNSBaseStageConfigurator {
     }
 
     open func configureStage() {
+        // Interactor Defaults
+        DNSBaseStageModels.defaults = DNSBaseStageModels.Defaults()
+
         // Connect VIP Object Publishers
         baseInteractor.subscribe(to: baseViewController)
         basePresenter.subscribe(to: baseInteractor)

@@ -41,7 +41,7 @@ open class DNSBaseStageModels {
         public var message: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
         public init() { }
     }
-    static var defaults: DNSBaseStageModels.Defaults = DNSBaseStageModels.Defaults()
+    static public var defaults: DNSBaseStageModels.Defaults = DNSBaseStageModels.Defaults()
 
     public enum Direction {
         case `default`

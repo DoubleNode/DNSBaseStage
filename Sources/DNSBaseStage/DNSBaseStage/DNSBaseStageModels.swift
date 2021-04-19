@@ -34,6 +34,8 @@ open class DNSBaseStageModels {
         public var duration: Duration = .average
         public var location: Location = .bottom
         public var presentingDirection: Direction = .vertical
+
+        public init() { }
     }
     static var defaults: DNSBaseStageModels.Defaults = DNSBaseStageModels.Defaults()
 

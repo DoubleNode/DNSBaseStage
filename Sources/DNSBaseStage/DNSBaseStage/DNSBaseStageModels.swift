@@ -37,8 +37,8 @@ open class DNSBaseStageModels {
         public init() { }
     }
     public struct Defaults {
-        var error: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
-        var message: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
+        public var error: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
+        public var message: DNSBaseStageModels.ToastDefaults = DNSBaseStageModels.ToastDefaults()
         public init() { }
     }
     static var defaults: DNSBaseStageModels.Defaults = DNSBaseStageModels.Defaults()

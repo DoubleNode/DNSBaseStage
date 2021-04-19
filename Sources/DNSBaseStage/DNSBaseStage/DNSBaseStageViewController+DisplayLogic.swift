@@ -532,13 +532,33 @@ extension DNSBaseStageViewController {
                                              actions: actions)
                 }
             case .toastError:
-                self.updateToastDisplay(message: viewModel.message, state: .error)
+                self.updateToastDisplay(message: viewModel.message,
+                                        state: .error,
+                                        presentingDirection: viewModel.presentingDirection,
+                                        dismissingDirection: viewModel.dismissingDirection,
+                                        duration: viewModel.duration,
+                                        location: viewModel.location)
             case .toastInfo:
-                self.updateToastDisplay(message: viewModel.message, state: .info)
+                self.updateToastDisplay(message: viewModel.message,
+                                        state: .info,
+                                        presentingDirection: viewModel.presentingDirection,
+                                        dismissingDirection: viewModel.dismissingDirection,
+                                        duration: viewModel.duration,
+                                        location: viewModel.location)
             case .toastSuccess:
-                self.updateToastDisplay(message: viewModel.message, state: .success)
+                self.updateToastDisplay(message: viewModel.message,
+                                        state: .success,
+                                        presentingDirection: viewModel.presentingDirection,
+                                        dismissingDirection: viewModel.dismissingDirection,
+                                        duration: viewModel.duration,
+                                        location: viewModel.location)
             case .toastWarning:
-                self.updateToastDisplay(message: viewModel.message, state: .warning)
+                self.updateToastDisplay(message: viewModel.message,
+                                        state: .warning,
+                                        presentingDirection: viewModel.presentingDirection,
+                                        dismissingDirection: viewModel.dismissingDirection,
+                                        duration: viewModel.duration,
+                                        location: viewModel.location)
             }
         }
     }
@@ -630,21 +650,69 @@ extension DNSBaseStageViewController {
         }
     }
     public func updateToastDisplay(message: String? = nil,
-                                   state: ToastState = .success ) {
+                                   state: ToastState = .success,
+                                   presentingDirection: DNSBaseStageModels.Direction = .vertical,
+                                   dismissingDirection: DNSBaseStageModels.Direction = .vertical,
+                                   duration: DNSBaseStageModels.Duration = .average,
+                                   location: DNSBaseStageModels.Location = .bottom) {
         let viewController = self.topController ?? self
+        let loafState: Loaf.State
         switch state {
         case .error:
-            Loaf(message ?? "", state: .error, sender: viewController).show()
+            loafState = .error
         case .info:
-            Loaf(message ?? "", state: .info, sender: viewController).show()
+            loafState = .info
         case .success:
-            Loaf(message ?? "", state: .success, sender: viewController).show()
+            loafState = .success
         case .warning:
-            Loaf(message ?? "", state: .warning, sender: viewController).show()
+            loafState = .warning
         }
+        let loafLocation: Loaf.Location
+        switch location {
+        case .top:
+            loafLocation = .top
+        case .bottom:
+            loafLocation = .bottom
+        }
+        let loafPresentingDirection: Loaf.Direction
+        switch presentingDirection {
+        case .left:
+            loafPresentingDirection = .left
+        case .right:
+            loafPresentingDirection = .right
+        case .vertical:
+            loafPresentingDirection = .vertical
+        }
+        let loafDismissingDirection: Loaf.Direction
+        switch dismissingDirection {
+        case .left:
+            loafDismissingDirection = .left
+        case .right:
+            loafDismissingDirection = .right
+        case .vertical:
+            loafDismissingDirection = .vertical
+        }
+        let loaf = Loaf(message ?? "",
+                        state: loafState,
+                        location: loafLocation,
+                        presentingDirection: loafPresentingDirection,
+                        dismissingDirection: loafDismissingDirection,
+                        sender: viewController)
+        let loafDuration: Loaf.Duration
+        switch duration {
+        case .short:
+            loafDuration = .short
+        case .average:
+            loafDuration = .average
+        case .long:
+            loafDuration = .long
+        case .custom(let timeInterval):
+            loafDuration = .custom(timeInterval)
+        }
+        loaf.show(loafDuration) { _/*dismissalReason*/ in }
     }
 
-    // MARK: - Utility methods -
+        // MARK: - Utility methods -
 
     open func utilityPresent(viewControllerToPresent: UIViewController,
                              using presentingViewController: UIViewController,

@@ -29,6 +29,31 @@ public protocol DNSBaseStageBaseViewModel {
 }
 
 open class DNSBaseStageModels {
+    public enum Direction {
+        case left
+        case right
+        case vertical
+    }
+    public enum Duration {
+        case short
+        case average
+        case long
+        case custom(TimeInterval)
+        
+        var length: TimeInterval {
+            switch self {
+            case .short:   return 2.0
+            case .average: return 4.0
+            case .long:    return 8.0
+            case .custom(let timeInterval):
+                return timeInterval
+            }
+        }
+    }
+    public enum Location {
+        case top
+        case bottom
+    }
     public enum Style {
         case none, hudShow, hudHide, popup
         case toastSuccess, toastError, toastWarning, toastInfo
@@ -193,7 +218,11 @@ open class DNSBaseStageModels {
             }
         }
         public struct Response: DNSBaseStageBaseResponse {
+            public var dismissingDirection: Direction = .vertical
+            public var duration: Duration = .average
             public var error: DNSError
+            public var location: Location = .bottom
+            public var presentingDirection: Direction = .vertical
             public var style: Style
             public var title: String
 
@@ -211,9 +240,13 @@ open class DNSBaseStageModels {
         public struct Request: DNSBaseStageBaseRequest {
         }
         public struct Response: DNSBaseStageBaseResponse {
+            public var dismissingDirection: Direction = .vertical
+            public var duration: Duration = .average
+            public var location: Location = .bottom
             public var message: String
             public var message2: String = ""
             public var percentage: Float = -1
+            public var presentingDirection: Direction = .vertical
             public var style: Style
             public var title: String
 
@@ -239,9 +272,13 @@ open class DNSBaseStageModels {
                 public var title: UIFont?
             }
 
+            public var dismissingDirection: Direction = .vertical
+            public var duration: Duration = .average
+            public var location: Location = .bottom
             public var message: String
             public var message2: String = ""
             public var percentage: Float = -1
+            public var presentingDirection: Direction = .vertical
             public var style: Style
             public var title: String
 

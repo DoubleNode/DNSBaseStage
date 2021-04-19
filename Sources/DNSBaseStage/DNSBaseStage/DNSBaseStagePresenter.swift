@@ -161,10 +161,14 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         viewModel.colors = DNSBaseStageModels.Message.ViewModel.Colors(background: errorBackgroundColor,
                                                                        message: errorMessageColor,
                                                                        title: errorTitleColor)
+        viewModel.dismissingDirection = response.dismissingDirection
+        viewModel.duration = response.duration
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: errorMessageFont,
                                                                      title: errorTitleFont)
+        viewModel.location = response.location
         viewModel.nibName = response.nibName
         viewModel.okayButton = response.okayButton
+        viewModel.presentingDirection = response.presentingDirection
         self.messagePublisher.send(viewModel)
     }
     open func presentMessage(_ response: DNSBaseStageModels.Message.Response) {
@@ -179,12 +183,16 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                        message: defaultMessageColor,
                                                                        title: defaultTitleColor)
         viewModel.colors?.message2 = defaultMessageColor
+        viewModel.dismissingDirection = response.dismissingDirection
+        viewModel.duration = response.duration
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: defaultMessageFont,
                                                                      title: defaultTitleFont)
         viewModel.fonts?.message2 = defaultMessageFont
 
+        viewModel.location = response.location
         viewModel.nibName = response.nibName
         viewModel.okayButton = response.okayButton
+        viewModel.presentingDirection = response.presentingDirection
         self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response) {

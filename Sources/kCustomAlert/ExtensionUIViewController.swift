@@ -20,9 +20,9 @@ extension UIViewController {
         let alertVC = CommonAlertVC.init(nibName: nibName,
                                          bundle: Bundle.dnsLookupBundle(for: CommonAlertVC.self))
         alertVC.title = title
-        alertVC.message = subTitle
+        alertVC.message = message
         alertVC.arrayAction = actions
-        alertVC.descriptionMessage = message
+        alertVC.subTitle = subTitle
         alertVC.imageItem = image
         alertVC.okButtonAct = okButtonAction
         //Present

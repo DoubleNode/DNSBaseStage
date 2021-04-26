@@ -6,6 +6,7 @@
 //  Copyright © 2019 Krishna All rights reserved.
 //
 
+import DNSCore
 import UIKit
 
 class CommonAlertVC: UIViewController {
@@ -13,7 +14,7 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var messageLabel: UILabel?
     @IBOutlet weak var titleLabel: UILabel?
-    @IBOutlet weak var descriptionLabel: UILabel?
+    @IBOutlet weak var subTitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
     @IBOutlet weak var okayButton: UIButton!
 
@@ -22,7 +23,7 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var heightViewContainer: NSLayoutConstraint!
 
     var message: String = ""
-    var descriptionMessage: String = ""
+    var subTitle: String = ""
     var imageItem: UIImage?
 
     var arrayAction: [[String: () -> Void]]?
@@ -46,7 +47,7 @@ class CommonAlertVC: UIViewController {
 
         self.messageLabel?.text = message
         self.titleLabel?.text = title
-        self.descriptionLabel?.text = descriptionMessage
+        self.subTitleLabel?.text = subTitle
 
         if imageItem == nil {
             mainImageView?.isHidden = true
@@ -55,11 +56,11 @@ class CommonAlertVC: UIViewController {
             mainImageView?.image = imageItem!
         }
 
-        if !descriptionMessage.isEmpty && (imageItem != nil) {
-            //heightViewContainer.constant = 400
-        } else if !descriptionMessage.isEmpty && (imageItem == nil) {
-            //heightViewContainer.constant = 350
-        }
+//        if !descriptionMessage.isEmpty && (imageItem != nil) {
+//            //heightViewContainer.constant = 400
+//        } else if !descriptionMessage.isEmpty && (imageItem == nil) {
+//            //heightViewContainer.constant = 350
+//        }
 
         if arrayAction == nil {
             //cancelButton.isHidden = true
@@ -70,7 +71,7 @@ class CommonAlertVC: UIViewController {
                     return
                 }
                 let allKeys = Array(dic.keys)
-                let buttonTitle: String = allKeys[buttonCount]    //.uppercased()
+                let buttonTitle: String = allKeys[0]    //.uppercased()
                 if buttonCount == 0 {
                     okayButton.setTitle(buttonTitle, for: .normal)
                 } else {
@@ -137,6 +138,8 @@ class CommonAlertVC: UIViewController {
             let action: (UIAlertAction) -> Void = value
             alert.addAction(UIAlertAction.init(title: buttonTitle, style: .default, handler: action))
         }
-        UIApplication.shared.keyWindow?.rootViewController!.present(alert, animated: true, completion: nil)
+        DNSCore.appDelegate?.rootViewController()
+//        UIApplication.shared.keyWindow?.rootViewController!
+            .present(alert, animated: true, completion: nil)
     }
 }

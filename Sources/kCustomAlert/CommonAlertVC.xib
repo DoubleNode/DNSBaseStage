@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17124"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +16,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommonAlertVC" customModule="KCustomAlert" customModuleProvider="target">
             <connections>
                 <outlet property="cancelButton" destination="uch-SE-dhb" id="BtN-b6-ZBj"/>
-                <outlet property="descriptionLabel" destination="Yuz-DG-t3J" id="Sav-q2-UVG"/>
                 <outlet property="heightViewContainer" destination="MAd-iG-DIg" id="SNu-is-wbw"/>
                 <outlet property="mainImageView" destination="G2I-sn-5Yu" id="Fni-Mf-UOU"/>
                 <outlet property="messageLabel" destination="KKU-ES-83k" id="sj2-5n-VU9"/>
                 <outlet property="okayButton" destination="rl1-yx-ELo" id="Zb1-iT-Bem"/>
+                <outlet property="subTitleLabel" destination="Yuz-DG-t3J" id="vhB-yw-lOZ"/>
                 <outlet property="titleLabel" destination="HwO-zZ-RIh" id="yoS-m1-e0S"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewContainer" destination="Rkx-vf-edJ" id="E3K-fA-shv"/>

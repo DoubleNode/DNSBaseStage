@@ -13,7 +13,7 @@ import DNSProtocols
 import IQKeyboardManagerSwift
 import UIKit
 
-public protocol DNSBaseStageDisplayLogic: class {
+public protocol DNSBaseStageDisplayLogic: AnyObject {
    // MARK: - Outgoing Pipelines
     var stageDidAppearPublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }
     var stageDidClosePublisher: PassthroughSubject<DNSBaseStageBaseRequest, Never> { get }

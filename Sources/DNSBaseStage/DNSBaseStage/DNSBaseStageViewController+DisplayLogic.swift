@@ -508,9 +508,13 @@ extension DNSBaseStageViewController {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup:
+                var cancelButton = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
                 var okayButton = "OK"
 
+                if !viewModel.cancelButton.isEmpty {
+                    cancelButton = viewModel.cancelButton
+                }
                 if !viewModel.nibName.isEmpty {
                     nibName = viewModel.nibName
                 }
@@ -519,16 +523,22 @@ extension DNSBaseStageViewController {
                 }
 
                 let actionOkay : [String: () -> Void] = [ okayButton : { (
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request())
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false))
                 ) }]
-                let actions = [ actionOkay ]
+                let actionCancel : [String: () -> Void] = [ cancelButton : { (
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true))
+                ) }]
+                let actions = [
+                    actionOkay,
+                    actionCancel
+                ]
 
                 if self.isOnTop {
                     self.showCustomAlertWith(nibName: nibName,
                                              title: viewModel.title,
+                                             subTitle: viewModel.subTitle,
                                              message: viewModel.message,
-                                             descMsg: viewModel.message2,
-                                             itemimage: nil,
+                                             image: viewModel.image,
                                              actions: actions)
                 }
             case .toastError:

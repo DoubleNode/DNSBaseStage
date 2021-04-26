@@ -12,7 +12,7 @@ import DNSCoreThreading
 import DNSProtocols
 import UIKit
 
-public protocol DNSBaseStagePresentationLogic: class {
+public protocol DNSBaseStagePresentationLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.ViewModel, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.ViewModel, Never> { get }
@@ -178,16 +178,17 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                              percentage: response.percentage,
                                                              style: response.style,
                                                              title: response.title)
-        viewModel.message2 = response.message2
+        viewModel.image = response.image
+        viewModel.subTitle = response.subTitle
         viewModel.colors = DNSBaseStageModels.Message.ViewModel.Colors(background: defaultBackgroundColor,
                                                                        message: defaultMessageColor,
                                                                        title: defaultTitleColor)
-        viewModel.colors?.message2 = defaultMessageColor
+        viewModel.colors?.subTitle = defaultMessageColor
         viewModel.dismissingDirection = response.dismissingDirection
         viewModel.duration = response.duration
         viewModel.fonts = DNSBaseStageModels.Message.ViewModel.Fonts(message: defaultMessageFont,
                                                                      title: defaultTitleFont)
-        viewModel.fonts?.message2 = defaultMessageFont
+        viewModel.fonts?.subTitle = defaultMessageFont
 
         viewModel.location = response.location
         viewModel.nibName = response.nibName

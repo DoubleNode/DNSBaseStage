@@ -10,7 +10,7 @@ import Combine
 import DNSProtocols
 import Foundation
 
-public protocol DNSBaseStageBusinessLogic: class {
+public protocol DNSBaseStageBusinessLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
     var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
     var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }

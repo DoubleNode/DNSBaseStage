@@ -13,17 +13,17 @@ extension UIViewController {
     public func showCustomAlertWith(nibName: String = "CommonAlertVC",
                                     okButtonAction: (() -> Void)? = {},
                                     title: String,
+                                    subTitle: String,
                                     message: String,
-                                    descMsg: String,
-                                    itemimage: UIImage?,
+                                    image: UIImage?,
                                     actions: [[String: () -> Void]]?) {
         let alertVC = CommonAlertVC.init(nibName: nibName,
                                          bundle: Bundle.dnsLookupBundle(for: CommonAlertVC.self))
         alertVC.title = title
-        alertVC.message = message
+        alertVC.message = subTitle
         alertVC.arrayAction = actions
-        alertVC.descriptionMessage = descMsg
-        alertVC.imageItem = itemimage
+        alertVC.descriptionMessage = message
+        alertVC.imageItem = image
         alertVC.okButtonAct = okButtonAction
         //Present
         alertVC.modalTransitionStyle = .crossDissolve

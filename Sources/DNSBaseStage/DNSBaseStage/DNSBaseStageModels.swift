@@ -245,18 +245,21 @@ open class DNSBaseStageModels {
     }
     public enum Message {
         public struct Request: DNSBaseStageBaseRequest {
+            public var cancelled: Bool = false
         }
         public struct Response: DNSBaseStageBaseResponse {
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.message.duration
+            public var image: UIImage?
             public var location: Location = DNSBaseStageModels.defaults.message.location
             public var message: String
-            public var message2: String = ""
             public var percentage: Float = -1
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
             public var style: Style
+            public var subTitle: String = ""
             public var title: String
 
+            public var cancelButton: String = ""
             public var nibName: String = ""
             public var okayButton: String = ""
 
@@ -270,25 +273,27 @@ open class DNSBaseStageModels {
             public struct Colors {
                 public var background: UIColor?
                 public var message: UIColor?
-                public var message2: UIColor?
+                public var subTitle: UIColor?
                 public var title: UIColor?
             }
             public struct Fonts {
                 public var message: UIFont?
-                public var message2: UIFont?
+                public var subTitle: UIFont?
                 public var title: UIFont?
             }
 
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.message.duration
+            public var image: UIImage?
             public var location: Location = DNSBaseStageModels.defaults.message.location
             public var message: String
-            public var message2: String = ""
             public var percentage: Float = -1
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
+            public var subTitle: String = ""
             public var style: Style
             public var title: String
 
+            public var cancelButton: String = ""
             public var colors: Colors?
             public var fonts: Fonts?
             public var nibName: String = ""

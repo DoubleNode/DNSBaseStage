@@ -10,7 +10,7 @@ import Combine
 import DNSProtocols
 import UIKit
 
-public protocol DNSBaseStageReusableViewLogic: class {
+public protocol DNSBaseStageReusableViewLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
 }
 

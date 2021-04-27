@@ -253,6 +253,7 @@ open class DNSBaseStageModels {
             public var image: UIImage?
             public var imageUrl: URL?
             public var location: Location = DNSBaseStageModels.defaults.message.location
+            public var tags: [String] = []
             public var message: String
             public var percentage: Float = -1
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
@@ -293,6 +294,7 @@ open class DNSBaseStageModels {
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
             public var subTitle: String = ""
             public var style: Style
+            public var tags: [String] = []
             public var title: String
 
             public var cancelButton: String = ""

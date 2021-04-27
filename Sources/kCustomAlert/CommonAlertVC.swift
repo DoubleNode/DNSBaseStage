@@ -18,9 +18,13 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var subTitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
     @IBOutlet weak var okayButton: UIButton!
+    @IBOutlet weak var tag1Label: UILabel?
+    @IBOutlet weak var tag1View: UIView?
+    @IBOutlet weak var tag2Label: UILabel?
+    @IBOutlet weak var tag2View: UIView?
 
     @IBOutlet weak var mainImageView: UIImageView?
-    @IBOutlet var progressView: UIProgressView?
+    @IBOutlet weak var progressView: UIProgressView?
 
     @IBOutlet weak var heightViewContainer: NSLayoutConstraint!
 
@@ -28,6 +32,7 @@ class CommonAlertVC: UIViewController {
     var subTitle: String = ""
     var imageItem: UIImage?
     var imageUrl: URL?
+    var tags: [String] = []
 
     var arrayAction: [[String: () -> Void]]?
     var okButtonAct: (() -> Void)?
@@ -51,6 +56,15 @@ class CommonAlertVC: UIViewController {
         self.messageLabel?.text = message
         self.titleLabel?.text = title
         self.subTitleLabel?.text = subTitle
+
+        if tags.count > 0 {
+            self.tag1Label?.text = tags[0]
+            self.tag1View?.isHidden = self.tag1Label?.text?.isEmpty ?? true
+        }
+        if tags.count > 1 {
+            self.tag2Label?.text = tags[1]
+            self.tag2View?.isHidden = self.tag1Label?.text?.isEmpty ?? true
+        }
 
         if imageItem == nil && imageUrl == nil {
             mainImageView?.isHidden = true

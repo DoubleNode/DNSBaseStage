@@ -12,6 +12,7 @@ import UIKit
 extension UIViewController {
     public func showCustomAlertWith(nibName: String = "CommonAlertVC",
                                     okButtonAction: (() -> Void)? = {},
+                                    tags: [String],
                                     title: String,
                                     subTitle: String,
                                     message: String,
@@ -20,6 +21,7 @@ extension UIViewController {
                                     actions: [[String: () -> Void]]?) {
         let alertVC = CommonAlertVC.init(nibName: nibName,
                                          bundle: Bundle.dnsLookupBundle(for: CommonAlertVC.self))
+        alertVC.tags = tags
         alertVC.title = title
         alertVC.message = message
         alertVC.arrayAction = actions

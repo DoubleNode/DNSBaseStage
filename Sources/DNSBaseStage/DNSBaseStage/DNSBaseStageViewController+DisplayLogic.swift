@@ -535,6 +535,7 @@ extension DNSBaseStageViewController {
 
                 if self.isOnTop {
                     self.showCustomAlertWith(nibName: nibName,
+                                             tags: viewModel.tags,
                                              title: viewModel.title,
                                              subTitle: viewModel.subTitle,
                                              message: viewModel.message,

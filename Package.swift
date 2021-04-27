@@ -30,6 +30,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.4.3"),
+        .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
         .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.4.3"),
         .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.5.1"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.4.2"),
@@ -65,7 +67,7 @@ let package = Package(
         ]),
         .target(
             name: "kCustomAlert",
-            dependencies: ["DNSCore"]),
+            dependencies: ["Alamofire", "AlamofireImage", "DNSCore"]),
         .testTarget(
             name: "DNSBaseStageTests",
             dependencies: ["DNSBaseStage"]),

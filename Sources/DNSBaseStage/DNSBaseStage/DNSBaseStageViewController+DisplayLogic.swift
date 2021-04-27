@@ -539,6 +539,7 @@ extension DNSBaseStageViewController {
                                              subTitle: viewModel.subTitle,
                                              message: viewModel.message,
                                              image: viewModel.image,
+                                             imageUrl: viewModel.imageUrl,
                                              actions: actions)
                 }
             case .toastError:

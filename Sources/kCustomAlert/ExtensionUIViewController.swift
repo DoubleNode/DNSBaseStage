@@ -16,6 +16,7 @@ extension UIViewController {
                                     subTitle: String,
                                     message: String,
                                     image: UIImage?,
+                                    imageUrl: URL?,
                                     actions: [[String: () -> Void]]?) {
         let alertVC = CommonAlertVC.init(nibName: nibName,
                                          bundle: Bundle.dnsLookupBundle(for: CommonAlertVC.self))
@@ -24,6 +25,7 @@ extension UIViewController {
         alertVC.arrayAction = actions
         alertVC.subTitle = subTitle
         alertVC.imageItem = image
+        alertVC.imageUrl = imageUrl
         alertVC.okButtonAct = okButtonAction
         //Present
         alertVC.modalTransitionStyle = .crossDissolve

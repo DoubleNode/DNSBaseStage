@@ -251,6 +251,7 @@ open class DNSBaseStageModels {
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.message.duration
             public var image: UIImage?
+            public var imageUrl: URL?
             public var location: Location = DNSBaseStageModels.defaults.message.location
             public var message: String
             public var percentage: Float = -1
@@ -285,6 +286,7 @@ open class DNSBaseStageModels {
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.message.duration
             public var image: UIImage?
+            public var imageUrl: URL?
             public var location: Location = DNSBaseStageModels.defaults.message.location
             public var message: String
             public var percentage: Float = -1

@@ -6,6 +6,7 @@
 //  Copyright © 2019 Krishna All rights reserved.
 //
 
+import AlamofireImage
 import DNSCore
 import UIKit
 
@@ -19,12 +20,14 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var okayButton: UIButton!
 
     @IBOutlet weak var mainImageView: UIImageView?
+    @IBOutlet var progressView: UIProgressView?
 
     @IBOutlet weak var heightViewContainer: NSLayoutConstraint!
 
     var message: String = ""
     var subTitle: String = ""
     var imageItem: UIImage?
+    var imageUrl: URL?
 
     var arrayAction: [[String: () -> Void]]?
     var okButtonAct: (() -> Void)?
@@ -49,11 +52,25 @@ class CommonAlertVC: UIViewController {
         self.titleLabel?.text = title
         self.subTitleLabel?.text = subTitle
 
-        if imageItem == nil {
+        if imageItem == nil && imageUrl == nil {
             mainImageView?.isHidden = true
         } else {
             mainImageView?.isHidden = false
-            mainImageView?.image = imageItem!
+            mainImageView?.image = nil
+            if imageItem != nil {
+                mainImageView?.image = imageItem!
+            }
+            self.progressView?.setProgress(0.0, animated: false)
+            if imageUrl != nil {
+                self.mainImageView?.af.setImage(withURL: imageUrl!,
+                                           cacheKey: imageUrl!.absoluteString,
+                                           progress: { (progress) in
+                                            self.progressView?.setProgress(Float(progress.fractionCompleted),
+                                                                          animated: true)
+                                            self.progressView?.isHidden = (progress.fractionCompleted >= 1.0)
+                                           },
+                                           imageTransition: UIImageView.ImageTransition.crossDissolve(0.2))
+            }
         }
 
 //        if !descriptionMessage.isEmpty && (imageItem != nil) {

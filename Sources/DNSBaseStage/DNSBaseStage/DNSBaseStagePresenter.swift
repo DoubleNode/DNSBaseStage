@@ -179,6 +179,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                              style: response.style,
                                                              title: response.title)
         viewModel.image = response.image
+        viewModel.imageUrl = response.imageUrl
         viewModel.subTitle = response.subTitle
         viewModel.colors = DNSBaseStageModels.Message.ViewModel.Colors(background: defaultBackgroundColor,
                                                                        message: defaultMessageColor,

@@ -190,6 +190,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                      title: defaultTitleFont)
         viewModel.fonts?.subTitle = defaultMessageFont
 
+        viewModel.cancelButton = response.cancelButton
         viewModel.location = response.location
         viewModel.nibName = response.nibName
         viewModel.okayButton = response.okayButton

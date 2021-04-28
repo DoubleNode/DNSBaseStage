@@ -523,10 +523,12 @@ extension DNSBaseStageViewController {
                 }
 
                 let actionOkay : [String: () -> Void] = [ okayButton : { (
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false))
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false,
+                                                                                      userdata: viewModel.userdata))
                 ) }]
                 let actionCancel : [String: () -> Void] = [ cancelButton : { (
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true))
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true,
+                                                                                      userdata: viewModel.userdata))
                 ) }]
                 let actions = [
                     actionOkay,

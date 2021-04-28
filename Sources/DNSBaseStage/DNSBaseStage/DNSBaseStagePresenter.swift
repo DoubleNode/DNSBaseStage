@@ -197,6 +197,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         viewModel.nibName = response.nibName
         viewModel.okayButton = response.okayButton
         viewModel.presentingDirection = response.presentingDirection
+        viewModel.userdata = response.userdata
         self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response) {

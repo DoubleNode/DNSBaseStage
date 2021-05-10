@@ -16,6 +16,7 @@ extension UIViewController {
                                     title: String,
                                     subTitle: String,
                                     message: String,
+                                    disclaimer: String,
                                     image: UIImage?,
                                     imageUrl: URL?,
                                     actions: [[String: () -> Void]]?) {
@@ -24,6 +25,7 @@ extension UIViewController {
         alertVC.tags = tags
         alertVC.title = title
         alertVC.message = message
+        alertVC.disclaimer = disclaimer
         alertVC.arrayAction = actions
         alertVC.subTitle = subTitle
         alertVC.imageItem = image

@@ -14,6 +14,7 @@ class CommonAlertVC: UIViewController {
 
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var messageLabel: UILabel?
+    @IBOutlet weak var disclaimerLabel: UILabel?
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var subTitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
@@ -28,6 +29,7 @@ class CommonAlertVC: UIViewController {
 
     @IBOutlet weak var heightViewContainer: NSLayoutConstraint!
 
+    var disclaimer: String = ""
     var message: String = ""
     var subTitle: String = ""
     var imageItem: UIImage?
@@ -53,6 +55,7 @@ class CommonAlertVC: UIViewController {
         //okayButton.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
         //cancelButton.setCornerRadiusWith(radius: 25, borderWidth: 1.0, borderColor: #colorLiteral(red: 0.03529411765, green: 0.2274509804, blue: 0.9333333333, alpha: 1))
 
+        self.disclaimerLabel?.text = disclaimer
         self.messageLabel?.text = message
         self.titleLabel?.text = title
         self.subTitleLabel?.text = subTitle

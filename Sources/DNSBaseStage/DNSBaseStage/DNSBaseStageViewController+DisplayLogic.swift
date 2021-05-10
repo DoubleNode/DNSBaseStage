@@ -541,6 +541,7 @@ extension DNSBaseStageViewController {
                                              title: viewModel.title,
                                              subTitle: viewModel.subTitle,
                                              message: viewModel.message,
+                                             disclaimer: viewModel.disclaimer,
                                              image: viewModel.image,
                                              imageUrl: viewModel.imageUrl,
                                              actions: actions)

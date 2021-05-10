@@ -178,6 +178,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                              percentage: response.percentage,
                                                              style: response.style,
                                                              title: response.title)
+        viewModel.disclaimer = response.disclaimer
         viewModel.image = response.image
         viewModel.imageUrl = response.imageUrl
         viewModel.subTitle = response.subTitle

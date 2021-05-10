@@ -249,6 +249,7 @@ open class DNSBaseStageModels {
             public var userdata: Any?
         }
         public struct Response: DNSBaseStageBaseResponse {
+            public var disclaimer: String = ""
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.message.duration
             public var image: UIImage?
@@ -286,6 +287,7 @@ open class DNSBaseStageModels {
                 public var title: UIFont?
             }
 
+            public var disclaimer: String = ""
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.message.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.message.duration
             public var image: UIImage?

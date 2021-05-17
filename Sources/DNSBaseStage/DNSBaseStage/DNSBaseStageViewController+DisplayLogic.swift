@@ -507,26 +507,30 @@ extension DNSBaseStageViewController {
                 self.updateHudDisplay(display: true, percent: viewModel.percentage, with: viewModel.title)
             case .hudHide:
                 self.updateHudDisplay(display: false)
-            case .popup:
-                var cancelButton = "CANCEL"
+            case .popup, .popupAction:
+                var actionText = "OK"
+                var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
-                var okayButton = "OK"
 
-                if !viewModel.cancelButton.isEmpty {
-                    cancelButton = viewModel.cancelButton
+                if !viewModel.cancelText.isEmpty {
+                    cancelText = viewModel.cancelText
                 }
                 if !viewModel.nibName.isEmpty {
                     nibName = viewModel.nibName
                 }
-                if !viewModel.okayButton.isEmpty {
-                    okayButton = viewModel.okayButton
+                if !viewModel.actionText.isEmpty {
+                    actionText = viewModel.actionText
                 }
 
-                let actionOkay : [String: () -> Void] = [ okayButton : { (
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false,
-                                                                                      userdata: viewModel.userdata))
-                ) }]
-                let actionCancel : [String: () -> Void] = [ cancelButton : { (
+                var actionOkay : [String: () -> Void] = [:]
+                var actionCancel : [String: () -> Void] = [:]
+                if viewModel.style == .popupAction {
+                    actionOkay = [ actionText : { (
+                        self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false,
+                                                                                          userdata: viewModel.userdata))
+                    ) }]
+                }
+                actionCancel = [ cancelText : { (
                     self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true,
                                                                                       userdata: viewModel.userdata))
                 ) }]

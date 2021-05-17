@@ -18,9 +18,11 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var subTitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
-    @IBOutlet weak var okayButton: UIButton!
-    @IBOutlet weak var okayButtonView: UIView?
-    @IBOutlet weak var okayButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var cancelButtonView: UIView?
+    @IBOutlet weak var cancelButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var actionButtonView: UIView?
+    @IBOutlet weak var actionButtonViewWidthConstraint: NSLayoutConstraint?
     @IBOutlet weak var tag1Label: UILabel?
     @IBOutlet weak var tag1View: UIView?
     @IBOutlet weak var tag2Label: UILabel?
@@ -54,7 +56,7 @@ class CommonAlertVC: UIViewController {
 
         //viewContainer.layer.cornerRadius = 20.0
         //viewContainer.layer.masksToBounds = true
-        //okayButton.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
+        //actionButton.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
         //cancelButton.setCornerRadiusWith(radius: 25, borderWidth: 1.0, borderColor: #colorLiteral(red: 0.03529411765, green: 0.2274509804, blue: 0.9333333333, alpha: 1))
 
         self.disclaimerLabel?.text = disclaimer
@@ -107,13 +109,25 @@ class CommonAlertVC: UIViewController {
                     return
                 }
                 let allKeys = Array(dic.keys)
-                let buttonTitle: String = allKeys[0]    //.uppercased()
-                if buttonCount == 0 {
-                    okayButton.setTitle(buttonTitle, for: .normal)
-                    okayButtonView?.isHidden = buttonTitle.isEmpty
-                    okayButtonViewWidthConstraint?.isActive = buttonTitle.isEmpty
+                if allKeys.isEmpty {
+                    if buttonCount == 0 {
+                        cancelButtonView?.isHidden = true
+                        cancelButtonViewWidthConstraint?.isActive = true
+                    } else {
+                        actionButtonView?.isHidden = true
+                        actionButtonViewWidthConstraint?.isActive = true
+                    }
                 } else {
-                    cancelButton?.setTitle(buttonTitle, for: .normal)
+                    let buttonTitle: String = allKeys[0]    //.uppercased()
+                    if buttonCount == 0 {
+                        actionButton.setTitle(buttonTitle, for: .normal)
+                        actionButtonView?.isHidden = false
+                        actionButtonViewWidthConstraint?.isActive = false
+                    } else {
+                        cancelButton?.setTitle(buttonTitle, for: .normal)
+                        cancelButtonView?.isHidden = false
+                        cancelButtonViewWidthConstraint?.isActive = false
+                    }
                 }
                 buttonCount += 1
             }
@@ -141,7 +155,7 @@ class CommonAlertVC: UIViewController {
         }
     }
 
-    @IBAction func okayButtonAction(sender: UIButton) {
+    @IBAction func actionButtonAction(sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
         if arrayAction != nil {
             let dic = arrayAction![0]

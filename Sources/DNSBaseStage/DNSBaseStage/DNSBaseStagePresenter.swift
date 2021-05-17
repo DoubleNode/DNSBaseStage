@@ -167,7 +167,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                      title: errorTitleFont)
         viewModel.location = response.location
         viewModel.nibName = response.nibName
-        viewModel.okayButton = response.okayButton
+        viewModel.actionText = response.okayButton
         viewModel.presentingDirection = response.presentingDirection
         self.messagePublisher.send(viewModel)
     }
@@ -193,10 +193,10 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                      title: defaultTitleFont)
         viewModel.fonts?.subTitle = defaultMessageFont
 
-        viewModel.cancelButton = response.cancelButton
+        viewModel.actionText = response.actionText
+        viewModel.cancelText = response.cancelText
         viewModel.location = response.location
         viewModel.nibName = response.nibName
-        viewModel.okayButton = response.okayButton
         viewModel.presentingDirection = response.presentingDirection
         viewModel.userdata = response.userdata
         self.messagePublisher.send(viewModel)

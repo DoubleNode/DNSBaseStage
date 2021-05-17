@@ -62,7 +62,7 @@ open class DNSBaseStageModels {
         case bottom
     }
     public enum Style {
-        case none, hudShow, hudHide, popup
+        case none, hudShow, hudHide, popup, popupAction
         case toastSuccess, toastError, toastWarning, toastInfo
     }
 
@@ -263,9 +263,9 @@ open class DNSBaseStageModels {
             public var subTitle: String = ""
             public var title: String
 
-            public var cancelButton: String = ""
+            public var actionText: String = ""
+            public var cancelText: String = ""
             public var nibName: String = ""
-            public var okayButton: String = ""
             public var userdata: Any?
 
             public init(message: String, style: Style, title: String) {
@@ -301,11 +301,11 @@ open class DNSBaseStageModels {
             public var tags: [String] = []
             public var title: String
 
-            public var cancelButton: String = ""
+            public var actionText: String = ""
+            public var cancelText: String = ""
             public var colors: Colors?
             public var fonts: Fonts?
             public var nibName: String = ""
-            public var okayButton: String = ""
             public var userdata: Any?
 
             public init(message: String, percentage: Float = -1, style: Style, title: String) {

@@ -523,17 +523,17 @@ extension DNSBaseStageViewController {
                 }
 
                 var actionOkay : [String: () -> Void] = [:]
+                actionOkay = [ actionText : { (
+                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false,
+                                                                                      userdata: viewModel.userdata))
+                ) }]
                 var actionCancel : [String: () -> Void] = [:]
                 if viewModel.style == .popupAction {
-                    actionOkay = [ actionText : { (
-                        self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false,
+                    actionCancel = [ cancelText : { (
+                        self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true,
                                                                                           userdata: viewModel.userdata))
                     ) }]
                 }
-                actionCancel = [ cancelText : { (
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true,
-                                                                                      userdata: viewModel.userdata))
-                ) }]
                 let actions = [
                     actionOkay,
                     actionCancel

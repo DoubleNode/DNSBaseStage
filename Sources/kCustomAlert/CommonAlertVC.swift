@@ -18,6 +18,7 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var subTitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
+    @IBOutlet weak var cancelButtonSpacerViewConstraint: NSLayoutConstraint?
     @IBOutlet weak var cancelButtonView: UIView?
     @IBOutlet weak var cancelButtonViewWidthConstraint: NSLayoutConstraint?
     @IBOutlet weak var actionButton: UIButton!
@@ -33,6 +34,7 @@ class CommonAlertVC: UIViewController {
 
     @IBOutlet weak var heightViewContainer: NSLayoutConstraint!
 
+    var cancelButtonSpacerViewConstraintConstant: CGFloat = 0
     var disclaimer: String = ""
     var message: String = ""
     var subTitle: String = ""
@@ -103,6 +105,10 @@ class CommonAlertVC: UIViewController {
         if arrayAction == nil {
             //cancelButton.isHidden = true
         } else {
+            if cancelButtonSpacerViewConstraintConstant == 0.0 {
+                cancelButtonSpacerViewConstraintConstant = cancelButtonSpacerViewConstraint?.constant ?? 0.0
+            }
+            cancelButtonSpacerViewConstraint?.constant = cancelButtonSpacerViewConstraintConstant
             var buttonCount = 0
             for dic in arrayAction! {
                 if buttonCount > 1 {
@@ -110,23 +116,24 @@ class CommonAlertVC: UIViewController {
                 }
                 let allKeys = Array(dic.keys)
                 if allKeys.isEmpty {
+                    cancelButtonSpacerViewConstraint?.constant = 0.0
                     if buttonCount == 0 {
-                        cancelButtonView?.isHidden = true
-                        cancelButtonViewWidthConstraint?.isActive = true
-                    } else {
                         actionButtonView?.isHidden = true
-                        actionButtonViewWidthConstraint?.isActive = true
+                        actionButtonViewWidthConstraint?.priority = UILayoutPriority.required
+                    } else {
+                        cancelButtonView?.isHidden = true
+                        cancelButtonViewWidthConstraint?.priority = UILayoutPriority.required
                     }
                 } else {
                     let buttonTitle: String = allKeys[0]    //.uppercased()
                     if buttonCount == 0 {
                         actionButton.setTitle(buttonTitle, for: .normal)
                         actionButtonView?.isHidden = false
-                        actionButtonViewWidthConstraint?.isActive = false
+                        actionButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                     } else {
                         cancelButton?.setTitle(buttonTitle, for: .normal)
                         cancelButtonView?.isHidden = false
-                        cancelButtonViewWidthConstraint?.isActive = false
+                        cancelButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                     }
                 }
                 buttonCount += 1

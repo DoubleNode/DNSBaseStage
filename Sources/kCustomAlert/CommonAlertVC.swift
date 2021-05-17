@@ -19,6 +19,8 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var subTitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
     @IBOutlet weak var okayButton: UIButton!
+    @IBOutlet weak var okayButtonView: UIView?
+    @IBOutlet weak var okayButtonViewWidthConstraint: NSLayoutConstraint?
     @IBOutlet weak var tag1Label: UILabel?
     @IBOutlet weak var tag1View: UIView?
     @IBOutlet weak var tag2Label: UILabel?

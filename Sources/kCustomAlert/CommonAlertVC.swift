@@ -110,6 +110,8 @@ class CommonAlertVC: UIViewController {
                 let buttonTitle: String = allKeys[0]    //.uppercased()
                 if buttonCount == 0 {
                     okayButton.setTitle(buttonTitle, for: .normal)
+                    okayButtonView?.isHidden = buttonTitle.isEmpty
+                    okayButtonViewWidthConstraint?.isActive = buttonTitle.isEmpty
                 } else {
                     cancelButton?.setTitle(buttonTitle, for: .normal)
                 }

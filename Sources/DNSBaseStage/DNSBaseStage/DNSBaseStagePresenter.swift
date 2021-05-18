@@ -198,7 +198,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         viewModel.location = response.location
         viewModel.nibName = response.nibName
         viewModel.presentingDirection = response.presentingDirection
-        viewModel.userdata = response.userdata
+        viewModel.userData = response.userData
         self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: DNSBaseStageModels.Spinner.Response) {

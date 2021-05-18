@@ -52,6 +52,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var closeNavBarButtonSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
     var errorOccurredSubscriber: AnyCancellable?
+    var messageSubscriber: AnyCancellable?
     var webStartNavigationSubscriber: AnyCancellable?
     var webFinishNavigationSubscriber: AnyCancellable?
     var webErrorNavigationSubscriber: AnyCancellable?
@@ -81,6 +82,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
             .sink { request in self.doConfirmation(request) }
         errorOccurredSubscriber = baseViewController.errorOccurredPublisher
             .sink { request in self.doErrorOccurred(request) }
+        messageSubscriber = baseViewController.messageDonePublisher
+            .sink { request in self.doMessageDone(request) }
         webStartNavigationSubscriber = baseViewController.webStartNavigationPublisher
             .sink { request in self.doWebStartNavigation(request) }
         webFinishNavigationSubscriber = baseViewController.webFinishNavigationPublisher
@@ -111,29 +114,23 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         self.displayType = displayType
         self.displayOptions = displayOptions
         self.baseInitializationObject = initialization
-
         stageStartPublisher.send(DNSBaseStageModels.Start.Response(displayType: displayType,
                                                                    displayOptions: displayOptions))
     }
-
     open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {
         self.baseInitializationObject = initializationObject
     }
-
     open func shouldEndStage() -> Bool {
         let retval = !self.hasStageEnded
-
         self.hasStageEnded = true
         return retval
     }
-
     open func endStage(with intent: String, and dataChanged: Bool, and results: DNSBaseStageBaseResults?) {
         self.endStage(conditionally: false,
                       with: intent,
                       and: dataChanged,
                       and: results)
     }
-
     open func endStage(conditionally: Bool,
                        with intent: String,
                        and dataChanged: Bool,
@@ -143,17 +140,14 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
             !shouldEndStage {
             return
         }
-
         self.baseConfigurator?.endStage(with: intent,
                                         and: dataChanged,
                                         and: results)
     }
-
     open func removeStage() {
         guard self.displayType != nil else { return }
         stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: self.displayType!))
     }
-
     open func send(intent: String,
                    with dataChanged: Bool,
                    and results: DNSBaseStageBaseResults?) {
@@ -188,7 +182,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     
     open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
     open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {
@@ -196,12 +189,14 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
         var response = DNSBaseStageModels.Error.Response(error: request.error,
                                                          style: .popup,
                                                          title: request.title)
         response.okayButton = request.okayButton
         self.errorPublisher.send(response)
+    }
+    open func doMessageDone(_ request: DNSBaseStageModels.Message.Request) {
+        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
 
     open func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
@@ -212,7 +207,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
         self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
                                                                    style: .popup,
                                                                    title: "Web Error"))

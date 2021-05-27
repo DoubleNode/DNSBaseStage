@@ -524,8 +524,10 @@ extension DNSBaseStageViewController {
 
                 var actionOkay : [String: () -> Void] = [:]
                 actionOkay = [ actionText : { (
-                    self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: false,
-                                                                                      userData: viewModel.userData))
+                    // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
+                    self.messageDonePublisher
+                        .send(DNSBaseStageModels.Message.Request(cancelled: viewModel.style == .popup,
+                                                                 userData: viewModel.userData))
                 ) }]
                 var actionCancel : [String: () -> Void] = [:]
                 if viewModel.style == .popupAction {

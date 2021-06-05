@@ -13,10 +13,19 @@ import UIKit
 public protocol DNSBaseStageReusableViewLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
 }
-
 open class DNSBaseStageCollectionReusableView: UICollectionReusableView, DNSBaseStageReusableViewLogic {
-    // MARK: - Outgoing Pipelines -
+    static public var uiNib: UINib {
+        UINib(nibName: String(describing: self),
+              bundle: nil)
+    }
+    static public func register(to collectionView: UICollectionView,
+                                for elementKind: String) {
+        collectionView.register(self.uiNib,
+                                forSupplementaryViewOfKind: elementKind,
+                                withReuseIdentifier: String(describing: self))
+    }
 
+    // MARK: - Outgoing Pipelines -
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
     }
 

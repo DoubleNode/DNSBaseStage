@@ -13,10 +13,17 @@ import UIKit
 public protocol DNSBaseStageCellLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
 }
-
 open class DNSBaseStageCollectionViewCell: UICollectionViewCell, DNSBaseStageCellLogic {
-    // MARK: - Outgoing Pipelines -
+    static public var uiNib: UINib {
+        UINib(nibName: String(describing: self),
+              bundle: nil)
+    }
+    static public func register(to collectionView: UICollectionView) {
+        collectionView.register(self.uiNib,
+                                forCellWithReuseIdentifier: String(describing: self))
+    }
 
+    // MARK: - Outgoing Pipelines -
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
     }
 

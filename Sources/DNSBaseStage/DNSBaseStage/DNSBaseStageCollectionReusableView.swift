@@ -27,6 +27,15 @@ open class DNSBaseStageCollectionReusableView: UICollectionReusableView, DNSBase
                                 forSupplementaryViewOfKind: elementKind,
                                 withReuseIdentifier: self.reuseIdentifier)
     }
+    static public func dequeue(_ kind: String,
+                               from collectionView: UICollectionView,
+                               for indexPath: IndexPath) -> DNSBaseStageCollectionReusableView {
+        return collectionView
+            .dequeueReusableSupplementaryView(ofKind: kind,
+                                              withReuseIdentifier: self.reuseIdentifier,
+                                              // swiftlint:disable:next force_cast
+                                              for: indexPath) as! DNSBaseStageCollectionReusableView
+    }
 
     // MARK: - Outgoing Pipelines -
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {

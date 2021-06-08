@@ -25,6 +25,12 @@ open class DNSBaseStageCollectionViewCell: UICollectionViewCell, DNSBaseStageCel
         collectionView.register(self.uiNib,
                                 forCellWithReuseIdentifier: self.reuseIdentifier)
     }
+    static public func dequeue(from collectionView: UICollectionView,
+                               for indexPath: IndexPath) -> DNSBaseStageCollectionViewCell {
+        return collectionView.dequeueReusableCell(withReuseIdentifier: self.reuseIdentifier,
+                                                  // swiftlint:disable:next force_cast
+                                                  for: indexPath) as! DNSBaseStageCollectionViewCell
+    }
 
     // MARK: - Outgoing Pipelines -
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {

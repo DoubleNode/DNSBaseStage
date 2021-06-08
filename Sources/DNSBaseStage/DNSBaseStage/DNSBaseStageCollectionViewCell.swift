@@ -14,13 +14,16 @@ public protocol DNSBaseStageCellLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
 }
 open class DNSBaseStageCollectionViewCell: UICollectionViewCell, DNSBaseStageCellLogic {
+    static public var reuseIdentifier: String {
+        String(describing: self)
+    }
     static public var uiNib: UINib {
-        UINib(nibName: String(describing: self),
+        UINib(nibName: self.reuseIdentifier,
               bundle: nil)
     }
     static public func register(to collectionView: UICollectionView) {
         collectionView.register(self.uiNib,
-                                forCellWithReuseIdentifier: String(describing: self))
+                                forCellWithReuseIdentifier: self.reuseIdentifier)
     }
 
     // MARK: - Outgoing Pipelines -

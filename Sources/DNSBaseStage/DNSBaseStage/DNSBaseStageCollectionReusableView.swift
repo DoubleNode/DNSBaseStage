@@ -14,15 +14,18 @@ public protocol DNSBaseStageReusableViewLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
 }
 open class DNSBaseStageCollectionReusableView: UICollectionReusableView, DNSBaseStageReusableViewLogic {
+    static public var reuseIdentifier: String {
+        String(describing: self)
+    }
     static public var uiNib: UINib {
-        UINib(nibName: String(describing: self),
+        UINib(nibName: self.reuseIdentifier,
               bundle: nil)
     }
     static public func register(to collectionView: UICollectionView,
                                 for elementKind: String) {
         collectionView.register(self.uiNib,
                                 forSupplementaryViewOfKind: elementKind,
-                                withReuseIdentifier: String(describing: self))
+                                withReuseIdentifier: self.reuseIdentifier)
     }
 
     // MARK: - Outgoing Pipelines -

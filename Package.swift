@@ -52,6 +52,7 @@ let package = Package(
         .target(
             name: "DNSBaseStage",
             dependencies: [
+                "AlamofireImage",
                 "DNSAppCore",
                 "DNSCore",
                 "DNSCrashSystems",

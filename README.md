@@ -48,6 +48,7 @@ dependencies: [
 -   DNSCrashWorkers v1.5.0+
 -   DNSNetwork v1.4.0+
 -   FTLinearActivityIndicator v1.4.1+
+-   GTBlurView v1.0.2+
 -   IQKeyboardManager v6.5.6+
 -   JGProgressHUD v2.2.0+
 -   Loaf v0.7.0+

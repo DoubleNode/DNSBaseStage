@@ -137,6 +137,15 @@
         }
       },
       {
+        "package": "GTBlurView",
+        "repositoryURL": "https://github.com/gabrieltheodoropoulos/GTBlurView.git",
+        "state": {
+          "branch": null,
+          "revision": "ab891a263465972c4cf6ab4d68982dfa1ab6f38b",
+          "version": "1.0.2"
+        }
+      },
+      {
         "package": "IQKeyboardManagerSwift",
         "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager.git",
         "state": {

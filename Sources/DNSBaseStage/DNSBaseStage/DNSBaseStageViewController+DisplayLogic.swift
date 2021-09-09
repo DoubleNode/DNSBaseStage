@@ -9,6 +9,7 @@
 import Combine
 import DNSCore
 import DNSCoreThreading
+import GTBlurView
 import JGProgressHUD
 import kCustomAlert
 import Loaf
@@ -632,7 +633,11 @@ extension DNSBaseStageViewController {
         }
 
         self.view.addSubview(disabledView)
-
+        if display {
+            GTBlurView.addBlur(to: disabledView).showAnimated(duration: 0.3) { }
+        } else {
+            GTBlurView.removeAnimated(from: disabledView, duration: 0.3) { }
+        }
         UIView.animate(withDuration: 0.3,
                        animations: {
                         disabledView.alpha = display ? 1.0 : 0.0

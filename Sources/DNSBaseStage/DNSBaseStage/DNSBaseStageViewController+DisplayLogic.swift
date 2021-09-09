@@ -641,7 +641,7 @@ extension DNSBaseStageViewController {
             if display {
                 GTBlurView
                     .addBlur(to: disabledView)
-                    .set(style: .extraLight)
+                    .set(style: .systemUltraThinMaterial)
                     .showAnimated(duration: 0.3) { }
             } else {
                 GTBlurView.removeAnimated(from: disabledView, duration: 0.3) { }
@@ -649,7 +649,9 @@ extension DNSBaseStageViewController {
         }
         UIView.animate(withDuration: 0.3,
                        animations: {
-                        disabledView.alpha = display ? 1.0 : 0.0
+            if !blur {
+                disabledView.alpha = display ? 1.0 : 0.0
+            }
         },
             completion: { (_) in
             if !display {

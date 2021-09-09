@@ -10,6 +10,7 @@ import Combine
 import DNSCore
 import DNSCoreThreading
 import DNSProtocols
+import GTBlurView
 import IQKeyboardManagerSwift
 import UIKit
 
@@ -48,6 +49,9 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
             self.baseConfigurator?.configureStage()
         }
     }
+    public lazy var intBlurView: GTBlurView = {
+        GTBlurView.addBlur(to: self.blurredView!)
+    }();
 
     // MARK: - Outgoing Pipelines -
     public let stageDidAppearPublisher = PassthroughSubject<DNSBaseStageBaseRequest, Never>()
@@ -116,6 +120,9 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     }
 
     @IBOutlet public weak var activityIndicator: UIActivityIndicatorView?
+    @IBOutlet public weak var blurredView: UIView?
+    @IBOutlet public weak var blurredViewBottomConstraint: NSLayoutConstraint?
+    @IBOutlet public weak var blurredViewTopConstraint: NSLayoutConstraint?
     @IBOutlet public weak var disabledView: UIView?
     @IBOutlet public weak var disabledViewTopConstraint: NSLayoutConstraint?
     @IBOutlet public weak var tapToDismissView: UIView?

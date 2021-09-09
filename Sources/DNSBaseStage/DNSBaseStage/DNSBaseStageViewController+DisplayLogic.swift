@@ -509,8 +509,7 @@ extension DNSBaseStageViewController {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
-                self.updateDisabledViewDisplay(display: true,
-                                               withBlur: true)
+                self.updateBlurredViewDisplay(display: true)
                 var actionText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
@@ -526,16 +525,14 @@ extension DNSBaseStageViewController {
                 }
 
                 let actionOkayBlock: DNSBlock = { () in
-                    self.updateDisabledViewDisplay(display: false,
-                                                   withBlur: true)
+                    self.updateBlurredViewDisplay(display: false)
                     // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: viewModel.style == .popup,
                                                                  userData: viewModel.userData))
                 }
                 let actionCancelBlock: DNSBlock = { () in
-                    self.updateDisabledViewDisplay(display: false,
-                                                   withBlur: true)
+                    self.updateBlurredViewDisplay(display: false)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: true,
                                                                  userData: viewModel.userData))
@@ -621,11 +618,48 @@ extension DNSBaseStageViewController {
 
     // MARK: - parent class methods -
 
-    public func updateDisabledViewDisplay(display: Bool,
-                                          withBlur blur: Bool = false) {
+    public func updateBlurredViewDisplay(display: Bool) {
+        guard self.blurredView != nil else {
+            self.updateDisabledViewDisplay(display: display)
+            return
+        }
+        let blurredView = self.blurredView!
+        let displayAlpha = display ? 1.0 : 0.0
+        
+        let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
+        (self.navigationController?.navigationBar.height ?? 0)
+        if headerHeight > 0 && (self.blurredViewTopConstraint?.constant ?? 0 >= CGFloat(0)) {
+            self.blurredViewTopConstraint?.constant = 0 - headerHeight
+        }
+        let footerHeight: CGFloat = (self.tabBarController?.tabBar.height ?? 0)
+        if footerHeight > 0 && (self.blurredViewBottomConstraint?.constant ?? 0 >= CGFloat(0)) {
+            self.blurredViewBottomConstraint?.constant = 0 - footerHeight
+        }
+
+        if display {
+            self.tabBarController?.tabBar.layer.zPosition = -1
+        }
+        self.tabBarController?.tabBar.items?.forEach { $0.isEnabled = !display }
+
+        self.view.addSubview(blurredView)
+
+        if display {
+            self.intBlurView.set(style: .systemUltraThinMaterialDark).show()
+        }
+        UIView.animate(withDuration: 0.3,
+                       animations: {
+            blurredView.alpha = displayAlpha
+        },
+                       completion: { (_) in
+            if !display {
+                self.tabBarController?.tabBar.layer.zPosition = 0
+            }
+        })
+    }
+    public func updateDisabledViewDisplay(display: Bool) {
         guard self.disabledView != nil else { return }
         let disabledView = self.disabledView!
-        var displayAlpha = display ? 1.0 : 0.0
+        let displayAlpha = display ? 1.0 : 0.0
 
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
             (self.navigationController?.navigationBar.height ?? 0)
@@ -638,22 +672,11 @@ extension DNSBaseStageViewController {
         }
 
         self.view.addSubview(disabledView)
-        if blur {
-            if display {
-                displayAlpha = 0.3
-                GTBlurView
-                    .addBlur(to: disabledView)
-                    .set(style: .systemUltraThinMaterial)
-                    .showAnimated(duration: 0.3) { }
-            } else {
-                GTBlurView.removeAnimated(from: disabledView, duration: 0.3) { }
-            }
-        }
         UIView.animate(withDuration: 0.3,
                        animations: {
             disabledView.alpha = displayAlpha
         },
-            completion: { (_) in
+                       completion: { (_) in
             if !display {
                 self.navigationController?.navigationBar.layer.zPosition = 0
             }

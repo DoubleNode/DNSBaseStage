@@ -523,23 +523,23 @@ extension DNSBaseStageViewController {
                     actionText = viewModel.actionText
                 }
 
-                let actionOkayBlock: DNSBlock = {
+                let actionOkayBlock: DNSBlock = { () in
                     self.updateDisabledViewDisplay(display: false)
                     // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: viewModel.style == .popup,
                                                                  userData: viewModel.userData))
                 }
-                let actionCancelBlock: DNSBlock = {
+                let actionCancelBlock: DNSBlock = { () in
                     self.updateDisabledViewDisplay(display: false)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: true,
                                                                  userData: viewModel.userData))
                 }
 
-                var actionOkay : [String: () -> Void] = [:]
+                var actionOkay: [String: DNSBlock] = [:]
                 actionOkay = [ actionText: actionOkayBlock ]
-                var actionCancel : [String: () -> Void] = [:]
+                var actionCancel: [String: DNSBlock] = [:]
                 if viewModel.style == .popupAction {
                     actionCancel = [ cancelText: actionCancelBlock ]
                 }

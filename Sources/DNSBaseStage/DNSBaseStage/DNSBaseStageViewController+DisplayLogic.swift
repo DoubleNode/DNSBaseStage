@@ -509,7 +509,8 @@ extension DNSBaseStageViewController {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
-                self.updateDisabledViewDisplay(display: true)
+                self.updateDisabledViewDisplay(display: true,
+                                               withBlur: true)
                 var actionText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
@@ -525,14 +526,16 @@ extension DNSBaseStageViewController {
                 }
 
                 let actionOkayBlock: DNSBlock = { () in
-                    self.updateDisabledViewDisplay(display: false)
+                    self.updateDisabledViewDisplay(display: false,
+                                                   withBlur: true)
                     // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: viewModel.style == .popup,
                                                                  userData: viewModel.userData))
                 }
                 let actionCancelBlock: DNSBlock = { () in
-                    self.updateDisabledViewDisplay(display: false)
+                    self.updateDisabledViewDisplay(display: false,
+                                                   withBlur: true)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: true,
                                                                  userData: viewModel.userData))
@@ -618,7 +621,8 @@ extension DNSBaseStageViewController {
 
     // MARK: - parent class methods -
 
-    public func updateDisabledViewDisplay(display: Bool) {
+    public func updateDisabledViewDisplay(display: Bool,
+                                          withBlur blur: Bool = false) {
         guard self.disabledView != nil else { return }
         let disabledView = self.disabledView!
 
@@ -633,13 +637,15 @@ extension DNSBaseStageViewController {
         }
 
         self.view.addSubview(disabledView)
-        if display {
-            GTBlurView
-                .addBlur(to: disabledView)
-                .set(style: .extraLight)
-                .showAnimated(duration: 0.3) { }
-        } else {
-            GTBlurView.removeAnimated(from: disabledView, duration: 0.3) { }
+        if blur {
+            if display {
+                GTBlurView
+                    .addBlur(to: disabledView)
+                    .set(style: .extraLight)
+                    .showAnimated(duration: 0.3) { }
+            } else {
+                GTBlurView.removeAnimated(from: disabledView, duration: 0.3) { }
+            }
         }
         UIView.animate(withDuration: 0.3,
                        animations: {

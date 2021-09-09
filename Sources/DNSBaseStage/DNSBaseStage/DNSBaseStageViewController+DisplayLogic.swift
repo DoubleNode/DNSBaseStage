@@ -634,7 +634,10 @@ extension DNSBaseStageViewController {
 
         self.view.addSubview(disabledView)
         if display {
-            GTBlurView.addBlur(to: disabledView).showAnimated(duration: 0.3) { }
+            GTBlurView
+                .addBlur(to: disabledView)
+                .set(style: .extraLight)
+                .showAnimated(duration: 0.3) { }
         } else {
             GTBlurView.removeAnimated(from: disabledView, duration: 0.3) { }
         }

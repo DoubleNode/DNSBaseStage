@@ -625,6 +625,7 @@ extension DNSBaseStageViewController {
                                           withBlur blur: Bool = false) {
         guard self.disabledView != nil else { return }
         let disabledView = self.disabledView!
+        var displayAlpha = display ? 1.0 : 0.0
 
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
             (self.navigationController?.navigationBar.height ?? 0)
@@ -639,6 +640,7 @@ extension DNSBaseStageViewController {
         self.view.addSubview(disabledView)
         if blur {
             if display {
+                displayAlpha = 0.3
                 GTBlurView
                     .addBlur(to: disabledView)
                     .set(style: .systemUltraThinMaterial)
@@ -649,9 +651,7 @@ extension DNSBaseStageViewController {
         }
         UIView.animate(withDuration: 0.3,
                        animations: {
-            if !blur {
-                disabledView.alpha = display ? 1.0 : 0.0
-            }
+            disabledView.alpha = displayAlpha
         },
             completion: { (_) in
             if !display {

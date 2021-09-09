@@ -508,6 +508,7 @@ extension DNSBaseStageViewController {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
+                self.updateDisabledViewDisplay(display: true)
                 var actionText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
@@ -524,6 +525,7 @@ extension DNSBaseStageViewController {
 
                 var actionOkay : [String: () -> Void] = [:]
                 actionOkay = [ actionText : { (
+                    self.updateDisabledViewDisplay(display: false)
                     // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
                     self.messageDonePublisher
                         .send(DNSBaseStageModels.Message.Request(cancelled: viewModel.style == .popup,
@@ -532,8 +534,10 @@ extension DNSBaseStageViewController {
                 var actionCancel : [String: () -> Void] = [:]
                 if viewModel.style == .popupAction {
                     actionCancel = [ cancelText : { (
-                        self.messageDonePublisher.send(DNSBaseStageModels.Message.Request(cancelled: true,
-                                                                                          userData: viewModel.userData))
+                        self.updateDisabledViewDisplay(display: false)
+                        self.messageDonePublisher
+                            .send(DNSBaseStageModels.Message.Request(cancelled: true,
+                                                                     userData: viewModel.userData))
                     ) }]
                 }
                 let actions = [

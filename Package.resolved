@@ -137,7 +137,7 @@
         }
       },
       {
-        "package": "IQKeyboardManager",
+        "package": "IQKeyboardManagerSwift",
         "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager.git",
         "state": {
           "branch": null,
@@ -164,7 +164,7 @@
         }
       },
       {
-        "package": "realm-cocoa",
+        "package": "Realm",
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
@@ -173,7 +173,7 @@
         }
       },
       {
-        "package": "realm-core",
+        "package": "RealmDatabase",
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,

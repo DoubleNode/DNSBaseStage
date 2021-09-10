@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "523b3d5e284a5049c61329aeef32d3de286f6fc8",
-          "version": "1.5.6"
+          "revision": "60ace9cd3c875b051e64220da37c6d1a9b980416",
+          "version": "1.5.8"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "cf290578a212ff4e55e788bb0ecf01494f8c76f7",
-          "version": "1.5.16"
+          "revision": "8f88e113d8d1bd9cf22f760cbb76bbfd6da6050c",
+          "version": "1.5.23"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "3a405d2fd377f5e22371f428dbf1d1afbf2448fc",
-          "version": "1.5.3"
+          "revision": "1ec85e9fd79bf4c759b1347ff275418ca0632c89",
+          "version": "1.5.5"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSDataObjects.git",
         "state": {
           "branch": null,
-          "revision": "fbb2d8a71ddd38e455b66d5e04361ec3fb3013ac",
-          "version": "1.5.1"
+          "revision": "59216ffadc9029fa7e0b874ebd89cc818028256d",
+          "version": "1.5.2"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSError.git",
         "state": {
           "branch": null,
-          "revision": "9c92588ceedfeb99e00fbb09bb0756beb986fcba",
-          "version": "1.5.2"
+          "revision": "75c34a0bbc51ac040fca801507876844a7f14911",
+          "version": "1.5.3"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "4293645260fcbb8431129822fae294761f73ab4f",
-          "version": "1.5.8"
+          "revision": "707e0b82091a55e860759ffe5e07e25f3c97d9f3",
+          "version": "1.5.11"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/futuretap/FTLinearActivityIndicator.git",
         "state": {
           "branch": null,
-          "revision": "b44be99f7f112e8e8b318ebb46c3dd4e1b19baae",
-          "version": "1.4.1"
+          "revision": "e86222f888b2a52a392ef2da9dcb33d906134ebf",
+          "version": "1.4.2"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
-          "revision": "827f9bf97f44e40fda8a750698f3e096734629ee",
-          "version": "10.8.1"
+          "revision": "e7e7f072a1571435049683ca43c51501de2612fd",
+          "version": "10.14.0"
         }
       },
       {
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "d85d071cc25b6f64fabbbebbaaae20f367ef64ae",
-          "version": "11.0.3"
+          "revision": "fdb2157346dcdf0c2677b3608d9a4c30315fa7f0",
+          "version": "11.3.1"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/Nirma/SFSymbol",
         "state": {
           "branch": null,
-          "revision": "08dda98b2ba4a36653becaab6f4234f5fc2592d2",
-          "version": "1.0.0"
+          "revision": "90ec3de89965be4612b496211e1f31a363a1df42",
+          "version": "1.1.0"
         }
       },
       {

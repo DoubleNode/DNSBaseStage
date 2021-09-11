@@ -624,7 +624,7 @@ extension DNSBaseStageViewController {
             return
         }
         let blurredView = self.blurredView!
-        let displayAlpha = display ? 1.0 : 0.0
+        let displayAlpha: CGFloat = display ? 1.0 : 0.0
         
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
         (self.navigationController?.navigationBar.height ?? 0)
@@ -659,7 +659,7 @@ extension DNSBaseStageViewController {
     public func updateDisabledViewDisplay(display: Bool) {
         guard self.disabledView != nil else { return }
         let disabledView = self.disabledView!
-        let displayAlpha = display ? 1.0 : 0.0
+        let displayAlpha: CGFloat = display ? 1.0 : 0.0
 
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
             (self.navigationController?.navigationBar.height ?? 0)

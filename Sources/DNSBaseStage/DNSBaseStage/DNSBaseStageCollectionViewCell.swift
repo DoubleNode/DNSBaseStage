@@ -37,7 +37,7 @@ open class DNSBaseStageCollectionViewCell: UICollectionViewCell, DNSBaseStageCel
     }
 
     // MARK: - Workers -
-    public var analyticsWorker: PTCLAnalytics_Protocol?
+    public var analyticsWorker: PTCLAnalytics?
 
     override open func awakeFromNib() {
         super.awakeFromNib()

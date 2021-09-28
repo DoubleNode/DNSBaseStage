@@ -9,16 +9,17 @@
 import DNSError
 import Foundation
 
-public enum DNSBaseStageError: Error
-{
+public extension DNSError {
+    typealias BaseStage = DNSBaseStageError
+}
+public enum DNSBaseStageError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
     case webViewError(error: Error, _ codeLocation: DNSCodeLocation)
     case calendarError(error: Error, _ codeLocation: DNSCodeLocation)
     case calendarDenied(_ codeLocation: DNSCodeLocation)
     case mailError(error: Error, _ codeLocation: DNSCodeLocation)
-}
-extension DNSBaseStageError: DNSError {
+
     public static let domain = "DNSBASESTAGE"
     public enum Code: Int
     {

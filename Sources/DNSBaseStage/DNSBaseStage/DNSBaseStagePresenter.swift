@@ -93,7 +93,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public var errorTitleFont:      UIFont = UIFont.boldSystemFont(ofSize: 16)
 
     // MARK: - Workers -
-    public var analyticsWorker: PTCLAnalytics_Protocol?
+    public var analyticsWorker: PTCLAnalytics?
 
     required public init(configurator: DNSBaseStageConfigurator) {
         self.baseConfigurator = configurator
@@ -149,10 +149,10 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSAppGlobals.appLastDisplayedError = response.error
-        
-        var errorMessage = response.error.nsError.localizedDescription
-        if (response.error.nsError.localizedFailureReason?.count ?? 0) > 0 {
-            errorMessage += "\n\n\(response.error.nsError.localizedFailureReason ?? "")"
+
+        var errorMessage = response.error.errorDescription ?? ""
+        if (response.error.failureReason?.count ?? 0) > 0 {
+            errorMessage += "\n\n\(response.error.failureReason ?? "")"
         }
 
         var viewModel = DNSBaseStageModels.Message.ViewModel(message: errorMessage,

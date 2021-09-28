@@ -49,7 +49,6 @@ open class DNSCoordinator: NSObject {
     public var runningChildren: [DNSCoordinator] {
         return self.children.filter { $0.isRunning }
     }
-
     open func cancelRunningChildren() {
         self.runningChildren.forEach { $0.cancel() }
     }
@@ -67,7 +66,6 @@ open class DNSCoordinator: NSObject {
         switch self.runState {
         case .started, .terminated:
             self.reset()
-            
         //case .notStarted:
         default:
             self.runState = .started
@@ -168,7 +166,6 @@ open class DNSCoordinator: NSObject {
         completionBlock?(false)
         completionResultsBlock?(nil)
     }
-
     open func update(from sender: DNSCoordinator? = nil) {
         guard self.runState != .terminated else { return }
         

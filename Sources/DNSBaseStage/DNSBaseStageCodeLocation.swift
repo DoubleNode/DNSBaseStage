@@ -8,6 +8,9 @@
 
 import DNSError
 
+public extension DNSCodeLocation {
+    typealias baseStage = DNSBaseStageCodeLocation
+}
 open class DNSBaseStageCodeLocation: DNSCodeLocation {
     override open class var domainPreface: String { "com.doublenode.baseStage." }
 }

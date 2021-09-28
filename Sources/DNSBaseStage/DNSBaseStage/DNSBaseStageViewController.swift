@@ -129,7 +129,7 @@ open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogi
     @IBOutlet public weak var titleLabel: UILabel?
 
     // MARK: - Workers -
-    public var analyticsWorker: PTCLAnalytics_Protocol?
+    public var analyticsWorker: PTCLAnalytics?
 
     // MARK: - Object settings -
 

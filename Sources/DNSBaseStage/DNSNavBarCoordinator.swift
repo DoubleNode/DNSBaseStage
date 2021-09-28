@@ -91,7 +91,6 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     
     override open func reset() {
         super.reset()
-
         self.savedViewControllers = nil
     }
     override open func stop(with results: DNSBaseStageBaseResults? = nil) {
@@ -101,14 +100,11 @@ open class DNSNavBarCoordinator: DNSCoordinator {
                                                               animated: true)
             }
         }
-
         self.savedViewControllers = nil
-
         super.stop(with: results)
     }
     override open func cancel() {
         self.savedViewControllers = nil
-
         super.cancel()
     }
 }

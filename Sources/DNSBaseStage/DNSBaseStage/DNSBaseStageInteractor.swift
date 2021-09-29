@@ -17,7 +17,7 @@ public protocol DNSBaseStageBusinessLogic: AnyObject {
 
     var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Response, Never> { get }
     var dismissPublisher: PassthroughSubject<DNSBaseStageModels.Dismiss.Response, Never> { get }
-    var errorPublisher: PassthroughSubject<DNSBaseStageModels.Error.Response, Never> { get }
+    var errorPublisher: PassthroughSubject<DNSBaseStageModels.ErrorMessage.Response, Never> { get }
     var messagePublisher: PassthroughSubject<DNSBaseStageModels.Message.Response, Never> { get }
     var spinnerPublisher: PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never> { get }
     var titlePublisher: PassthroughSubject<DNSBaseStageModels.Title.Response, Never> { get }
@@ -34,7 +34,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Response, Never>()
     public let dismissPublisher = PassthroughSubject<DNSBaseStageModels.Dismiss.Response, Never>()
-    public let errorPublisher = PassthroughSubject<DNSBaseStageModels.Error.Response, Never>()
+    public let errorPublisher = PassthroughSubject<DNSBaseStageModels.ErrorMessage.Response, Never>()
     public let messagePublisher = PassthroughSubject<DNSBaseStageModels.Message.Response, Never>()
     public let spinnerPublisher = PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never>()
     public let titlePublisher = PassthroughSubject<DNSBaseStageModels.Title.Response, Never>()
@@ -187,11 +187,11 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
-    open func doErrorOccurred(_ request: DNSBaseStageModels.Error.Request) {
+    open func doErrorOccurred(_ request: DNSBaseStageModels.ErrorMessage.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        var response = DNSBaseStageModels.Error.Response(error: request.error,
-                                                         style: .popup,
-                                                         title: request.title)
+        var response = DNSBaseStageModels.ErrorMessage.Response(error: request.error,
+                                                                style: .popup,
+                                                                title: request.title)
         response.okayButton = request.okayButton
         self.errorPublisher.send(response)
     }
@@ -207,9 +207,10 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        self.errorPublisher.send(DNSBaseStageModels.Error.Response(error: request.error,
-                                                                   style: .popup,
-                                                                   title: "Web Error"))
+        let response = DNSBaseStageModels.ErrorMessage.Response(error: request.error,
+                                                                style: .popup,
+                                                                title: "Web Error")
+        self.errorPublisher.send(response)
     }
     open func doWebLoadProgress(_ request: DNSBaseStageModels.WebpageProgress.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")

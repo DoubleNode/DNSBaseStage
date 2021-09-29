@@ -209,16 +209,16 @@ open class DNSBaseStageModels {
             }
         }
     }
-    public enum Error {
+    public enum ErrorMessage {
         public struct Request: DNSBaseStageBaseRequest {
-            public var error: DNSError
+            public var error: Error
             public var style: Style
             public var title: String
 
             public var nibName: String = ""
             public var okayButton: String = ""
 
-            public init(error: DNSError, style: Style, title: String) {
+            public init(error: Error, style: Style, title: String) {
                 self.error = error
                 self.style = style
                 self.title = title
@@ -227,7 +227,7 @@ open class DNSBaseStageModels {
         public struct Response: DNSBaseStageBaseResponse {
             public var dismissingDirection: Direction = DNSBaseStageModels.defaults.error.dismissingDirection
             public var duration: Duration = DNSBaseStageModels.defaults.error.duration
-            public var error: DNSError
+            public var error: Error
             public var location: Location = DNSBaseStageModels.defaults.error.location
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.error.presentingDirection
             public var style: Style
@@ -236,7 +236,7 @@ open class DNSBaseStageModels {
             public var nibName: String = ""
             public var okayButton: String = ""
 
-            public init(error: DNSError, style: Style, title: String) {
+            public init(error: Error, style: Style, title: String) {
                 self.error = error
                 self.style = style
                 self.title = title
@@ -371,9 +371,9 @@ open class DNSBaseStageModels {
     public enum WebpageError {
         public struct Request: DNSBaseStageBaseRequest {
             public var url: URL
-            public var error: DNSError
+            public var error: Error
 
-            public init(url: URL, error: DNSError) {
+            public init(url: URL, error: Error) {
                 self.url = url
                 self.error = error
             }

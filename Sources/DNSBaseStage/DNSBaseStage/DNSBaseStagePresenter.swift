@@ -60,7 +60,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         dismissSubscriber = baseInteractor.dismissPublisher
             .sink { response in self.presentDismiss(response) }
         errorSubscriber = baseInteractor.errorPublisher
-            .sink { response in self.presentError(response) }
+            .sink { response in self.presentErrorMessage(response) }
         messageSubscriber = baseInteractor.messagePublisher
             .sink { response in self.presentMessage(response) }
         spinnerSubscriber = baseInteractor.spinnerPublisher
@@ -145,16 +145,18 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
         self.dismissPublisher.send(DNSBaseStageModels.Dismiss.ViewModel(animated: response.animated))
     }
-    open func presentError(_ response: DNSBaseStageModels.Error.Response) {
+    open func presentErrorMessage(_ response: DNSBaseStageModels.ErrorMessage.Response) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSAppGlobals.appLastDisplayedError = response.error
 
-        var errorMessage = response.error.errorDescription ?? ""
-        if (response.error.failureReason?.count ?? 0) > 0 {
-            errorMessage += "\n\n\(response.error.failureReason ?? "")"
+        var errorMessage = response.error.localizedDescription
+        if let localizedError = response.error as? LocalizedError {
+            if !(localizedError.failureReason?.isEmpty ?? true) {
+                errorMessage += "\n\n\(localizedError.failureReason ?? "")"
+            }
         }
-
+        
         var viewModel = DNSBaseStageModels.Message.ViewModel(message: errorMessage,
                                                              style: response.style,
                                                              title: response.title)

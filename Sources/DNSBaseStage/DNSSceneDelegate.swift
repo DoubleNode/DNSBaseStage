@@ -15,6 +15,26 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
     public var coordinator: DNSCoordinator?
     public var window: UIWindow?
 
+    /// The instance of the `UIAlertController` used to present the update alert.
+    private var alertController: UIAlertController?
+    /// The `UIWindow` instance that presents the `DNSAlertViewController`.
+    public lazy var updaterWindow = createWindow()
+
+    public func presentAlert(_ alertController: UIAlertController) {
+        self.alertController = alertController
+        if let updaterWindow = updaterWindow, updaterWindow.isHidden {
+            alertController.dnsShow(window: updaterWindow)
+        } else {
+            cleanUpAlert()
+        }
+    }
+    public func cleanUpAlert() {
+        guard let updaterWindow = updaterWindow else { return }
+        alertController?.dnsHide(window: updaterWindow)
+        alertController?.dismiss(animated: true, completion: nil)
+        updaterWindow.resignKey()
+    }
+
     // MARK: - UIWindowSceneDelegate methods
 
     open func scene(_ scene: UIScene,
@@ -103,5 +123,31 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
         (coordinator as? DNSSceneCoordinatorProtocol)?.didEnterBackground()
+    }
+}
+private extension DNSSceneDelegate {
+    private func createWindow() -> UIWindow? {
+        guard let windowScene = getFirstForegroundScene() else { return nil }
+        
+        let window = UIWindow(windowScene: windowScene)
+        window.windowLevel = UIWindow.Level.alert + 1
+        
+        let viewController = DNSAlertViewController()
+        viewController.retainedWindow = window
+        window.rootViewController = viewController
+        
+        return window
+    }
+    
+    @available(iOS 13.0, tvOS 13.0, *)
+    private func getFirstForegroundScene() -> UIWindowScene? {
+        let connectedScenes = UIApplication.shared.connectedScenes
+        if let windowActiveScene = connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            return windowActiveScene
+        } else if let windowInactiveScene = connectedScenes.first(where: { $0.activationState == .foregroundInactive }) as? UIWindowScene {
+            return windowInactiveScene
+        } else {
+            return nil
+        }
     }
 }

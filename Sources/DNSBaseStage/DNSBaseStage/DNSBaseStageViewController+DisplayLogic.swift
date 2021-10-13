@@ -9,6 +9,7 @@
 import Combine
 import DNSCore
 import DNSCoreThreading
+import DNSError
 import GTBlurView
 import JGProgressHUD
 import kCustomAlert
@@ -450,6 +451,7 @@ extension DNSBaseStageViewController {
             for viewModelButton in viewModel.buttons where viewModelButton.title?.count ?? 0 > 0 {
                 let button = UIAlertAction.init(title: viewModelButton.title,
                                                 style: viewModelButton.style!) { (_) in
+                    self.updateBlurredViewDisplay(display: false)
                     var textField1: DNSBaseStageModels.Confirmation.Request.TextField?
                     var textField2: DNSBaseStageModels.Confirmation.Request.TextField?
 
@@ -479,6 +481,7 @@ extension DNSBaseStageViewController {
             }
 
             if self.isOnTop {
+                self.updateBlurredViewDisplay(display: true)
                 self.utilityPresent(viewControllerToPresent: alertController,
                                     using: self,
                                     animated: true) { success in
@@ -509,7 +512,6 @@ extension DNSBaseStageViewController {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
-                self.updateBlurredViewDisplay(display: true)
                 var actionText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
@@ -550,6 +552,7 @@ extension DNSBaseStageViewController {
                 ]
 
                 if self.isOnTop {
+                    self.updateBlurredViewDisplay(display: true)
                     self.showCustomAlertWith(nibName: nibName,
                                              tags: viewModel.tags,
                                              title: viewModel.title,
@@ -645,6 +648,11 @@ extension DNSBaseStageViewController {
 
         if display {
             self.intBlurView.set(style: .systemUltraThinMaterialDark).show()
+        }
+        if displayAlpha > 0.0 {
+            dnsLog.debug("***** Showing Blur ***** (currently \(blurredView.alpha))")
+        } else {
+            dnsLog.debug("***** Hiding Blur ***** (currently \(blurredView.alpha))")
         }
         UIView.animate(withDuration: 0.3,
                        animations: {

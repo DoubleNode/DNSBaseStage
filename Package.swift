@@ -32,8 +32,8 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.4.4"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.6.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.6.1"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.6.2"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.6.8"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.6.0"),
         .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.6.0"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.6.0"),
@@ -44,7 +44,7 @@ let package = Package(
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.7.0"),
         .package(name: "Realm",
-                 url: "https://github.com/realm/realm-cocoa.git", from: "10.14.0"),
+                 url: "https://github.com/realm/realm-cocoa.git", from: "10.17.0"),
         .package(url: "https://github.com/Nirma/SFSymbol", from: "1.1.0"),
     ],
     targets: [

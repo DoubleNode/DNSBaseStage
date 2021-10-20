@@ -215,4 +215,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func doWebLoadProgress(_ request: DNSBaseStageModels.WebpageProgress.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
+    
+    // MARK: - Shortcut Methods
+    open func spinner(show: Bool) {
+        self.spinnerPublisher.send(DNSBaseStageModels.Spinner.Response(show: show))
+    }
 }

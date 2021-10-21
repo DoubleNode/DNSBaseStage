@@ -89,44 +89,44 @@ open class DNSBaseStageModels {
 
     public enum Start {
         public struct Response: DNSBaseStageBaseResponse {
-            public var displayType: DNSBaseStage.DisplayType
-            public var displayOptions: DNSBaseStageDisplayOptions = []
+            public var displayMode: DNSBaseStage.Display.Mode
+            public var displayOptions: DNSBaseStage.Display.Options = []
 
-            public init(displayType: DNSBaseStage.DisplayType,
-                        displayOptions: DNSBaseStageDisplayOptions) {
-                self.displayType = displayType
+            public init(displayMode: DNSBaseStage.Display.Mode,
+                        displayOptions: DNSBaseStage.Display.Options) {
+                self.displayMode = displayMode
                 self.displayOptions = displayOptions
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
-            public var displayType: DNSBaseStage.DisplayType
-            public var displayOptions: DNSBaseStageDisplayOptions = []
+            public var displayMode: DNSBaseStage.Display.Mode
+            public var displayOptions: DNSBaseStage.Display.Options = []
 
             public init(animated: Bool,
-                        displayType: DNSBaseStage.DisplayType,
-                        displayOptions: DNSBaseStageDisplayOptions) {
+                        displayMode: DNSBaseStage.Display.Mode,
+                        displayOptions: DNSBaseStage.Display.Options) {
                 self.animated = animated
-                self.displayType = displayType
+                self.displayMode = displayMode
                 self.displayOptions = displayOptions
             }
         }
     }
     public enum Finish {
         public struct Response: DNSBaseStageBaseResponse {
-            public var displayType: DNSBaseStage.DisplayType
+            public var displayMode: DNSBaseStage.Display.Mode
 
-            public init(displayType: DNSBaseStage.DisplayType) {
-                self.displayType = displayType
+            public init(displayMode: DNSBaseStage.Display.Mode) {
+                self.displayMode = displayMode
             }
         }
         public struct ViewModel: DNSBaseStageBaseViewModel {
             public var animated: Bool
-            public var displayType: DNSBaseStage.DisplayType
+            public var displayMode: DNSBaseStage.Display.Mode
 
-            public init(animated: Bool, displayType: DNSBaseStage.DisplayType) {
+            public init(animated: Bool, displayMode: DNSBaseStage.Display.Mode) {
                 self.animated = animated
-                self.displayType = displayType
+                self.displayMode = displayMode
             }
         }
     }

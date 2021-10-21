@@ -21,50 +21,40 @@ extension DNSBaseStageViewController {
     public enum ToastState {
         case error, info, success, warning
     }
-
     var hud: JGProgressHUD {
         return JGProgressHUD(style: .dark)
     }
 
     // MARK: - Stage Lifecycle Methods -
-
     open func stageDidAppear() {
-        stageDidAppearPublisher.send(DNSBaseStageModels.Base.Request())
+        stageDidAppearPublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageDidClose() {
-        stageDidClosePublisher.send(DNSBaseStageModels.Base.Request())
+        stageDidClosePublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageDidDisappear() {
-        stageDidDisappearPublisher.send(DNSBaseStageModels.Base.Request())
+        stageDidDisappearPublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageDidHide() {
-        stageDidHidePublisher.send(DNSBaseStageModels.Base.Request())
+        stageDidHidePublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageDidLoad() {
-        stageDidLoadPublisher.send(DNSBaseStageModels.Base.Request())
+        stageDidLoadPublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageWillAppear() {
-        stageWillAppearPublisher.send(DNSBaseStageModels.Base.Request())
+        stageWillAppearPublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageWillDisappear() {
-        stageWillDisappearPublisher.send(DNSBaseStageModels.Base.Request())
+        stageWillDisappearPublisher.send(BaseStage.Models.Base.Request())
     }
-
     open func stageWillHide() {
-        stageWillHidePublisher.send(DNSBaseStageModels.Base.Request())
+        stageWillHidePublisher.send(BaseStage.Models.Base.Request())
     }
 
     // MARK: - Lifecycle Methods -
-    
-    public func startStage(_ viewModel: DNSBaseStageModels.Start.ViewModel) {
+    public func startStage(_ viewModel: BaseStage.Models.Start.ViewModel) {
         DNSUIThread.run {
-            self.displayType = viewModel.displayType
+            self.displayMode = viewModel.displayMode
             self.displayOptions = viewModel.displayOptions
 
             self.implementDisplayOptionsPreStart()
@@ -92,56 +82,46 @@ extension DNSBaseStageViewController {
                 viewControllerToPresent = self.baseConfigurator!.navigationController!
             }
 
-            switch self.displayType {
+            switch self.displayMode {
             case .modal?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
-
             case .modalCurrentContext?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
-
             case .modalFormSheet?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
-
             case .modalFullScreen?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
-
             case .modalPageSheet?:
                 viewControllerToPresent = self
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
-
             case .modalPopover?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
-
             case .navBarPush(let animated)?:
                 guard self.baseConfigurator?.navigationController != nil else { return }
                 let navigationController = self.baseConfigurator!.navigationController!
-                
                 self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
-
             case .navBarRoot(let animated)?:
                 guard self.baseConfigurator?.navigationController != nil else { return }
                 let navigationController = self.baseConfigurator!.navigationController!
-
                 guard let presentingViewController = presentingViewController else { return }
-
                 DNSUIThread.run {
                     if navigationController.view.superview == nil {
                         self.utilityPresent(viewControllerToPresent: navigationController,
@@ -158,22 +138,17 @@ extension DNSBaseStageViewController {
                         }
                         return
                     }
-                    
                     navigationController.setViewControllers([ self ], animated: animated)
                 }
-
             case .navBarRootReplace:
                 guard self.baseConfigurator?.navigationController != nil else { return }
                 let navigationController = self.baseConfigurator!.navigationController!
-                
                 DNSUIThread.run {
                     var viewControllers = navigationController.viewControllers
-                    
                     self.tabBarItem.image = self.navigationController?.tabBarItem.image ??
                         viewControllers.first?.tabBarItem.image
                     self.tabBarItem.selectedImage = self.navigationController?.tabBarItem.selectedImage ??
                         viewControllers.first?.tabBarItem.selectedImage
-                    
                     if viewControllers.contains(self) {
                         let index = viewControllers.firstIndex(of: self)
                         if index! > 0 {
@@ -181,14 +156,11 @@ extension DNSBaseStageViewController {
                         }
                     }
                     viewControllers[0] = self
-                    
                     navigationController.setViewControllers(viewControllers, animated: false)
                 }
-                
             case.tabBarAdd(let animated, let tabNdx)?:
                 guard self.baseConfigurator?.tabBarController != nil else { return }
                 let tabBarController = self.baseConfigurator!.tabBarController!
-
                 _ = DNSUIThread.run(after: 0.1) {
                     var viewControllers = tabBarController.viewControllers ?? []
                     if viewControllers.contains(viewControllerToPresent) {
@@ -202,13 +174,11 @@ extension DNSBaseStageViewController {
                     }
                     tabBarController.setViewControllers(viewControllers, animated: animated)
                 }
-
             default:
                 break
             }
         }
     }
-
     private func startStageModal(modalPresentationStyle: UIModalPresentationStyle,
                                  animated: Bool,
                                  presentingViewController: UIViewController?,
@@ -229,7 +199,6 @@ extension DNSBaseStageViewController {
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = modalPresentationStyle
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-
                 (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
                 self.utilityPresent(viewControllerToPresent: viewControllerToPresent,
                                     using: presentingViewController,
@@ -245,37 +214,30 @@ extension DNSBaseStageViewController {
             }
         }
     }
-
     private func startStageNavBarPush(navBarController: UINavigationController,
-                                      _ viewModel: DNSBaseStageModels.Start.ViewModel,
+                                      _ viewModel: BaseStage.Models.Start.ViewModel,
                                       _ animated: Bool) {
         let animated: Bool = viewModel.animated && animated
-
         DNSUIThread.run {
             guard !navBarController.viewControllers.isEmpty else {
                 navBarController.setViewControllers([ self ], animated: animated)
                 return
             }
             guard navBarController.viewControllers.last != self else { return }
-
             if navBarController.viewControllers.contains(self) {
                 let index = navBarController.viewControllers.firstIndex(of: self)
                 if index != nil {
                     navBarController.viewControllers.remove(at: index!)
                 }
             }
-
             let viewController      = navBarController.viewControllers.last
             let dnsViewController   = viewController as? DNSBaseStageViewController
             dnsViewController?.updateStageBackTitle()
-
             navBarController.pushViewController(self, animated: animated)
         }
     }
-
-    public func endStage(_ viewModel: DNSBaseStageModels.Finish.ViewModel) {
-        self.displayType = viewModel.displayType
-
+    public func endStage(_ viewModel: BaseStage.Models.Finish.ViewModel) {
+        self.displayMode = viewModel.displayMode
         var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
         if presentingViewController != nil {
             if presentingViewController!.view.superview == nil ||
@@ -283,8 +245,7 @@ extension DNSBaseStageViewController {
                 presentingViewController = presentingViewController!.parent
             }
         }
-
-        switch self.displayType {
+        switch self.displayMode {
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
             DNSUIThread.run {
@@ -293,13 +254,10 @@ extension DNSBaseStageViewController {
                     (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
                 }
             }
-
         case .navBarPush(let animated)?:
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
-
             self.endStageNavBarPush(navBarController: navigationController, viewModel, animated)
-
         case .navBarRoot(let animated)?:
             guard self.baseConfigurator?.navigationController != nil else { return }
             let navigationController = self.baseConfigurator!.navigationController!
@@ -318,13 +276,10 @@ extension DNSBaseStageViewController {
                     self.baseConfigurator?.navigationController = nil
                 }
             }
-
         case.tabBarAdd(let animated, _/*tabNdx*/)?:
             guard self.baseConfigurator?.tabBarController != nil else { return }
             let tabBarController = self.baseConfigurator!.tabBarController!
-
             guard tabBarController.viewControllers?.contains(self) ?? false else { return }
-
             DNSUIThread.run {
                 var viewControllers = tabBarController.viewControllers ?? []
                 if viewControllers.contains(self) {
@@ -334,30 +289,25 @@ extension DNSBaseStageViewController {
                 tabBarController.setViewControllers(viewControllers, animated: animated)
                 self.removeFromParent()
             }
-
         default:
             break
         }
     }
-
     private func endStageNavBarPush(navBarController: UINavigationController,
-                                    _ viewModel: DNSBaseStageModels.Finish.ViewModel,
+                                    _ viewModel: BaseStage.Models.Finish.ViewModel,
                                     _ animated: Bool) {
         let animated: Bool = viewModel.animated && animated
-
         guard navBarController.viewControllers.contains(self) else { return }
         guard !navBarController.viewControllers.isEmpty else { return }
-
+        
         var delay = 0.1
         if !self.children.isEmpty {
             delay = 0.5
         }
-        
         _ = DNSUIThread.run(after: delay) {
             navBarController.popViewController(animated: animated)
         }
     }
-
     private func implementDisplayOptionsPreStart() {
         guard !displayOptions.isEmpty else { return }
 
@@ -368,16 +318,14 @@ extension DNSBaseStageViewController {
             for displayOption in weakSelf.displayOptions {
                 switch displayOption {
                 case .navController:
-                    if weakSelf.baseConfigurator?.navigationController == nil {
-                        weakSelf.baseConfigurator?.navigationController = UINavigationController(rootViewController: weakSelf)
-                    }
+                    guard weakSelf.baseConfigurator?.navigationController == nil else { break }
+                    weakSelf.baseConfigurator?.navigationController = UINavigationController(rootViewController: weakSelf)
                 default:
                     break
                 }
             }
         }
     }
-
     private func implementDisplayOptionsPostStart() {
         guard !displayOptions.isEmpty else { return }
 
@@ -420,8 +368,7 @@ extension DNSBaseStageViewController {
     }
 
     // MARK: - Display logic -
-
-    public func displayConfirmation(_ viewModel: DNSBaseStageModels.Confirmation.ViewModel) {
+    public func displayConfirmation(_ viewModel: BaseStage.Models.Confirmation.ViewModel) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSUIThread.run {
@@ -452,19 +399,19 @@ extension DNSBaseStageViewController {
                 let button = UIAlertAction.init(title: viewModelButton.title,
                                                 style: viewModelButton.style!) { (_) in
                     self.updateBlurredViewDisplay(display: false)
-                    var textField1: DNSBaseStageModels.Confirmation.Request.TextField?
-                    var textField2: DNSBaseStageModels.Confirmation.Request.TextField?
+                    var textField1: BaseStage.Models.Confirmation.Request.TextField?
+                    var textField2: BaseStage.Models.Confirmation.Request.TextField?
 
                     if alertController.textFields?.count ?? 0 > 0 {
-                        textField1 = DNSBaseStageModels.Confirmation.Request.TextField()
+                        textField1 = BaseStage.Models.Confirmation.Request.TextField()
                         textField1!.value = alertController.textFields?[0].text
                     }
                     if alertController.textFields?.count ?? 0 > 1 {
-                        textField2 = DNSBaseStageModels.Confirmation.Request.TextField()
+                        textField2 = BaseStage.Models.Confirmation.Request.TextField()
                         textField2!.value = alertController.textFields?[1].text
                     }
 
-                    let request = DNSBaseStageModels.Confirmation.Request()
+                    let request = BaseStage.Models.Confirmation.Request()
                     request.selection = viewModelButton.code
                     if textField1 != nil {
                         request.textFields.append(textField1!)
@@ -495,14 +442,13 @@ extension DNSBaseStageViewController {
             }
         }
     }
-    public func displayDismiss(_ viewModel: DNSBaseStageModels.Dismiss.ViewModel) {
+    public func displayDismiss(_ viewModel: BaseStage.Models.Dismiss.ViewModel) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
-        self.endStage(DNSBaseStageModels.Finish.ViewModel(animated: viewModel.animated, displayType: self.displayType!))
+        self.endStage(BaseStage.Models.Finish.ViewModel(animated: viewModel.animated,
+                                                        displayMode: self.displayMode!))
     }
-    public func displayMessage(_ viewModel: DNSBaseStageModels.Message.ViewModel) {
+    public func displayMessage(_ viewModel: BaseStage.Models.Message.ViewModel) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
         DNSUIThread.run {
             switch viewModel.style {
             case .none:
@@ -515,7 +461,6 @@ extension DNSBaseStageViewController {
                 var actionText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
-
                 if !viewModel.cancelText.isEmpty {
                     cancelText = viewModel.cancelText
                 }
@@ -525,19 +470,18 @@ extension DNSBaseStageViewController {
                 if !viewModel.actionText.isEmpty {
                     actionText = viewModel.actionText
                 }
-
                 let actionOkayBlock: DNSBlock = { () in
                     self.updateBlurredViewDisplay(display: false)
                     // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
                     self.messageDonePublisher
-                        .send(DNSBaseStageModels.Message.Request(cancelled: viewModel.style == .popup,
-                                                                 userData: viewModel.userData))
+                        .send(BaseStage.Models.Message.Request(cancelled: viewModel.style == .popup,
+                                                               userData: viewModel.userData))
                 }
                 let actionCancelBlock: DNSBlock = { () in
                     self.updateBlurredViewDisplay(display: false)
                     self.messageDonePublisher
-                        .send(DNSBaseStageModels.Message.Request(cancelled: true,
-                                                                 userData: viewModel.userData))
+                        .send(BaseStage.Models.Message.Request(cancelled: true,
+                                                               userData: viewModel.userData))
                 }
 
                 var actionOkay: [String: DNSBlock] = [:]
@@ -594,16 +538,14 @@ extension DNSBaseStageViewController {
             }
         }
     }
-    public func displaySpinner(_ viewModel: DNSBaseStageModels.Spinner.ViewModel) {
+    public func displaySpinner(_ viewModel: BaseStage.Models.Spinner.ViewModel) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
         DNSUIThread.run {
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
-    public func displayTitle(_ viewModel: DNSBaseStageModels.Title.ViewModel) {
+    public func displayTitle(_ viewModel: BaseStage.Models.Title.ViewModel) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
         DNSUIThread.run {
             if viewModel.tabBarUnselectedImage != nil {
                 self.tabBarItem.image = viewModel.tabBarUnselectedImage
@@ -613,14 +555,12 @@ extension DNSBaseStageViewController {
                 self.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
                 self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
             }
-
             // This need to be AFTER the tabBar image assignments above
             self.stageTitle = viewModel.title
         }
     }
 
     // MARK: - parent class methods -
-
     public func updateBlurredViewDisplay(display: Bool) {
         guard self.blurredView != nil else {
             self.updateDisabledViewDisplay(display: display)
@@ -726,10 +666,10 @@ extension DNSBaseStageViewController {
     }
     public func updateToastDisplay(message: String? = nil,
                                    state: ToastState = .success,
-                                   presentingDirection: DNSBaseStageModels.Direction = .vertical,
-                                   dismissingDirection: DNSBaseStageModels.Direction = .vertical,
-                                   duration: DNSBaseStageModels.Duration = .average,
-                                   location: DNSBaseStageModels.Location = .bottom) {
+                                   presentingDirection: BaseStage.Models.Direction = .vertical,
+                                   dismissingDirection: BaseStage.Models.Direction = .vertical,
+                                   duration: BaseStage.Models.Duration = .average,
+                                   location: BaseStage.Models.Location = .bottom) {
         let viewController = self.topController ?? self
         let loafState: Loaf.State
         switch state {
@@ -788,7 +728,6 @@ extension DNSBaseStageViewController {
     }
 
         // MARK: - Utility methods -
-
     open func utilityPresent(viewControllerToPresent: UIViewController,
                              using presentingViewController: UIViewController,
                              animated: Bool,

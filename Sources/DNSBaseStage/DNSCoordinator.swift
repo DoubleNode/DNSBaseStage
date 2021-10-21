@@ -203,8 +203,8 @@ open class DNSCoordinator: NSObject {
     }
 
     public func startStage(_ configurator: DNSBaseStageConfigurator,
-                           and displayType: DNSBaseStage.DisplayType,
-                           with displayOptions: DNSBaseStageDisplayOptions = [],
+                           and displayMode: DNSBaseStage.Display.Mode,
+                           with displayOptions: DNSBaseStage.Display.Options = [],
                            and initializationObject: DNSBaseStageBaseInitialization,
                            thenRunActions actions: [String: DNSCoordinatorResultsBlock]) {
         var lastCoordinator: DNSCoordinator? = self
@@ -216,7 +216,7 @@ open class DNSCoordinator: NSObject {
         }
 
         _ = configurator.runStage(with: self,
-                                  and: displayType,
+                                  and: displayMode,
                                   with: displayOptions,
                                   and: initializationObject) { (_, intent, _, results) in
                                     self.latestConfigurator = configurator
@@ -230,7 +230,7 @@ open class DNSCoordinator: NSObject {
     }
 
     public func updateStage(_ configurator: DNSBaseStageConfigurator,
-                            with initializationObject: DNSBaseStageBaseInitialization) {
+                            with initializationObject: DNSBaseStageModels.Base.Initialization) {
         configurator.updateStage(with: initializationObject)
     }
 

@@ -11,33 +11,37 @@ import DNSProtocols
 import Foundation
 
 public protocol DNSBaseStageBusinessLogic: AnyObject {
+    typealias BaseStage = DNSBaseStage
+    
     // MARK: - Outgoing Pipelines -
-    var stageStartPublisher: PassthroughSubject<DNSBaseStageModels.Start.Response, Never> { get }
-    var stageEndPublisher: PassthroughSubject<DNSBaseStageModels.Finish.Response, Never> { get }
+    var stageStartPublisher: PassthroughSubject<BaseStage.Models.Start.Response, Never> { get }
+    var stageEndPublisher: PassthroughSubject<BaseStage.Models.Finish.Response, Never> { get }
 
-    var confirmationPublisher: PassthroughSubject<DNSBaseStageModels.Confirmation.Response, Never> { get }
-    var dismissPublisher: PassthroughSubject<DNSBaseStageModels.Dismiss.Response, Never> { get }
-    var errorPublisher: PassthroughSubject<DNSBaseStageModels.ErrorMessage.Response, Never> { get }
-    var messagePublisher: PassthroughSubject<DNSBaseStageModels.Message.Response, Never> { get }
-    var spinnerPublisher: PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never> { get }
-    var titlePublisher: PassthroughSubject<DNSBaseStageModels.Title.Response, Never> { get }
+    var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.Response, Never> { get }
+    var dismissPublisher: PassthroughSubject<BaseStage.Models.Dismiss.Response, Never> { get }
+    var errorPublisher: PassthroughSubject<BaseStage.Models.ErrorMessage.Response, Never> { get }
+    var messagePublisher: PassthroughSubject<BaseStage.Models.Message.Response, Never> { get }
+    var spinnerPublisher: PassthroughSubject<BaseStage.Models.Spinner.Response, Never> { get }
+    var titlePublisher: PassthroughSubject<BaseStage.Models.Title.Response, Never> { get }
 }
 
 open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
+    public typealias BaseStage = DNSBaseStage
+    
     // MARK: - Public Associated Type Properties -
-    public var baseConfigurator: DNSBaseStageConfigurator?
+    public var baseConfigurator: BaseStage.Configurator?
     public var baseInitializationObject: DNSBaseStageBaseInitialization?
 
     // MARK: - Outgoing Pipelines -
-    public let stageStartPublisher = PassthroughSubject<DNSBaseStageModels.Start.Response, Never>()
-    public let stageEndPublisher = PassthroughSubject<DNSBaseStageModels.Finish.Response, Never>()
+    public let stageStartPublisher = PassthroughSubject<BaseStage.Models.Start.Response, Never>()
+    public let stageEndPublisher = PassthroughSubject<BaseStage.Models.Finish.Response, Never>()
 
-    public let confirmationPublisher = PassthroughSubject<DNSBaseStageModels.Confirmation.Response, Never>()
-    public let dismissPublisher = PassthroughSubject<DNSBaseStageModels.Dismiss.Response, Never>()
-    public let errorPublisher = PassthroughSubject<DNSBaseStageModels.ErrorMessage.Response, Never>()
-    public let messagePublisher = PassthroughSubject<DNSBaseStageModels.Message.Response, Never>()
-    public let spinnerPublisher = PassthroughSubject<DNSBaseStageModels.Spinner.Response, Never>()
-    public let titlePublisher = PassthroughSubject<DNSBaseStageModels.Title.Response, Never>()
+    public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.Response, Never>()
+    public let dismissPublisher = PassthroughSubject<BaseStage.Models.Dismiss.Response, Never>()
+    public let errorPublisher = PassthroughSubject<BaseStage.Models.ErrorMessage.Response, Never>()
+    public let messagePublisher = PassthroughSubject<BaseStage.Models.Message.Response, Never>()
+    public let spinnerPublisher = PassthroughSubject<BaseStage.Models.Spinner.Response, Never>()
+    public let titlePublisher = PassthroughSubject<BaseStage.Models.Title.Response, Never>()
 
     // MARK: - Incoming Pipelines -
     var stageDidAppearSubscriber: AnyCancellable?
@@ -58,7 +62,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var webErrorNavigationSubscriber: AnyCancellable?
     var webLoadProgressSubscriber: AnyCancellable?
 
-    open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
+    open func subscribe(to baseViewController: BaseStage.Logic.Display) {
         stageDidAppearSubscriber = baseViewController.stageDidAppearPublisher
             .sink { request in self.stageDidAppear(request) }
         stageDidCloseSubscriber = baseViewController.stageDidClosePublisher
@@ -98,24 +102,23 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var hasStageEnded:  Bool = false
 
     // MARK: - Public Properties -
-    public var displayType: DNSBaseStage.DisplayType?
-    public var displayOptions: DNSBaseStageDisplayOptions = []
+    public var displayMode: BaseStage.Display.Mode?
+    public var displayOptions: BaseStage.Display.Options = []
 
     // MARK: - Workers -
     public var analyticsWorker: PTCLAnalytics?
 
-    required public init(configurator: DNSBaseStageConfigurator) {
+    required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator
     }
-
-    open func startStage(with displayType: DNSBaseStage.DisplayType,
-                         with displayOptions: DNSBaseStageDisplayOptions = [],
+    open func startStage(with displayMode: BaseStage.Display.Mode,
+                         with displayOptions: BaseStage.Display.Options = [],
                          and initialization: DNSBaseStageBaseInitialization?) {
-        self.displayType = displayType
+        self.displayMode = displayMode
         self.displayOptions = displayOptions
         self.baseInitializationObject = initialization
-        stageStartPublisher.send(DNSBaseStageModels.Start.Response(displayType: displayType,
-                                                                   displayOptions: displayOptions))
+        stageStartPublisher.send(BaseStage.Models.Start.Response(displayMode: displayMode,
+                                                                 displayOptions: displayOptions))
     }
     open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {
         self.baseInitializationObject = initializationObject
@@ -125,7 +128,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         self.hasStageEnded = true
         return retval
     }
-    open func endStage(with intent: String, and dataChanged: Bool, and results: DNSBaseStageBaseResults?) {
+    open func endStage(with intent: String,
+                       and dataChanged: Bool,
+                       and results: DNSBaseStageBaseResults?) {
         self.endStage(conditionally: false,
                       with: intent,
                       and: dataChanged,
@@ -136,17 +141,14 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
                        and dataChanged: Bool,
                        and results: DNSBaseStageBaseResults?) {
         let shouldEndStage = self.shouldEndStage()
-        if conditionally &&
-            !shouldEndStage {
-            return
-        }
+        guard !conditionally || !shouldEndStage else { return }
         self.baseConfigurator?.endStage(with: intent,
                                         and: dataChanged,
                                         and: results)
     }
     open func removeStage() {
-        guard self.displayType != nil else { return }
-        stageEndPublisher.send(DNSBaseStageModels.Finish.Response(displayType: self.displayType!))
+        guard self.displayMode != nil else { return }
+        stageEndPublisher.send(BaseStage.Models.Finish.Response(displayMode: self.displayMode!))
     }
     open func send(intent: String,
                    with dataChanged: Bool,
@@ -157,67 +159,65 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     // MARK: - Stage Lifecycle -
-    
-    open func stageDidAppear(_ request: DNSBaseStageBaseRequest) {
+    open func stageDidAppear(_ request: BaseStage.Models.Base.Request) {
         self.hasStageEnded  = false
     }
-    open func stageDidClose(_ request: DNSBaseStageBaseRequest) {
+    open func stageDidClose(_ request: BaseStage.Models.Base.Request) {
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
-    open func stageDidDisappear(_ request: DNSBaseStageBaseRequest) {
+    open func stageDidDisappear(_ request: BaseStage.Models.Base.Request) {
     }
-    open func stageDidHide(_ request: DNSBaseStageBaseRequest) {
+    open func stageDidHide(_ request: BaseStage.Models.Base.Request) {
     }
-    open func stageDidLoad(_ request: DNSBaseStageBaseRequest) {
+    open func stageDidLoad(_ request: BaseStage.Models.Base.Request) {
     }
-    open func stageWillAppear(_ request: DNSBaseStageBaseRequest) {
+    open func stageWillAppear(_ request: BaseStage.Models.Base.Request) {
         try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator!))
     }
-    open func stageWillDisappear(_ request: DNSBaseStageBaseRequest) {
+    open func stageWillDisappear(_ request: BaseStage.Models.Base.Request) {
     }
-    open func stageWillHide(_ request: DNSBaseStageBaseRequest) {
+    open func stageWillHide(_ request: BaseStage.Models.Base.Request) {
     }
     
     // MARK: - Business Logic -
-    
-    open func doCloseNavBar(_ request: DNSBaseStageModels.Base.Request) {
+    open func doCloseNavBar(_ request: BaseStage.Models.Base.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
         self.endStage(conditionally: true, with: "", and: false, and: nil)
     }
-    open func doConfirmation(_ request: DNSBaseStageModels.Confirmation.Request) {
+    open func doConfirmation(_ request: BaseStage.Models.Confirmation.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
-    open func doErrorOccurred(_ request: DNSBaseStageModels.ErrorMessage.Request) {
+    open func doErrorOccurred(_ request: BaseStage.Models.ErrorMessage.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        var response = DNSBaseStageModels.ErrorMessage.Response(error: request.error,
-                                                                style: .popup,
-                                                                title: request.title)
+        var response = BaseStage.Models.ErrorMessage.Response(error: request.error,
+                                                              style: .popup,
+                                                              title: request.title)
         response.okayButton = request.okayButton
         self.errorPublisher.send(response)
     }
-    open func doMessageDone(_ request: DNSBaseStageModels.Message.Request) {
+    open func doMessageDone(_ request: BaseStage.Models.Message.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
 
-    open func doWebStartNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
+    open func doWebStartNavigation(_ request: BaseStage.Models.Webpage.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
-    open func doWebFinishNavigation(_ request: DNSBaseStageModels.Webpage.Request) {
+    open func doWebFinishNavigation(_ request: BaseStage.Models.Webpage.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
-    open func doWebErrorNavigation(_ request: DNSBaseStageModels.WebpageError.Request) {
+    open func doWebErrorNavigation(_ request: BaseStage.Models.WebpageError.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        let response = DNSBaseStageModels.ErrorMessage.Response(error: request.error,
-                                                                style: .popup,
-                                                                title: "Web Error")
+        let response = BaseStage.Models.ErrorMessage.Response(error: request.error,
+                                                              style: .popup,
+                                                              title: "Web Error")
         self.errorPublisher.send(response)
     }
-    open func doWebLoadProgress(_ request: DNSBaseStageModels.WebpageProgress.Request) {
+    open func doWebLoadProgress(_ request: BaseStage.Models.WebpageProgress.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     
     // MARK: - Shortcut Methods
     open func spinner(show: Bool) {
-        self.spinnerPublisher.send(DNSBaseStageModels.Spinner.Response(show: show))
+        self.spinnerPublisher.send(BaseStage.Models.Spinner.Response(show: show))
     }
 }

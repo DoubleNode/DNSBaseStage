@@ -230,7 +230,7 @@ open class DNSCoordinator: NSObject {
     }
 
     public func updateStage(_ configurator: DNSBaseStageConfigurator,
-                            with initializationObject: DNSBaseStageModels.Base.Initialization) {
+                            with initializationObject: DNSBaseStageBaseInitialization) {
         configurator.updateStage(with: initializationObject)
     }
 

@@ -38,6 +38,15 @@
         }
       },
       {
+        "package": "DNSBaseTheme",
+        "repositoryURL": "https://github.com/DoubleNode/DNSBaseTheme.git",
+        "state": {
+          "branch": null,
+          "revision": "939b9cb77819014b4b7ed553c58c92deb33b6a39",
+          "version": "1.6.1"
+        }
+      },
+      {
         "package": "DNSBlankSystems",
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankSystems.git",
         "state": {
@@ -60,8 +69,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "05ec270c1eb79e2e93cdf911f9ed634c3be9f1f3",
-          "version": "1.6.11"
+          "revision": "9c201a966e6b750e60070462be70ee00027e52a4",
+          "version": "1.6.14"
         }
       },
       {
@@ -114,8 +123,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSNetwork.git",
         "state": {
           "branch": null,
-          "revision": "0a1aec7f5baf3141c01fe7e863de1eda6a726ea9",
-          "version": "1.6.0"
+          "revision": "7e57ec74ebd21484454a0a9b79be415641cb555d",
+          "version": "1.6.1"
         }
       },
       {
@@ -177,8 +186,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
-          "revision": "7ca0ce1dd58553d5be1ec9cc7283b068c256979d",
-          "version": "10.17.0"
+          "revision": "9f43d0da902c55b493d6c8bb63203764caa8acbe",
+          "version": "10.18.0"
         }
       },
       {

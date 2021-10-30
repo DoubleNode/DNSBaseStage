@@ -7,6 +7,7 @@
 //
 
 import Combine
+import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
 import DNSError
@@ -339,10 +340,11 @@ extension DNSBaseStageViewController {
             for displayOption in weakSelf.displayOptions {
                 switch displayOption {
                 case .navBarRightClose:
-                    weakSelf.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close",
-                                                                        style: .plain,
-                                                                        target: weakSelf,
-                                                                        action: #selector(weakSelf.closeNavBarButtonAction))
+                    weakSelf.navigationItem.rightBarButtonItem =
+                        UIBarButtonItem(title: "Close",
+                                        style: .plain,
+                                        target: weakSelf,
+                                        action: #selector(weakSelf.closeNavBarButtonAction))
                     weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
                 case .navBarHidden(let animated):
                     containsNavBarForced = true

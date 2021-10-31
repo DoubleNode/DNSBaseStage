@@ -7,13 +7,14 @@
 //
 
 import Combine
+import DNSBaseTheme
 import DNSProtocols
 import UIKit
 
 public protocol DNSBaseStageCellLogic: AnyObject {
     // MARK: - Outgoing Pipelines -
 }
-open class DNSBaseStageCollectionViewCell: UICollectionViewCell, DNSBaseStageCellLogic {
+open class DNSBaseStageCollectionViewCell: DNSUICollectionViewCell, DNSBaseStageCellLogic {
     static public var reuseIdentifier: String {
         String(describing: self)
     }

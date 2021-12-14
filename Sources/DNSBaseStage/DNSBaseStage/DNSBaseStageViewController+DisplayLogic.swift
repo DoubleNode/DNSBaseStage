@@ -13,6 +13,7 @@ import DNSCoreThreading
 import DNSError
 import GTBlurView
 import JGProgressHUD
+import JKDrawer
 import kCustomAlert
 import Loaf
 import SFSymbol
@@ -63,18 +64,18 @@ extension DNSBaseStageViewController {
                 self.implementDisplayOptionsPostStart()
             }
 
-            var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
+            var presentingViewController: DNSUIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
             if presentingViewController != nil {
                 if presentingViewController!.view.superview == nil ||
                     presentingViewController!.isBeingDismissed {
-                    presentingViewController = presentingViewController!.parent
+                    presentingViewController = presentingViewController!.parent as? DNSUIViewController
                 }
             }
             if presentingViewController == nil {
                 presentingViewController = self.baseConfigurator?.rootViewController
             }
             if presentingViewController == nil {
-                presentingViewController = DNSCore.appDelegate?.rootViewController()
+                presentingViewController = DNSCore.appDelegate?.rootViewController() as? DNSUIViewController
             }
 
             var viewControllerToPresent: UIViewController = self
@@ -84,6 +85,10 @@ extension DNSBaseStageViewController {
             }
 
             switch self.displayMode {
+            case .drawer(let animated)?:
+                self.startStageDrawer(animated: animated,
+                                      presentingViewController: presentingViewController,
+                                      viewControllerToPresent: viewControllerToPresent as! DrawerPresentable)
             case .modal?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
                                      animated: viewModel.animated,
@@ -180,6 +185,16 @@ extension DNSBaseStageViewController {
             }
         }
     }
+    private func startStageDrawer(animated: Bool,
+                                  presentingViewController: DNSUIViewController?,
+                                  viewControllerToPresent: DrawerPresentable) {
+        DNSUIThread.run {
+            (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
+            self.openDrawer(viewControllerToPresent,
+                            animated: animated)
+            (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
+        }
+    }
     private func startStageModal(modalPresentationStyle: UIModalPresentationStyle,
                                  animated: Bool,
                                  presentingViewController: UIViewController?,
@@ -239,14 +254,18 @@ extension DNSBaseStageViewController {
     }
     public func endStage(_ viewModel: BaseStage.Models.Finish.ViewModel) {
         self.displayMode = viewModel.displayMode
-        var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
+        var presentingViewController: DNSUIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
         if presentingViewController != nil {
             if presentingViewController!.view.superview == nil ||
                 presentingViewController!.isBeingDismissed {
-                presentingViewController = presentingViewController!.parent
+                presentingViewController = presentingViewController!.parent as? DNSUIViewController
             }
         }
         switch self.displayMode {
+        case .drawer(let animated)?:
+            self.endStageDrawer(animated: animated,
+                                presentingViewController: presentingViewController,
+                                viewControllerToEnd: self)
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
             DNSUIThread.run {
@@ -294,6 +313,16 @@ extension DNSBaseStageViewController {
             break
         }
     }
+    private func endStageDrawer(animated: Bool,
+                                presentingViewController: DNSUIViewController?,
+                                viewControllerToEnd: DNSUIViewController) {
+        DNSUIThread.run {
+            (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
+            self.closeDrawer(viewControllerToEnd,
+                             animated: animated)
+            (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
+        }
+    }
     private func endStageNavBarPush(navBarController: UINavigationController,
                                     _ viewModel: BaseStage.Models.Finish.ViewModel,
                                     _ animated: Bool) {
@@ -320,7 +349,9 @@ extension DNSBaseStageViewController {
                 switch displayOption {
                 case .navController:
                     guard weakSelf.baseConfigurator?.navigationController == nil else { break }
-                    weakSelf.baseConfigurator?.navigationController = UINavigationController(rootViewController: weakSelf)
+                    weakSelf.baseConfigurator?
+                        .navigationController = DNSUINavigationController(rootViewController: weakSelf,
+                                                                          configuration: self.configuration)
                 default:
                     break
                 }

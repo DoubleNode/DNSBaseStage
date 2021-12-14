@@ -12,7 +12,7 @@ import DNSDataObjects
 import UIKit
 
 open class DNSTabBarCoordinator: DNSCoordinator {
-    public var tabBarController: UITabBarController?
+    public var tabBarController: DNSUITabBarController?
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Tab management
@@ -63,7 +63,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
 
     // MARK: - Object lifecycle
 
-    public init(with tabBarController: UITabBarController? = nil) {
+    public init(with tabBarController: DNSUITabBarController? = nil) {
         self.tabBarController = tabBarController
         super.init()
     }

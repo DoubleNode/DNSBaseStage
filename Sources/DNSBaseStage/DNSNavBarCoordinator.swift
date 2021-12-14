@@ -9,15 +9,16 @@
 import DNSCore
 import DNSCoreThreading
 import DNSDataObjects
+import JKDrawer
 import UIKit
 
 open class DNSNavBarCoordinator: DNSCoordinator {
-    public var navigationController: UINavigationController?
+    public var navigationController: DNSUINavigationController?
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Object lifecycle
 
-    public init(with navigationController: UINavigationController? = nil) {
+    public init(with navigationController: DNSUINavigationController? = nil) {
         self.navigationController = navigationController
         super.init()
     }

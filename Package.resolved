@@ -137,6 +137,15 @@
         }
       },
       {
+        "package": "JKDrawer",
+        "repositoryURL": "https://github.com/johankool/Drawer.git",
+        "state": {
+          "branch": null,
+          "revision": "4c486bd7e9ad046db7fb58b3487c5691896579d7",
+          "version": "0.9.1"
+        }
+      },
+      {
         "package": "FTLinearActivityIndicator",
         "repositoryURL": "https://github.com/futuretap/FTLinearActivityIndicator.git",
         "state": {

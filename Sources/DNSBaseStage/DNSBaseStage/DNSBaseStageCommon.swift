@@ -26,6 +26,8 @@ public enum DNSBaseStage {
     }
     public enum Display {
         public enum Option {
+            case drawerClosable
+            case drawerDraggable
             case navBarRightClose
             case navController
             case navBarHidden(animated: Bool)
@@ -34,6 +36,7 @@ public enum DNSBaseStage {
         public typealias Options = [DNSBaseStage.Display.Option]
         public enum Mode: Equatable {
             case none
+            case drawer(animated: Bool)
             case modal
             case modalCurrentContext
             case modalFormSheet

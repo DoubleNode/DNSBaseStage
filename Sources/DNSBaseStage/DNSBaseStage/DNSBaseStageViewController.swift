@@ -44,7 +44,7 @@ extension DNSBaseStageViewController: UIGestureRecognizerDelegate {
     }
 }
 
-open class DNSBaseStageViewController: UIViewController, DNSBaseStageDisplayLogic {
+open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayLogic {
     public typealias BaseStage = DNSBaseStage
     
     // MARK: - Public Associated Type Properties -

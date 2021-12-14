@@ -32,10 +32,10 @@ open class DNSBaseStageConfigurator {
     }
 
     // MARK: - VIP Objects Creation -
-    public var navigationController: UINavigationController?
+    public var navigationController: DNSUINavigationController?
     public var parentConfigurator: BaseStage.Configurator?
     public var rootViewController: BaseStage.ViewController?
-    public var tabBarController: UITabBarController?
+    public var tabBarController: DNSUITabBarController?
 
     public lazy var baseInteractor: BaseStage.Interactor = createInteractor()
     public lazy var basePresenter: BaseStage.Presenter = createPresenter()

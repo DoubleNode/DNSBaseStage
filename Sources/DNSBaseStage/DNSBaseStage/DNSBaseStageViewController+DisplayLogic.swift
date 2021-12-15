@@ -64,7 +64,7 @@ extension DNSBaseStageViewController {
                 self.implementDisplayOptionsPostStart()
             }
 
-            var presentingViewController: DNSUIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
+            var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
             if presentingViewController != nil {
                 if presentingViewController!.view.superview == nil ||
                     presentingViewController!.isBeingDismissed {
@@ -75,7 +75,7 @@ extension DNSBaseStageViewController {
                 presentingViewController = self.baseConfigurator?.rootViewController
             }
             if presentingViewController == nil {
-                presentingViewController = DNSCore.appDelegate?.rootViewController() as? DNSUIViewController
+                presentingViewController = DNSCore.appDelegate?.rootViewController()
             }
 
             var viewControllerToPresent: UIViewController = self
@@ -87,7 +87,7 @@ extension DNSBaseStageViewController {
             switch self.displayMode {
             case .drawer(let animated)?:
                 self.startStageDrawer(animated: animated,
-                                      presentingViewController: presentingViewController,
+                                      presentingViewController: presentingViewController as! DrawerPresenting,
                                       viewControllerToPresent: viewControllerToPresent as! DrawerPresentable)
             case .modal?:
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
@@ -186,13 +186,19 @@ extension DNSBaseStageViewController {
         }
     }
     private func startStageDrawer(animated: Bool,
-                                  presentingViewController: DNSUIViewController?,
+                                  presentingViewController: DrawerPresenting,
                                   viewControllerToPresent: DrawerPresentable) {
         DNSUIThread.run {
-            (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
-            self.openDrawer(viewControllerToPresent,
-                            animated: animated)
-            (presentingViewController as? DNSBaseStageViewController)?.stageDidHide()
+            let presentingVC = presentingViewController as? DNSBaseStageViewController
+            guard let vcToPresent = viewControllerToPresent as? UIViewController else {
+                return
+            }
+            presentingVC?.stageWillHide()
+            presentingViewController.openDrawer(viewControllerToPresent,
+                                                animated: animated)
+            vcToPresent.viewWillAppear(animated)
+            vcToPresent.viewDidAppear(animated)
+            presentingVC?.stageDidHide()
         }
     }
     private func startStageModal(modalPresentationStyle: UIModalPresentationStyle,
@@ -254,15 +260,21 @@ extension DNSBaseStageViewController {
     }
     public func endStage(_ viewModel: BaseStage.Models.Finish.ViewModel) {
         self.displayMode = viewModel.displayMode
-        var presentingViewController: DNSUIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
+        var presentingViewController: UIViewController? = self.baseConfigurator?.parentConfigurator?.baseViewController
         if presentingViewController != nil {
             if presentingViewController!.view.superview == nil ||
                 presentingViewController!.isBeingDismissed {
-                presentingViewController = presentingViewController!.parent as? DNSUIViewController
+                presentingViewController = presentingViewController!.parent
             }
+        }
+        if presentingViewController == nil {
+            presentingViewController = self.parent
         }
         switch self.displayMode {
         case .drawer(let animated)?:
+            guard let presentingViewController = presentingViewController as? DrawerPresenting else {
+                return
+            }
             self.endStageDrawer(animated: animated,
                                 presentingViewController: presentingViewController,
                                 viewControllerToEnd: self)
@@ -314,13 +326,26 @@ extension DNSBaseStageViewController {
         }
     }
     private func endStageDrawer(animated: Bool,
-                                presentingViewController: DNSUIViewController?,
-                                viewControllerToEnd: DNSUIViewController) {
+                                presentingViewController: DrawerPresenting,
+                                viewControllerToEnd: DrawerPresentable) {
         DNSUIThread.run {
-            (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
-            self.closeDrawer(viewControllerToEnd,
-                             animated: animated)
-            (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
+            let presentingVC = presentingViewController as? DNSBaseStageViewController
+            guard let vcToEnd = viewControllerToEnd as? UIViewController else {
+                return
+            }
+            presentingVC?.stageWillAppear()
+            vcToEnd.viewWillDisappear(animated)
+            presentingViewController.closeDrawer(viewControllerToEnd,
+                                                 animated: animated)
+            vcToEnd.viewDidDisappear(animated)
+            presentingVC?.stageDidAppear()
+            guard let tabBarController = (presentingViewController as? UITabBarController) else {
+                return
+            }
+            var tabViewControllers = tabBarController.viewControllers
+            tabViewControllers?.removeAll(where: { $0 == vcToEnd })
+            tabBarController.setViewControllers(tabViewControllers,
+                                                animated: false)
         }
     }
     private func endStageNavBarPush(navBarController: UINavigationController,
@@ -339,14 +364,21 @@ extension DNSBaseStageViewController {
         }
     }
     private func implementDisplayOptionsPreStart() {
-        guard !displayOptions.isEmpty else { return }
-
         weak var weakSelf = self
         DNSUIThread.run {
             guard weakSelf != nil else { return }
+            var drawerClosable = false
+            var drawerDraggable = false
+            var drawerGravity = Gravity.bottom
             let weakSelf = weakSelf!
-            for displayOption in weakSelf.displayOptions {
-                switch displayOption {
+            weakSelf.displayOptions.forEach {
+                switch $0 {
+                case .drawerClosable:
+                    drawerClosable = true
+                case .drawerDraggable:
+                    drawerDraggable = true
+                case .drawerGravity(let gravity):
+                    drawerGravity = gravity
                 case .navController:
                     guard weakSelf.baseConfigurator?.navigationController == nil else { break }
                     weakSelf.baseConfigurator?
@@ -356,6 +388,10 @@ extension DNSBaseStageViewController {
                     break
                 }
             }
+            self.configuration = DrawerConfiguration(gravity: drawerGravity,
+                                                     offset: self.configuration.initialOffset,
+                                                     isDraggable: drawerDraggable,
+                                                     isClosable: drawerClosable)
         }
     }
     private func implementDisplayOptionsPostStart() {

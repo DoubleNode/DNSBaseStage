@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import JKDrawer
 
 public enum DNSBaseStage {
     public typealias Configurator = DNSBaseStageConfigurator
@@ -28,6 +29,7 @@ public enum DNSBaseStage {
         public enum Option {
             case drawerClosable
             case drawerDraggable
+            case drawerGravity(gravity: Gravity)
             case navBarRightClose
             case navController
             case navBarHidden(animated: Bool)

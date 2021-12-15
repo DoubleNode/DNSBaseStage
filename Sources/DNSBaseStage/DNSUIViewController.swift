@@ -29,3 +29,14 @@ open class DNSUIViewController: UIViewController, DrawerPresentable, DrawerPrese
                                     to size: CGFloat) {
     }
 }
+extension DNSUIViewController: DNSAppConstantsRootProtocol, UITextFieldDelegate {
+    @objc
+    open func checkBoxPressed(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+    }
+    
+    @objc
+    open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return textField.tag != -1
+    }
+}

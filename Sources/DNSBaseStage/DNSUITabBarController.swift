@@ -7,6 +7,7 @@
 //
 
 import DNSCore
+import DNSError
 import JKDrawer
 import UIKit
 
@@ -25,14 +26,19 @@ extension DNSUITabBarController: DNSAppConstantsRootProtocol, UITextFieldDelegat
 
     // MARK: - DrawerPresenting protocols
     open func willOpenDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUITabBarController::willOpenDrawer()")
     }
     open func didOpenDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUITabBarController::didOpenDrawer()")
     }
     open func willCloseDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUITabBarController::willCloseDrawer()")
     }
     open func didCloseDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUITabBarController::didCloseDrawer()")
     }
     open func didChangeSizeOfDrawer(_ drawer: DrawerPresentable,
                                       to size: CGFloat) {
+        dnsLog.debug("DNSUITabBarController::didChangeSizeOfDrawer(to: \(size))")
     }
 }

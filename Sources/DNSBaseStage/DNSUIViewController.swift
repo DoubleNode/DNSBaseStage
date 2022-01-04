@@ -7,6 +7,7 @@
 //
 
 import DNSCore
+import DNSError
 import JKDrawer
 import UIKit
 
@@ -16,17 +17,22 @@ open class DNSUIViewController: UIViewController, DrawerPresentable, DrawerPrese
                                                    isDraggable: true,
                                                    isClosable: true)
 
-    // MARK: - DrawerPresenting protocol
+    // MARK: - DrawerPresenting protocols
     open func willOpenDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUIViewController::willOpenDrawer()")
     }
     open func didOpenDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUIViewController::didOpenDrawer()")
     }
     open func willCloseDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUIViewController::willCloseDrawer()")
     }
     open func didCloseDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUIViewController::didCloseDrawer()")
     }
     open func didChangeSizeOfDrawer(_ drawer: DrawerPresentable,
                                     to size: CGFloat) {
+        dnsLog.debug("DNSUIViewController::didChangeSizeOfDrawer(to: \(size))")
     }
 }
 extension DNSUIViewController: DNSAppConstantsRootProtocol, UITextFieldDelegate {

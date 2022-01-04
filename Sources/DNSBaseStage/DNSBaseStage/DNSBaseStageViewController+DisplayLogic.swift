@@ -268,8 +268,15 @@ extension DNSBaseStageViewController {
             }
         }
         if presentingViewController == nil {
+            presentingViewController = self.baseConfigurator?.rootViewController
+        }
+        if presentingViewController == nil {
+            presentingViewController = DNSCore.appDelegate?.rootViewController()
+        }
+        if presentingViewController == nil {
             presentingViewController = self.parent
         }
+
         switch self.displayMode {
         case .drawer(let animated)?:
             guard let presentingViewController = presentingViewController as? DrawerPresenting else {

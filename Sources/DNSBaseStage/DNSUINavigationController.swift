@@ -7,6 +7,7 @@
 //
 
 import DNSCore
+import DNSError
 import JKDrawer
 import UIKit
 
@@ -25,14 +26,19 @@ extension DNSUINavigationController: DNSAppConstantsRootProtocol, DrawerPresenti
 
     // MARK: - DrawerPresenting protocols
     open func willOpenDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUINavigationController::willOpenDrawer()")
     }
     open func didOpenDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUINavigationController::didOpenDrawer()")
     }
     open func willCloseDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUINavigationController::willCloseDrawer()")
     }
     open func didCloseDrawer(_ drawer: DrawerPresentable) {
+        dnsLog.debug("DNSUINavigationController::didCloseDrawer()")
     }
     open func didChangeSizeOfDrawer(_ drawer: DrawerPresentable,
                                     to size: CGFloat) {
+        dnsLog.debug("DNSUINavigationController::didChangeSizeOfDrawer(to: \(size))")
     }
 }

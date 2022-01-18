@@ -83,20 +83,24 @@ public enum DNSBaseStageError: DNSError {
             return String(format: NSLocalizedString("DNSBASESTAGE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .systemError(let error, _):
-            return String(format: NSLocalizedString("DNSBASESTAGE-System Error: %@%@", comment: ""),
-                          error.localizedDescription, " (\(Self.domain):\(Self.Code.systemError.rawValue))")
+            return String(format: NSLocalizedString("DNSBASESTAGE-System Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.systemError.rawValue))")
         case .webViewError(let error, _):
-            return String(format: NSLocalizedString("DNSBASESTAGE-WebView Error: %@%@", comment: ""),
-                          error.localizedDescription, " (\(Self.domain):\(Self.Code.webViewError.rawValue))")
+            return String(format: NSLocalizedString("DNSBASESTAGE-WebView Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.webViewError.rawValue))")
         case .calendarError(let error, _):
-            return String(format: NSLocalizedString("DNSBASESTAGE-Calendar Error: %@%@", comment: ""),
-                          error.localizedDescription, " (\(Self.domain):\(Self.Code.calendarError.rawValue))")
+            return String(format: NSLocalizedString("DNSBASESTAGE-Calendar Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.calendarError.rawValue))")
         case .calendarDenied(_):
             return String(format: NSLocalizedString("DNSBASESTAGE-Calendar Denied%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.calendarError.rawValue))")
         case .mailError(let error, _):
-            return String(format: NSLocalizedString("DNSBASESTAGE-Mail Error: %@%@", comment: ""),
-                          error.localizedDescription, " (\(Self.domain):\(Self.Code.mailError.rawValue))")
+            return String(format: NSLocalizedString("DNSBASESTAGE-Mail Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.mailError.rawValue))")
         }
     }
     public var failureReason: String? {

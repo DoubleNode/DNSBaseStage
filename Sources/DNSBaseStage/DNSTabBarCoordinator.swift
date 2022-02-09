@@ -55,10 +55,21 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         Array(Int(0)..<self.numberOfTabs())
             .forEach { self.runCoordinator(for: $0, with: $0 == tabNdx) }
     }
-    open func changeCoordinator(to tabIndex: Int) {
+    open func changeCoordinator(to tabNdx: Int) {
+        guard let coordinator = self.coordinator(for: tabNdx) else {
+            return
+        }
         DNSUIThread.run {
             self.reorderCoordinators()
-            self.tabBarController?.selectedIndex = tabIndex
+            guard let viewController = self.tabBarController?.children.first(where: {
+                ($0 as? DNSBaseStageViewController)?.baseConfigurator?.coordinator == coordinator
+            }) else {
+                return
+            }
+            guard let viewNdx = self.tabBarController?.children.firstIndex(of: viewController) else {
+                return
+            }
+            self.tabBarController?.selectedIndex = viewNdx
         }
     }
     open func reorderCoordinators() {

@@ -56,8 +56,17 @@ open class DNSTabBarCoordinator: DNSCoordinator {
             .forEach { self.runCoordinator(for: $0, with: $0 == tabNdx) }
     }
     open func changeCoordinator(to tabIndex: Int) {
+        guard let coordinator = self.coordinator(for: tabIndex) else {
+            return
+        }
+        guard let viewController = coordinator.defaultRootViewController else {
+            return
+        }
         DNSUIThread.run {
-            self.tabBarController?.selectedIndex = tabIndex
+            guard let foundNdx = (self.tabBarController?.children ?? []).firstIndex(of: viewController) else {
+                return
+            }
+            self.tabBarController?.selectedIndex = foundNdx
         }
     }
 

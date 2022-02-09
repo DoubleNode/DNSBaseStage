@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
           "branch": null,
-          "revision": "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
-          "version": "5.4.4"
+          "revision": "f82c23a8a7ef8dc1a49a8bfc6a96883e79121864",
+          "version": "5.5.0"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBaseTheme.git",
         "state": {
           "branch": null,
-          "revision": "d6113e2143c9f0ededf140713fbc02e2f97162d5",
-          "version": "1.6.3"
+          "revision": "99144da519859364e651f133e81f5b9d7f51aa9f",
+          "version": "1.6.5"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "9c201a966e6b750e60070462be70ee00027e52a4",
-          "version": "1.6.14"
+          "revision": "1042bab091f7bbb4c041a7bcca4b49337d6e69c8",
+          "version": "1.6.36"
         }
       },
       {
@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCoreThreading.git",
         "state": {
           "branch": null,
-          "revision": "524c26a4d6c0d39789667aefdd384451dccb1df0",
-          "version": "1.6.5"
+          "revision": "cdea7c8c36f4ad38b34722db0eee2fc5abc41fb4",
+          "version": "1.6.6"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSDataObjects.git",
         "state": {
           "branch": null,
-          "revision": "c26a62339e7efeb8842b2e3b39c996cbd8607007",
-          "version": "1.6.1"
+          "revision": "991954db27e6869821910d580631270db35684a5",
+          "version": "1.6.2"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "b2640168198192f8bc72dc7df42db461b284df85",
-          "version": "1.6.4"
+          "revision": "dd49a07a2f1becf4e5f2c7776be23d2e48aef223",
+          "version": "1.7.2"
         }
       },
       {
@@ -168,8 +168,8 @@
         "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager.git",
         "state": {
           "branch": null,
-          "revision": "4dc6bc7d1c9747bd0c261c8c055903f9fdef91f7",
-          "version": "6.5.6"
+          "revision": "474f849accae40fe61b5302d9b057dd48ee073ba",
+          "version": "6.5.9"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
-          "revision": "9f43d0da902c55b493d6c8bb63203764caa8acbe",
-          "version": "10.18.0"
+          "revision": "39177714b95bb5b1b29fffe28f1c7da77eef8e8b",
+          "version": "10.21.1"
         }
       },
       {
@@ -204,8 +204,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "23f60515a00f076a9e3f2dc672fe1ae07601ee90",
-          "version": "11.4.1"
+          "revision": "f1976f0d96d9b06fbe0afbd60090b1c3966b1e23",
+          "version": "11.8.0"
         }
       },
       {

@@ -41,6 +41,7 @@ open class DNSBaseStageConfigurator {
     public lazy var basePresenter: BaseStage.Presenter = createPresenter()
     public lazy var baseViewController: BaseStage.ViewController = createViewController()
 
+    public var coordinator: DNSCoordinator?
     public var intentBlock: DNSBaseStageConfiguratorBlock?
 
     public init() {
@@ -102,6 +103,7 @@ open class DNSBaseStageConfigurator {
                        with displayOptions: BaseStage.Display.Options = [],
                        and initializationObject: DNSBaseStageBaseInitialization,
                        thenRun intentBlock: DNSBaseStageConfiguratorBlock?) -> BaseStage.ViewController {
+        self.coordinator = coordinator
         self.intentBlock = intentBlock
         self.initializationObject = initializationObject
         self.rootViewController = coordinator.defaultRootViewController

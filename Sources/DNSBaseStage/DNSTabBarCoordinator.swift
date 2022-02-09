@@ -9,6 +9,7 @@
 import DNSCore
 import DNSCoreThreading
 import DNSDataObjects
+import JKDrawer
 import UIKit
 
 open class DNSTabBarCoordinator: DNSCoordinator {
@@ -56,20 +57,25 @@ open class DNSTabBarCoordinator: DNSCoordinator {
             .forEach { self.runCoordinator(for: $0, with: $0 == tabNdx) }
     }
     open func changeCoordinator(to tabNdx: Int) {
-        guard let coordinator = self.coordinator(for: tabNdx) else {
-            return
-        }
+//        guard let coordinator = self.coordinator(for: tabNdx) else {
+//            return
+//        }
         DNSUIThread.run {
             self.reorderCoordinators()
-            guard let viewController = self.tabBarController?.children.first(where: {
-                ($0 as? DNSBaseStageViewController)?.baseConfigurator?.coordinator == coordinator
-            }) else {
-                return
-            }
-            guard let viewNdx = self.tabBarController?.children.firstIndex(of: viewController) else {
-                return
-            }
-            self.tabBarController?.selectedIndex = viewNdx
+//            let child = self.tabBarController?.children.first(where: {
+//                var viewController = $0
+//                if viewController is JKDrawer.DrawerNavigationController {
+//                    viewController = viewController.children.first!
+//                }
+//                return (viewController as? DNSBaseStageViewController)?.baseConfigurator?.coordinator == coordinator
+//            })
+//            guard let child = child else {
+//                return
+//            }
+//            guard let childNdx = self.tabBarController?.children.firstIndex(of: child) else {
+//                return
+//            }
+            self.tabBarController?.selectedIndex = tabNdx
         }
     }
     open func reorderCoordinators() {

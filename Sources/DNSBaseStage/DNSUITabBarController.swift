@@ -25,9 +25,11 @@ extension DNSUITabBarController: DNSAppConstantsRootProtocol, UITextFieldDelegat
     }
 
     public func cleanupBuggyDisplay(for numberOfTabs: Int) {
-        if tabBar.subviews.count > (numberOfTabs + 1) {
-            for index in (numberOfTabs + 1) ..< tabBar.subviews.count {
-                let view = tabBar.subviews[index]
+        let subviews = tabBar.subviews
+        let numSubview = subviews.count
+        if numSubview > (numberOfTabs + 1) {
+            for index in (numberOfTabs + 1) ..< numSubview {
+                let view = subviews[index]
                 view.removeFromSuperview()
             }
         }

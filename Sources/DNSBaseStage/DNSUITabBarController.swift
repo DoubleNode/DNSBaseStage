@@ -18,10 +18,19 @@ extension DNSUITabBarController: DNSAppConstantsRootProtocol, UITextFieldDelegat
     open func checkBoxPressed(sender: UIButton) {
         sender.isSelected = !sender.isSelected
     }
-    
+
     @objc
     open func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return textField.tag != -1
+    }
+
+    public func cleanupBuggyDisplay(for numberOfTabs: Int) {
+        if tabBar.subviews.count > (numberOfTabs + 1) {
+            for index in (numberOfTabs + 1) ..< tabBar.subviews.count {
+                let view = tabBar.subviews[index]
+                view.removeFromSuperview()
+            }
+        }
     }
 
     // MARK: - DrawerPresenting protocols

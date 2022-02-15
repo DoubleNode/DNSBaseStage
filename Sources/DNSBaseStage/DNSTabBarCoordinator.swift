@@ -35,7 +35,9 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     }
     open func resetCoordinators() {
         Array(Int(0)..<self.numberOfTabs())
-            .forEach { self.resetCoordinator(for: $0) }
+            .forEach {
+                self.resetCoordinator(for: $0)
+            }
     }
     open func runCoordinator(for tabNdx: Int,
                              then block: DNSCoordinatorChildBoolBlock? = nil) {
@@ -67,7 +69,9 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     }
     open func startCoordinators(andShow tabNdx: Int = 0) {
         Array(Int(0)..<self.numberOfTabs())
-            .forEach { self.runCoordinator(for: $0, with: $0 == tabNdx) }
+            .forEach {
+                self.runCoordinator(for: $0, with: $0 == tabNdx)
+            }
     }
     open func changeCoordinator(to tabNdx: Int) {
         DNSUIThread.run {

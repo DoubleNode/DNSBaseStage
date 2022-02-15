@@ -40,21 +40,21 @@ dependencies: [
 
 ## Dependencies
 
--   Alamofire v5.4.4+
+-   Alamofire v5.5.0+
 -   AlamofireImage v4.2.0+
 -   DNSAppCore v1.6.2+
--   DNSBaseTheme v1.6.3+
--   DNSCore v1.6.14+
+-   DNSBaseTheme v1.6.5+
+-   DNSCore v1.6.36+
 -   DNSCrashSystems v1.6.0+
--   DNSCrashWorkers v1.6.0+
+-   DNSCrashWorkers v1.7.3+
 -   DNSNetwork v1.6.1+
 -   JKDrawer v0.9.1+
 -   FTLinearActivityIndicator v1.4.2+
 -   GTBlurView v1.0.2+
--   IQKeyboardManager v6.5.6+
+-   IQKeyboardManager v6.5.9+
 -   JGProgressHUD v2.2.0+
 -   Loaf v0.7.0+
--   Realm v10.18.0+
+-   Realm v10.22.0+
 -   SFSymbol v1.1.0+
 
 ## Credits

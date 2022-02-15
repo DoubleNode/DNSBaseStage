@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "bb5a846daa7a4108c0fc8a5cb1d2ec5fb55eef58",
-          "version": "1.6.0"
+          "revision": "8ba56f011badc004675b6abc5b6fbbe0f20a76b6",
+          "version": "1.7.3"
         }
       },
       {
@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCoreThreading.git",
         "state": {
           "branch": null,
-          "revision": "cdea7c8c36f4ad38b34722db0eee2fc5abc41fb4",
-          "version": "1.6.6"
+          "revision": "2552b34bb7bf271503f47af29e0130ff7c2a4ce7",
+          "version": "1.6.7"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "6d6755cc5c0b55fd6399952375fc51198cab9a00",
-          "version": "1.6.0"
+          "revision": "2af1c2ccf801173522171242aa764bf3b420892b",
+          "version": "1.7.3"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSDataObjects.git",
         "state": {
           "branch": null,
-          "revision": "991954db27e6869821910d580631270db35684a5",
-          "version": "1.6.2"
+          "revision": "1af9c3011f8d220651308a3965b7117c843967df",
+          "version": "1.7.3"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "dd49a07a2f1becf4e5f2c7776be23d2e48aef223",
-          "version": "1.7.2"
+          "revision": "84021727b167cec76b3c8244264b71ab3966286e",
+          "version": "1.7.7"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
-          "revision": "39177714b95bb5b1b29fffe28f1c7da77eef8e8b",
-          "version": "10.21.1"
+          "revision": "9dff9f2862240d521ad6ad599541269177ddb993",
+          "version": "10.22.0"
         }
       },
       {
@@ -204,8 +204,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "f1976f0d96d9b06fbe0afbd60090b1c3966b1e23",
-          "version": "11.8.0"
+          "revision": "6b81f1a7a2d421f9e0b9e7f04e76bcf736a54409",
+          "version": "11.9.0"
         }
       },
       {

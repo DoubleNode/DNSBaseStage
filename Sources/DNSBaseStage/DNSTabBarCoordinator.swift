@@ -24,6 +24,19 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
         return nil
     }
+    open func resetCoordinator(for tabNdx: Int) {
+        guard let coordinator = self.coordinator(for: tabNdx) else {
+            return
+        }
+        guard coordinator.isRunning else {
+            return
+        }
+        coordinator.reset()
+    }
+    open func resetCoordinators() {
+        Array(Int(0)..<self.numberOfTabs())
+            .forEach { self.resetCoordinator(for: $0) }
+    }
     open func runCoordinator(for tabNdx: Int,
                              then block: DNSCoordinatorChildBoolBlock? = nil) {
         self.runCoordinator(for: tabNdx,

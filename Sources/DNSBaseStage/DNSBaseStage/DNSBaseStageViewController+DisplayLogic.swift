@@ -19,7 +19,7 @@ import Loaf
 import SFSymbol
 import UIKit
 
-extension DNSBaseStageViewController {
+extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     public enum ToastState {
         case error, info, success, warning
     }
@@ -218,6 +218,7 @@ extension DNSBaseStageViewController {
                 }
             }
             _ = DNSUIThread.run(after: 0.1) {
+                self.presentationController?.delegate = presentingViewController as? UIAdaptivePresentationControllerDelegate
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = modalPresentationStyle
                 self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
@@ -288,6 +289,7 @@ extension DNSBaseStageViewController {
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
             DNSUIThread.run {
+                self.presentationController?.delegate = nil
                 (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
                 self.dismiss(animated: viewModel.animated) {
                     (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
@@ -803,7 +805,15 @@ extension DNSBaseStageViewController {
         loaf.show(loafDuration) { _/*dismissalReason*/ in }
     }
 
-        // MARK: - Utility methods -
+    // MARK: - UIAdaptivePresentationControllerDelegate methods -
+    open func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        self.viewWillAppear(false)
+    }
+    open func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.viewDidAppear(false)
+    }
+
+    // MARK: - Utility methods -
     open func utilityPresent(viewControllerToPresent: UIViewController,
                              using presentingViewController: UIViewController,
                              animated: Bool,

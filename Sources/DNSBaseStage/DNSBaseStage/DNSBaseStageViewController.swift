@@ -12,6 +12,7 @@ import DNSCoreThreading
 import DNSProtocols
 import GTBlurView
 import IQKeyboardManagerSwift
+import JKDrawer
 import UIKit
 
 public protocol DNSBaseStageDisplayLogic: AnyObject {
@@ -275,13 +276,23 @@ extension DNSBaseStageViewController {
                 topController = presentedViewController
                 presentedViewController = topController?.presentedViewController
                 if presentedViewController == nil {
-                    let navBarController = topController as? UINavigationController
-                    let tabBarController = topController as? UITabBarController
-                    if navBarController != nil {
-                        presentedViewController = navBarController!.children.last
-                    } else if tabBarController != nil {
-                        if tabBarController!.selectedIndex < tabBarController!.children.count {
-                            presentedViewController = tabBarController!.children[tabBarController!.selectedIndex]
+                    if let drawerController = topController as? JKDrawer.DrawerNavigationController {
+                        presentedViewController = drawerController.children.last
+                    }
+                    if let navBarController = topController as? UINavigationController {
+                        presentedViewController = navBarController.children.last
+                    }
+                    if let tabBarController = topController as? UITabBarController {
+                        if tabBarController.selectedIndex < tabBarController.children.count {
+                            var index = tabBarController.selectedIndex
+                            presentedViewController = tabBarController.children[index]
+                            while presentedViewController as? JKDrawer.DrawerNavigationController != nil {
+                                index += 1
+                                if index >= tabBarController.children.count {
+                                    break
+                                }
+                                presentedViewController = tabBarController.children[index]
+                            }
                         }
                     }
                 }

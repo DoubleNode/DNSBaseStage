@@ -30,6 +30,7 @@ public enum DNSBaseStage {
             case drawerClosable
             case drawerDraggable
             case drawerGravity(gravity: Gravity)
+            case modalNotDismissable
             case navBarRightClose
             case navController
             case navBarHidden(animated: Bool)

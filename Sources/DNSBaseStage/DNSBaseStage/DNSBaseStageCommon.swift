@@ -26,10 +26,11 @@ public enum DNSBaseStage {
         public static let orNoMatch = "DNSBaseStage_C_orNoMatch"
     }
     public enum Display {
-        public enum Option {
+        public enum Option: Equatable {
             case drawerClosable
             case drawerDraggable
             case drawerGravity(gravity: Gravity)
+            case modalNotDismissable
             case navBarRightClose
             case navController
             case navBarHidden(animated: Bool)

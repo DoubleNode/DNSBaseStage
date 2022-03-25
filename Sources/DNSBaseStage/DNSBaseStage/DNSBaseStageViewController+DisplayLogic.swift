@@ -211,6 +211,10 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         guard !self.isModal else {
             return
         }
+        viewControllerToPresent.isModalInPresentation = !displayOptions
+            .filter { $0 == .modalNotDismissable }
+            .isEmpty
+
         DNSUIThread.run {
             if let topController = self.topController as? DNSBaseStageViewController {
                 if topController.isModal {

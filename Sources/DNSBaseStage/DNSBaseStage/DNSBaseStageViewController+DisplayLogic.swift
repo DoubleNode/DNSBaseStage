@@ -90,32 +90,38 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                       presentingViewController: presentingViewController as! DrawerPresenting,
                                       viewControllerToPresent: viewControllerToPresent as! DrawerPresentable)
             case .modal?:
+                viewControllerToPresent.isModalInPresentation = displayOptions.contains(.modalNotDismissable)
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalCurrentContext?:
+                viewControllerToPresent.isModalInPresentation = displayOptions.contains(.modalNotDismissable)
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalFormSheet?:
+                viewControllerToPresent.isModalInPresentation = displayOptions.contains(.modalNotDismissable)
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalFullScreen?:
+                viewControllerToPresent.isModalInPresentation = displayOptions.contains(.modalNotDismissable)
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalPageSheet?:
                 viewControllerToPresent = self
+                viewControllerToPresent.isModalInPresentation = displayOptions.contains(.modalNotDismissable)
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.pageSheet,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalPopover?:
+                viewControllerToPresent.isModalInPresentation = displayOptions.contains(.modalNotDismissable)
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,

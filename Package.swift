@@ -30,13 +30,13 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.5.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.1"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
         .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.6.2"),
-        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.6.5"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.6.55"),
+        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.6.7"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.6.61"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.6.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.7.7"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.7.11"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.6.1"),
         .package(name: "JKDrawer",
                  url: "https://github.com/johankool/Drawer.git", from: "0.9.1"),
@@ -47,8 +47,8 @@ let package = Package(
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.7.0"),
         .package(name: "Realm",
-                 url: "https://github.com/realm/realm-cocoa.git", from: "10.24.0"),
-        .package(url: "https://github.com/Nirma/SFSymbol", from: "1.1.0"),
+                 url: "https://github.com/realm/realm-cocoa.git", from: "10.25.1"),
+        .package(url: "https://github.com/Nirma/SFSymbol", from: "1.1.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

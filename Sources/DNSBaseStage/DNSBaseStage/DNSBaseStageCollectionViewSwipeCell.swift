@@ -24,10 +24,10 @@ open class DNSBaseStageCollectionViewSwipeCell: DNSUICollectionViewSwipeCell, DN
                                 forCellWithReuseIdentifier: self.reuseIdentifier)
     }
     static public func dequeue(from collectionView: UICollectionView,
-                               for indexPath: IndexPath) -> DNSBaseStageCollectionViewCell {
+                               for indexPath: IndexPath) -> DNSBaseStageCollectionViewSwipeCell {
         return collectionView.dequeueReusableCell(withReuseIdentifier: self.reuseIdentifier,
                                                   // swiftlint:disable:next force_cast
-                                                  for: indexPath) as! DNSBaseStageCollectionViewCell
+                                                  for: indexPath) as! DNSBaseStageCollectionViewSwipeCell
     }
 
     // MARK: - Outgoing Pipelines -

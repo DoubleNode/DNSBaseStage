@@ -14,7 +14,7 @@ import UIKit
 
 open class DNSNavBarCoordinator: DNSCoordinator {
     public var navDrawerController: DNSUINavDrawerController?
-//    public var navigationController: DNSUINavigationController?
+    public var navigationController: DNSUINavigationController?
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Object lifecycle
@@ -23,10 +23,10 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         self.navDrawerController = navDrawerController
         super.init()
     }
-//    public init(with navigationController: DNSUINavigationController? = nil) {
-//        self.navigationController = navigationController
-//        super.init()
-//    }
+    public init(with navigationController: DNSUINavigationController? = nil) {
+        self.navigationController = navigationController
+        super.init()
+    }
 
     override open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(then: completionBlock)

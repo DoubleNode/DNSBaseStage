@@ -423,10 +423,10 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     weakSelf.baseConfigurator?
                         .navDrawerController = DNSUINavDrawerController(rootViewController: weakSelf,
                                                                         configuration: self.configuration)
-//                case .navController:
-//                    guard weakSelf.baseConfigurator?.navigationController == nil else { break }
-//                    weakSelf.baseConfigurator?
-//                        .navigationController = DNSUINavigationController(rootViewController: weakSelf)
+                case .navController:
+                    guard weakSelf.baseConfigurator?.navigationController == nil else { break }
+                    weakSelf.baseConfigurator?
+                        .navigationController = DNSUINavigationController(rootViewController: weakSelf)
                 default:
                     break
                 }

@@ -33,7 +33,7 @@ public enum DNSBaseStage {
             case modalNotDismissable
             case navBarRightClose
             case navDrawerController
-//            case navController
+            case navController
             case navBarHidden(animated: Bool)
             case navBarShown(animated: Bool)
         }

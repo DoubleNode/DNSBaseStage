@@ -81,8 +81,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             var viewControllerToPresent: UIViewController = self
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
                 viewControllerToPresent = navDrawerController
-//            } else if let navigationController = self.baseConfigurator?.navigationController {
-//                viewControllerToPresent = navigationController
+            } else if let navigationController = self.baseConfigurator?.navigationController {
+                viewControllerToPresent = navigationController
             }
 
             switch self.displayMode {
@@ -124,15 +124,15 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             case .navBarPush(let animated)?:
                 if let navDrawerController = self.baseConfigurator?.navDrawerController {
                     self.startStageNavBarPush(navBarController: navDrawerController, viewModel, animated)
-//                } else if let navigationController = self.baseConfigurator?.navigationController {
-//                    self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
+                } else if let navigationController = self.baseConfigurator?.navigationController {
+                    self.startStageNavBarPush(navBarController: navigationController, viewModel, animated)
                 }
             case .navBarRoot(let animated)?:
                 var navController: UINavigationController?
                 if let navDrawerController = self.baseConfigurator?.navDrawerController {
                     navController = navDrawerController
-//                } else if let navigationController = self.baseConfigurator?.navigationController {
-//                    navController = navigationController
+                } else if let navigationController = self.baseConfigurator?.navigationController {
+                    navController = navigationController
                 }
                 guard let navController = navController else { return }
                 guard let presentingViewController = presentingViewController else { return }
@@ -157,8 +157,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 var navController: UINavigationController?
                 if let navDrawerController = self.baseConfigurator?.navDrawerController {
                     navController = navDrawerController
-//                } else if let navigationController = self.baseConfigurator?.navigationController {
-//                    navController = navigationController
+                } else if let navigationController = self.baseConfigurator?.navigationController {
+                    navController = navigationController
                 }
                 guard let navController = navController else { return }
                 DNSUIThread.run {
@@ -314,8 +314,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         case .navBarPush(let animated)?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
                 self.endStageNavBarPush(navBarController: navDrawerController, viewModel, animated)
-//            } else if let navigationController = self.baseConfigurator?.navigationController {
-//                self.endStageNavBarPush(navBarController: navigationController, viewModel, animated)
+            } else if let navigationController = self.baseConfigurator?.navigationController {
+                self.endStageNavBarPush(navBarController: navigationController, viewModel, animated)
             }
         case .navBarRoot(let animated)?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
@@ -324,12 +324,12 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                         self.baseConfigurator?.navDrawerController = nil
                     }
                 }
-//            } else if let navigationController = self.baseConfigurator?.navigationController {
-//                DNSUIThread.run {
-//                    navigationController.dismiss(animated: viewModel.animated && animated) {
-//                        self.baseConfigurator?.navigationController = nil
-//                    }
-//                }
+            } else if let navigationController = self.baseConfigurator?.navigationController {
+                DNSUIThread.run {
+                    navigationController.dismiss(animated: viewModel.animated && animated) {
+                        self.baseConfigurator?.navigationController = nil
+                    }
+                }
             }
         case .navBarRootReplace?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
@@ -339,13 +339,13 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                         self.baseConfigurator?.navDrawerController = nil
                     }
                 }
-//            } else if let navigationController = self.baseConfigurator?.navigationController {
-//                guard navigationController.viewControllers.contains(self) else { return }
-//                DNSUIThread.run {
-//                    navigationController.dismiss(animated: viewModel.animated) {
-//                        self.baseConfigurator?.navigationController = nil
-//                    }
-//                }
+            } else if let navigationController = self.baseConfigurator?.navigationController {
+                guard navigationController.viewControllers.contains(self) else { return }
+                DNSUIThread.run {
+                    navigationController.dismiss(animated: viewModel.animated) {
+                        self.baseConfigurator?.navigationController = nil
+                    }
+                }
             }
         case.tabBarAdd(let animated, _/*tabNdx*/)?:
             guard self.baseConfigurator?.tabBarController != nil else { return }

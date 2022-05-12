@@ -80,8 +80,8 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         DNSUIThread.run {
             if let navDrawerController = self.navDrawerController {
                 self.savedViewControllers = navDrawerController.viewControllers
-//            } else if let navigationController = self.navigationController {
-//                self.savedViewControllers = navigationController.viewControllers
+            } else if let navigationController = self.navigationController {
+                self.savedViewControllers = navigationController.viewControllers
             }
         }
     }
@@ -109,8 +109,8 @@ open class DNSNavBarCoordinator: DNSCoordinator {
                 if let navDrawerController = self.navDrawerController {
                     navDrawerController.setViewControllers(self.savedViewControllers!,
                                                            animated: true)
-    //            } else if let navigationController = self.navigationController {
-    //                self.savedViewControllers = navigationController.viewControllers
+                } else if let navigationController = self.navigationController {
+                    self.savedViewControllers = navigationController.viewControllers
                 }
             }
         }

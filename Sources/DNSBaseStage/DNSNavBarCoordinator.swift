@@ -13,15 +13,20 @@ import JKDrawer
 import UIKit
 
 open class DNSNavBarCoordinator: DNSCoordinator {
-    public var navigationController: DNSUINavigationController?
+    public var navDrawerController: DNSUINavDrawerController?
+//    public var navigationController: DNSUINavigationController?
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Object lifecycle
 
-    public init(with navigationController: DNSUINavigationController? = nil) {
-        self.navigationController = navigationController
+    public init(with navDrawerController: DNSUINavDrawerController? = nil) {
+        self.navDrawerController = navDrawerController
         super.init()
     }
+//    public init(with navigationController: DNSUINavigationController? = nil) {
+//        self.navigationController = navigationController
+//        super.init()
+//    }
 
     override open func start(then completionBlock: DNSCoordinatorBoolBlock?) {
         super.start(then: completionBlock)
@@ -73,7 +78,11 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     override open func commonStart() {
         super.commonStart()
         DNSUIThread.run {
-            self.savedViewControllers = self.navigationController?.viewControllers
+            if let navDrawerController = self.navDrawerController {
+                self.savedViewControllers = navDrawerController.viewControllers
+//            } else if let navigationController = self.navigationController {
+//                self.savedViewControllers = navigationController.viewControllers
+            }
         }
     }
 
@@ -97,8 +106,12 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     override open func stop(with results: DNSBaseStageBaseResults? = nil) {
         if self.savedViewControllers != nil {
             DNSUIThread.run {
-                self.navigationController?.setViewControllers(self.savedViewControllers!,
-                                                              animated: true)
+                if let navDrawerController = self.navDrawerController {
+                    navDrawerController.setViewControllers(self.savedViewControllers!,
+                                                           animated: true)
+    //            } else if let navigationController = self.navigationController {
+    //                self.savedViewControllers = navigationController.viewControllers
+                }
             }
         }
         self.savedViewControllers = nil

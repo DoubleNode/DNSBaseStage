@@ -32,7 +32,8 @@ open class DNSBaseStageConfigurator {
     }
 
     // MARK: - VIP Objects Creation -
-    public var navigationController: DNSUINavigationController?
+//    public var navigationController: DNSUINavigationController?
+    public var navDrawerController: DNSUINavDrawerController?
     public var parentConfigurator: BaseStage.Configurator?
     public var rootViewController: BaseStage.ViewController?
     public var tabBarController: DNSUITabBarController?

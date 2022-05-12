@@ -13,7 +13,7 @@ import UIKit
 
 public typealias DNSUITabBarController = UITabBarController
 
-extension DNSUITabBarController: DNSAppConstantsRootProtocol, UITextFieldDelegate, DrawerPresenting {
+extension DNSUITabBarController: DNSAppConstantsRootProtocol, DrawerPresenting, UITextFieldDelegate {
     @objc
     open func checkBoxPressed(sender: UIButton) {
         sender.isSelected = !sender.isSelected

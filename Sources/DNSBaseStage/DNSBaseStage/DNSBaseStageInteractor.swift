@@ -217,7 +217,10 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     
     // MARK: - Shortcut Methods
-    open func spinner(show: Bool) {
-        self.spinnerPublisher.send(BaseStage.Models.Spinner.Response(show: show))
+    open func spinner(show: Bool,
+                      forceReset: Bool = false) {
+        var response = BaseStage.Models.Spinner.Response(show: show)
+        response.forceReset = forceReset
+        self.spinnerPublisher.send(response)
     }
 }

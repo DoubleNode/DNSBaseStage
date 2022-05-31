@@ -69,10 +69,14 @@ class CommonAlertVC: UIViewController {
         if tags.count > 0 {
             self.tag1Label?.text = tags[0]
             self.tag1View?.isHidden = self.tag1Label?.text?.isEmpty ?? true
+        } else {
+            self.tag1View?.isHidden = true
         }
         if tags.count > 1 {
             self.tag2Label?.text = tags[1]
             self.tag2View?.isHidden = self.tag1Label?.text?.isEmpty ?? true
+        } else {
+            self.tag2View?.isHidden = true
         }
 
         if imageItem == nil && imageUrl == nil {

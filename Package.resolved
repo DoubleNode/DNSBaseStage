@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSBlankWorkers.git",
         "state": {
           "branch": null,
-          "revision": "dc29f70a5f53da5667c9c01cd898e5d99333ec48",
-          "version": "1.7.13"
+          "revision": "0c992be9b61753e45f159b67187d5a2ed06ba95e",
+          "version": "1.7.17"
         }
       },
       {
@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "c9b6ce55df129609102c8075997b2001a9819a55",
-          "version": "1.7.4"
+          "revision": "5c0eca80e935df7e89315b1e0a3d8ceae060b644",
+          "version": "1.7.6"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCrashWorkers.git",
         "state": {
           "branch": null,
-          "revision": "d0ca6794276e3973c4a09acc0905034d1b22a889",
-          "version": "1.7.11"
+          "revision": "26ac39d3a15dbcc7ac78c360dca875762aaa6cb7",
+          "version": "1.7.12"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSProtocols.git",
         "state": {
           "branch": null,
-          "revision": "7199e8732d2a40e48420a93e3dd959ef64c99b43",
-          "version": "1.7.17"
+          "revision": "733e685987cd4c138ec1065fa7f0144097186e81",
+          "version": "1.7.19"
         }
       },
       {
@@ -195,8 +195,8 @@
         "repositoryURL": "https://github.com/realm/realm-cocoa.git",
         "state": {
           "branch": null,
-          "revision": "f9400ca044844701ea32491a4c6c4b06d74ab24d",
-          "version": "10.25.0"
+          "revision": "7f123e48ec12926bb5080e449df360127ee0352d",
+          "version": "10.26.0"
         }
       },
       {
@@ -204,8 +204,8 @@
         "repositoryURL": "https://github.com/realm/realm-core",
         "state": {
           "branch": null,
-          "revision": "3c78cccdc0d9f967c5c15b7f3ea081814e2b3ef2",
-          "version": "11.13.0"
+          "revision": "d97eed3ae7dff2f2e2ffbda83fa8f3b8c445c6ba",
+          "version": "11.17.0"
         }
       },
       {

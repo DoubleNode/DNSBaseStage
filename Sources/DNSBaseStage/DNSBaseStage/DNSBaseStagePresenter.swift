@@ -106,7 +106,6 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     // MARK: - Lifecycle Methods -
     open func startStage(_ response: BaseStage.Models.Start.Response) {
         self.spinnerCount = 0
-
         stageStartPublisher.send(BaseStage.Models.Start
                                     .ViewModel(animated: true,
                                                displayMode: response.displayMode,
@@ -114,7 +113,6 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     }
     open func endStage(_ response: BaseStage.Models.Finish.Response) {
         self.spinnerCount = 0
-
         stageEndPublisher.send(BaseStage.Models.Finish.ViewModel(animated: true,
                                                                  displayMode: response.displayMode))
     }
@@ -213,7 +211,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     }
     open func presentSpinner(_ response: BaseStage.Models.Spinner.Response) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
+        if response.forceReset {
+            self.spinnerCount = 0
+        }
         if response.show {
             spinnerCount += 1
             guard spinnerCount == 1 else { return }

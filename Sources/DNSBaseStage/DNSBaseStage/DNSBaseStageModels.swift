@@ -317,6 +317,7 @@ open class DNSBaseStageModels {
     }
     public enum Spinner {
         public struct Response: DNSBaseStageBaseResponse {
+            public var forceReset = false
             public var show: Bool
 
             public init(show: Bool) {

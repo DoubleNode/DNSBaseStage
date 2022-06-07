@@ -54,7 +54,7 @@ dependencies: [
 -   JGProgressHUD v2.2.0+
 -   JKDrawer v0.9.1+
 -   Loaf v0.7.0+
--   Realm v10.25.0+
+-   Realm v10.28.0+
 -   SFSymbol v1.1.0+
 
 ## Credits

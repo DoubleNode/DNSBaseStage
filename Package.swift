@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
 //
 //  Package.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSBaseStage
@@ -46,8 +46,8 @@ let package = Package(
                  url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.10"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.7.0"),
-        .package(name: "Realm",
-                 url: "https://github.com/realm/realm-cocoa.git", from: "10.25.0"),
+//        .package(url: "https://github.com/realm/realm-swift", from: "10.28.0"),
+        .package(url: "https://github.com/aheze/realm-swift", branch: "master"),
         .package(url: "https://github.com/Nirma/SFSymbol", from: "1.1.0")
     ],
     targets: [
@@ -71,7 +71,7 @@ let package = Package(
                 "kCustomAlert",
                 "Loaf",
                 "SFSymbol",
-                .product(name: "RealmSwift", package: "Realm"),
+                .product(name: "RealmSwift", package: "realm-swift"),
         ]),
         .target(
             name: "kCustomAlert",

@@ -23,7 +23,11 @@ public enum DNSBaseStage {
     
     public enum C {
         public static let onBlank = "DNSBaseStage_C_onBlank"
+        public static let onClose = "DNSBaseStage_C_onClose"
         public static let orNoMatch = "DNSBaseStage_C_orNoMatch"
+    }
+    public enum BaseIntents {
+        public static let close = "DNSBaseStage_Intents_close"
     }
     public enum Display {
         public enum Option: Equatable {

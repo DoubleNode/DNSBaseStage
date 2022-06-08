@@ -182,7 +182,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     // MARK: - Business Logic -
     open func doCloseAction(_ request: BaseStage.Models.Base.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        self.endStage(conditionally: true, with: "", and: false, and: nil)
+        self.utilityCloseAction()
     }
     open func doConfirmation(_ request: BaseStage.Models.Confirmation.Request) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
@@ -222,5 +222,10 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         var response = BaseStage.Models.Spinner.Response(show: show)
         response.forceReset = forceReset
         self.spinnerPublisher.send(response)
+    }
+    
+    // MARK: - Utility methods
+    open func utilityCloseAction(with results: DNSBaseStageBaseResults? = nil) {
+        self.endStage(conditionally: true, with: BaseStage.BaseIntents.close, and: false, and: results)
     }
 }

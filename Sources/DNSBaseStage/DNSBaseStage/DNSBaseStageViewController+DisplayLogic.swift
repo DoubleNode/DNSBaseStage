@@ -28,29 +28,29 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
 
     // MARK: - Stage Lifecycle Methods -
-    public func stageDidAppear() {
+    open func stageDidAppear() {
         stageDidAppearPublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageDidClose() {
+    open func stageDidClose() {
         stageDidClosePublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageDidDisappear() {
+    open func stageDidDisappear() {
         stageDidDisappearPublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageDidHide() {
+    open func stageDidHide() {
         stageDidHidePublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageDidLoad() {
+    open func stageDidLoad() {
         stageDidLoadPublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageWillAppear() {
+    open func stageWillAppear() {
         self.closeButton?.isEnabled = true
         stageWillAppearPublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageWillDisappear() {
+    open func stageWillDisappear() {
         stageWillDisappearPublisher.send(BaseStage.Models.Base.Request())
     }
-    public func stageWillHide() {
+    open func stageWillHide() {
         stageWillHidePublisher.send(BaseStage.Models.Base.Request())
     }
 

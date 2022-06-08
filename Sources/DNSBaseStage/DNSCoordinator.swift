@@ -182,21 +182,24 @@ open class DNSCoordinator: NSObject {
                   for intent: String,
                   with results: DNSBaseStageBaseResults?,
                   onBlank: DNSCoordinatorResultsBlock = { _ in },
+                  onClose: DNSCoordinatorResultsBlock = { _ in },
                   orNoMatch: DNSCoordinatorResultsBlock = { _ in }) {
         if intent.isEmpty {
             onBlank(results)
             return
         }
+        if intent == DNSBaseStage.BaseIntents.close {
+            onClose(results)
+            return
+        }
 
         var matchFound: Bool = false
-
         actions.forEach { (key, value) in
             if key == intent {
                 matchFound = true
                 value(results)
             }
         }
-
         if !matchFound {
             orNoMatch(results)
         }
@@ -224,6 +227,7 @@ open class DNSCoordinator: NSObject {
                                              for: intent,
                                              with: results,
                                              onBlank: actions[DNSBaseStage.C.onBlank] ?? { _ in },
+                                             onClose: actions[DNSBaseStage.C.onClose] ?? { _ in },
                                              orNoMatch: actions[DNSBaseStage.C.orNoMatch] ?? { _ in })
                                     self.latestConfigurator = nil
         }

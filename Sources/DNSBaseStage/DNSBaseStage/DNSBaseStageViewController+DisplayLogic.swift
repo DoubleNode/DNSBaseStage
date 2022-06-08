@@ -6,6 +6,7 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import AtomicSwift
 import Combine
 import DNSBaseTheme
 import DNSCore
@@ -168,13 +169,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                         viewControllers.first?.tabBarItem.image
                     self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??
                         viewControllers.first?.tabBarItem.selectedImage
-                    if viewControllers.contains(self) {
-                        let index = viewControllers.firstIndex(of: self)
-                        if index! > 0 {
-                            viewControllers.remove(at: index!)
-                        }
-                    }
-                    viewControllers[0] = self
+                    viewControllers.removeAll { $0 == self }
+                    viewControllers.insert(self, at: 0)
                     navController.setViewControllers(viewControllers, animated: false)
                 }
             case.tabBarAdd(let animated, let tabNdx)?:

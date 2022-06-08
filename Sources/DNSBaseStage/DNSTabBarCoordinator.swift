@@ -17,7 +17,6 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Tab management
-
     open func numberOfTabs() -> Int {
         return 0
     }
@@ -84,7 +83,6 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     }
 
     // MARK: - Object lifecycle
-
     public init(with tabBarController: DNSUITabBarController? = nil) {
         self.tabBarController = tabBarController
         super.init()
@@ -137,6 +135,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         super.start(with: userActivity,
                     then: completionResultsBlock)
     }
+
     override open func commonStart() {
         super.commonStart()
         DNSUIThread.run {
@@ -157,10 +156,9 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     override open func continueRunning(with userActivity: NSUserActivity) {
         super.continueRunning(with: userActivity)
     }
-    
+
     override open func reset() {
         super.reset()
-
         self.savedViewControllers = nil
     }
     override open func stop(with results: DNSBaseStageBaseResults? = nil) {
@@ -170,14 +168,11 @@ open class DNSTabBarCoordinator: DNSCoordinator {
                                                           animated: true)
             }
         }
-
         self.savedViewControllers = nil
-
         super.stop(with: results)
     }
     override open func cancel() {
         self.savedViewControllers = nil
-
         super.cancel()
     }
 }

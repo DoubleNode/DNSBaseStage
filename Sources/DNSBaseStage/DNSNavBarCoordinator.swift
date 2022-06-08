@@ -18,7 +18,6 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     public var savedViewControllers: [UIViewController]? = []
 
     // MARK: - Object lifecycle
-
     public init(with navDrawerController: DNSUINavDrawerController? = nil) {
         self.navDrawerController = navDrawerController
         super.init()
@@ -75,6 +74,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
         super.start(with: userActivity,
                     then: completionResultsBlock)
     }
+
     override open func commonStart() {
         super.commonStart()
         DNSUIThread.run {
@@ -98,7 +98,7 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     override open func continueRunning(with userActivity: NSUserActivity) {
         super.continueRunning(with: userActivity)
     }
-    
+
     override open func reset() {
         super.reset()
         self.savedViewControllers = nil

@@ -232,8 +232,9 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
 
     // MARK: - Action methods -
-    @IBAction func closeNavBarButtonAction(sender: UIBarButtonItem) {
+    @IBAction func closeNavBarButtonAction(sender: UIButton) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        sender.isEnabled = false
         closeNavBarButtonPublisher.send(BaseStage.Models.Base.Request())
     }
 }

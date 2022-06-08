@@ -28,28 +28,29 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
 
     // MARK: - Stage Lifecycle Methods -
-    open func stageDidAppear() {
+    public func stageDidAppear() {
         stageDidAppearPublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageDidClose() {
+    public func stageDidClose() {
         stageDidClosePublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageDidDisappear() {
+    public func stageDidDisappear() {
         stageDidDisappearPublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageDidHide() {
+    public func stageDidHide() {
         stageDidHidePublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageDidLoad() {
+    public func stageDidLoad() {
         stageDidLoadPublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageWillAppear() {
+    public func stageWillAppear() {
+        self.closeButton?.isEnabled = true
         stageWillAppearPublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageWillDisappear() {
+    public func stageWillDisappear() {
         stageWillDisappearPublisher.send(BaseStage.Models.Base.Request())
     }
-    open func stageWillHide() {
+    public func stageWillHide() {
         stageWillHidePublisher.send(BaseStage.Models.Base.Request())
     }
 
@@ -454,7 +455,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                         UIBarButtonItem(title: "Close",
                                         style: .plain,
                                         target: weakSelf,
-                                        action: #selector(weakSelf.closeNavBarButtonAction))
+                                        action: #selector(weakSelf.closeButtonAction))
                     weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
                 case .navBarHidden(let animated):
                     containsNavBarForced = true
@@ -848,7 +849,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
 
     // MARK: - Utility methods -
-    open func utilityPresent(viewControllerToPresent: UIViewController,
+    public func utilityPresent(viewControllerToPresent: UIViewController,
                              using presentingViewController: UIViewController,
                              animated: Bool,
                              completion: ((Bool) -> Void)? = nil) {

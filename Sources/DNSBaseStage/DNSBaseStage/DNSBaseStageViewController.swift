@@ -28,7 +28,7 @@ public protocol DNSBaseStageDisplayLogic: AnyObject {
     var stageWillDisappearPublisher: PassthroughSubject<BaseStage.Models.Base.Request, Never> { get }
     var stageWillHidePublisher: PassthroughSubject<BaseStage.Models.Base.Request, Never> { get }
 
-    var closeNavBarButtonPublisher: PassthroughSubject<BaseStage.Models.Base.Request, Never> { get }
+    var closeActionPublisher: PassthroughSubject<BaseStage.Models.Base.Request, Never> { get }
     var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.Request, Never> { get }
     var errorOccurredPublisher: PassthroughSubject<BaseStage.Models.ErrorMessage.Request, Never> { get }
     var messageDonePublisher: PassthroughSubject<BaseStage.Models.Message.Request, Never> { get }
@@ -68,7 +68,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     public let stageWillDisappearPublisher = PassthroughSubject<BaseStage.Models.Base.Request, Never>()
     public let stageWillHidePublisher = PassthroughSubject<BaseStage.Models.Base.Request, Never>()
 
-    public let closeNavBarButtonPublisher = PassthroughSubject<BaseStage.Models.Base.Request, Never>()
+    public let closeActionPublisher = PassthroughSubject<BaseStage.Models.Base.Request, Never>()
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.Request, Never>()
     public let errorOccurredPublisher = PassthroughSubject<BaseStage.Models.ErrorMessage.Request, Never>()
     public let messageDonePublisher = PassthroughSubject<BaseStage.Models.Message.Request, Never>()
@@ -128,6 +128,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     @IBOutlet public weak var blurredView: UIView?
     @IBOutlet public weak var blurredViewBottomConstraint: NSLayoutConstraint?
     @IBOutlet public weak var blurredViewTopConstraint: NSLayoutConstraint?
+    @IBOutlet public weak var closeButton: UIButton?
     @IBOutlet public weak var disabledView: UIView?
     @IBOutlet public weak var disabledViewTopConstraint: NSLayoutConstraint?
     @IBOutlet public weak var tapToDismissView: UIView?
@@ -232,10 +233,12 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
 
     // MARK: - Action methods -
-    @IBAction func closeNavBarButtonAction(sender: UIButton) {
+    @IBAction func closeButtonAction(sender: UIButton) {
         try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        sender.isEnabled = false
-        closeNavBarButtonPublisher.send(BaseStage.Models.Base.Request())
+        if sender == self.closeButton {
+            self.closeButton?.isEnabled = false
+        }
+        closeActionPublisher.send(BaseStage.Models.Base.Request())
     }
 }
 extension DNSBaseStageViewController {

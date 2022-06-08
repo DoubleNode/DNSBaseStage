@@ -18,6 +18,8 @@ public typealias DNSBaseStageConfiguratorBlock = (Bool, String, Bool, DNSBaseSta
 open class DNSBaseStageConfigurator {
     public typealias BaseStage = DNSBaseStage
     
+    var ending = false
+    
     // MARK: - Public Associated Type Properties -
     open var initializationObject: DNSBaseStageBaseInitialization?
 
@@ -94,6 +96,8 @@ open class DNSBaseStageConfigurator {
     open func endStage(with intent: String,
                        and dataChanged: Bool,
                        and results: DNSBaseStageBaseResults?) {
+        guard !self.ending else { return }
+        self.ending = true
         _ = DNSUIThread.run(after: 0.3) {
             self.intentBlock?(true, intent, dataChanged, results)
             self.baseInteractor.removeStage()
@@ -104,6 +108,7 @@ open class DNSBaseStageConfigurator {
                        with displayOptions: BaseStage.Display.Options = [],
                        and initializationObject: DNSBaseStageBaseInitialization,
                        thenRun intentBlock: DNSBaseStageConfiguratorBlock?) -> BaseStage.ViewController {
+        self.ending = false
         self.coordinator = coordinator
         self.intentBlock = intentBlock
         self.initializationObject = initializationObject

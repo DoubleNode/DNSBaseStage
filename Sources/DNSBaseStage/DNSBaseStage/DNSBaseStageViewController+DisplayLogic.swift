@@ -581,16 +581,20 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 }
                 let actionOkayBlock: DNSBlock = { () in
                     self.updateBlurredViewDisplay(display: false)
-                    // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
-                    self.messageDonePublisher
-                        .send(BaseStage.Models.Message.Request(cancelled: viewModel.style == .popup,
-                                                               userData: viewModel.userData))
+                    DNSThread.run(after: 0.6) {
+                        // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
+                        self.messageDonePublisher
+                            .send(BaseStage.Models.Message.Request(cancelled: viewModel.style == .popup,
+                                                                   userData: viewModel.userData))
+                    }
                 }
                 let actionCancelBlock: DNSBlock = { () in
                     self.updateBlurredViewDisplay(display: false)
-                    self.messageDonePublisher
-                        .send(BaseStage.Models.Message.Request(cancelled: true,
-                                                               userData: viewModel.userData))
+                    DNSThread.run(after: 0.6) {
+                        self.messageDonePublisher
+                            .send(BaseStage.Models.Message.Request(cancelled: true,
+                                                                   userData: viewModel.userData))
+                    }
                 }
 
                 var actionOkay: [String: DNSBlock] = [:]

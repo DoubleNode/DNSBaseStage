@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSAppCore.git",
       "state" : {
-        "revision" : "c3454435f737b6a2592120c6bd7f2bbe558cc715",
-        "version" : "1.6.2"
+        "revision" : "9dfa450a0ead79832e70625d3aa783662b7e3bf6",
+        "version" : "1.8.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBaseTheme.git",
       "state" : {
-        "revision" : "4461a9b70dc1c3c9138ca405387bf8ab4d78b3e0",
-        "version" : "1.6.7"
+        "revision" : "fdc1ef9127ff599da9d6695f37643d6b2d450857",
+        "version" : "1.8.0"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankSystems.git",
       "state" : {
-        "revision" : "bd401d7f1d573ef55ff2ad7bb784c8481da3e64e",
-        "version" : "1.6.0"
+        "revision" : "cacdb52bf333ab45aa0aac0a6878c49f26ea85b8",
+        "version" : "1.8.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankWorkers.git",
       "state" : {
-        "revision" : "0c992be9b61753e45f159b67187d5a2ed06ba95e",
-        "version" : "1.7.17"
+        "revision" : "cf6c099a9a636367741d1803157a998cce3bc65d",
+        "version" : "1.8.0"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCore.git",
       "state" : {
-        "revision" : "5c0eca80e935df7e89315b1e0a3d8ceae060b644",
-        "version" : "1.7.6"
+        "revision" : "2f6ff2a177a521842daa07b8bdc328e90914e8d2",
+        "version" : "1.8.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCoreThreading.git",
       "state" : {
-        "revision" : "2552b34bb7bf271503f47af29e0130ff7c2a4ce7",
-        "version" : "1.6.7"
+        "revision" : "cbc4b3e0e28c58514935133526f02fd74c2959af",
+        "version" : "1.8.0"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashSystems.git",
       "state" : {
-        "revision" : "a0bba93f233ac1ad52a803e46eac495f40cdc5c3",
-        "version" : "1.6.0"
+        "revision" : "16fdbebea56c1bd8bd6e1b01318d540c66fad031",
+        "version" : "1.8.0"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashWorkers.git",
       "state" : {
-        "revision" : "26ac39d3a15dbcc7ac78c360dca875762aaa6cb7",
-        "version" : "1.7.12"
+        "revision" : "7c6694e45281b008f00bb61b67b1e3d0452605b1",
+        "version" : "1.8.0"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataObjects.git",
       "state" : {
-        "revision" : "7f2538c0db611206eb6c7a833dcf2ad30828f5f7",
-        "version" : "1.7.6"
+        "revision" : "452369e306f5976a12ba5549c0da6713614ce31d",
+        "version" : "1.8.0"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSError.git",
       "state" : {
-        "revision" : "606b1986e1b78bb007a82597631ef0b249ce63b8",
-        "version" : "1.6.0"
+        "revision" : "f61b21fddfc6165cfd1cb6ed7d6596883ce17c19",
+        "version" : "1.8.0"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSNetwork.git",
       "state" : {
-        "revision" : "7e57ec74ebd21484454a0a9b79be415641cb555d",
-        "version" : "1.6.1"
+        "revision" : "5a7b7fe0e96e88f334bb7eac567aa29b505c9226",
+        "version" : "1.8.0"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSProtocols.git",
       "state" : {
-        "revision" : "733e685987cd4c138ec1065fa7f0144097186e81",
-        "version" : "1.7.19"
+        "revision" : "cb9b26fe981de1f564c47df9bd3e974d6b3444ed",
+        "version" : "1.8.0"
       }
     },
     {
@@ -232,6 +232,15 @@
       "state" : {
         "revision" : "7219cad3098637176ace311510d11467dbfb9bb0",
         "version" : "2.7.1"
+      }
+    },
+    {
+      "identity" : "tagging",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexruperez/Tagging",
+      "state" : {
+        "revision" : "038ec53dc6fde61c0fe14744114e4758e57caf1a",
+        "version" : "0.1.0"
       }
     }
   ],

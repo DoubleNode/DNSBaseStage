@@ -49,7 +49,7 @@ extension DNSUITabBarController: DNSAppConstantsRootProtocol, DrawerPresenting, 
         dnsLog.debug("DNSUITabBarController::didCloseDrawer()")
     }
     open func didChangeSizeOfDrawer(_ drawer: DrawerPresentable,
-                                      to size: CGFloat) {
+                                    to size: CGFloat) {
         dnsLog.debug("DNSUITabBarController::didChangeSizeOfDrawer(to: \(size))")
     }
 }

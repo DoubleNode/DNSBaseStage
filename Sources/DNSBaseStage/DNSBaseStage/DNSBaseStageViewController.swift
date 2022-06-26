@@ -157,6 +157,33 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         }
     }
 
+    // MARK: - Stage Lifecycle Methods -
+    open func stageDidAppear() {
+        stageDidAppearPublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageDidClose() {
+        stageDidClosePublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageDidDisappear() {
+        stageDidDisappearPublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageDidHide() {
+        stageDidHidePublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageDidLoad() {
+        stageDidLoadPublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageWillAppear() {
+        self.closeButton?.isEnabled = true
+        stageWillAppearPublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageWillDisappear() {
+        stageWillDisappearPublisher.send(BaseStage.Models.Base.Request())
+    }
+    open func stageWillHide() {
+        stageWillHidePublisher.send(BaseStage.Models.Base.Request())
+    }
+
     // MARK: - Object lifecycle -
     required public override init(nibName nibNameOrNil: String? = nil,
                                   bundle nibBundleOrNil: Bundle? = nil) {

@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "animatedfield",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DoubleNodeOpen/AnimatedField.git",
+      "state" : {
+        "revision" : "2d020e5d477c5e09a360865a950e64cc1cf45c73",
+        "version" : "2.5.0"
+      }
+    },
+    {
       "identity" : "atomicswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNodeOpen/AtomicSwift.git",
@@ -41,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBaseTheme.git",
       "state" : {
-        "revision" : "fdc1ef9127ff599da9d6695f37643d6b2d450857",
-        "version" : "1.8.0"
+        "revision" : "049c29c52d9154c3f060e0de72d32dc0d7104ac7",
+        "version" : "1.8.3"
       }
     },
     {
@@ -104,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataObjects.git",
       "state" : {
-        "revision" : "452369e306f5976a12ba5549c0da6713614ce31d",
-        "version" : "1.8.0"
+        "revision" : "aeec4e276d562e3456a589b78d43f2ee4ec5d3f0",
+        "version" : "1.8.8"
       }
     },
     {
@@ -201,10 +210,10 @@
     {
       "identity" : "realm-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/aheze/realm-swift",
+      "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "branch" : "master",
-        "revision" : "6f8846b6b22c70d31f5395fca77f6da7d23eed44"
+        "revision" : "d3aaab84885e0de9a7a49955874cee160adee164",
+        "version" : "10.28.1"
       }
     },
     {
@@ -214,6 +223,15 @@
       "state" : {
         "revision" : "90ec3de89965be4612b496211e1f31a363a1df42",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "swift-mask-textfield",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DoubleNodeOpen/swift-mask-textfield.git",
+      "state" : {
+        "revision" : "a5546b7ae52f8d6e0b067c25606f3455056b92a5",
+        "version" : "1.1.2"
       }
     },
     {
@@ -232,15 +250,6 @@
       "state" : {
         "revision" : "7219cad3098637176ace311510d11467dbfb9bb0",
         "version" : "2.7.1"
-      }
-    },
-    {
-      "identity" : "tagging",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alexruperez/Tagging",
-      "state" : {
-        "revision" : "038ec53dc6fde61c0fe14744114e4758e57caf1a",
-        "version" : "0.1.0"
       }
     }
   ],

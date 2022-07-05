@@ -18,9 +18,10 @@ open class DNSBaseStageCollectionViewCell: DNSUICollectionViewCell, DNSBaseStage
     static public var reuseIdentifier: String {
         String(describing: self)
     }
+    static public var bundle: Bundle? = nil
     static public var uiNib: UINib {
         UINib(nibName: self.reuseIdentifier,
-              bundle: nil)
+              bundle: self.bundle)
     }
     static public func register(to collectionView: UICollectionView) {
         collectionView.register(self.uiNib,

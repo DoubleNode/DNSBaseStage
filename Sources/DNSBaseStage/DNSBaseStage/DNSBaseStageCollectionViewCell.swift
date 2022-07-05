@@ -23,7 +23,9 @@ open class DNSBaseStageCollectionViewCell: DNSUICollectionViewCell, DNSBaseStage
         UINib(nibName: self.reuseIdentifier,
               bundle: self.bundle)
     }
-    static public func register(to collectionView: UICollectionView) {
+    static public func register(to collectionView: UICollectionView,
+                                from bundle: Bundle? = nil) {
+        self.bundle = bundle
         collectionView.register(self.uiNib,
                                 forCellWithReuseIdentifier: self.reuseIdentifier)
     }

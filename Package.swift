@@ -72,10 +72,15 @@ let package = Package(
         ]),
         .target(
             name: "kCustomAlert",
-            dependencies: ["Alamofire", "AlamofireImage", "DNSCore"]),
+            dependencies: ["Alamofire", "AlamofireImage", "DNSCore"],
+            resources: [
+                .process("CommonAlertVC.xib")
+            ]
+        ),
         .testTarget(
             name: "DNSBaseStageTests",
-            dependencies: ["DNSBaseStage"]),
+            dependencies: ["DNSBaseStage"]
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )

@@ -216,6 +216,7 @@ open class DNSBaseStageModels {
             public var title: String
 
             public var nibName: String = ""
+            public var nibBundle: Bundle?
             public var okayButton: String = ""
 
             public init(error: Error, style: Style, title: String) {
@@ -234,6 +235,7 @@ open class DNSBaseStageModels {
             public var title: String
 
             public var nibName: String = ""
+            public var nibBundle: Bundle?
             public var okayButton: String = ""
 
             public init(error: Error, style: Style, title: String) {
@@ -266,6 +268,7 @@ open class DNSBaseStageModels {
             public var actionText: String = ""
             public var cancelText: String = ""
             public var nibName: String = ""
+            public var nibBundle: Bundle?
             public var userData: Any?
 
             public init(message: String, style: Style, title: String) {
@@ -306,6 +309,7 @@ open class DNSBaseStageModels {
             public var colors: Colors?
             public var fonts: Fonts?
             public var nibName: String = ""
+            public var nibBundle: Bundle?
             public var userData: Any?
 
             public init(message: String, percentage: Float = -1, style: Style, title: String) {

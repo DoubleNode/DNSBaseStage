@@ -174,6 +174,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                                                                    title: errorTitleFont)
         viewModel.location = response.location
         viewModel.nibName = response.nibName
+        viewModel.nibBundle = response.nibBundle
         viewModel.actionText = response.okayButton
         viewModel.presentingDirection = response.presentingDirection
         self.messagePublisher.send(viewModel)
@@ -205,6 +206,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         viewModel.cancelText = response.cancelText
         viewModel.location = response.location
         viewModel.nibName = response.nibName
+        viewModel.nibBundle = response.nibBundle
         viewModel.presentingDirection = response.presentingDirection
         viewModel.userData = response.userData
         self.messagePublisher.send(viewModel)

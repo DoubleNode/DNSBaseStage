@@ -11,6 +11,7 @@ import UIKit
 
 extension UIViewController {
     public func showCustomAlertWith(nibName: String = "CommonAlertVC",
+                                    nibBundle: Bundle? = nil,
                                     okButtonAction: (() -> Void)? = {},
                                     tags: [String],
                                     title: String,
@@ -20,8 +21,9 @@ extension UIViewController {
                                     image: UIImage?,
                                     imageUrl: URL?,
                                     actions: [[String: () -> Void]]?) {
+        let nibBundle = nibBundle ?? Bundle.dnsLookupBundle(for: CommonAlertVC.self)
         let alertVC = CommonAlertVC.init(nibName: nibName,
-                                         bundle: Bundle.dnsLookupBundle(for: CommonAlertVC.self))
+                                         bundle: nibBundle)
         alertVC.tags = tags
         alertVC.title = title
         alertVC.message = message

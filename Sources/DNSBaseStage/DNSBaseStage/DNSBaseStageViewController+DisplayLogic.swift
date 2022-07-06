@@ -543,11 +543,13 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 var actionText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
+                var nibBundle: Bundle?
                 if !viewModel.cancelText.isEmpty {
                     cancelText = viewModel.cancelText
                 }
                 if !viewModel.nibName.isEmpty {
                     nibName = viewModel.nibName
+                    nibBundle = viewModel.nibBundle
                 }
                 if !viewModel.actionText.isEmpty {
                     actionText = viewModel.actionText
@@ -584,6 +586,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 if self.isOnTop {
                     self.updateBlurredViewDisplay(display: true)
                     self.showCustomAlertWith(nibName: nibName,
+                                             nibBundle: nibBundle,
                                              tags: viewModel.tags,
                                              title: viewModel.title,
                                              subTitle: viewModel.subTitle,

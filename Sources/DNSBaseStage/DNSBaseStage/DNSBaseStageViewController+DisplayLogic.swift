@@ -372,7 +372,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             navBarController.popViewController(animated: animated)
         }
     }
-    private func implementDisplayOptionsPreStart() {
+    internal func implementDisplayOptionsPreStart() {
         weak var weakSelf = self
         DNSUIThread.run {
             guard weakSelf != nil else { return }
@@ -407,7 +407,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                                      isClosable: drawerClosable)
         }
     }
-    private func implementDisplayOptionsPostStart() {
+    internal func implementDisplayOptionsPostStart() {
         guard !displayOptions.isEmpty else { return }
 
         weak var weakSelf = self

@@ -174,6 +174,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         stageDidLoadPublisher.send(BaseStage.Models.Base.Request())
     }
     open func stageWillAppear() {
+        self.implementDisplayOptionsPostStart()
         self.closeButton?.isEnabled = true
         stageWillAppearPublisher.send(BaseStage.Models.Base.Request())
     }

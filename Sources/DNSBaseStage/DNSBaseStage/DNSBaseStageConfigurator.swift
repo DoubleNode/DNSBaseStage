@@ -103,12 +103,15 @@ open class DNSBaseStageConfigurator {
             self.baseInteractor.removeStage()
         }
     }
+    open func restartEnding() {
+        self.ending = false
+    }
     open func runStage(with coordinator: DNSCoordinator,
                        and displayMode: BaseStage.Display.Mode,
                        with displayOptions: BaseStage.Display.Options = [],
                        and initializationObject: DNSBaseStageBaseInitialization,
                        thenRun intentBlock: DNSBaseStageConfiguratorBlock?) -> BaseStage.ViewController {
-        self.ending = false
+        self.restartEnding()
         self.coordinator = coordinator
         self.intentBlock = intentBlock
         self.initializationObject = initializationObject

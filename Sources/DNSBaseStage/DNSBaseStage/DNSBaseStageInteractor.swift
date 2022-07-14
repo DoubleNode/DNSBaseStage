@@ -173,6 +173,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func stageWillAppear(_ request: BaseStage.Models.Base.Request) {
         try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator!))
+        self.baseConfigurator?.restartEnding()
     }
     open func stageWillDisappear(_ request: BaseStage.Models.Base.Request) {
     }

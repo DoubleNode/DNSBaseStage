@@ -249,6 +249,10 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
             self.stageDidHide()
             return
         }
+        if self.isModal && !self.isBeingDismissed {
+            self.stageDidHide()
+            return
+        }
         self.stageDidDisappear()
         self.stageDidClose()
     }

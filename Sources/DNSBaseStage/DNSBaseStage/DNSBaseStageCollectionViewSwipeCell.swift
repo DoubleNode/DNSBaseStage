@@ -38,7 +38,7 @@ open class DNSBaseStageCollectionViewSwipeCell: DNSUICollectionViewSwipeCell, DN
     }
 
     // MARK: - Workers -
-    public var analyticsWorker: PTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics?
 
     override open func awakeFromNib() {
         super.awakeFromNib()

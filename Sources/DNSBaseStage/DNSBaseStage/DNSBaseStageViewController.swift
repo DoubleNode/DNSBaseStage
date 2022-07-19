@@ -135,7 +135,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     @IBOutlet public weak var titleLabel: UILabel?
 
     // MARK: - Workers -
-    public var analyticsWorker: PTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics?
 
     // MARK: - Object settings -
     open func preferredStatusBarStyle() -> UIStatusBarStyle {

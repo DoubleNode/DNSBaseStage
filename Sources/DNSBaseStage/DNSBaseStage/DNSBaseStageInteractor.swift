@@ -106,7 +106,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public var displayOptions: BaseStage.Display.Options = []
 
     // MARK: - Workers -
-    public var analyticsWorker: PTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics?
 
     required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator

@@ -8,6 +8,7 @@
 
 import Combine
 import DNSBaseTheme
+import DNSCrashWorkers
 import DNSProtocols
 import UIKit
 
@@ -41,7 +42,7 @@ open class DNSBaseStageCollectionViewCell: DNSUICollectionViewCell, DNSBaseStage
     }
 
     // MARK: - Workers -
-    public var analyticsWorker: WKRPTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
 
     override open func awakeFromNib() {
         super.awakeFromNib()

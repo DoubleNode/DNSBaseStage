@@ -9,6 +9,7 @@
 import Combine
 import DNSCore
 import DNSCoreThreading
+import DNSCrashWorkers
 import DNSProtocols
 import GTBlurView
 import IQKeyboardManagerSwift
@@ -135,7 +136,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     @IBOutlet public weak var titleLabel: UILabel?
 
     // MARK: - Workers -
-    public var analyticsWorker: WKRPTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
 
     // MARK: - Object settings -
     open func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -229,7 +230,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator!))
+        self.analyticsWorker.doScreen(screenTitle: String(describing: self.baseConfigurator!))
         self.stageDidAppear()
     }
     override open func viewWillDisappear(_ animated: Bool) {
@@ -260,13 +261,13 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     // MARK: - Gesture Recognizer methods -
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         view.endEditing(true)
     }
 
     // MARK: - Action methods -
     @IBAction func closeButtonAction(sender: UIButton) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         if sender == self.closeButton {
             self.closeButton?.isEnabled = false
         }

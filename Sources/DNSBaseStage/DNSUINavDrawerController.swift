@@ -15,20 +15,20 @@ public typealias DNSUINavDrawerController = DrawerNavigationController
 
 extension DNSUINavDrawerController: DrawerPresenting {
     // MARK: - DrawerPresenting protocols
-    open func willOpenDrawer(_ drawer: DrawerPresentable) {
+    public func willOpenDrawer(_ drawer: DrawerPresentable) {
         dnsLog.debug("DNSUINavDrawerController::willOpenDrawer()")
     }
-    open func didOpenDrawer(_ drawer: DrawerPresentable) {
+    public func didOpenDrawer(_ drawer: DrawerPresentable) {
         dnsLog.debug("DNSUINavDrawerController::didOpenDrawer()")
     }
-    open func willCloseDrawer(_ drawer: DrawerPresentable) {
+    public func willCloseDrawer(_ drawer: DrawerPresentable) {
         dnsLog.debug("DNSUINavDrawerController::willCloseDrawer()")
     }
-    open func didCloseDrawer(_ drawer: DrawerPresentable) {
+    public func didCloseDrawer(_ drawer: DrawerPresentable) {
         dnsLog.debug("DNSUINavDrawerController::didCloseDrawer()")
     }
-    open func didChangeSizeOfDrawer(_ drawer: DrawerPresentable,
-                                    to size: CGFloat) {
+    public func didChangeSizeOfDrawer(_ drawer: DrawerPresentable,
+                                      to size: CGFloat) {
         dnsLog.debug("DNSUINavDrawerController::didChangeSizeOfDrawer(to: \(size))")
     }
 }

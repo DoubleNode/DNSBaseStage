@@ -7,6 +7,7 @@
 //
 
 import Combine
+import DNSCrashWorkers
 import DNSProtocols
 import Foundation
 
@@ -106,7 +107,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public var displayOptions: BaseStage.Display.Options = []
 
     // MARK: - Workers -
-    public var analyticsWorker: WKRPTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
 
     required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator
@@ -172,7 +173,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func stageDidLoad(_ request: BaseStage.Models.Base.Request) {
     }
     open func stageWillAppear(_ request: BaseStage.Models.Base.Request) {
-        try? self.analyticsWorker?.doScreen(screenTitle: String(describing: self.baseConfigurator!))
+        self.analyticsWorker.doScreen(screenTitle: String(describing: self.baseConfigurator!))
         self.baseConfigurator?.restartEnding()
     }
     open func stageWillDisappear(_ request: BaseStage.Models.Base.Request) {
@@ -182,14 +183,14 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     
     // MARK: - Business Logic -
     open func doCloseAction(_ request: BaseStage.Models.Base.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         self.utilityCloseAction()
     }
     open func doConfirmation(_ request: BaseStage.Models.Confirmation.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     open func doErrorOccurred(_ request: BaseStage.Models.ErrorMessage.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         var response = BaseStage.Models.ErrorMessage.Response(error: request.error,
                                                               style: .popup,
                                                               title: request.title)
@@ -197,24 +198,24 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         self.errorPublisher.send(response)
     }
     open func doMessageDone(_ request: BaseStage.Models.Message.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
 
     open func doWebStartNavigation(_ request: BaseStage.Models.Webpage.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     open func doWebFinishNavigation(_ request: BaseStage.Models.Webpage.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     open func doWebErrorNavigation(_ request: BaseStage.Models.WebpageError.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         let response = BaseStage.Models.ErrorMessage.Response(error: request.error,
                                                               style: .popup,
                                                               title: "Web Error")
         self.errorPublisher.send(response)
     }
     open func doWebLoadProgress(_ request: BaseStage.Models.WebpageProgress.Request) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
     }
     
     // MARK: - Shortcut Methods

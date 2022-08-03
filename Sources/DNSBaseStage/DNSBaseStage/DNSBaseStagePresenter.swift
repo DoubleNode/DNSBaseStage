@@ -9,6 +9,7 @@
 import Combine
 import DNSAppCore
 import DNSCoreThreading
+import DNSCrashWorkers
 import DNSProtocols
 import UIKit
 
@@ -97,7 +98,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public var errorTitleFont: UIFont = UIFont.boldSystemFont(ofSize: 16)
 
     // MARK: - Workers -
-    public var analyticsWorker: WKRPTCLAnalytics?
+    public var analyticsWorker: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
 
     required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator
@@ -119,7 +120,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
     // MARK: - Presentation logic -
     open func presentConfirmation(_ response: BaseStage.Models.Confirmation.Response) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         let viewModel = BaseStage.Models.Confirmation.ViewModel()
         viewModel.alertStyle = response.alertStyle
@@ -146,11 +147,11 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.confirmationPublisher.send(viewModel)
     }
     open func presentDismiss(_ response: BaseStage.Models.Dismiss.Response) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         self.dismissPublisher.send(BaseStage.Models.Dismiss.ViewModel(animated: response.animated))
     }
     open func presentErrorMessage(_ response: BaseStage.Models.ErrorMessage.Response) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         DNSAppGlobals.appLastDisplayedError = response.error
 
         var errorMessage = response.error.localizedDescription
@@ -180,7 +181,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.messagePublisher.send(viewModel)
     }
     open func presentMessage(_ response: BaseStage.Models.Message.Response) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         var viewModel = BaseStage.Models.Message.ViewModel(message: response.message,
                                                            percentage: response.percentage,
@@ -212,7 +213,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.messagePublisher.send(viewModel)
     }
     open func presentSpinner(_ response: BaseStage.Models.Spinner.Response) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
         if response.forceReset {
             self.spinnerCount = 0
         }
@@ -233,7 +234,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentTitle(_ response: BaseStage.Models.Title.Response) {
-        try? self.analyticsWorker?.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         var viewModel = BaseStage.Models.Title.ViewModel(title: response.title)
         if !(response.tabBarImageName.isEmpty) {

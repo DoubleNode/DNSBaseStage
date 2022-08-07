@@ -451,7 +451,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
 
     // MARK: - Display logic -
     public func displayConfirmation(_ viewModel: BaseStage.Models.Confirmation.ViewModel) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
         DNSUIThread.run {
             var alertStyle = viewModel.alertStyle
@@ -525,12 +525,12 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         }
     }
     public func displayDismiss(_ viewModel: BaseStage.Models.Dismiss.ViewModel) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         self.endStage(BaseStage.Models.Finish.ViewModel(animated: viewModel.animated,
                                                         displayMode: self.displayMode!))
     }
     public func displayMessage(_ viewModel: BaseStage.Models.Message.ViewModel) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         DNSUIThread.run {
             switch viewModel.style {
             case .none:
@@ -628,13 +628,13 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         }
     }
     public func displaySpinner(_ viewModel: BaseStage.Models.Spinner.ViewModel) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         DNSUIThread.run {
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
     public func displayTitle(_ viewModel: BaseStage.Models.Title.ViewModel) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         DNSUIThread.run {
             if viewModel.tabBarUnselectedImage != nil {
                 self.tabBarItem.image = viewModel.tabBarUnselectedImage

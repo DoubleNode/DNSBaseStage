@@ -136,7 +136,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     @IBOutlet public weak var titleLabel: UILabel?
 
     // MARK: - Workers -
-    public var analyticsWorker: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
+    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
 
     // MARK: - Object settings -
     open func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -230,7 +230,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.analyticsWorker.doScreen(screenTitle: String(describing: self.baseConfigurator!))
+        self.wkrAnalytics.doScreen(screenTitle: String(describing: self.baseConfigurator!))
         self.stageDidAppear()
     }
     override open func viewWillDisappear(_ animated: Bool) {
@@ -261,13 +261,13 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     // MARK: - Gesture Recognizer methods -
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         view.endEditing(true)
     }
 
     // MARK: - Action methods -
     @IBAction func closeButtonAction(sender: UIButton) {
-        self.analyticsWorker.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         if sender == self.closeButton {
             self.closeButton?.isEnabled = false
         }

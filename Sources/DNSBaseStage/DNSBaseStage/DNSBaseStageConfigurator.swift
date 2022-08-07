@@ -85,13 +85,13 @@ open class DNSBaseStageConfigurator {
         baseViewController.subscribe(to: basePresenter)
 
         // Interactor Dependency Injection
-        baseInteractor.analyticsWorker = WKRCrashAnalyticsWorker.init()
+        baseInteractor.wkrAnalytics = WKRCrashAnalyticsWorker.init()
 
         // Presenter Dependency Injection
-        basePresenter.analyticsWorker  = WKRCrashAnalyticsWorker.init()
+        basePresenter.wkrAnalytics  = WKRCrashAnalyticsWorker.init()
 
         // ViewController Dependency Injection
-        baseViewController.analyticsWorker = WKRCrashAnalyticsWorker.init()
+        baseViewController.wkrAnalytics = WKRCrashAnalyticsWorker.init()
     }
     open func endStage(with intent: String,
                        and dataChanged: Bool,

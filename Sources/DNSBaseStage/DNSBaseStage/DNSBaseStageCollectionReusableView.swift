@@ -47,7 +47,7 @@ open class DNSBaseStageCollectionReusableView: DNSUICollectionReusableView, DNSB
     }
 
     // MARK: - Workers -
-    public var analyticsWorker: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
+    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
 
     override open func awakeFromNib() {
         super.awakeFromNib()

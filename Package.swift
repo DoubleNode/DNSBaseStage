@@ -30,13 +30,13 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.2"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.9.4"),
-        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.8.11"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.9.13"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.9.5"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.35"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.9.5"),
+        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.9.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.9.15"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.9.7"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.42"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.8.0"),
         .package(url: "https://github.com/johankool/Drawer.git", from: "0.9.1"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.4.2"),
@@ -44,7 +44,7 @@ let package = Package(
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.10"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.7.0"),
-        .package(url: "https://github.com/realm/realm-swift", from: "10.28.1"),
+        .package(url: "https://github.com/realm/realm-swift", from: "10.28.5"),
         .package(url: "https://github.com/Nirma/SFSymbol", from: "1.1.0")
     ],
     targets: [

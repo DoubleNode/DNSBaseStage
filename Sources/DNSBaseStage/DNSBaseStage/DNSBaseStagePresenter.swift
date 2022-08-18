@@ -20,6 +20,7 @@ public protocol DNSBaseStagePresentationLogic: AnyObject {
     var stageStartPublisher: PassthroughSubject<BaseStage.Models.Start.ViewModel, Never> { get }
     var stageEndPublisher: PassthroughSubject<BaseStage.Models.Finish.ViewModel, Never> { get }
 
+    var closeResetPublisher: PassthroughSubject<BaseStage.Models.Base.ViewModel, Never> { get }
     var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.ViewModel, Never> { get }
     var dismissPublisher: PassthroughSubject<BaseStage.Models.Dismiss.ViewModel, Never> { get }
     var messagePublisher: PassthroughSubject<BaseStage.Models.Message.ViewModel, Never> { get }
@@ -37,6 +38,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public let stageStartPublisher = PassthroughSubject<BaseStage.Models.Start.ViewModel, Never>()
     public let stageEndPublisher = PassthroughSubject<BaseStage.Models.Finish.ViewModel, Never>()
 
+    public let closeResetPublisher = PassthroughSubject<BaseStage.Models.Base.ViewModel, Never>()
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.ViewModel, Never>()
     public let dismissPublisher = PassthroughSubject<BaseStage.Models.Dismiss.ViewModel, Never>()
     public let messagePublisher = PassthroughSubject<BaseStage.Models.Message.ViewModel, Never>()
@@ -47,6 +49,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     var stageStartSubscriber: AnyCancellable?
     var stageEndSubscriber: AnyCancellable?
 
+    var closeResetSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
     var dismissSubscriber: AnyCancellable?
     var errorSubscriber: AnyCancellable?
@@ -60,6 +63,8 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         stageEndSubscriber = baseInteractor.stageEndPublisher
             .sink { response in self.endStage(response) }
 
+        closeResetSubscriber = baseInteractor.closeResetPublisher
+            .sink { response in self.presentCloseReset(response) }
         confirmationSubscriber = baseInteractor.confirmationPublisher
             .sink { response in self.presentConfirmation(response) }
         dismissSubscriber = baseInteractor.dismissPublisher
@@ -119,6 +124,10 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     }
 
     // MARK: - Presentation logic -
+    open func presentCloseReset(_ response: BaseStage.Models.Base.Response) {
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.closeResetPublisher.send(BaseStage.Models.Base.ViewModel())
+    }
     open func presentConfirmation(_ response: BaseStage.Models.Confirmation.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
 

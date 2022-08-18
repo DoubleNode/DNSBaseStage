@@ -82,6 +82,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     var stageStartSubscriber: AnyCancellable?
     var stageEndSubscriber: AnyCancellable?
 
+    var closeResetSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
     var dismissSubscriber: AnyCancellable?
     var messageSubscriber: AnyCancellable?
@@ -94,6 +95,8 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         stageEndSubscriber = basePresenter.stageEndPublisher
             .sink { viewModel in self.endStage(viewModel) }
 
+        closeResetSubscriber = basePresenter.closeResetPublisher
+            .sink { viewModel in self.displayCloseReset(viewModel) }
         confirmationSubscriber = basePresenter.confirmationPublisher
             .sink { viewModel in self.displayConfirmation(viewModel) }
         dismissSubscriber = basePresenter.dismissPublisher

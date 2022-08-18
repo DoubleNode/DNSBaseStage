@@ -450,6 +450,12 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
 
     // MARK: - Display logic -
+    public func displayCloseReset(_ viewModel: BaseStage.Models.Base.ViewModel) {
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        DNSUIThread.run {
+            self.closeButton?.isEnabled = true
+        }
+    }
     public func displayConfirmation(_ viewModel: BaseStage.Models.Confirmation.ViewModel) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
 

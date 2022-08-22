@@ -461,7 +461,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
 
         DNSUIThread.run {
             var alertStyle = viewModel.alertStyle
-            if DNSDevice.iPad {
+            if DNSDevice.isIpad {
                 alertStyle = UIAlertController.Style.alert
             }
             let textFieldPlaceholder0 = (viewModel.textFields.count >= 1) ? viewModel.textFields[0].placeholder : ""

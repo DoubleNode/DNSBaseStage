@@ -103,7 +103,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public var errorTitleFont: UIFont = UIFont.boldSystemFont(ofSize: 16)
 
     // MARK: - Workers -
-    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
+    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
 
     required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator

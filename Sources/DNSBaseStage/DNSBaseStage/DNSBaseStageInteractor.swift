@@ -109,7 +109,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public var displayOptions: BaseStage.Display.Options = []
 
     // MARK: - Workers -
-    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalyticsWorker()
+    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
 
     required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator

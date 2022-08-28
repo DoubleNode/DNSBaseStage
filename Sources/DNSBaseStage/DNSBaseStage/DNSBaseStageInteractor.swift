@@ -18,11 +18,11 @@ public protocol DNSBaseStageBusinessLogic: AnyObject {
     var stageStartPublisher: PassthroughSubject<BaseStage.Models.Start.Response, Never> { get }
     var stageEndPublisher: PassthroughSubject<BaseStage.Models.Finish.Response, Never> { get }
 
-    var closeResetPublisher: PassthroughSubject<BaseStage.Models.Base.Response, Never> { get }
     var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.Response, Never> { get }
     var dismissPublisher: PassthroughSubject<BaseStage.Models.Dismiss.Response, Never> { get }
     var errorPublisher: PassthroughSubject<BaseStage.Models.ErrorMessage.Response, Never> { get }
     var messagePublisher: PassthroughSubject<BaseStage.Models.Message.Response, Never> { get }
+    var resetPublisher: PassthroughSubject<BaseStage.Models.Base.Response, Never> { get }
     var spinnerPublisher: PassthroughSubject<BaseStage.Models.Spinner.Response, Never> { get }
     var titlePublisher: PassthroughSubject<BaseStage.Models.Title.Response, Never> { get }
 }
@@ -38,11 +38,11 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public let stageStartPublisher = PassthroughSubject<BaseStage.Models.Start.Response, Never>()
     public let stageEndPublisher = PassthroughSubject<BaseStage.Models.Finish.Response, Never>()
 
-    public let closeResetPublisher = PassthroughSubject<BaseStage.Models.Base.Response, Never>()
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.Response, Never>()
     public let dismissPublisher = PassthroughSubject<BaseStage.Models.Dismiss.Response, Never>()
     public let errorPublisher = PassthroughSubject<BaseStage.Models.ErrorMessage.Response, Never>()
     public let messagePublisher = PassthroughSubject<BaseStage.Models.Message.Response, Never>()
+    public let resetPublisher = PassthroughSubject<BaseStage.Models.Base.Response, Never>()
     public let spinnerPublisher = PassthroughSubject<BaseStage.Models.Spinner.Response, Never>()
     public let titlePublisher = PassthroughSubject<BaseStage.Models.Title.Response, Never>()
 
@@ -231,9 +231,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     // MARK: - Utility methods
     open func utilityCloseAction(with results: DNSBaseStageBaseResults? = nil) {
         self.endStage(conditionally: true, with: BaseStage.BaseIntents.close, and: false, and: results)
-        self.utilityCloseReset()
+        self.utilityReset()
     }
-    open func utilityCloseReset() {
-        self.closeResetPublisher.send(BaseStage.Models.Base.Response())
+    open func utilityReset() {
+        self.resetPublisher.send(BaseStage.Models.Base.Response())
     }
 }

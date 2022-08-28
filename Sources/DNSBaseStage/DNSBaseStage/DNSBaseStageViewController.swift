@@ -82,10 +82,10 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     var stageStartSubscriber: AnyCancellable?
     var stageEndSubscriber: AnyCancellable?
 
-    var closeResetSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
     var dismissSubscriber: AnyCancellable?
     var messageSubscriber: AnyCancellable?
+    var resetSubscriber: AnyCancellable?
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
 
@@ -95,14 +95,14 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         stageEndSubscriber = basePresenter.stageEndPublisher
             .sink { viewModel in self.endStage(viewModel) }
 
-        closeResetSubscriber = basePresenter.closeResetPublisher
-            .sink { viewModel in self.displayCloseReset(viewModel) }
         confirmationSubscriber = basePresenter.confirmationPublisher
             .sink { viewModel in self.displayConfirmation(viewModel) }
         dismissSubscriber = basePresenter.dismissPublisher
             .sink { viewModel in self.displayDismiss(viewModel) }
         messageSubscriber = basePresenter.messagePublisher
             .sink { viewModel in self.displayMessage(viewModel) }
+        resetSubscriber = basePresenter.resetPublisher
+            .sink { viewModel in self.displayReset(viewModel) }
         spinnerSubscriber = basePresenter.spinnerPublisher
             .sink { viewModel in self.displaySpinner(viewModel) }
         titleSubscriber = basePresenter.titlePublisher
@@ -259,6 +259,14 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         }
         self.stageDidDisappear()
         self.stageDidClose()
+    }
+
+    // MARK: - Display logic -
+    open func displayReset(_ viewModel: BaseStage.Models.Base.ViewModel) {
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        DNSUIThread.run {
+            self.closeButton?.isEnabled = true
+        }
     }
 
     // MARK: - Gesture Recognizer methods -

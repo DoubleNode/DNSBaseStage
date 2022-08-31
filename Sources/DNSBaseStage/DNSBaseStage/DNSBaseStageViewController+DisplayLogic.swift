@@ -146,6 +146,22 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     viewControllers.insert(self, at: 0)
                     navController.setViewControllers(viewControllers, animated: false)
                 }
+            case .navBarRootReset:
+                var navController: UINavigationController?
+                if let navDrawerController = self.baseConfigurator?.navDrawerController {
+                    navController = navDrawerController
+                } else if let navigationController = self.baseConfigurator?.navigationController {
+                    navController = navigationController
+                }
+                guard let navController = navController else { return }
+                DNSUIThread.run {
+                    var viewControllers = [ self ]
+                    self.tabBarItem.image = navController.tabBarItem.image ??
+                        viewControllers.first?.tabBarItem.image
+                    self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??
+                        viewControllers.first?.tabBarItem.selectedImage
+                    navController.setViewControllers(viewControllers, animated: false)
+                }
             case.tabBarAdd(let animated, let tabNdx)?:
                 guard self.baseConfigurator?.tabBarController != nil else { return }
                 let tabBarController = self.baseConfigurator!.tabBarController!
@@ -301,7 +317,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     }
                 }
             }
-        case .navBarRootReplace?:
+        case .navBarRootReplace?, .navBarRootReset?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
                 guard navDrawerController.viewControllers.contains(self) else { return }
                 DNSUIThread.run {

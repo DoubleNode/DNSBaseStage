@@ -54,6 +54,7 @@ public enum DNSBaseStage {
             case navBarPush(animated: Bool)
             case navBarRoot(animated: Bool)
             case navBarRootReplace
+            case navBarRootReset
             case tabBarAdd(animated: Bool, tabNdx: Int)
         }
     }

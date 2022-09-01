@@ -155,7 +155,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 }
                 guard let navController = navController else { return }
                 DNSUIThread.run {
-                    var viewControllers = [ self ]
+                    let viewControllers = [ self ]
                     self.tabBarItem.image = navController.tabBarItem.image ??
                         viewControllers.first?.tabBarItem.image
                     self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??

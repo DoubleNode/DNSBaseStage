@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBaseTheme.git",
       "state" : {
-        "revision" : "41665c37b40f95f42c389e80c1f3acc0efe2e505",
-        "version" : "1.9.4"
+        "revision" : "3c03dba28e045bfdcdba87373309002c65794666",
+        "version" : "1.9.5"
       }
     },
     {

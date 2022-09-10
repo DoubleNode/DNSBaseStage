@@ -35,8 +35,11 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         updaterWindow.resignKey()
     }
 
+    override public init() {
+        super.init()
+    }
+    
     // MARK: - UIWindowSceneDelegate methods
-
     open func scene(_ scene: UIScene,
                     willConnectTo session: UISceneSession,
                     options connectionOptions: UIScene.ConnectionOptions) {

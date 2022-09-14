@@ -334,7 +334,11 @@ extension DNSBaseStageViewController {
                         if tabBarController.selectedIndex < tabBarController.children.count {
                             var index = tabBarController.selectedIndex
                             presentedViewController = tabBarController.children[index]
-                            while presentedViewController as? JKDrawer.DrawerNavigationController != nil {
+                            while let drawerController = presentedViewController as? JKDrawer.DrawerNavigationController {
+                                presentedViewController = drawerController.children.last
+                                if presentedViewController as? JKDrawer.DrawerNavigationController == nil {
+                                    break
+                                }
                                 index += 1
                                 if index >= tabBarController.children.count {
                                     index = tabBarController.selectedIndex

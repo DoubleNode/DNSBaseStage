@@ -36,7 +36,7 @@ let package = Package(
         .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.9.9"),
         .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.9.32"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.9.8"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.47"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.48"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.8.0"),
         .package(url: "https://github.com/johankool/Drawer.git", from: "0.9.1"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.4.2"),

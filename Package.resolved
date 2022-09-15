@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNodeOpen/AnimatedField.git",
       "state" : {
-        "revision" : "7d0985b6c824719fa410adf999f0f40e9ba3cabb",
-        "version" : "2.5.20"
+        "revision" : "097fc1263e0cacc0edc11edbad229e76cf1631b1",
+        "version" : "2.5.21"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBaseTheme.git",
       "state" : {
-        "revision" : "0753aca91aa5cbde63fcbea03349284e90601c5f",
-        "version" : "1.9.9"
+        "revision" : "f5533aaa8773ca9d80796bb759ede1f54a40e081",
+        "version" : "1.9.10"
       }
     },
     {
@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/futuretap/FTLinearActivityIndicator.git",
       "state" : {
-        "revision" : "150a9040f0b07bd92ca9e0f13249062a5a59c891",
-        "version" : "1.4.3"
+        "revision" : "ee13b2b3391ea6375039d5d01aaf3ebe6c33f8cf",
+        "version" : "1.5.0"
       }
     },
     {
@@ -239,8 +239,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core",
       "state" : {
-        "revision" : "2b8def17bb8e0cddbcc754db6b6466b8487feebf",
-        "version" : "12.5.0"
+        "revision" : "5da7744b4056ad185c025bccf0924f17f73f7a91",
+        "version" : "12.6.0"
       }
     },
     {
@@ -248,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "revision" : "a107f5660b0b6067700923af7f107b6af73c546b",
-        "version" : "10.28.5"
+        "revision" : "28c488974f544c9affc4eacdd5b9dfc6785ebbc0",
+        "version" : "10.29.0"
       }
     },
     {

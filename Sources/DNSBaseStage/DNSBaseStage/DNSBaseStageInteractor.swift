@@ -29,7 +29,7 @@ public protocol DNSBaseStageBusinessLogic: AnyObject {
 
 open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public typealias BaseStage = DNSBaseStage
-    
+
     // MARK: - Public Associated Type Properties -
     public var baseConfigurator: BaseStage.Configurator?
     public var baseInitializationObject: DNSBaseStageBaseInitialization?
@@ -107,6 +107,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     // MARK: - Public Properties -
     public var displayMode: BaseStage.Display.Mode?
     public var displayOptions: BaseStage.Display.Options = []
+    public var stageUpdated = false
 
     // MARK: - Workers -
     public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
@@ -125,6 +126,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {
         self.baseInitializationObject = initializationObject
+        self.stageUpdated = true
     }
     open func shouldEndStage() -> Bool {
         let retval = !self.hasStageEnded
@@ -163,7 +165,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     // MARK: - Stage Lifecycle -
     open func stageDidAppear(_ request: BaseStage.Models.Base.Request) {
-        self.hasStageEnded  = false
+        self.hasStageEnded = false
+        self.stageUpdated = false
     }
     open func stageDidClose(_ request: BaseStage.Models.Base.Request) {
         self.endStage(conditionally: true, with: "", and: false, and: nil)

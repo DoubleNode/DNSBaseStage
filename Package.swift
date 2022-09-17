@@ -32,11 +32,11 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.2"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.9.8"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.9.9"),
         .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.9.15"),
         .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.9.32"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.9.8"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.48"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.49"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.8.0"),
         .package(url: "https://github.com/johankool/Drawer.git", from: "0.9.1"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.4.3"),

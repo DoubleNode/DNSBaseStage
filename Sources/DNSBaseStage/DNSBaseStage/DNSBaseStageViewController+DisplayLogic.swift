@@ -214,7 +214,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             .isEmpty
 
         DNSUIThread.run {
-            if let topController = self.topController as? DNSBaseStageViewController {
+            if let topController = UIViewController.topController as? DNSBaseStageViewController {
                 if topController.isModal {
                     presentingViewController = topController
                 }
@@ -775,7 +775,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                    dismissingDirection: BaseStage.Models.Direction = .vertical,
                                    duration: BaseStage.Models.Duration = .average,
                                    location: BaseStage.Models.Location = .bottom) {
-        let viewController = self.topController ?? self
+        let viewController = UIViewController.topController ?? self
         let loafState: Loaf.State
         switch state {
         case .error:

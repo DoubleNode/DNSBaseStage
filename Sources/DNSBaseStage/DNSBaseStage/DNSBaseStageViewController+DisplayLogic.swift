@@ -525,17 +525,16 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 alertController.addAction(button)
             }
 
-            if self.isOnTop {
-                self.updateBlurredViewDisplay(display: true)
-                self.utilityPresent(viewControllerToPresent: alertController,
-                                    using: self,
-                                    animated: true) { success in
-                    guard success else {
-                        DNSCore.reportLog("displayConfirmation - utilityPresent failed:" +
-                                            " presenting \(type(of: alertController))" +
-                                            " on \(type(of: self))")
-                        return
-                    }
+            var presentingViewController: UIViewController = UIViewController.topController ?? self
+            self.updateBlurredViewDisplay(display: true)
+            self.utilityPresent(viewControllerToPresent: alertController,
+                                using: presentingViewController,
+                                animated: true) { success in
+                guard success else {
+                    DNSCore.reportLog("displayConfirmation - utilityPresent failed:" +
+                                        " presenting \(type(of: alertController))" +
+                                        " on \(type(of: self))")
+                    return
                 }
             }
         }
@@ -667,11 +666,10 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
 
     // MARK: - parent class methods -
     public func updateBlurredViewDisplay(display: Bool) {
-        guard self.blurredView != nil else {
+        guard let blurredView = self.blurredView else {
             self.updateDisabledViewDisplay(display: display)
             return
         }
-        let blurredView = self.blurredView!
         let displayAlpha: CGFloat = display ? 1.0 : 0.0
         
         let headerHeight: CGFloat = (self.navigationController?.navigationBar.y ?? 0) +
@@ -683,14 +681,11 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         if footerHeight > 0 && (self.blurredViewBottomConstraint?.constant ?? 0 >= CGFloat(0)) {
             self.blurredViewBottomConstraint?.constant = 0 - footerHeight
         }
-
         if display {
             self.tabBarController?.tabBar.layer.zPosition = -1
         }
         self.tabBarController?.tabBar.items?.forEach { $0.isEnabled = !display }
-
         self.view.addSubview(blurredView)
-
         if display {
             self.intBlurView.set(style: .systemUltraThinMaterialDark).show()
         }

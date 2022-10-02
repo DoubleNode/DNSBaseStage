@@ -34,28 +34,29 @@ open class DNSBaseStageCollectionViewSwipeCell: DNSUICollectionViewSwipeCell, DN
                                                   for: indexPath) as! DNSBaseStageCollectionViewSwipeCell
     }
 
-    // MARK: - Outgoing Pipelines -
-    open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
-    }
+    // MARK: - Properties -
+    public var isSelectable: Bool { self.canSelect() }
 
     // MARK: - Workers -
     public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
 
+    // MARK: - Outgoing Pipelines -
+    open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) { }
+
+    // MARK: - Lifecycle methods -
     override open func awakeFromNib() {
         super.awakeFromNib()
         if let identifier = "\(type(of: self))".split(separator: ".").last {
             self.accessibilityIdentifier = String(identifier)
         }
-
         self.contentInit()
     }
-
     override open func prepareForReuse() {
         super.prepareForReuse()
-
         self.contentInit()
     }
-
-    open func contentInit() {
-    }
+    open func contentInit() { }
+    
+    // MARK: - Methods -
+    open func canSelect() -> Bool { false }
 }

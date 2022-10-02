@@ -42,28 +42,23 @@ open class DNSBaseStageCollectionReusableView: DNSUICollectionReusableView, DNSB
                                               for: indexPath) as! DNSBaseStageCollectionReusableView
     }
 
-    // MARK: - Outgoing Pipelines -
-    open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) {
-    }
-
     // MARK: - Workers -
     public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
 
+    // MARK: - Outgoing Pipelines -
+    open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) { }
+
+    // MARK: - Lifecycle methods -
     override open func awakeFromNib() {
         super.awakeFromNib()
         if let identifier = "\(type(of: self))".split(separator: ".").last {
             self.accessibilityIdentifier = String(identifier)
         }
-
         self.contentInit()
     }
-
     override open func prepareForReuse() {
         super.prepareForReuse()
-
         self.contentInit()
     }
-
-    open func contentInit() {
-    }
+    open func contentInit() { }
 }

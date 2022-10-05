@@ -292,9 +292,9 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
              .modalPageSheet?, .modalPopover?:
             DNSUIThread.run {
                 self.presentationController?.delegate = nil
-                (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
+//                (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
                 self.dismiss(animated: viewModel.animated) {
-                    (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
+//                    (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
                 }
             }
         case .navBarPush(let animated)?:

@@ -525,7 +525,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 alertController.addAction(button)
             }
 
-            var presentingViewController: UIViewController = UIViewController.topController ?? self
+            let presentingViewController: UIViewController = UIViewController.topController ?? self
             self.updateBlurredViewDisplay(display: true)
             self.utilityPresent(viewControllerToPresent: alertController,
                                 using: presentingViewController,

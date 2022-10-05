@@ -126,30 +126,32 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     // MARK: - Presentation logic -
     open func presentConfirmation(_ response: BaseStage.Models.Confirmation.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            let viewModel = BaseStage.Models.Confirmation.ViewModel()
+            viewModel.alertStyle = response.alertStyle
+            viewModel.message = response.message
+            viewModel.title = response.title
+            viewModel.userData = response.userData
 
-        let viewModel = BaseStage.Models.Confirmation.ViewModel()
-        viewModel.alertStyle = response.alertStyle
-        viewModel.message = response.message
-        viewModel.title = response.title
-        viewModel.userData = response.userData
-
-        for textField in response.textFields {
-             viewModel.textFields.append(
-                BaseStage.Models.Confirmation.ViewModel
-                    .TextField(contentType: textField.contentType,
-                               keyboardType: textField.keyboardType,
-                               placeholder: textField.placeholder)
-            )
+            for textField in response.textFields {
+                 viewModel.textFields.append(
+                    BaseStage.Models.Confirmation.ViewModel
+                        .TextField(contentType: textField.contentType,
+                                   keyboardType: textField.keyboardType,
+                                   placeholder: textField.placeholder)
+                )
+            }
+            for button in response.buttons {
+                viewModel.buttons.append(
+                    BaseStage.Models.Confirmation.ViewModel
+                        .Button(code: button.code,
+                                style: button.style,
+                                title: button.title)
+                )
+            }
+            self.confirmationPublisher.send(viewModel)
         }
-        for button in response.buttons {
-            viewModel.buttons.append(
-                BaseStage.Models.Confirmation.ViewModel
-                    .Button(code: button.code,
-                            style: button.style,
-                            title: button.title)
-            )
-        }
-        self.confirmationPublisher.send(viewModel)
     }
     open func presentDismiss(_ response: BaseStage.Models.Dismiss.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
@@ -158,68 +160,75 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     open func presentErrorMessage(_ response: BaseStage.Models.ErrorMessage.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         DNSAppGlobals.appLastDisplayedError = response.error
-
-        var errorMessage = response.error.localizedDescription
-        if let localizedError = response.error as? LocalizedError {
-            if !(localizedError.failureReason?.isEmpty ?? true) {
-                errorMessage += "\n\n\(localizedError.failureReason ?? "")"
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            var errorMessage = response.error.localizedDescription
+            if let localizedError = response.error as? LocalizedError {
+                if !(localizedError.failureReason?.isEmpty ?? true) {
+                    errorMessage += "\n\n\(localizedError.failureReason ?? "")"
+                }
             }
+            
+            var viewModel = BaseStage.Models.Message
+                .ViewModel(message: errorMessage,
+                           style: response.style,
+                           title: response.title)
+            viewModel.colors = BaseStage.Models.Message.ViewModel
+                .Colors(background: self.errorBackgroundColor,
+                        message: self.errorMessageColor,
+                        title: self.errorTitleColor)
+            viewModel.dismissingDirection = response.dismissingDirection
+            viewModel.duration = response.duration
+            viewModel.fonts = BaseStage.Models.Message.ViewModel.Fonts(message: self.errorMessageFont,
+                                                                       title: self.errorTitleFont)
+            viewModel.location = response.location
+            viewModel.nibName = response.nibName
+            viewModel.nibBundle = response.nibBundle
+            viewModel.actionText = response.okayButton
+            viewModel.presentingDirection = response.presentingDirection
+            self.messagePublisher.send(viewModel)
         }
-        
-        var viewModel = BaseStage.Models.Message
-            .ViewModel(message: errorMessage,
-                       style: response.style,
-                       title: response.title)
-        viewModel.colors = BaseStage.Models.Message.ViewModel
-            .Colors(background: errorBackgroundColor,
-                    message: errorMessageColor,
-                    title: errorTitleColor)
-        viewModel.dismissingDirection = response.dismissingDirection
-        viewModel.duration = response.duration
-        viewModel.fonts = BaseStage.Models.Message.ViewModel.Fonts(message: errorMessageFont,
-                                                                   title: errorTitleFont)
-        viewModel.location = response.location
-        viewModel.nibName = response.nibName
-        viewModel.nibBundle = response.nibBundle
-        viewModel.actionText = response.okayButton
-        viewModel.presentingDirection = response.presentingDirection
-        self.messagePublisher.send(viewModel)
     }
     open func presentMessage(_ response: BaseStage.Models.Message.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
-        var viewModel = BaseStage.Models.Message.ViewModel(message: response.message,
-                                                           percentage: response.percentage,
-                                                           style: response.style,
-                                                           title: response.title)
-        viewModel.disclaimer = response.disclaimer
-        viewModel.image = response.image
-        viewModel.imageUrl = response.imageUrl
-        viewModel.subTitle = response.subTitle
-        viewModel.tags = response.tags
-        viewModel.colors = BaseStage.Models.Message.ViewModel
-            .Colors(background: defaultBackgroundColor,
-                    message: defaultMessageColor,
-                    title: defaultTitleColor)
-        viewModel.colors?.subTitle = defaultMessageColor
-        viewModel.dismissingDirection = response.dismissingDirection
-        viewModel.duration = response.duration
-        viewModel.fonts = BaseStage.Models.Message.ViewModel.Fonts(message: defaultMessageFont,
-                                                                   title: defaultTitleFont)
-        viewModel.fonts?.subTitle = defaultMessageFont
-
-        viewModel.actionText = response.actionText
-        viewModel.cancelText = response.cancelText
-        viewModel.location = response.location
-        viewModel.nibName = response.nibName
-        viewModel.nibBundle = response.nibBundle
-        viewModel.presentingDirection = response.presentingDirection
-        viewModel.userData = response.userData
-        self.messagePublisher.send(viewModel)
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            var viewModel = BaseStage.Models.Message.ViewModel(message: response.message,
+                                                               percentage: response.percentage,
+                                                               style: response.style,
+                                                               title: response.title)
+            viewModel.disclaimer = response.disclaimer
+            viewModel.image = response.image
+            viewModel.imageUrl = response.imageUrl
+            viewModel.subTitle = response.subTitle
+            viewModel.tags = response.tags
+            viewModel.colors = BaseStage.Models.Message.ViewModel
+                .Colors(background: self.defaultBackgroundColor,
+                        message: self.defaultMessageColor,
+                        title: self.defaultTitleColor)
+            viewModel.colors?.subTitle = self.defaultMessageColor
+            viewModel.dismissingDirection = response.dismissingDirection
+            viewModel.duration = response.duration
+            viewModel.fonts = BaseStage.Models.Message.ViewModel.Fonts(message: self.defaultMessageFont,
+                                                                       title: self.defaultTitleFont)
+            viewModel.fonts?.subTitle = self.defaultMessageFont
+            
+            viewModel.actionText = response.actionText
+            viewModel.cancelText = response.cancelText
+            viewModel.location = response.location
+            viewModel.nibName = response.nibName
+            viewModel.nibBundle = response.nibBundle
+            viewModel.presentingDirection = response.presentingDirection
+            viewModel.userData = response.userData
+            self.messagePublisher.send(viewModel)
+        }
     }
     open func presentReset(_ response: BaseStage.Models.Base.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        self.resetPublisher.send(BaseStage.Models.Base.ViewModel())
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            self.resetPublisher.send(BaseStage.Models.Base.ViewModel())
+        }
     }
     open func presentSpinner(_ response: BaseStage.Models.Spinner.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
@@ -255,6 +264,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
     // MARK: - Shortcut Methods
     open func spinner(show: Bool) {
-        self.spinnerPublisher.send(BaseStage.Models.Spinner.ViewModel(show: show))
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            self.spinnerPublisher.send(BaseStage.Models.Spinner.ViewModel(show: show))
+        }
     }
 }

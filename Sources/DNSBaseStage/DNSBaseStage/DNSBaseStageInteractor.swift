@@ -7,6 +7,7 @@
 //
 
 import Combine
+import DNSCoreThreading
 import DNSCrashWorkers
 import DNSProtocols
 import Foundation
@@ -196,11 +197,14 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func doErrorOccurred(_ request: BaseStage.Models.ErrorMessage.Request) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        var response = BaseStage.Models.ErrorMessage.Response(error: request.error,
-                                                              style: .popup,
-                                                              title: request.title)
-        response.okayButton = request.okayButton
-        self.errorPublisher.send(response)
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            var response = BaseStage.Models.ErrorMessage.Response(error: request.error,
+                                                                  style: .popup,
+                                                                  title: request.title)
+            response.okayButton = request.okayButton
+            self.errorPublisher.send(response)
+        }
     }
     open func doMessageDone(_ request: BaseStage.Models.Message.Request) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
@@ -214,10 +218,13 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func doWebErrorNavigation(_ request: BaseStage.Models.WebpageError.Request) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        let response = BaseStage.Models.ErrorMessage.Response(error: request.error,
-                                                              style: .popup,
-                                                              title: "Web Error")
-        self.errorPublisher.send(response)
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            let response = BaseStage.Models.ErrorMessage.Response(error: request.error,
+                                                                  style: .popup,
+                                                                  title: "Web Error")
+            self.errorPublisher.send(response)
+        }
     }
     open func doWebLoadProgress(_ request: BaseStage.Models.WebpageProgress.Request) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
@@ -226,9 +233,12 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     // MARK: - Shortcut Methods
     open func spinner(show: Bool,
                       forceReset: Bool = false) {
-        var response = BaseStage.Models.Spinner.Response(show: show)
-        response.forceReset = forceReset
-        self.spinnerPublisher.send(response)
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            var response = BaseStage.Models.Spinner.Response(show: show)
+            response.forceReset = forceReset
+            self.spinnerPublisher.send(response)
+        }
     }
 
     // MARK: - Utility methods
@@ -237,6 +247,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         self.utilityReset()
     }
     open func utilityReset() {
-        self.resetPublisher.send(BaseStage.Models.Base.Response())
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            self.resetPublisher.send(BaseStage.Models.Base.Response())
+        }
     }
 }

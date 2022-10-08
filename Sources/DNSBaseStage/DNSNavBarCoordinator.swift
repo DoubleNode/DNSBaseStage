@@ -77,7 +77,8 @@ open class DNSNavBarCoordinator: DNSCoordinator {
 
     override open func commonStart() {
         super.commonStart()
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             if let navDrawerController = self.navDrawerController {
                 self.savedViewControllers = navDrawerController.viewControllers
             } else if let navigationController = self.navigationController {
@@ -105,7 +106,8 @@ open class DNSNavBarCoordinator: DNSCoordinator {
     }
     override open func stop(with results: DNSBaseStageBaseResults? = nil) {
         if self.savedViewControllers != nil {
-            DNSUIThread.run {
+            DNSUIThread.run { [weak self] in
+                guard let self else { return }
                 if let navDrawerController = self.navDrawerController {
                     navDrawerController.setViewControllers(self.savedViewControllers!,
                                                            animated: true)

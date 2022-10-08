@@ -91,22 +91,22 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
 
     open func subscribe(to basePresenter: BaseStage.Logic.Presentation) {
         stageStartSubscriber = basePresenter.stageStartPublisher
-            .sink { viewModel in self.startStage(viewModel) }
+            .sink { [weak self] viewModel in self?.startStage(viewModel) }
         stageEndSubscriber = basePresenter.stageEndPublisher
-            .sink { viewModel in self.endStage(viewModel) }
+            .sink { [weak self] viewModel in self?.endStage(viewModel) }
 
         confirmationSubscriber = basePresenter.confirmationPublisher
-            .sink { viewModel in self.displayConfirmation(viewModel) }
+            .sink { [weak self] viewModel in self?.displayConfirmation(viewModel) }
         dismissSubscriber = basePresenter.dismissPublisher
-            .sink { viewModel in self.displayDismiss(viewModel) }
+            .sink { [weak self] viewModel in self?.displayDismiss(viewModel) }
         messageSubscriber = basePresenter.messagePublisher
-            .sink { viewModel in self.displayMessage(viewModel) }
+            .sink { [weak self] viewModel in self?.displayMessage(viewModel) }
         resetSubscriber = basePresenter.resetPublisher
-            .sink { viewModel in self.displayReset(viewModel) }
+            .sink { [weak self] viewModel in self?.displayReset(viewModel) }
         spinnerSubscriber = basePresenter.spinnerPublisher
-            .sink { viewModel in self.displaySpinner(viewModel) }
+            .sink { [weak self] viewModel in self?.displaySpinner(viewModel) }
         titleSubscriber = basePresenter.titlePublisher
-            .sink { viewModel in self.displayTitle(viewModel) }
+            .sink { [weak self] viewModel in self?.displayTitle(viewModel) }
     }
 
     // MARK: - Private Properties -
@@ -147,7 +147,8 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     func updateStageTitle() {
         guard self.stageTitle != "" else {  return }
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             self.title = self.stageTitle
             self.navigationItem.title = self.stageTitle
             self.tabBarItem.title = self.stageTitle
@@ -156,7 +157,8 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     func updateStageBackTitle() {
         guard self.stageBackTitle != "" else {  return }
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             self.navigationItem.title = self.stageBackTitle
         }
     }
@@ -218,7 +220,6 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.toolbarManageBehaviour = .bySubviews
@@ -289,7 +290,8 @@ extension DNSBaseStageViewController {
     // returns true only if the viewcontroller is presented.
     var isModal: Bool {
         var retval = false
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             if let index = self.navigationController?.viewControllers.firstIndex(of: self), index > 0 {
                 retval = false
             } else if self.presentingViewController != nil {

@@ -56,7 +56,6 @@ open class DNSCoordinator: NSObject {
     // MARK: - Object lifecycle
     public init(with parent: DNSCoordinator? = nil) {
         self.parent = parent
-
         DNSUIThread.run {
             UIApplication.configureLinearNetworkActivityIndicatorIfNeeded()
         }

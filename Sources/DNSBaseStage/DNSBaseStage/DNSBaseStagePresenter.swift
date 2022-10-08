@@ -59,31 +59,30 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
     open func subscribe(to baseInteractor: BaseStage.Logic.Business) {
         stageStartSubscriber = baseInteractor.stageStartPublisher
-            .sink { response in self.startStage(response) }
+            .sink { [weak self] response in self?.startStage(response) }
         stageEndSubscriber = baseInteractor.stageEndPublisher
-            .sink { response in self.endStage(response) }
+            .sink { [weak self] response in self?.endStage(response) }
 
         confirmationSubscriber = baseInteractor.confirmationPublisher
-            .sink { response in self.presentConfirmation(response) }
+            .sink { [weak self] response in self?.presentConfirmation(response) }
         dismissSubscriber = baseInteractor.dismissPublisher
-            .sink { response in self.presentDismiss(response) }
+            .sink { [weak self] response in self?.presentDismiss(response) }
         errorSubscriber = baseInteractor.errorPublisher
-            .sink { response in self.presentErrorMessage(response) }
+            .sink { [weak self] response in self?.presentErrorMessage(response) }
         messageSubscriber = baseInteractor.messagePublisher
-            .sink { response in self.presentMessage(response) }
+            .sink { [weak self] response in self?.presentMessage(response) }
         resetSubscriber = baseInteractor.resetPublisher
-            .sink { response in self.presentReset(response) }
+            .sink { [weak self] response in self?.presentReset(response) }
         spinnerSubscriber = baseInteractor.spinnerPublisher
-            .sink { response in self.presentSpinner(response) }
+            .sink { [weak self] response in self?.presentSpinner(response) }
         titleSubscriber = baseInteractor.titlePublisher
-            .sink { response in self.presentTitle(response) }
+            .sink { [weak self] response in self?.presentTitle(response) }
     }
 
     // MARK: - Private Properties -
-    var spinnerCount:   Int = 0
+    var spinnerCount: Int = 0
 
     // MARK: - Public Properties -
-
     // MARK: - Public Properties: Default Palette Colors -
     public var defaultBackgroundColor: UIColor = UIColor.blue
     public var defaultMessageColor: UIColor = UIColor.white
@@ -113,14 +112,15 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     open func startStage(_ response: BaseStage.Models.Start.Response) {
         self.spinnerCount = 0
         stageStartPublisher.send(BaseStage.Models.Start
-                                    .ViewModel(animated: true,
-                                               displayMode: response.displayMode,
-                                               displayOptions: response.displayOptions))
+            .ViewModel(animated: true,
+                       displayMode: response.displayMode,
+                       displayOptions: response.displayOptions))
     }
     open func endStage(_ response: BaseStage.Models.Finish.Response) {
         self.spinnerCount = 0
-        stageEndPublisher.send(BaseStage.Models.Finish.ViewModel(animated: true,
-                                                                 displayMode: response.displayMode))
+        stageEndPublisher.send(BaseStage.Models.Finish
+            .ViewModel(animated: true,
+                       displayMode: response.displayMode))
     }
 
     // MARK: - Presentation logic -
@@ -209,8 +209,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             viewModel.colors?.subTitle = self.defaultMessageColor
             viewModel.dismissingDirection = response.dismissingDirection
             viewModel.duration = response.duration
-            viewModel.fonts = BaseStage.Models.Message.ViewModel.Fonts(message: self.defaultMessageFont,
-                                                                       title: self.defaultTitleFont)
+            viewModel.fonts = BaseStage.Models.Message.ViewModel
+                .Fonts(message: self.defaultMessageFont,
+                       title: self.defaultTitleFont)
             viewModel.fonts?.subTitle = self.defaultMessageFont
             
             viewModel.actionText = response.actionText

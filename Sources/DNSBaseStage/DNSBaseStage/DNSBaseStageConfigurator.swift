@@ -59,7 +59,8 @@ open class DNSBaseStageConfigurator {
     private func createViewController() -> BaseStage.ViewController {
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
             var retval: BaseStage.ViewController?
-            DNSUIThread.run {
+            DNSUIThread.run { [weak self] in
+                guard let self else { return }
                 retval = self.viewControllerType
                     .init(nibName: String(describing: self.viewControllerType),
                           bundle: Bundle.dnsLookupBundle(for: self.viewControllerType))
@@ -68,7 +69,8 @@ open class DNSBaseStageConfigurator {
         }
 
         var retval: BaseStage.ViewController?
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             // swiftlint:disable:next force_cast line_length
             retval = storyboard.instantiateViewController(withIdentifier: String(describing: self.viewControllerType)) as? BaseStage.ViewController
@@ -98,7 +100,8 @@ open class DNSBaseStageConfigurator {
                        and results: DNSBaseStageBaseResults?) {
         guard !self.ending else { return }
         self.ending = true
-        _ = DNSUIThread.run(after: 0.3) {
+        _ = DNSUIThread.run(after: 0.3) { [weak self] in
+            guard let self else { return }
             self.intentBlock?(true, intent, dataChanged, results)
             self.baseInteractor.removeStage()
         }

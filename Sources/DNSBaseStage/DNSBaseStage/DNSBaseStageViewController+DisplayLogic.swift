@@ -30,7 +30,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
 
     // MARK: - Lifecycle Methods -
     public func startStage(_ viewModel: BaseStage.Models.Start.ViewModel) {
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             self.displayMode = viewModel.displayMode
             self.displayOptions = viewModel.displayOptions
 
@@ -111,23 +112,21 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 }
                 guard let navController = navController else { return }
                 guard let presentingViewController = presentingViewController else { return }
-                DNSUIThread.run {
-                    if navController.view.superview == nil {
-                        self.utilityPresent(viewControllerToPresent: navController,
-                                            using: presentingViewController,
-                                            animated: animated) { success in
-                            guard success else {
-                                DNSCore.reportLog("navBarRoot - utilityPresent failed:" +
-                                                    " presenting \(type(of: navController))" +
-                                                    " on \(type(of: presentingViewController))")
-                                return
-                            }
-                            navController.setViewControllers([ self ], animated: animated)
+                if navController.view.superview == nil {
+                    self.utilityPresent(viewControllerToPresent: navController,
+                                        using: presentingViewController,
+                                        animated: animated) { success in
+                        guard success else {
+                            DNSCore.reportLog("navBarRoot - utilityPresent failed:" +
+                                                " presenting \(type(of: navController))" +
+                                                " on \(type(of: presentingViewController))")
+                            return
                         }
-                        return
+                        navController.setViewControllers([ self ], animated: animated)
                     }
-                    navController.setViewControllers([ self ], animated: animated)
+                    return
                 }
+                navController.setViewControllers([ self ], animated: animated)
             case .navBarRootReplace:
                 var navController: UINavigationController?
                 if let navDrawerController = self.baseConfigurator?.navDrawerController {
@@ -136,16 +135,14 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     navController = navigationController
                 }
                 guard let navController = navController else { return }
-                DNSUIThread.run {
-                    var viewControllers = navController.viewControllers
-                    self.tabBarItem.image = navController.tabBarItem.image ??
-                        viewControllers.first?.tabBarItem.image
-                    self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??
-                        viewControllers.first?.tabBarItem.selectedImage
-                    viewControllers.removeAll { $0 == self }
-                    viewControllers.insert(self, at: 0)
-                    navController.setViewControllers(viewControllers, animated: false)
-                }
+                var viewControllers = navController.viewControllers
+                self.tabBarItem.image = navController.tabBarItem.image ??
+                    viewControllers.first?.tabBarItem.image
+                self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??
+                    viewControllers.first?.tabBarItem.selectedImage
+                viewControllers.removeAll { $0 == self }
+                viewControllers.insert(self, at: 0)
+                navController.setViewControllers(viewControllers, animated: false)
             case .navBarRootReset:
                 var navController: UINavigationController?
                 if let navDrawerController = self.baseConfigurator?.navDrawerController {
@@ -154,14 +151,12 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     navController = navigationController
                 }
                 guard let navController = navController else { return }
-                DNSUIThread.run {
-                    let viewControllers = [ self ]
-                    self.tabBarItem.image = navController.tabBarItem.image ??
-                        viewControllers.first?.tabBarItem.image
-                    self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??
-                        viewControllers.first?.tabBarItem.selectedImage
-                    navController.setViewControllers(viewControllers, animated: false)
-                }
+                let viewControllers = [ self ]
+                self.tabBarItem.image = navController.tabBarItem.image ??
+                    viewControllers.first?.tabBarItem.image
+                self.tabBarItem.selectedImage = navController.tabBarItem.selectedImage ??
+                    viewControllers.first?.tabBarItem.selectedImage
+                navController.setViewControllers(viewControllers, animated: false)
             case.tabBarAdd(let animated, let tabNdx)?:
                 guard self.baseConfigurator?.tabBarController != nil else { return }
                 let tabBarController = self.baseConfigurator!.tabBarController!
@@ -219,7 +214,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     presentingViewController = topController
                 }
             }
-            _ = DNSUIThread.run(after: 0.1) {
+            _ = DNSUIThread.run(after: 0.1) { [weak self] in
+                guard let self else { return }
                 self.presentationController?.delegate = presentingViewController as? UIAdaptivePresentationControllerDelegate
                 self.definesPresentationContext = true
                 self.modalPresentationStyle = modalPresentationStyle
@@ -243,7 +239,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                       _ viewModel: BaseStage.Models.Start.ViewModel,
                                       _ animated: Bool) {
         let animated: Bool = viewModel.animated && animated
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             guard !navBarController.viewControllers.isEmpty else {
                 navBarController.setViewControllers([ self ], animated: animated)
                 return
@@ -290,12 +287,10 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                 viewControllerToEnd: self)
         case .modal?, .modalCurrentContext?, .modalFormSheet?, .modalFullScreen?,
              .modalPageSheet?, .modalPopover?:
-            DNSUIThread.run {
+            DNSUIThread.run { [weak self] in
+                guard let self else { return }
                 self.presentationController?.delegate = nil
-//                (presentingViewController as? DNSBaseStageViewController)?.stageWillAppear()
-                self.dismiss(animated: viewModel.animated) {
-//                    (presentingViewController as? DNSBaseStageViewController)?.stageDidAppear()
-                }
+                self.dismiss(animated: viewModel.animated)
             }
         case .navBarPush(let animated)?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
@@ -305,13 +300,15 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             }
         case .navBarRoot(let animated)?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
-                DNSUIThread.run {
+                DNSUIThread.run { [weak self] in
+                    guard let self else { return }
                     navDrawerController.dismiss(animated: viewModel.animated && animated) {
                         self.baseConfigurator?.navDrawerController = nil
                     }
                 }
             } else if let navigationController = self.baseConfigurator?.navigationController {
-                DNSUIThread.run {
+                DNSUIThread.run { [weak self] in
+                    guard let self else { return }
                     navigationController.dismiss(animated: viewModel.animated && animated) {
                         self.baseConfigurator?.navigationController = nil
                     }
@@ -320,14 +317,16 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         case .navBarRootReplace?, .navBarRootReset?:
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
                 guard navDrawerController.viewControllers.contains(self) else { return }
-                DNSUIThread.run {
+                DNSUIThread.run { [weak self] in
+                    guard let self else { return }
                     navDrawerController.dismiss(animated: viewModel.animated) {
                         self.baseConfigurator?.navDrawerController = nil
                     }
                 }
             } else if let navigationController = self.baseConfigurator?.navigationController {
                 guard navigationController.viewControllers.contains(self) else { return }
-                DNSUIThread.run {
+                DNSUIThread.run { [weak self] in
+                    guard let self else { return }
                     navigationController.dismiss(animated: viewModel.animated) {
                         self.baseConfigurator?.navigationController = nil
                     }
@@ -337,7 +336,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             guard self.baseConfigurator?.tabBarController != nil else { return }
             let tabBarController = self.baseConfigurator!.tabBarController!
             guard tabBarController.viewControllers?.contains(self) ?? false else { return }
-            DNSUIThread.run {
+            DNSUIThread.run { [weak self] in
+                guard let self else { return }
                 var viewControllers = tabBarController.viewControllers ?? []
                 if viewControllers.contains(self) {
                     let index = viewControllers.firstIndex(of: self)
@@ -389,14 +389,12 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         }
     }
     internal func implementDisplayOptionsPreStart() {
-        weak var weakSelf = self
-        DNSUIThread.run {
-            guard weakSelf != nil else { return }
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             var drawerClosable = false
             var drawerDraggable = false
             var drawerGravity = Gravity.bottom
-            let weakSelf = weakSelf!
-            weakSelf.displayOptions.forEach {
+            self.displayOptions.forEach {
                 switch $0 {
                 case .drawerClosable:
                     drawerClosable = true
@@ -405,14 +403,14 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 case .drawerGravity(let gravity):
                     drawerGravity = gravity
                 case .navDrawerController:
-                    guard weakSelf.baseConfigurator?.navDrawerController == nil else { break }
-                    weakSelf.baseConfigurator?
-                        .navDrawerController = DNSUINavDrawerController(rootViewController: weakSelf,
+                    guard self.baseConfigurator?.navDrawerController == nil else { break }
+                    self.baseConfigurator?
+                        .navDrawerController = DNSUINavDrawerController(rootViewController: self,
                                                                         configuration: self.configuration)
                 case .navController:
-                    guard weakSelf.baseConfigurator?.navigationController == nil else { break }
-                    weakSelf.baseConfigurator?
-                        .navigationController = DNSUINavigationController(rootViewController: weakSelf)
+                    guard self.baseConfigurator?.navigationController == nil else { break }
+                    self.baseConfigurator?
+                        .navigationController = DNSUINavigationController(rootViewController: self)
                 default:
                     break
                 }
@@ -425,34 +423,32 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
     internal func implementDisplayOptionsPostStart() {
         guard !displayOptions.isEmpty else { return }
-
-        weak var weakSelf = self
-        DNSUIThread.run {
-            guard weakSelf != nil else { return }
-            let weakSelf = weakSelf!
-
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             var containsNavBarForced = false
 
-            for displayOption in weakSelf.displayOptions {
+            for displayOption in self.displayOptions {
                 switch displayOption {
                 case .navBarRightClose:
-                    weakSelf.navigationItem.rightBarButtonItem =
+                    self.navigationItem.rightBarButtonItem =
                         UIBarButtonItem(title: "Close",
                                         style: .plain,
-                                        target: weakSelf,
-                                        action: #selector(weakSelf.closeButtonAction))
-                    weakSelf.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
+                                        target: self,
+                                        action: #selector(self.closeButtonAction))
+                    self.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
                 case .navBarHidden(let animated):
                     containsNavBarForced = true
-                    weakSelf.navigationController?.setNavigationBarHidden(true, animated: animated)
-                    _ = DNSUIThread.run(after:0.1) {
-                        weakSelf.navigationController?.setNavigationBarHidden(true, animated: animated)
+                    self.navigationController?.setNavigationBarHidden(true, animated: animated)
+                    _ = DNSUIThread.run(after:0.1) { [weak self] in
+                        guard let self else { return }
+                        self.navigationController?.setNavigationBarHidden(true, animated: animated)
                     }
                 case .navBarShown(let animated):
                     containsNavBarForced = true
-                    weakSelf.navigationController?.setNavigationBarHidden(false, animated: animated)
-                    _ = DNSUIThread.run(after:0.1) {
-                        weakSelf.navigationController?.setNavigationBarHidden(false, animated: animated)
+                    self.navigationController?.setNavigationBarHidden(false, animated: animated)
+                    _ = DNSUIThread.run(after:0.1) { [weak self] in
+                        guard let self else { return }
+                        self.navigationController?.setNavigationBarHidden(false, animated: animated)
                     }
                 default:
                     break
@@ -460,7 +456,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             }
             
             if !containsNavBarForced {
-                weakSelf.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
             }
         }
     }
@@ -469,7 +465,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     public func displayConfirmation(_ viewModel: BaseStage.Models.Confirmation.ViewModel) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
 
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             var alertStyle = viewModel.alertStyle
             if DNSDevice.isIpad {
                 alertStyle = UIAlertController.Style.alert
@@ -546,7 +543,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
     public func displayMessage(_ viewModel: BaseStage.Models.Message.ViewModel) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             switch viewModel.style {
             case .none:
                 break
@@ -571,7 +569,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 }
                 let actionOkayBlock: DNSBlock = { () in
                     self.updateBlurredViewDisplay(display: false)
-                    DNSThread.run(after: 0.6) {
+                    DNSThread.run(after: 0.6) { [weak self] in
+                        guard let self else { return }
                         // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
                         self.messageDonePublisher
                             .send(BaseStage.Models.Message.Request(cancelled: viewModel.style == .popup,
@@ -580,7 +579,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 }
                 let actionCancelBlock: DNSBlock = { () in
                     self.updateBlurredViewDisplay(display: false)
-                    DNSThread.run(after: 0.6) {
+                    DNSThread.run(after: 0.6) { [weak self] in
+                        guard let self else { return }
                         self.messageDonePublisher
                             .send(BaseStage.Models.Message.Request(cancelled: true,
                                                                    userData: viewModel.userData))
@@ -644,13 +644,15 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
     public func displaySpinner(_ viewModel: BaseStage.Models.Spinner.ViewModel) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
     public func displayTitle(_ viewModel: BaseStage.Models.Title.ViewModel) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        DNSUIThread.run {
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
             if viewModel.tabBarUnselectedImage != nil {
                 self.tabBarItem.image = viewModel.tabBarUnselectedImage
                 self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage
@@ -747,7 +749,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             }
             hud.show(in: view, animated: true)
         } else {
-            _ = DNSUIThread.run(after: 2.5) {
+            _ = DNSUIThread.run(after: 2.5) { [weak self] in
+                guard let self else { return }
                 self.hud.dismiss(animated: true)
                 self.updateDisabledViewDisplay(display: false)
             }

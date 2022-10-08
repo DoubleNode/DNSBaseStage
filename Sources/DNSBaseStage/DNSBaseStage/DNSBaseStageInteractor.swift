@@ -68,38 +68,38 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     open func subscribe(to baseViewController: BaseStage.Logic.Display) {
         stageDidAppearSubscriber = baseViewController.stageDidAppearPublisher
-            .sink { request in self.stageDidAppear(request) }
+            .sink { [weak self] request in self?.stageDidAppear(request) }
         stageDidCloseSubscriber = baseViewController.stageDidClosePublisher
-            .sink { request in self.stageDidClose(request) }
+            .sink { [weak self] request in self?.stageDidClose(request) }
         stageDidDisappearSubscriber = baseViewController.stageDidDisappearPublisher
-            .sink { request in self.stageDidDisappear(request) }
+            .sink { [weak self] request in self?.stageDidDisappear(request) }
         stageDidHideSubscriber = baseViewController.stageDidHidePublisher
-            .sink { request in self.stageDidHide(request) }
+            .sink { [weak self] request in self?.stageDidHide(request) }
         stageDidLoadSubscriber = baseViewController.stageDidLoadPublisher
-            .sink { request in self.stageDidLoad(request) }
+            .sink { [weak self] request in self?.stageDidLoad(request) }
         stageWillAppearSubscriber = baseViewController.stageWillAppearPublisher
-            .sink { request in self.stageWillAppear(request) }
+            .sink { [weak self] request in self?.stageWillAppear(request) }
         stageWillDisappearSubscriber = baseViewController.stageWillDisappearPublisher
-            .sink { request in self.stageWillDisappear(request) }
+            .sink { [weak self] request in self?.stageWillDisappear(request) }
         stageWillHideSubscriber = baseViewController.stageWillHidePublisher
-            .sink { request in self.stageWillHide(request) }
+            .sink { [weak self] request in self?.stageWillHide(request) }
 
         closeActionSubscriber = baseViewController.closeActionPublisher
-            .sink { request in self.doCloseAction(request) }
+            .sink { [weak self] request in self?.doCloseAction(request) }
         confirmationSubscriber = baseViewController.confirmationPublisher
-            .sink { request in self.doConfirmation(request) }
+            .sink { [weak self] request in self?.doConfirmation(request) }
         errorOccurredSubscriber = baseViewController.errorOccurredPublisher
-            .sink { request in self.doErrorOccurred(request) }
+            .sink { [weak self] request in self?.doErrorOccurred(request) }
         messageSubscriber = baseViewController.messageDonePublisher
-            .sink { request in self.doMessageDone(request) }
+            .sink { [weak self] request in self?.doMessageDone(request) }
         webStartNavigationSubscriber = baseViewController.webStartNavigationPublisher
-            .sink { request in self.doWebStartNavigation(request) }
+            .sink { [weak self] request in self?.doWebStartNavigation(request) }
         webFinishNavigationSubscriber = baseViewController.webFinishNavigationPublisher
-            .sink { request in self.doWebFinishNavigation(request) }
+            .sink { [weak self] request in self?.doWebFinishNavigation(request) }
         webErrorNavigationSubscriber = baseViewController.webErrorNavigationPublisher
-            .sink { request in self.doWebErrorNavigation(request) }
+            .sink { [weak self] request in self?.doWebErrorNavigation(request) }
         webLoadProgressSubscriber = baseViewController.webLoadProgressPublisher
-            .sink { request in self.doWebLoadProgress(request) }
+            .sink { [weak self] request in self?.doWebLoadProgress(request) }
     }
 
     // MARK: - Private Properties -

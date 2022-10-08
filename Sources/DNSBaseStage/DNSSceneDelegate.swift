@@ -97,7 +97,8 @@ open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {
         // The scene may re-connect later, as its session was not neccessarily discarded
         // (see `application:didDiscardSceneSessions` instead).
 
-        DNSLowThread.run(.synchronously) {
+        DNSLowThread.run(.synchronously) { [weak self] in
+            guard let self else { return }
             self.coordinator?.stop()
         }
         coordinator = nil

@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 //
 //  Package.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSBaseStage
@@ -12,10 +12,10 @@ import PackageDescription
 let package = Package(
     name: "DNSBaseStage",
     platforms: [
-        .iOS(.v13),
-        .tvOS(.v13),
+        .iOS(.v15),
+        .tvOS(.v15),
         .macOS(.v10_15),
-        .watchOS(.v6),
+        .watchOS(.v9),
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
@@ -32,12 +32,12 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.2"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.9.10"),
-        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.9.41"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.9.43"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.9.8"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.9.57"),
-        .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.8.0"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.10.0"),
+        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.10.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.10.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.10.0"),
+        .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.10.0"),
         .package(url: "https://github.com/johankool/Drawer.git", from: "0.9.1"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.4.3"),
         .package(url: "https://github.com/gabrieltheodoropoulos/GTBlurView.git", from: "1.0.2"),

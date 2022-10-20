@@ -239,8 +239,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         if response.show {
             spinnerCount += 1
             guard spinnerCount == 1 else { return }
-
-            _ = DNSThread.run(after: 0.3) {
+            DNSUIThread.run(after: 0.3) {
                 guard self.spinnerCount >= 1 else { return }
                 self.spinner(show: response.show)
             }

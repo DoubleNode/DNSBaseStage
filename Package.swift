@@ -34,7 +34,7 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
         .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.10.0"),
         .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.10.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.2"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.3"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.10.0"),
         .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.10.3"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.10.0"),

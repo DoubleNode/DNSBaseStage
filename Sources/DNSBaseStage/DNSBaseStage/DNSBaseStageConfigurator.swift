@@ -18,6 +18,7 @@ public typealias DNSBaseStageConfiguratorBlock = (Bool, String, Bool, DNSBaseSta
 open class DNSBaseStageConfigurator {
     public typealias BaseStage = DNSBaseStage
     
+    var started = false
     var ending = false
     
     // MARK: - Public Associated Type Properties -
@@ -47,6 +48,10 @@ open class DNSBaseStageConfigurator {
     public var coordinator: DNSCoordinator?
     public var intentBlock: DNSBaseStageConfiguratorBlock?
 
+    public var isRunning: Bool {
+        return started && !ending
+    }
+    
     public init() {
     }
 
@@ -127,6 +132,7 @@ open class DNSBaseStageConfigurator {
                                   with: displayOptions,
                                   and: initializationObject)
 
+        self.started = true
         return baseViewController
     }
     open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {

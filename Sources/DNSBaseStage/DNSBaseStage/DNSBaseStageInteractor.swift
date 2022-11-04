@@ -243,6 +243,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     // MARK: - Utility methods
     open func utilityCloseAction(with results: DNSBaseStageBaseResults? = nil) {
+        self.hasStageEnded = false
         self.endStage(conditionally: true, with: BaseStage.BaseIntents.close, and: false, and: results)
         self.utilityReset()
     }

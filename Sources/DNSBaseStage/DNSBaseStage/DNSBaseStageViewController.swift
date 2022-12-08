@@ -225,12 +225,21 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         IQKeyboardManager.shared.toolbarManageBehaviour = .bySubviews
         IQKeyboardManager.shared.toolbarPreviousNextAllowedClasses.append(DNSBaseStageFormView.self)
 
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(viewOrientationDidChange),
+                         name: UIDevice.orientationDidChangeNotification,
+                         object: nil)
+
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         self.updateStageTitle()
         self.setNeedsStatusBarAppearanceUpdate()
         self.stageWillAppear()
+    }
+    @objc
+    open func viewOrientationDidChange(notification: Notification) {
     }
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -239,6 +248,8 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default
+            .removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
         self.stageWillDisappear()
         self.updateStageBackTitle()
     }

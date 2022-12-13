@@ -22,9 +22,9 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var cancelButtonSpacerViewConstraint: NSLayoutConstraint?
     @IBOutlet weak var cancelButtonView: UIView?
     @IBOutlet weak var cancelButtonViewWidthConstraint: NSLayoutConstraint?
-    @IBOutlet weak var action1Button: UIButton!
-    @IBOutlet weak var action1ButtonView: UIView?
-    @IBOutlet weak var action1ButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var actionButtonView: UIView?
+    @IBOutlet weak var actionButtonViewWidthConstraint: NSLayoutConstraint?
     @IBOutlet weak var action2Button: UIButton?
     @IBOutlet weak var action2ButtonView: UIView?
     @IBOutlet weak var action2ButtonViewWidthConstraint: NSLayoutConstraint?
@@ -68,7 +68,7 @@ class CommonAlertVC: UIViewController {
 
         //viewContainer.layer.cornerRadius = 20.0
         //viewContainer.layer.masksToBounds = true
-        //action1Button.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
+        //actionButton.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
         //cancelButton.setCornerRadiusWith(radius: 25, borderWidth: 1.0, borderColor: #colorLiteral(red: 0.03529411765, green: 0.2274509804, blue: 0.9333333333, alpha: 1))
 
         self.disclaimerLabel?.text = disclaimer
@@ -130,8 +130,8 @@ class CommonAlertVC: UIViewController {
                 if allKeys.isEmpty {
                     cancelButtonSpacerViewConstraint?.constant = 0.0
                     if buttonCount == 0 {
-                        action1ButtonView?.isHidden = true
-                        action1ButtonViewWidthConstraint?.priority = UILayoutPriority.required
+                        actionButtonView?.isHidden = true
+                        actionButtonViewWidthConstraint?.priority = UILayoutPriority.required
                         action2ButtonView?.isHidden = true
                         action2ButtonViewWidthConstraint?.priority = UILayoutPriority.required
                     } else {
@@ -141,9 +141,9 @@ class CommonAlertVC: UIViewController {
                 } else {
                     let buttonTitle: String = allKeys[0]
                     if buttonCount == 0 {
-                        action1Button.setTitle(buttonTitle, for: .normal)
-                        action1ButtonView?.isHidden = false
-                        action1ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
+                        actionButton.setTitle(buttonTitle, for: .normal)
+                        actionButtonView?.isHidden = false
+                        actionButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                         if allKeys.count > 1 {
                             let button2Title: String = allKeys[1]
                             action2Button?.setTitle(button2Title, for: .normal)

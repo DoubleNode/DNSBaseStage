@@ -15,7 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommonAlertVC" customModule="KCustomAlert" customModuleProvider="target">
             <connections>
-                <outlet property="action1Button" destination="rl1-yx-ELo" id="Zb1-iT-Bem"/>
+                <outlet property="actionButton" destination="rl1-yx-ELo" id="Qs7-2Z-6fS"/>
                 <outlet property="cancelButton" destination="uch-SE-dhb" id="BtN-b6-ZBj"/>
                 <outlet property="heightViewContainer" destination="MAd-iG-DIg" id="SNu-is-wbw"/>
                 <outlet property="mainImageView" destination="G2I-sn-5Yu" id="Fni-Mf-UOU"/>
@@ -84,7 +84,7 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
-                                                <action selector="action1ButtonActionWithSender:" destination="-1" eventType="touchUpInside" id="Hj9-Kf-l8M"/>
+                                                <action selector="actionButtonActionWithSender:" destination="-1" eventType="touchUpInside" id="FYE-hj-zWF"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uch-SE-dhb">

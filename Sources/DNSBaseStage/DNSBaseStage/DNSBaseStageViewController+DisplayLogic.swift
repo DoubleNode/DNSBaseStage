@@ -574,7 +574,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     DNSThread.run(after: 0.6) { [weak self] in
                         guard let self else { return }
                         // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
-                        var actionCode = actionText
+                        var actionCode = DNSBaseStage.ActionCodes.okay
                         viewModel.actions.forEach { (key, value) in
                             if actionText == value {
                                 actionCode = key
@@ -590,7 +590,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     self.updateBlurredViewDisplay(display: false)
                     DNSThread.run(after: 0.6) { [weak self] in
                         guard let self else { return }
-                        var actionCode = actionText
+                        var actionCode = DNSBaseStage.ActionCodes.cancel
                         viewModel.actions.forEach { (key, value) in
                             if actionText == value {
                                 actionCode = key

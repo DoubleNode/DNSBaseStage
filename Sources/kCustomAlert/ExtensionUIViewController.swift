@@ -7,12 +7,13 @@
 //
 
 import DNSCore
+import DNSCoreThreading
 import UIKit
 
 extension UIViewController {
     public func showCustomAlertWith(nibName: String = "CommonAlertVC",
                                     nibBundle: Bundle? = nil,
-                                    okButtonAction: (() -> Void)? = {},
+                                    okButtonAction: (DNSStringBlock)? = { _ in },
                                     tags: [String],
                                     title: String,
                                     subTitle: String,
@@ -20,7 +21,7 @@ extension UIViewController {
                                     disclaimer: String,
                                     image: UIImage?,
                                     imageUrl: URL?,
-                                    actions: [[String: () -> Void]]?) {
+                                    actions: [[String: DNSStringBlock]]?) {
         let nibBundle = nibBundle ?? Bundle.dnsLookupBundle(for: CommonAlertVC.self)
         let alertVC = CommonAlertVC.init(nibName: nibName,
                                          bundle: nibBundle)

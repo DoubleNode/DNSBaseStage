@@ -247,6 +247,7 @@ open class DNSBaseStageModels {
     }
     public enum Message {
         public struct Request: DNSBaseStageBaseRequest {
+            public var actionCode: String = ""
             public var cancelled: Bool = false
             public var userData: Any?
         }
@@ -265,7 +266,7 @@ open class DNSBaseStageModels {
             public var subTitle: String = ""
             public var title: String
 
-            public var actionText: String = ""
+            public var actions: [String: String] = [:]
             public var cancelText: String = ""
             public var nibName: String = ""
             public var nibBundle: Bundle?
@@ -304,7 +305,7 @@ open class DNSBaseStageModels {
             public var tags: [String] = []
             public var title: String
 
-            public var actionText: String = ""
+            public var actions: [String: String] = [:]
             public var cancelText: String = ""
             public var colors: Colors?
             public var fonts: Fonts?

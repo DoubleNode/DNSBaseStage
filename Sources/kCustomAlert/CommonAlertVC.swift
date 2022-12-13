@@ -8,6 +8,7 @@
 
 import AlamofireImage
 import DNSCore
+import DNSCoreThreading
 import UIKit
 
 class CommonAlertVC: UIViewController {
@@ -21,9 +22,18 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var cancelButtonSpacerViewConstraint: NSLayoutConstraint?
     @IBOutlet weak var cancelButtonView: UIView?
     @IBOutlet weak var cancelButtonViewWidthConstraint: NSLayoutConstraint?
-    @IBOutlet weak var actionButton: UIButton!
-    @IBOutlet weak var actionButtonView: UIView?
-    @IBOutlet weak var actionButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var action1Button: UIButton!
+    @IBOutlet weak var action1ButtonView: UIView?
+    @IBOutlet weak var action1ButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var action2Button: UIButton?
+    @IBOutlet weak var action2ButtonView: UIView?
+    @IBOutlet weak var action2ButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var action3Button: UIButton?
+    @IBOutlet weak var action3ButtonView: UIView?
+    @IBOutlet weak var action3ButtonViewWidthConstraint: NSLayoutConstraint?
+    @IBOutlet weak var action4Button: UIButton?
+    @IBOutlet weak var action4ButtonView: UIView?
+    @IBOutlet weak var action4ButtonViewWidthConstraint: NSLayoutConstraint?
     @IBOutlet weak var tag1Label: UILabel?
     @IBOutlet weak var tag1View: UIView?
     @IBOutlet weak var tag2Label: UILabel?
@@ -42,8 +52,8 @@ class CommonAlertVC: UIViewController {
     var imageUrl: URL?
     var tags: [String] = []
 
-    var arrayAction: [[String: () -> Void]]?
-    var okButtonAct: (() -> Void)?
+    var arrayAction: [[String: DNSStringBlock]]?
+    var okButtonAct: (DNSStringBlock)?
 
     var isContactNumberHidden: Bool = true
 
@@ -58,7 +68,7 @@ class CommonAlertVC: UIViewController {
 
         //viewContainer.layer.cornerRadius = 20.0
         //viewContainer.layer.masksToBounds = true
-        //actionButton.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
+        //action1Button.addCornerRadiusWithShadow(color: .lightGray, borderColor: .clear, cornerRadius: 25)
         //cancelButton.setCornerRadiusWith(radius: 25, borderWidth: 1.0, borderColor: #colorLiteral(red: 0.03529411765, green: 0.2274509804, blue: 0.9333333333, alpha: 1))
 
         self.disclaimerLabel?.text = disclaimer
@@ -106,15 +116,13 @@ class CommonAlertVC: UIViewController {
 //            //heightViewContainer.constant = 350
 //        }
 
-        if arrayAction == nil {
-            //cancelButton.isHidden = true
-        } else {
+        if let arrayAction = self.arrayAction {
             if cancelButtonSpacerViewConstraintConstant == 0.0 {
                 cancelButtonSpacerViewConstraintConstant = cancelButtonSpacerViewConstraint?.constant ?? 0.0
             }
             cancelButtonSpacerViewConstraint?.constant = cancelButtonSpacerViewConstraintConstant
             var buttonCount = 0
-            for dic in arrayAction! {
+            for dic in arrayAction {
                 if buttonCount > 1 {
                     return
                 }
@@ -122,18 +130,38 @@ class CommonAlertVC: UIViewController {
                 if allKeys.isEmpty {
                     cancelButtonSpacerViewConstraint?.constant = 0.0
                     if buttonCount == 0 {
-                        actionButtonView?.isHidden = true
-                        actionButtonViewWidthConstraint?.priority = UILayoutPriority.required
+                        action1ButtonView?.isHidden = true
+                        action1ButtonViewWidthConstraint?.priority = UILayoutPriority.required
+                        action2ButtonView?.isHidden = true
+                        action2ButtonViewWidthConstraint?.priority = UILayoutPriority.required
                     } else {
                         cancelButtonView?.isHidden = true
                         cancelButtonViewWidthConstraint?.priority = UILayoutPriority.required
                     }
                 } else {
-                    let buttonTitle: String = allKeys[0]    //.uppercased()
+                    let buttonTitle: String = allKeys[0]
                     if buttonCount == 0 {
-                        actionButton.setTitle(buttonTitle, for: .normal)
-                        actionButtonView?.isHidden = false
-                        actionButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
+                        action1Button.setTitle(buttonTitle, for: .normal)
+                        action1ButtonView?.isHidden = false
+                        action1ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
+                        if allKeys.count > 1 {
+                            let button2Title: String = allKeys[1]
+                            action2Button?.setTitle(button2Title, for: .normal)
+                            action2ButtonView?.isHidden = false
+                            action2ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
+                            if allKeys.count > 2 {
+                                let button3Title: String = allKeys[2]
+                                action3Button?.setTitle(button3Title, for: .normal)
+                                action3ButtonView?.isHidden = false
+                                action3ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
+                                if allKeys.count > 3 {
+                                    let button4Title: String = allKeys[3]
+                                    action4Button?.setTitle(button4Title, for: .normal)
+                                    action4ButtonView?.isHidden = false
+                                    action4ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
+                                }
+                            }
+                        }
                     } else {
                         cancelButton?.setTitle(buttonTitle, for: .normal)
                         cancelButtonView?.isHidden = false
@@ -146,7 +174,6 @@ class CommonAlertVC: UIViewController {
     }
 
     // MARK: - IBAction Methods
-
     @IBAction func contactButtonAction(sender: UIButton) {
         if let url = URL(string: "tel://\(sender.titleLabel?.text ?? "")") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -155,27 +182,30 @@ class CommonAlertVC: UIViewController {
 
     @IBAction func cancelButtonAction(sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
-        if arrayAction != nil {
-            let dic = arrayAction![1]
-            for (_, value) in dic {
-                let action: () -> Void = value
-                action()
-            }
-        } else {
-            okButtonAct?()
+        let buttonLabel = sender.title(for: .normal) ?? ""
+        guard let arrayAction = self.arrayAction,
+            arrayAction.count > 1 else {
+            okButtonAct?(buttonLabel)
+            return
+        }
+        let dic = arrayAction[1]
+        for (key, value) in dic {
+            value(key)
         }
     }
-
     @IBAction func actionButtonAction(sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
-        if arrayAction != nil {
-            let dic = arrayAction![0]
-            for (_, value) in dic {
-                let action: () -> Void = value
-                action()
+        let buttonLabel = sender.title(for: .normal) ?? ""
+        guard let arrayAction = self.arrayAction,
+            arrayAction.count > 0 else {
+            okButtonAct?(buttonLabel)
+            return
+        }
+        let dic = arrayAction[0]
+        for (key, value) in dic {
+            if key == buttonLabel {
+                value(key)
             }
-        } else {
-            okButtonAct?()
         }
     }
 

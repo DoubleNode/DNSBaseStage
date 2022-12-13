@@ -553,7 +553,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             case .hudHide:
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
-                var actionText = "OK"
+                var okayText = "OK"
                 var cancelText = "CANCEL"
                 var nibName = "DNSBaseStagePopupViewController"
                 var nibBundle: Bundle?
@@ -564,32 +564,54 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     nibName = viewModel.nibName
                     nibBundle = viewModel.nibBundle
                 }
-                if !viewModel.actionText.isEmpty {
-                    actionText = viewModel.actionText
+                if !viewModel.actions.isEmpty {
+                    if let actionValue = viewModel.actions.values.first {
+                        okayText = actionValue
+                    }
                 }
-                let actionOkayBlock: DNSBlock = { () in
+                let actionOkayBlock: DNSStringBlock = { actionText in
                     self.updateBlurredViewDisplay(display: false)
                     DNSThread.run(after: 0.6) { [weak self] in
                         guard let self else { return }
                         // if .popup, then only 'OK' button for standard "dismiss" (ie: cancelled = true)
+                        var actionCode = actionText
+                        viewModel.actions.forEach { (key, value) in
+                            if actionText == value {
+                                actionCode = key
+                            }
+                        }
                         self.messageDonePublisher
-                            .send(BaseStage.Models.Message.Request(cancelled: viewModel.style == .popup,
+                            .send(BaseStage.Models.Message.Request(actionCode: actionCode,
+                                                                   cancelled: viewModel.style == .popup,
                                                                    userData: viewModel.userData))
                     }
                 }
-                let actionCancelBlock: DNSBlock = { () in
+                let actionCancelBlock: DNSStringBlock = { actionText in
                     self.updateBlurredViewDisplay(display: false)
                     DNSThread.run(after: 0.6) { [weak self] in
                         guard let self else { return }
+                        var actionCode = actionText
+                        viewModel.actions.forEach { (key, value) in
+                            if actionText == value {
+                                actionCode = key
+                            }
+                        }
                         self.messageDonePublisher
-                            .send(BaseStage.Models.Message.Request(cancelled: true,
+                            .send(BaseStage.Models.Message.Request(actionCode: actionCode,
+                                                                   cancelled: true,
                                                                    userData: viewModel.userData))
                     }
                 }
 
-                var actionOkay: [String: DNSBlock] = [:]
-                actionOkay = [ actionText: actionOkayBlock ]
-                var actionCancel: [String: DNSBlock] = [:]
+                var actionOkay: [String: DNSStringBlock] = [:]
+                if viewModel.actions.isEmpty {
+                    actionOkay = [ okayText: actionOkayBlock ]
+                } else {
+                    viewModel.actions.forEach { (_, value) in
+                        actionOkay[value] = actionOkayBlock
+                    }
+                }
+                var actionCancel: [String: DNSStringBlock] = [:]
                 if viewModel.style == .popupAction {
                     actionCancel = [ cancelText: actionCancelBlock ]
                 }

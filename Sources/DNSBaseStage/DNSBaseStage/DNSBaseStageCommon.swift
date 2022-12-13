@@ -26,6 +26,10 @@ public enum DNSBaseStage {
         public static let onClose = "DNSBaseStage_C_onClose"
         public static let orNoMatch = "DNSBaseStage_C_orNoMatch"
     }
+    public enum ActionCodes {
+        static let cancel = "DNSBaseStage_ActionCodes_cancel"
+        static let okay = "DNSBaseStage_ActionCodes_okay"
+    }
     public enum BaseIntents {
         public static let close = "DNSBaseStage_Intents_close"
     }
@@ -59,5 +63,4 @@ public enum DNSBaseStage {
         }
     }
 }
-
 //public typealias DNSBaseStageDisplayOptions = [DNSBaseStage.Display.Option]

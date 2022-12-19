@@ -103,7 +103,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     // MARK: - Private Properties -
-    var hasStageEnded:  Bool = false
+    var hasStageAppeared: Bool = false
+    var hasStageEnded: Bool = false
 
     // MARK: - Public Properties -
     public var displayMode: BaseStage.Display.Mode?
@@ -119,6 +120,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func startStage(with displayMode: BaseStage.Display.Mode,
                          with displayOptions: BaseStage.Display.Options = [],
                          and initialization: DNSBaseStageBaseInitialization?) {
+        self.hasStageAppeared = false
         self.displayMode = displayMode
         self.displayOptions = displayOptions
         self.baseInitializationObject = initialization
@@ -127,8 +129,15 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     open func updateStage(with initializationObject: DNSBaseStageBaseInitialization) {
         self.baseInitializationObject = initializationObject
+        guard self.hasStageAppeared else {
+            return
+        }
         self.stageUpdated = true
+        self.stageWasUpdated()
     }
+    open func stageWasUpdated() {
+    }
+
     open func shouldEndStage() -> Bool {
         let retval = !self.hasStageEnded
         self.hasStageEnded = true
@@ -166,6 +175,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     // MARK: - Stage Lifecycle -
     open func stageDidAppear(_ request: BaseStage.Models.Base.Request) {
+        self.hasStageAppeared = true
         self.hasStageEnded = false
         self.stageUpdated = false
     }

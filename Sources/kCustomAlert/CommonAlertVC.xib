@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -40,7 +41,6 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HwO-zZ-RIh">
                                     <rect key="frame" x="132" y="0.0" width="41.5" height="17.5"/>
                                     <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="22"/>
-                                    <color key="textColor" cyan="0.65000000000000002" magenta="0.55216151479999998" yellow="0.51200008389999996" black="0.064082831140000004" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="dD9-iw-wME">
@@ -55,7 +55,6 @@
                                                 <constraint firstAttribute="height" constant="60" id="puX-nf-Ena"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
-                                            <color key="textColor" cyan="0.65000000000000002" magenta="0.55216151475906372" yellow="0.51200008392333984" black="0.064082831144332886" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="G2I-sn-5Yu">
@@ -64,7 +63,6 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sending your reminder list request to" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yuz-DG-t3J">
                                             <rect key="frame" x="8.5" y="115" width="247.5" height="12.5"/>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
-                                            <color key="textColor" cyan="0.65000000000000002" magenta="0.55216151475906372" yellow="0.51200008392333984" black="0.064082831144332886" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -74,7 +72,7 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rl1-yx-ELo">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
-                                            <color key="backgroundColor" red="0.035294117649999998" green="0.2274509804" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" systemColor="systemBlueColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="125" id="J4S-1e-uiZ"/>
                                                 <constraint firstAttribute="height" constant="50" id="rTM-tU-5at"/>
@@ -91,7 +89,7 @@
                                             <rect key="frame" x="150" y="0.0" width="125" height="50"/>
                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="16"/>
                                             <state key="normal" title="CANCEL">
-                                                <color key="titleColor" red="0.035294117647058823" green="0.22745098039215686" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" systemColor="systemBlueColor"/>
                                             </state>
                                             <connections>
                                                 <action selector="cancelButtonActionWithSender:" destination="-1" eventType="touchUpInside" id="I9D-Dq-mNe"/>
@@ -106,7 +104,7 @@
                             </subviews>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="ya5-8Q-nu2" firstAttribute="top" secondItem="Rkx-vf-edJ" secondAttribute="top" constant="20" id="3yq-HQ-T4w"/>
                         <constraint firstAttribute="height" constant="280" id="MAd-iG-DIg"/>
@@ -129,5 +127,11 @@
     <resources>
         <image name="icon" width="48" height="48"/>
         <image name="logo" width="100" height="100"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

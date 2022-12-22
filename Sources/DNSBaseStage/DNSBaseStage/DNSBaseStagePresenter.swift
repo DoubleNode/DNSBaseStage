@@ -184,7 +184,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             viewModel.location = response.location
             viewModel.nibName = response.nibName
             viewModel.nibBundle = response.nibBundle
-            viewModel.actions = [ "OK": response.okayButton ]
+            viewModel.actions = [ "OK": response.okayButton.isEmpty ? "OK" : response.okayButton ]
             viewModel.presentingDirection = response.presentingDirection
             self.messagePublisher.send(viewModel)
         }

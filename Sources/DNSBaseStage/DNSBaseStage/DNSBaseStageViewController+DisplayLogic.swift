@@ -67,22 +67,26 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                       presentingViewController: presentingViewController as! DrawerPresenting,
                                       viewControllerToPresent: viewControllerToPresent as! DrawerPresentable)
             case .modal?:
+                viewControllerToPresent = self
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.automatic,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalCurrentContext?:
+                viewControllerToPresent = self
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overCurrentContext,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalFormSheet?:
+                viewControllerToPresent = self
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.formSheet,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalFullScreen?:
-                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
+                viewControllerToPresent = self
+                self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.fullScreen,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
@@ -93,6 +97,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalPopover?:
+                viewControllerToPresent = self
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.popover,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,
@@ -218,8 +223,10 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 guard let self else { return }
                 self.presentationController?.delegate = presentingViewController as? UIAdaptivePresentationControllerDelegate
                 self.definesPresentationContext = true
+                presentingViewController.modalPresentationStyle = modalPresentationStyle
+                presentingViewController.modalTransitionStyle = .coverVertical
                 self.modalPresentationStyle = modalPresentationStyle
-                self.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+                self.modalTransitionStyle = .coverVertical
                 (presentingViewController as? DNSBaseStageViewController)?.stageWillHide()
                 self.utilityPresent(viewControllerToPresent: viewControllerToPresent,
                                     using: presentingViewController,

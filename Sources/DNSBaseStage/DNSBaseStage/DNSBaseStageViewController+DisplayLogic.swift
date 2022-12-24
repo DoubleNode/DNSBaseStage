@@ -82,6 +82,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                      presentingViewController: presentingViewController,
                                      viewControllerToPresent: viewControllerToPresent)
             case .modalFullScreen?:
+                viewControllerToPresent = self
                 self.startStageModal(modalPresentationStyle: UIModalPresentationStyle.overFullScreen,
                                      animated: viewModel.animated,
                                      presentingViewController: presentingViewController,

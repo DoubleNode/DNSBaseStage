@@ -34,7 +34,7 @@ Once you have your Swift package set up, adding Alamofire as a dependency is as 
 
 ```swift
 dependencies: [
-.package(url: "https://github.com/DoubleNode/DNSBaseStage.git", from: "1.10.20")
+.package(url: "https://github.com/DoubleNode/DNSBaseStage.git", from: "1.10.21")
 ]
 ```
 
@@ -54,7 +54,6 @@ dependencies: [
 -   JGProgressHUD v2.2.0+
 -   JKDrawer v0.9.1+
 -   Loaf v0.7.0+
--   Realm v10.29.0+
 -   SFSymbol v1.1.0+
 
 ## Credits

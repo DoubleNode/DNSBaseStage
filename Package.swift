@@ -44,7 +44,6 @@ let package = Package(
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.10"),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", from: "2.2.0"),
         .package(url: "https://github.com/schmidyy/Loaf.git", from: "0.7.0"),
-        .package(url: "https://github.com/realm/realm-swift", from: "10.28.5"),
         .package(url: "https://github.com/Nirma/SFSymbol", from: "1.1.0")
     ],
     targets: [
@@ -68,7 +67,6 @@ let package = Package(
                 "kCustomAlert",
                 "Loaf",
                 "SFSymbol",
-                .product(name: "RealmSwift", package: "realm-swift"),
         ]),
         .target(
             name: "kCustomAlert",

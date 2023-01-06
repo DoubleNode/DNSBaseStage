@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "8dd85aee02e39dd280c75eef88ffdb86eed4b07b",
-        "version" : "5.6.2"
+        "revision" : "78424be314842833c04bc3bef5b72e85fff99204",
+        "version" : "5.6.4"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankWorkers.git",
       "state" : {
-        "revision" : "904ef14b07145735e8ad6a351f15fcb54a549a8b",
-        "version" : "1.10.27"
+        "revision" : "ad015f7bfbaed7db0ddc30f28d0ced6852524a52",
+        "version" : "1.10.35"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCore.git",
       "state" : {
-        "revision" : "b1a1c9e2400b72cefa6914f041dba787507fe7ce",
-        "version" : "1.10.15"
+        "revision" : "ceede6439713d8510c5d023e22f2181b37ba124a",
+        "version" : "1.10.18"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashWorkers.git",
       "state" : {
-        "revision" : "b204295f607db395de13c581e417346cf3013f08",
-        "version" : "1.10.21"
+        "revision" : "84e7d492f97b013e5857f68d52e59fc988bff9a8",
+        "version" : "1.10.28"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataObjects.git",
       "state" : {
-        "revision" : "7fd5e1a31c0d8aeeb67fc29eb821ab72e27a11fb",
-        "version" : "1.10.36"
+        "revision" : "ae50d28f28d84af454585808e1790872ee44abb5",
+        "version" : "1.10.55"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSProtocols.git",
       "state" : {
-        "revision" : "6fd8db3cbe5434e6a65801e94bd4bb03aa1c414b",
-        "version" : "1.10.37"
+        "revision" : "67fd0324302d1e8337c11c3e347f023082bf0ea3",
+        "version" : "1.10.49"
       }
     },
     {

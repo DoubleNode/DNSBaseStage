@@ -441,7 +441,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                         style: .plain,
                                         target: self,
                                         action: #selector(self.closeButtonAction))
-                    self.navigationItem.rightBarButtonItem?.image = UIImage(dnsSystemSymbol: SFSymbol.xmark)
+                    self.navigationItem.rightBarButtonItem?.image = UIImage(dnsSymbol: SFSymbol.xmark)
                 case .navBarHidden(let animated):
                     containsNavBarForced = true
                     self.navigationController?.setNavigationBarHidden(true, animated: animated)

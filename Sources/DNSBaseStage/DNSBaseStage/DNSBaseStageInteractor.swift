@@ -66,7 +66,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     var webErrorNavigationSubscriber: AnyCancellable?
     var webLoadProgressSubscriber: AnyCancellable?
 
+    open var subscribers: [AnyCancellable] = []
     open func subscribe(to baseViewController: BaseStage.Logic.Display) {
+        subscribers.removeAll()
         stageDidAppearSubscriber = baseViewController.stageDidAppearPublisher
             .sink { [weak self] request in self?.stageDidAppear(request) }
         stageDidCloseSubscriber = baseViewController.stageDidClosePublisher

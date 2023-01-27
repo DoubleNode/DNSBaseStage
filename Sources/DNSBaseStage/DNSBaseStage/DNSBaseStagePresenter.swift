@@ -57,7 +57,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
 
+    open var subscribers: [AnyCancellable] = []
     open func subscribe(to baseInteractor: BaseStage.Logic.Business) {
+        subscribers.removeAll()
         stageStartSubscriber = baseInteractor.stageStartPublisher
             .sink { [weak self] response in self?.startStage(response) }
         stageEndSubscriber = baseInteractor.stageEndPublisher

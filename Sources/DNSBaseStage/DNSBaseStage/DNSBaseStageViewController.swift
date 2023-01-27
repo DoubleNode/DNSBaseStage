@@ -89,7 +89,9 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
 
+    open var subscribers: [AnyCancellable] = []
     open func subscribe(to basePresenter: BaseStage.Logic.Presentation) {
+        subscribers.removeAll()
         stageStartSubscriber = basePresenter.stageStartPublisher
             .sink { [weak self] viewModel in self?.startStage(viewModel) }
         stageEndSubscriber = basePresenter.stageEndPublisher

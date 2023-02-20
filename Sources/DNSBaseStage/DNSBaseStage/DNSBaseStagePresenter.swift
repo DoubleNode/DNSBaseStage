@@ -228,10 +228,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     }
     open func presentReset(_ response: BaseStage.Models.Base.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-        DNSThread.run { [weak self] in
-            guard let self else { return }
-            self.resetPublisher.send(BaseStage.Models.Base.ViewModel())
-        }
+        self.resetPublisher.send(BaseStage.Models.Base.ViewModel())
     }
     open func presentSpinner(_ response: BaseStage.Models.Spinner.Response) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")

@@ -260,9 +260,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         self.utilityReset()
     }
     open func utilityReset() {
-        DNSThread.run { [weak self] in
-            guard let self else { return }
-            self.resetPublisher.send(BaseStage.Models.Base.Response())
-        }
+        self.resetPublisher.send(BaseStage.Models.Base.Response())
     }
 }

@@ -20,6 +20,7 @@ public protocol DNSBaseStageBusinessLogic: AnyObject {
     var stageEndPublisher: PassthroughSubject<BaseStage.Models.Finish.Response, Never> { get }
 
     var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.Response, Never> { get }
+    var disabledPublisher: PassthroughSubject<BaseStage.Models.Disabled.Response, Never> { get }
     var dismissPublisher: PassthroughSubject<BaseStage.Models.Dismiss.Response, Never> { get }
     var errorPublisher: PassthroughSubject<BaseStage.Models.ErrorMessage.Response, Never> { get }
     var messagePublisher: PassthroughSubject<BaseStage.Models.Message.Response, Never> { get }
@@ -40,6 +41,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public let stageEndPublisher = PassthroughSubject<BaseStage.Models.Finish.Response, Never>()
 
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.Response, Never>()
+    public let disabledPublisher = PassthroughSubject<BaseStage.Models.Disabled.Response, Never>()
     public let dismissPublisher = PassthroughSubject<BaseStage.Models.Dismiss.Response, Never>()
     public let errorPublisher = PassthroughSubject<BaseStage.Models.ErrorMessage.Response, Never>()
     public let messagePublisher = PassthroughSubject<BaseStage.Models.Message.Response, Never>()
@@ -243,6 +245,15 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
     
     // MARK: - Shortcut Methods
+    open func disabled(show: Bool,
+                       forceReset: Bool = false) {
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            var response = BaseStage.Models.Disabled.Response(show: show)
+            response.forceReset = forceReset
+            self.disabledPublisher.send(response)
+        }
+    }
     open func spinner(show: Bool,
                       forceReset: Bool = false) {
         DNSThread.run { [weak self] in

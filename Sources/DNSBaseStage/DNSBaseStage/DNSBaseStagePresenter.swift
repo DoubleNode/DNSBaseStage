@@ -21,6 +21,7 @@ public protocol DNSBaseStagePresentationLogic: AnyObject {
     var stageEndPublisher: PassthroughSubject<BaseStage.Models.Finish.ViewModel, Never> { get }
 
     var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.ViewModel, Never> { get }
+    var disabledPublisher: PassthroughSubject<BaseStage.Models.Disabled.ViewModel, Never> { get }
     var dismissPublisher: PassthroughSubject<BaseStage.Models.Dismiss.ViewModel, Never> { get }
     var messagePublisher: PassthroughSubject<BaseStage.Models.Message.ViewModel, Never> { get }
     var resetPublisher: PassthroughSubject<BaseStage.Models.Base.ViewModel, Never> { get }
@@ -39,6 +40,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public let stageEndPublisher = PassthroughSubject<BaseStage.Models.Finish.ViewModel, Never>()
 
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.ViewModel, Never>()
+    public let disabledPublisher = PassthroughSubject<BaseStage.Models.Disabled.ViewModel, Never>()
     public let dismissPublisher = PassthroughSubject<BaseStage.Models.Dismiss.ViewModel, Never>()
     public let messagePublisher = PassthroughSubject<BaseStage.Models.Message.ViewModel, Never>()
     public let resetPublisher = PassthroughSubject<BaseStage.Models.Base.ViewModel, Never>()
@@ -50,6 +52,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     var stageEndSubscriber: AnyCancellable?
 
     var confirmationSubscriber: AnyCancellable?
+    var disabledSubscriber: AnyCancellable?
     var dismissSubscriber: AnyCancellable?
     var errorSubscriber: AnyCancellable?
     var messageSubscriber: AnyCancellable?
@@ -67,6 +70,8 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
 
         confirmationSubscriber = baseInteractor.confirmationPublisher
             .sink { [weak self] response in self?.presentConfirmation(response) }
+        disabledSubscriber = baseInteractor.disabledPublisher
+            .sink { [weak self] response in self?.presentDisabled(response) }
         dismissSubscriber = baseInteractor.dismissPublisher
             .sink { [weak self] response in self?.presentDismiss(response) }
         errorSubscriber = baseInteractor.errorPublisher
@@ -82,6 +87,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     }
 
     // MARK: - Private Properties -
+    var disabledCount: Int = 0
     var spinnerCount: Int = 0
 
     // MARK: - Public Properties -
@@ -153,6 +159,26 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
                 )
             }
             self.confirmationPublisher.send(viewModel)
+        }
+    }
+    open func presentDisabled(_ response: BaseStage.Models.Disabled.Response) {
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        if response.forceReset {
+            self.disabledCount = 0
+        }
+        if response.show {
+            disabledCount += 1
+            guard disabledCount == 1 else { return }
+            DNSUIThread.run(after: 0.3) {
+                guard self.disabledCount >= 1 else { return }
+                self.disabled(show: response.show)
+            }
+        } else {
+            if disabledCount > 0 {
+                disabledCount -= 1
+            }
+            guard disabledCount == 0 else { return }
+            self.disabled(show: response.show)
         }
     }
     open func presentDismiss(_ response: BaseStage.Models.Dismiss.Response) {
@@ -262,6 +288,12 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     }
 
     // MARK: - Shortcut Methods
+    open func disabled(show: Bool) {
+        DNSThread.run { [weak self] in
+            guard let self else { return }
+            self.disabledPublisher.send(BaseStage.Models.Disabled.ViewModel(show: show))
+        }
+    }
     open func spinner(show: Bool) {
         DNSThread.run { [weak self] in
             guard let self else { return }

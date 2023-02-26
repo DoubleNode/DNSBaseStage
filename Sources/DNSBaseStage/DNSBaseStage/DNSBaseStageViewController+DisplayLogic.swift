@@ -542,6 +542,13 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             }
         }
     }
+    public func displayDisabled(_ viewModel: BaseStage.Models.Disabled.ViewModel) {
+        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
+            self.updateDisabledViewDisplay(display: viewModel.show)
+        }
+    }
     public func displayDismiss(_ viewModel: BaseStage.Models.Dismiss.ViewModel) {
         self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
         self.endStage(BaseStage.Models.Finish.ViewModel(animated: viewModel.animated,
@@ -786,7 +793,6 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
     public func updateSpinnerDisplay(display: Bool) {
         self.updateDisabledViewDisplay(display: display)
-
         if display {
             self.activityIndicator?.startAnimating()
         } else {

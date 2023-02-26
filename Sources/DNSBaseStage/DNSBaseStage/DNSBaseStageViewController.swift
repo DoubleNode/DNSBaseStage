@@ -83,6 +83,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     var stageEndSubscriber: AnyCancellable?
 
     var confirmationSubscriber: AnyCancellable?
+    var disabledSubscriber: AnyCancellable?
     var dismissSubscriber: AnyCancellable?
     var messageSubscriber: AnyCancellable?
     var resetSubscriber: AnyCancellable?
@@ -99,6 +100,8 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
 
         confirmationSubscriber = basePresenter.confirmationPublisher
             .sink { [weak self] viewModel in self?.displayConfirmation(viewModel) }
+        disabledSubscriber = basePresenter.disabledPublisher
+            .sink { [weak self] viewModel in self?.displayDisabled(viewModel) }
         dismissSubscriber = basePresenter.dismissPublisher
             .sink { [weak self] viewModel in self?.displayDismiss(viewModel) }
         messageSubscriber = basePresenter.messagePublisher

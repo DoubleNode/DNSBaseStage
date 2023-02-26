@@ -193,6 +193,23 @@ open class DNSBaseStageModels {
             public var userData: Any?
         }
     }
+    public enum Disabled {
+        public struct Response: DNSBaseStageBaseResponse {
+            public var forceReset = false
+            public var show: Bool
+
+            public init(show: Bool) {
+                self.show = show
+            }
+        }
+        public struct ViewModel: DNSBaseStageBaseViewModel {
+            public var show: Bool
+
+            public init(show: Bool) {
+                self.show = show
+            }
+        }
+    }
     public enum Dismiss {
         public struct Response: DNSBaseStageBaseResponse {
             public var animated: Bool

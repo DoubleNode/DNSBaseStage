@@ -193,7 +193,6 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     open func stageDidLoad(_ request: BaseStage.Models.Base.Request) {
     }
     open func stageWillAppear(_ request: BaseStage.Models.Base.Request) {
-        self.wkrAnalytics.doScreen(screenTitle: String(describing: self.baseConfigurator!))
         self.baseConfigurator?.restartEnding()
     }
     open func stageWillDisappear(_ request: BaseStage.Models.Base.Request) {

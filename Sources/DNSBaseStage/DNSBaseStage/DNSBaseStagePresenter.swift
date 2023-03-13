@@ -33,12 +33,18 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public typealias BaseStage = DNSBaseStage
     
     // MARK: - Public Associated Type Properties -
+    open lazy var analyticsClassTitle: String = {
+        String(describing: self.classForCoder)
+    }()
+    open lazy var analyticsStageTitle: String = {
+        self.baseConfigurator?.analyticsStageTitle ?? String(describing: self.classForCoder)
+    }()
     public var baseConfigurator: BaseStage.Configurator?
-
+    
     // MARK: - Outgoing Pipelines -
     public let stageStartPublisher = PassthroughSubject<BaseStage.Models.Start.ViewModel, Never>()
     public let stageEndPublisher = PassthroughSubject<BaseStage.Models.Finish.ViewModel, Never>()
-
+    
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.ViewModel, Never>()
     public let disabledPublisher = PassthroughSubject<BaseStage.Models.Disabled.ViewModel, Never>()
     public let dismissPublisher = PassthroughSubject<BaseStage.Models.Dismiss.ViewModel, Never>()
@@ -46,11 +52,11 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     public let resetPublisher = PassthroughSubject<BaseStage.Models.Base.ViewModel, Never>()
     public let spinnerPublisher = PassthroughSubject<BaseStage.Models.Spinner.ViewModel, Never>()
     public let titlePublisher = PassthroughSubject<BaseStage.Models.Title.ViewModel, Never>()
-
+    
     // MARK: - Incoming Pipelines -
     var stageStartSubscriber: AnyCancellable?
     var stageEndSubscriber: AnyCancellable?
-
+    
     var confirmationSubscriber: AnyCancellable?
     var disabledSubscriber: AnyCancellable?
     var dismissSubscriber: AnyCancellable?
@@ -59,7 +65,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
     var resetSubscriber: AnyCancellable?
     var spinnerSubscriber: AnyCancellable?
     var titleSubscriber: AnyCancellable?
-
+    
     open var subscribers: [AnyCancellable] = []
     open func subscribe(to baseInteractor: BaseStage.Logic.Business) {
         subscribers.removeAll()
@@ -67,7 +73,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             .sink { [weak self] response in self?.startStage(response) }
         stageEndSubscriber = baseInteractor.stageEndPublisher
             .sink { [weak self] response in self?.endStage(response) }
-
+        
         confirmationSubscriber = baseInteractor.confirmationPublisher
             .sink { [weak self] response in self?.presentConfirmation(response) }
         disabledSubscriber = baseInteractor.disabledPublisher
@@ -85,37 +91,37 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         titleSubscriber = baseInteractor.titlePublisher
             .sink { [weak self] response in self?.presentTitle(response) }
     }
-
+    
     // MARK: - Private Properties -
     var disabledCount: Int = 0
     var spinnerCount: Int = 0
-
+    
     // MARK: - Public Properties -
     // MARK: - Public Properties: Default Palette Colors -
     public var defaultBackgroundColor: UIColor = UIColor.blue
     public var defaultMessageColor: UIColor = UIColor.white
     public var defaultTitleColor: UIColor = UIColor.white
-
+    
     // MARK: - Public Properties: Error Palette Colors -
     public var errorBackgroundColor: UIColor = UIColor.red
     public var errorMessageColor: UIColor = UIColor.white
     public var errorTitleColor: UIColor = UIColor.white
-
+    
     // MARK: - Public Properties: Default Palette Fonts -
     public var defaultMessageFont: UIFont = UIFont.systemFont(ofSize: 14)
     public var defaultTitleFont: UIFont = UIFont.boldSystemFont(ofSize: 16)
-
+    
     // MARK: - Public Properties: Error Palette Fonts -
     public var errorMessageFont: UIFont = UIFont.systemFont(ofSize: 14)
     public var errorTitleFont: UIFont = UIFont.boldSystemFont(ofSize: 16)
-
+    
     // MARK: - Workers -
     public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
-
+    
     required public init(configurator: BaseStage.Configurator) {
         self.baseConfigurator = configurator
     }
-
+    
     // MARK: - Lifecycle Methods -
     open func startStage(_ response: BaseStage.Models.Start.Response) {
         self.spinnerCount = 0
@@ -130,10 +136,10 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             .ViewModel(animated: true,
                        displayMode: response.displayMode))
     }
-
+    
     // MARK: - Presentation logic -
     open func presentConfirmation(_ response: BaseStage.Models.Confirmation.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSThread.run { [weak self] in
             guard let self else { return }
             let viewModel = BaseStage.Models.Confirmation.ViewModel()
@@ -141,9 +147,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             viewModel.message = response.message
             viewModel.title = response.title
             viewModel.userData = response.userData
-
+            
             for textField in response.textFields {
-                 viewModel.textFields.append(
+                viewModel.textFields.append(
                     BaseStage.Models.Confirmation.ViewModel
                         .TextField(contentType: textField.contentType,
                                    keyboardType: textField.keyboardType,
@@ -162,7 +168,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentDisabled(_ response: BaseStage.Models.Disabled.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         if response.forceReset {
             self.disabledCount = 0
         }
@@ -182,11 +188,11 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentDismiss(_ response: BaseStage.Models.Dismiss.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         self.dismissPublisher.send(BaseStage.Models.Dismiss.ViewModel(animated: response.animated))
     }
     open func presentErrorMessage(_ response: BaseStage.Models.ErrorMessage.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSAppGlobals.appLastDisplayedError = response.error
         DNSThread.run { [weak self] in
             guard let self else { return }
@@ -218,7 +224,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentMessage(_ response: BaseStage.Models.Message.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSThread.run { [weak self] in
             guard let self else { return }
             var viewModel = BaseStage.Models.Message.ViewModel(message: response.message,
@@ -253,11 +259,11 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentReset(_ response: BaseStage.Models.Base.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         self.resetPublisher.send(BaseStage.Models.Base.ViewModel())
     }
     open func presentSpinner(_ response: BaseStage.Models.Spinner.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         if response.forceReset {
             self.spinnerCount = 0
         }
@@ -277,8 +283,8 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
     }
     open func presentTitle(_ response: BaseStage.Models.Title.Response) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
-
+        self.utilityAutoTrack("\(#function)")
+        
         var viewModel = BaseStage.Models.Title.ViewModel(title: response.title)
         if !(response.tabBarImageName.isEmpty) {
             viewModel.tabBarSelectedImage = UIImage(named: "\(response.tabBarImageName)Selected")
@@ -286,7 +292,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         }
         titlePublisher.send(viewModel)
     }
-
+    
     // MARK: - Shortcut Methods
     open func disabled(show: Bool) {
         DNSThread.run { [weak self] in
@@ -299,5 +305,10 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             guard let self else { return }
             self.spinnerPublisher.send(BaseStage.Models.Spinner.ViewModel(show: show))
         }
+    }
+    
+    // MARK: - Utility methods -
+    open func utilityAutoTrack(_ method: String) {
+        self.wkrAnalytics.doAutoTrack(class: self.analyticsClassTitle, method: method)
     }
 }

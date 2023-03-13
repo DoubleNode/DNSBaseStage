@@ -469,7 +469,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
 
     // MARK: - Display logic -
     public func displayConfirmation(_ viewModel: BaseStage.Models.Confirmation.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
 
         DNSUIThread.run { [weak self] in
             guard let self else { return }
@@ -543,19 +543,19 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         }
     }
     public func displayDisabled(_ viewModel: BaseStage.Models.Disabled.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in
             guard let self else { return }
             self.updateDisabledViewDisplay(display: viewModel.show)
         }
     }
     public func displayDismiss(_ viewModel: BaseStage.Models.Dismiss.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         self.endStage(BaseStage.Models.Finish.ViewModel(animated: viewModel.animated,
                                                         displayMode: self.displayMode!))
     }
     public func displayMessage(_ viewModel: BaseStage.Models.Message.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in
             guard let self else { return }
             switch viewModel.style {
@@ -678,14 +678,14 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         }
     }
     public func displaySpinner(_ viewModel: BaseStage.Models.Spinner.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in
             guard let self else { return }
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
     public func displayTitle(_ viewModel: BaseStage.Models.Title.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in
             guard let self else { return }
             if viewModel.tabBarUnselectedImage != nil {
@@ -870,25 +870,5 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
     }
     open func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         self.viewDidAppear(false)
-    }
-
-    // MARK: - Utility methods -
-    public func utilityPresent(viewControllerToPresent: UIViewController,
-                             using presentingViewController: UIViewController,
-                             animated: Bool,
-                             completion: ((Bool) -> Void)? = nil) {
-        if viewControllerToPresent.isBeingPresented {
-            DNSCore.reportLog("cancel: presenting \(type(of: viewControllerToPresent))" +
-                                " on \(type(of: presentingViewController))")
-            completion?(false)
-            return
-        }
-        DNSCore.reportLog("start: presenting \(type(of: viewControllerToPresent))" +
-                            " on \(type(of: presentingViewController))")
-        presentingViewController.present(viewControllerToPresent, animated: animated) {
-            DNSCore.reportLog("stop: presenting \(type(of: viewControllerToPresent))" +
-                                " on \(type(of: presentingViewController))")
-            completion?(true)
-        }
     }
 }

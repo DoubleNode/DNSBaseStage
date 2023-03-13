@@ -50,6 +50,12 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     public typealias BaseStage = DNSBaseStage
     
     // MARK: - Public Associated Type Properties -
+    open lazy var analyticsClassTitle: String = {
+        String(describing: self.classForCoder)
+    }()
+    open lazy var analyticsStageTitle: String = {
+        self.baseConfigurator?.analyticsStageTitle ?? String(describing: self.classForCoder)
+    }()
     public var baseConfigurator: BaseStage.Configurator? {
         didSet {
             self.baseConfigurator?.configureStage()
@@ -249,7 +255,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.wkrAnalytics.doScreen(screenTitle: String(describing: self.baseConfigurator!))
+        self.wkrAnalytics.doScreen(screenTitle: self.analyticsStageTitle)
         self.stageDidAppear()
     }
     override open func viewWillDisappear(_ animated: Bool) {
@@ -281,7 +287,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
 
     // MARK: - Display logic -
     open func displayReset(_ viewModel: BaseStage.Models.Base.ViewModel) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSUIThread.run {
             self.closeButton?.isEnabled = true
         }
@@ -290,17 +296,40 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     // MARK: - Gesture Recognizer methods -
     @objc
     open func tapToDismiss(recognizer: UITapGestureRecognizer) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         view.endEditing(true)
     }
 
     // MARK: - Action methods -
     @IBAction func closeButtonAction(sender: UIButton) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         if sender == self.closeButton {
             self.closeButton?.isEnabled = false
         }
         closeActionPublisher.send(BaseStage.Models.Base.Request())
+    }
+
+    // MARK: - Utility methods -
+    open func utilityAutoTrack(_ method: String) {
+        self.wkrAnalytics.doAutoTrack(class: self.analyticsClassTitle, method: method)
+    }
+    open func utilityPresent(viewControllerToPresent: UIViewController,
+                             using presentingViewController: UIViewController,
+                             animated: Bool,
+                             completion: ((Bool) -> Void)? = nil) {
+        if viewControllerToPresent.isBeingPresented {
+            DNSCore.reportLog("cancel: presenting \(type(of: viewControllerToPresent))" +
+                                " on \(type(of: presentingViewController))")
+            completion?(false)
+            return
+        }
+        DNSCore.reportLog("start: presenting \(type(of: viewControllerToPresent))" +
+                            " on \(type(of: presentingViewController))")
+        presentingViewController.present(viewControllerToPresent, animated: animated) {
+            DNSCore.reportLog("stop: presenting \(type(of: viewControllerToPresent))" +
+                                " on \(type(of: presentingViewController))")
+            completion?(true)
+        }
     }
 }
 extension DNSBaseStageViewController {

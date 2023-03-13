@@ -33,6 +33,12 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     public typealias BaseStage = DNSBaseStage
 
     // MARK: - Public Associated Type Properties -
+    open lazy var analyticsClassTitle: String = {
+        String(describing: self.classForCoder)
+    }()
+    open lazy var analyticsStageTitle: String = {
+        self.baseConfigurator?.analyticsStageTitle ?? String(describing: self.classForCoder)
+    }()
     public var baseConfigurator: BaseStage.Configurator?
     public var baseInitializationObject: DNSBaseStageBaseInitialization?
 
@@ -202,14 +208,14 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     
     // MARK: - Business Logic -
     open func doCloseAction(_ request: BaseStage.Models.Base.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         self.utilityCloseAction()
     }
     open func doConfirmation(_ request: BaseStage.Models.Confirmation.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
     }
     open func doErrorOccurred(_ request: BaseStage.Models.ErrorMessage.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSThread.run { [weak self] in
             guard let self else { return }
             var response = BaseStage.Models.ErrorMessage.Response(error: request.error,
@@ -220,17 +226,17 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         }
     }
     open func doMessageDone(_ request: BaseStage.Models.Message.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
     }
 
     open func doWebStartNavigation(_ request: BaseStage.Models.Webpage.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
     }
     open func doWebFinishNavigation(_ request: BaseStage.Models.Webpage.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
     }
     open func doWebErrorNavigation(_ request: BaseStage.Models.WebpageError.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
         DNSThread.run { [weak self] in
             guard let self else { return }
             let response = BaseStage.Models.ErrorMessage.Response(error: request.error,
@@ -240,7 +246,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         }
     }
     open func doWebLoadProgress(_ request: BaseStage.Models.WebpageProgress.Request) {
-        self.wkrAnalytics.doAutoTrack(class: String(describing: self), method: "\(#function)")
+        self.utilityAutoTrack("\(#function)")
     }
     
     // MARK: - Shortcut Methods
@@ -264,6 +270,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
     }
 
     // MARK: - Utility methods
+    open func utilityAutoTrack(_ method: String) {
+        self.wkrAnalytics.doAutoTrack(class: self.analyticsClassTitle, method: method)
+    }
     open func utilityCloseAction(with results: DNSBaseStageBaseResults? = nil) {
         self.hasStageEnded = false
         self.endStage(conditionally: true, with: BaseStage.BaseIntents.close, and: false, and: results)

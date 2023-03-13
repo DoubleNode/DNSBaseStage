@@ -9,7 +9,9 @@
 import AtomicSwift
 import DNSCore
 import DNSCoreThreading
+import DNSCrashWorkers
 import DNSDataObjects
+import DNSProtocols
 import FTLinearActivityIndicator
 import UIKit
 
@@ -26,6 +28,9 @@ open class DNSCoordinator: NSObject {
         case terminated
     }
 
+    open lazy var analyticsClassTitle: String = {
+        String(describing: self.classForCoder)
+    }()
     public var defaultRootViewController: DNSBaseStageViewController?
     public var parent: DNSCoordinator? {
         willSet {
@@ -52,6 +57,9 @@ open class DNSCoordinator: NSObject {
     open func cancelRunningChildren() {
         self.runningChildren.forEach { $0.cancel() }
     }
+
+    // MARK: - Workers -
+    public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
 
     // MARK: - Object lifecycle
     public init(with parent: DNSCoordinator? = nil) {
@@ -228,6 +236,9 @@ open class DNSCoordinator: NSObject {
     }
 
     // MARK: - Utility methods
+    open func utilityAutoTrack(_ method: String) {
+        self.wkrAnalytics.doAutoTrack(class: self.analyticsClassTitle, method: method)
+    }
     public func utilityShowSectionStatusMessage(with title: String,
                                                 and message: String,
                                                 continueBlock: DNSBlock? = nil,

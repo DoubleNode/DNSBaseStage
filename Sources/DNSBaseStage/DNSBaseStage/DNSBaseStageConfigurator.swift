@@ -22,6 +22,9 @@ open class DNSBaseStageConfigurator {
     var ending = false
     
     // MARK: - Public Associated Type Properties -
+    open lazy var analyticsStageTitle: String = {
+        String(describing: self)
+    }()
     open var initializationObject: DNSBaseStageBaseInitialization?
 
     open var interactorType: BaseStage.Interactor.Type {

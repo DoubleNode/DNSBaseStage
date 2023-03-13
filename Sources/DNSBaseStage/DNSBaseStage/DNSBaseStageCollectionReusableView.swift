@@ -19,6 +19,9 @@ open class DNSBaseStageCollectionReusableView: DNSUICollectionReusableView, DNSB
     static public var reuseIdentifier: String {
         String(describing: self)
     }
+    open lazy var analyticsClassTitle: String = {
+        String(describing: self.classForCoder)
+    }()
     static public var bundle: Bundle? = nil
     static public var uiNib: UINib {
         UINib(nibName: self.reuseIdentifier,
@@ -41,13 +44,13 @@ open class DNSBaseStageCollectionReusableView: DNSUICollectionReusableView, DNSB
                                               // swiftlint:disable:next force_cast
                                               for: indexPath) as! DNSBaseStageCollectionReusableView
     }
-
+    
     // MARK: - Workers -
     public var wkrAnalytics: WKRPTCLAnalytics = WKRCrashAnalytics()
-
+    
     // MARK: - Outgoing Pipelines -
     open func subscribe(to baseViewController: DNSBaseStageDisplayLogic) { }
-
+    
     // MARK: - Lifecycle methods -
     override open func awakeFromNib() {
         super.awakeFromNib()
@@ -61,4 +64,9 @@ open class DNSBaseStageCollectionReusableView: DNSUICollectionReusableView, DNSB
         self.contentInit()
     }
     open func contentInit() { }
+    
+    // MARK: - Utility methods
+    open func utilityAutoTrack(_ method: String) {
+        self.wkrAnalytics.doAutoTrack(class: self.analyticsClassTitle, method: method)
+    }
 }

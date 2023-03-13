@@ -19,6 +19,9 @@ open class DNSBaseStageCollectionViewCell: DNSUICollectionViewCell, DNSBaseStage
     static public var reuseIdentifier: String {
         String(describing: self)
     }
+    open lazy var analyticsClassTitle: String = {
+        String(describing: self.classForCoder)
+    }()
     static public var bundle: Bundle? = nil
     static public var uiNib: UINib {
         UINib(nibName: self.reuseIdentifier,
@@ -56,4 +59,9 @@ open class DNSBaseStageCollectionViewCell: DNSUICollectionViewCell, DNSBaseStage
         self.contentInit()
     }
     open func contentInit() { }
+    
+    // MARK: - Utility methods
+    open func utilityAutoTrack(_ method: String) {
+        self.wkrAnalytics.doAutoTrack(class: self.analyticsClassTitle, method: method)
+    }
 }

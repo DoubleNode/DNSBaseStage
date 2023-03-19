@@ -20,6 +20,10 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     open func numberOfTabs() -> Int {
         return 0
     }
+    open func coordinatorNdx(for tabNdx: Int) -> Int {
+        guard tabNdx < self.numberOfTabs() else { return 0 }
+        return 0
+    }
     open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
         return nil
     }
@@ -77,7 +81,8 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         DNSUIThread.run { [weak self] in
             guard let self else { return }
             self.reorderCoordinators()
-            self.tabBarController?.selectedIndex = tabNdx
+            let coordinatorNdx = self.coordinatorNdx(for: tabNdx)
+            self.tabBarController?.selectedIndex = coordinatorNdx
         }
     }
     open func reorderCoordinators() {

@@ -220,6 +220,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             viewModel.nibBundle = response.nibBundle
             viewModel.actions = [ "OK": response.okayButton.isEmpty ? "OK" : response.okayButton ]
             viewModel.presentingDirection = response.presentingDirection
+            viewModel.userData = response.error
             self.messagePublisher.send(viewModel)
         }
     }

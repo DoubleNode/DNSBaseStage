@@ -31,6 +31,7 @@ public protocol DNSBaseStageDisplayLogic: AnyObject {
 
     var closeActionPublisher: PassthroughSubject<BaseStage.Models.Base.Request, Never> { get }
     var confirmationPublisher: PassthroughSubject<BaseStage.Models.Confirmation.Request, Never> { get }
+    var errorDonePublisher: PassthroughSubject<BaseStage.Models.Message.Request, Never> { get }
     var errorOccurredPublisher: PassthroughSubject<BaseStage.Models.ErrorMessage.Request, Never> { get }
     var messageDonePublisher: PassthroughSubject<BaseStage.Models.Message.Request, Never> { get }
     var webStartNavigationPublisher: PassthroughSubject<BaseStage.Models.Webpage.Request, Never> { get }
@@ -77,6 +78,7 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
 
     public let closeActionPublisher = PassthroughSubject<BaseStage.Models.Base.Request, Never>()
     public let confirmationPublisher = PassthroughSubject<BaseStage.Models.Confirmation.Request, Never>()
+    public let errorDonePublisher = PassthroughSubject<BaseStage.Models.Message.Request, Never>()
     public let errorOccurredPublisher = PassthroughSubject<BaseStage.Models.ErrorMessage.Request, Never>()
     public let messageDonePublisher = PassthroughSubject<BaseStage.Models.Message.Request, Never>()
     public let webStartNavigationPublisher = PassthroughSubject<BaseStage.Models.Webpage.Request, Never>()

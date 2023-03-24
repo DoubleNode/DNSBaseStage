@@ -67,6 +67,7 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
 
     var closeActionSubscriber: AnyCancellable?
     var confirmationSubscriber: AnyCancellable?
+    var errorSubscriber: AnyCancellable?
     var errorOccurredSubscriber: AnyCancellable?
     var messageSubscriber: AnyCancellable?
     var webStartNavigationSubscriber: AnyCancellable?
@@ -98,6 +99,8 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
             .sink { [weak self] request in self?.doCloseAction(request) }
         confirmationSubscriber = baseViewController.confirmationPublisher
             .sink { [weak self] request in self?.doConfirmation(request) }
+        errorSubscriber = baseViewController.errorDonePublisher
+            .sink { [weak self] request in self?.doErrorDone(request) }
         errorOccurredSubscriber = baseViewController.errorOccurredPublisher
             .sink { [weak self] request in self?.doErrorOccurred(request) }
         messageSubscriber = baseViewController.messageDonePublisher
@@ -212,6 +215,9 @@ open class DNSBaseStageInteractor: NSObject, DNSBaseStageBusinessLogic {
         self.utilityCloseAction()
     }
     open func doConfirmation(_ request: BaseStage.Models.Confirmation.Request) {
+        self.utilityAutoTrack("\(#function)")
+    }
+    open func doErrorDone(_ request: BaseStage.Models.Message.Request) {
         self.utilityAutoTrack("\(#function)")
     }
     open func doErrorOccurred(_ request: BaseStage.Models.ErrorMessage.Request) {

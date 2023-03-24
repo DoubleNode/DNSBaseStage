@@ -593,10 +593,17 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                 actionCode = key
                             }
                         }
-                        self.messageDonePublisher
-                            .send(BaseStage.Models.Message.Request(actionCode: actionCode,
-                                                                   cancelled: viewModel.style == .popup,
-                                                                   userData: viewModel.userData))
+                        if viewModel.userData is Error {
+                            self.errorDonePublisher
+                                .send(BaseStage.Models.Message.Request(actionCode: actionCode,
+                                                                       cancelled: viewModel.style == .popup,
+                                                                       userData: viewModel.userData))
+                        } else {
+                            self.messageDonePublisher
+                                .send(BaseStage.Models.Message.Request(actionCode: actionCode,
+                                                                       cancelled: viewModel.style == .popup,
+                                                                       userData: viewModel.userData))
+                        }
                     }
                 }
                 let actionCancelBlock: DNSStringBlock = { actionText in
@@ -609,10 +616,17 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                 actionCode = key
                             }
                         }
-                        self.messageDonePublisher
-                            .send(BaseStage.Models.Message.Request(actionCode: actionCode,
-                                                                   cancelled: true,
-                                                                   userData: viewModel.userData))
+                        if viewModel.userData is Error {
+                            self.errorDonePublisher
+                                .send(BaseStage.Models.Message.Request(actionCode: actionCode,
+                                                                       cancelled: true,
+                                                                       userData: viewModel.userData))
+                        } else {
+                            self.messageDonePublisher
+                                .send(BaseStage.Models.Message.Request(actionCode: actionCode,
+                                                                       cancelled: true,
+                                                                       userData: viewModel.userData))
+                        }
                     }
                 }
 

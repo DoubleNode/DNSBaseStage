@@ -653,7 +653,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                              nibBundle: nibBundle,
                                              tags: viewModel.tags,
                                              title: viewModel.title,
-                                             subTitle: viewModel.subTitle,
+                                             subtitle: viewModel.subtitle,
                                              message: viewModel.message,
                                              disclaimer: viewModel.disclaimer,
                                              image: viewModel.image,

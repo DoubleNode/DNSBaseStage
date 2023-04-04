@@ -235,19 +235,19 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             viewModel.disclaimer = response.disclaimer
             viewModel.image = response.image
             viewModel.imageUrl = response.imageUrl
-            viewModel.subTitle = response.subTitle
+            viewModel.subtitle = response.subtitle
             viewModel.tags = response.tags
             viewModel.colors = BaseStage.Models.Message.ViewModel
                 .Colors(background: self.defaultBackgroundColor,
                         message: self.defaultMessageColor,
                         title: self.defaultTitleColor)
-            viewModel.colors?.subTitle = self.defaultMessageColor
+            viewModel.colors?.subtitle = self.defaultMessageColor
             viewModel.dismissingDirection = response.dismissingDirection
             viewModel.duration = response.duration
             viewModel.fonts = BaseStage.Models.Message.ViewModel
                 .Fonts(message: self.defaultMessageFont,
                        title: self.defaultTitleFont)
-            viewModel.fonts?.subTitle = self.defaultMessageFont
+            viewModel.fonts?.subtitle = self.defaultMessageFont
             
             viewModel.actions = response.actions
             viewModel.cancelText = response.cancelText

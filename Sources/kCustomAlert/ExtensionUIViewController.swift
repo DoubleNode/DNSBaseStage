@@ -16,7 +16,7 @@ extension UIViewController {
                                     okButtonAction: (DNSStringBlock)? = { _ in },
                                     tags: [String],
                                     title: String,
-                                    subTitle: String,
+                                    subtitle: String,
                                     message: String,
                                     disclaimer: String,
                                     image: UIImage?,
@@ -30,7 +30,7 @@ extension UIViewController {
         alertVC.message = message
         alertVC.disclaimer = disclaimer
         alertVC.arrayAction = actions
-        alertVC.subTitle = subTitle
+        alertVC.subtitle = subtitle
         alertVC.imageItem = image
         alertVC.imageUrl = imageUrl
         alertVC.okButtonAct = okButtonAction

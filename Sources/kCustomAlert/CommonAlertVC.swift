@@ -17,7 +17,7 @@ class CommonAlertVC: UIViewController {
     @IBOutlet weak var messageLabel: UILabel?
     @IBOutlet weak var disclaimerLabel: UILabel?
     @IBOutlet weak var titleLabel: UILabel?
-    @IBOutlet weak var subTitleLabel: UILabel?
+    @IBOutlet weak var subtitleLabel: UILabel?
     @IBOutlet weak var cancelButton: UIButton?
     @IBOutlet weak var cancelButtonSpacerViewConstraint: NSLayoutConstraint?
     @IBOutlet weak var cancelButtonView: UIView?
@@ -47,7 +47,7 @@ class CommonAlertVC: UIViewController {
     var cancelButtonSpacerViewConstraintConstant: CGFloat = 0
     var disclaimer: String = ""
     var message: String = ""
-    var subTitle: String = ""
+    var subtitle: String = ""
     var imageItem: UIImage?
     var imageUrl: URL?
     var tags: [String] = []
@@ -74,7 +74,7 @@ class CommonAlertVC: UIViewController {
         self.disclaimerLabel?.text = disclaimer
         self.messageLabel?.text = message
         self.titleLabel?.text = title
-        self.subTitleLabel?.text = subTitle
+        self.subtitleLabel?.text = subtitle
 
         if tags.count > 0 {
             self.tag1Label?.text = tags[0]

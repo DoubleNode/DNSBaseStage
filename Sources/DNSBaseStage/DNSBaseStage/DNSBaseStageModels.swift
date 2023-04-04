@@ -280,7 +280,7 @@ open class DNSBaseStageModels {
             public var percentage: Float = -1
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
             public var style: Style
-            public var subTitle: String = ""
+            public var subtitle: String = ""
             public var title: String
 
             public var actions: [String: String] = [:]
@@ -299,12 +299,12 @@ open class DNSBaseStageModels {
             public struct Colors {
                 public var background: UIColor?
                 public var message: UIColor?
-                public var subTitle: UIColor?
+                public var subtitle: UIColor?
                 public var title: UIColor?
             }
             public struct Fonts {
                 public var message: UIFont?
-                public var subTitle: UIFont?
+                public var subtitle: UIFont?
                 public var title: UIFont?
             }
 
@@ -317,7 +317,7 @@ open class DNSBaseStageModels {
             public var message: String
             public var percentage: Float = -1
             public var presentingDirection: Direction = DNSBaseStageModels.defaults.message.presentingDirection
-            public var subTitle: String = ""
+            public var subtitle: String = ""
             public var style: Style
             public var tags: [String] = []
             public var title: String

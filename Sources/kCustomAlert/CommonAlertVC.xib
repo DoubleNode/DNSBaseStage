@@ -21,7 +21,7 @@
                 <outlet property="heightViewContainer" destination="MAd-iG-DIg" id="SNu-is-wbw"/>
                 <outlet property="mainImageView" destination="G2I-sn-5Yu" id="Fni-Mf-UOU"/>
                 <outlet property="messageLabel" destination="KKU-ES-83k" id="sj2-5n-VU9"/>
-                <outlet property="subTitleLabel" destination="Yuz-DG-t3J" id="vhB-yw-lOZ"/>
+                <outlet property="subtitleLabel" destination="Yuz-DG-t3J" id="vhB-yw-lOZ"/>
                 <outlet property="titleLabel" destination="HwO-zZ-RIh" id="yoS-m1-e0S"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="viewContainer" destination="Rkx-vf-edJ" id="E3K-fA-shv"/>

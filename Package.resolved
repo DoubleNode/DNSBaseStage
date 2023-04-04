@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBaseTheme.git",
       "state" : {
-        "revision" : "e6ae306cf4b0fdce0b41d596fe3a8ade3d3ff317",
-        "version" : "1.10.8"
+        "revision" : "e7ca95b8de8e0faca1415ed81226190a54775815",
+        "version" : "1.10.9"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankWorkers.git",
       "state" : {
-        "revision" : "55ded4ea55d2915a54fd0a05ffdb60e8fae42852",
-        "version" : "1.10.47"
+        "revision" : "dbbb748c1bc37008c2f0e9b0fda1af1b79569eb1",
+        "version" : "1.10.49"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCore.git",
       "state" : {
-        "revision" : "da868b57056f6a5f36aa7b175ed377ec150a003c",
-        "version" : "1.10.44"
+        "revision" : "7df16f91c476c0d265dad6e99a92a74b97844ebb",
+        "version" : "1.10.46"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashWorkers.git",
       "state" : {
-        "revision" : "2ed6e0887e635f2b1938fb9f957175db1971be3e",
-        "version" : "1.10.38"
+        "revision" : "55bde88f07f815e3e118e74cc28611b3253b9fe5",
+        "version" : "1.10.40"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataObjects.git",
       "state" : {
-        "revision" : "10e57b35f29818bba17d0cffcbed2b05ae6e1fa0",
-        "version" : "1.10.70"
+        "revision" : "52d3973c9c14cd47fed09b02ad836ab0ffe625a4",
+        "version" : "1.10.71"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSProtocols.git",
       "state" : {
-        "revision" : "13f2901e1b419261088ab3d82888ae11e3a756fe",
-        "version" : "1.10.72"
+        "revision" : "93396550016fe5fac8cdcbb65e24f9e579d45d21",
+        "version" : "1.10.76"
       }
     },
     {
@@ -248,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Nirma/SFSymbol",
       "state" : {
-        "revision" : "d6680f79d5b293ddfc4640ad6d4101697426e840",
-        "version" : "2.0.0"
+        "revision" : "c18f260b9b69d1c24e40ad367e8a589563fb8f3d",
+        "version" : "2.2.0"
       }
     },
     {

@@ -175,7 +175,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         if response.show {
             disabledCount += 1
             guard disabledCount == 1 else { return }
-            DNSUIThread.run(after: 0.3) {
+            DNSUIThread.run(after: 0.5) {
                 guard self.disabledCount >= 1 else { return }
                 self.disabled(show: response.show)
             }
@@ -271,7 +271,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         if response.show {
             spinnerCount += 1
             guard spinnerCount == 1 else { return }
-            DNSUIThread.run(after: 0.3) {
+            DNSUIThread.run(after: 0.5) {
                 guard self.spinnerCount >= 1 else { return }
                 self.spinner(show: response.show)
             }

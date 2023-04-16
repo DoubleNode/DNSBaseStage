@@ -108,7 +108,7 @@ open class DNSBaseStageConfigurator {
                        and results: DNSBaseStageBaseResults?) {
         guard !self.ending else { return }
         self.ending = true
-        _ = DNSUIThread.run(after: 0.3) { [weak self] in
+        _ = DNSUIThread.run(after: 0.5) { [weak self] in
             guard let self else { return }
             self.intentBlock?(true, intent, dataChanged, results)
             self.baseInteractor.removeStage()

@@ -63,7 +63,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         } else {
             coordinator.start { (result: Bool) in }
             if changing {
-                _ = DNSUIThread.run(after: 0.3) { [weak self] in
+                _ = DNSUIThread.run(after: 0.5) { [weak self] in
                     guard let self else { return }
                     self.changeCoordinator(to: tabNdx)
                 }

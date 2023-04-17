@@ -647,7 +647,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                     actionCancel
                 ]
 
-                if self.isOnTop {
+                if self.isOnTop || self.isViewLoaded {
                     self.updateBlurredViewDisplay(display: true)
                     self.showCustomAlertWith(nibName: nibName,
                                              nibBundle: nibBundle,

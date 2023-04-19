@@ -22,7 +22,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     }
     open func coordinatorNdx(for tabNdx: Int) -> Int {
         guard tabNdx < self.numberOfTabs() else { return 0 }
-        return 0
+        return tabNdx
     }
     open func coordinator(for tabNdx: Int) -> DNSCoordinator? {
         return nil

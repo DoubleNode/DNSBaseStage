@@ -6,6 +6,7 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSBaseTheme
 import DNSError
 import Foundation
 import UIKit
@@ -289,6 +290,9 @@ open class DNSBaseStageModels {
             public var nibBundle: Bundle?
             public var userData: Any?
 
+            public var actionsStyles: [String: DNSThemeButtonStyle] = [:]
+            public var cancelStyle = DNSThemeButtonStyle.default
+
             public init(message: String, style: Style, title: String) {
                 self.message = message
                 self.style = style
@@ -329,6 +333,9 @@ open class DNSBaseStageModels {
             public var nibName: String = ""
             public var nibBundle: Bundle?
             public var userData: Any?
+
+            public var actionsStyles: [String: DNSThemeButtonStyle] = [:]
+            public var cancelStyle = DNSThemeButtonStyle.default
 
             public init(message: String, percentage: Float = -1, style: Style, title: String) {
                 self.message = message

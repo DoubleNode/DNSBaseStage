@@ -256,6 +256,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             viewModel.nibBundle = response.nibBundle
             viewModel.presentingDirection = response.presentingDirection
             viewModel.userData = response.userData
+            
+            viewModel.actionsStyles = response.actionsStyles
+            viewModel.cancelStyle = response.cancelStyle
             self.messagePublisher.send(viewModel)
         }
     }

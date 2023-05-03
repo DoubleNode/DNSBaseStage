@@ -7,6 +7,7 @@
 //
 
 import AlamofireImage
+import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
 import UIKit
@@ -53,6 +54,7 @@ class CommonAlertVC: UIViewController {
     var tags: [String] = []
 
     var arrayAction: [[String: DNSStringBlock]]?
+    var arrayActionStyles: [[String: DNSThemeButtonStyle]]?
     var okButtonAct: (DNSStringBlock)?
 
     var isContactNumberHidden: Bool = true
@@ -126,6 +128,7 @@ class CommonAlertVC: UIViewController {
                 if buttonCount > 1 {
                     return
                 }
+                let styleDic = arrayActionStyles?[buttonCount] ?? [:]
                 let allKeys = Array(dic.keys)
                 if allKeys.isEmpty {
                     cancelButtonSpacerViewConstraint?.constant = 0.0
@@ -142,21 +145,33 @@ class CommonAlertVC: UIViewController {
                     let buttonTitle: String = allKeys[0]
                     if buttonCount == 0 {
                         actionButton.setTitle(buttonTitle, for: .normal)
+                        if let actionDNSButton = actionButton as? DNSUIButton {
+                            actionDNSButton.style = styleDic[buttonTitle] ?? .default
+                        }
                         actionButtonView?.isHidden = false
                         actionButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                         if allKeys.count > 1 {
                             let button2Title: String = allKeys[1]
                             action2Button?.setTitle(button2Title, for: .normal)
+                            if let action2DNSButton = action2Button as? DNSUIButton {
+                                action2DNSButton.style = styleDic[button2Title] ?? .default
+                            }
                             action2ButtonView?.isHidden = false
                             action2ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                             if allKeys.count > 2 {
                                 let button3Title: String = allKeys[2]
                                 action3Button?.setTitle(button3Title, for: .normal)
+                                if let action3DNSButton = action3Button as? DNSUIButton {
+                                    action3DNSButton.style = styleDic[button3Title] ?? .default
+                                }
                                 action3ButtonView?.isHidden = false
                                 action3ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                                 if allKeys.count > 3 {
                                     let button4Title: String = allKeys[3]
                                     action4Button?.setTitle(button4Title, for: .normal)
+                                    if let action4DNSButton = action4Button as? DNSUIButton {
+                                        action4DNSButton.style = styleDic[button4Title] ?? .default
+                                    }
                                     action4ButtonView?.isHidden = false
                                     action4ButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                                 }
@@ -164,6 +179,9 @@ class CommonAlertVC: UIViewController {
                         }
                     } else {
                         cancelButton?.setTitle(buttonTitle, for: .normal)
+                        if let cancelDNSButton = cancelButton as? DNSUIButton {
+                            cancelDNSButton.style = styleDic[buttonTitle] ?? .default
+                        }
                         cancelButtonView?.isHidden = false
                         cancelButtonViewWidthConstraint?.priority = UILayoutPriority.defaultLow
                     }

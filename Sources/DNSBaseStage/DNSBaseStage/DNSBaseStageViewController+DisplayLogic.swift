@@ -567,11 +567,14 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
                 var okayText = "OK"
+                var okayStyle: DNSThemeButtonStyle = DNSThemeButtonStyle.default
                 var cancelText = "CANCEL"
+                var cancelStyle: DNSThemeButtonStyle = DNSThemeButtonStyle.default
                 var nibName = "DNSBaseStagePopupViewController"
                 var nibBundle: Bundle?
                 if !viewModel.cancelText.isEmpty {
                     cancelText = viewModel.cancelText
+                    cancelStyle = viewModel.cancelStyle
                 }
                 if !viewModel.nibName.isEmpty {
                     nibName = viewModel.nibName
@@ -580,6 +583,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 if !viewModel.actions.isEmpty {
                     if let actionValue = viewModel.actions.values.first {
                         okayText = actionValue
+                        okayStyle = viewModel.actionsStyles.values.first ?? DNSThemeButtonStyle.default
                     }
                 }
                 let actionOkayBlock: DNSStringBlock = { actionText in
@@ -631,20 +635,29 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 }
 
                 var actionOkay: [String: DNSStringBlock] = [:]
+                var actionOkayStyle: [String: DNSThemeButtonStyle] = [:]
                 if viewModel.actions.isEmpty {
                     actionOkay = [ okayText: actionOkayBlock ]
+                    actionOkayStyle = [ okayText: okayStyle ]
                 } else {
                     viewModel.actions.forEach { (_, value) in
                         actionOkay[value] = actionOkayBlock
+                        actionOkayStyle[value] = okayStyle
                     }
                 }
                 var actionCancel: [String: DNSStringBlock] = [:]
+                var actionCancelStyle: [String: DNSThemeButtonStyle] = [:]
                 if viewModel.style == .popupAction {
                     actionCancel = [ cancelText: actionCancelBlock ]
+                    actionCancelStyle = [ cancelText: cancelStyle ]
                 }
                 let actions = [
                     actionOkay,
                     actionCancel
+                ]
+                let actionsStyles = [
+                    actionOkayStyle,
+                    actionCancelStyle,
                 ]
 
                 if self.isOnTop || self.isViewLoaded {
@@ -658,7 +671,8 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                              disclaimer: viewModel.disclaimer,
                                              image: viewModel.image,
                                              imageUrl: viewModel.imageUrl,
-                                             actions: actions)
+                                             actions: actions,
+                                             actionsStyles: actionsStyles)
                 }
             case .toastError:
                 self.updateToastDisplay(message: viewModel.message,

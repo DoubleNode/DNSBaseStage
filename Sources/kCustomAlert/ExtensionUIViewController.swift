@@ -6,6 +6,7 @@
 //  Copyright © 2019 Krishna All rights reserved.
 //
 
+import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
 import UIKit
@@ -21,7 +22,8 @@ extension UIViewController {
                                     disclaimer: String,
                                     image: UIImage?,
                                     imageUrl: URL?,
-                                    actions: [[String: DNSStringBlock]]?) {
+                                    actions: [[String: DNSStringBlock]]?,
+                                    actionsStyles: [[String: DNSThemeButtonStyle]]?) {
         let nibBundle = nibBundle ?? Bundle.dnsLookupBundle(for: CommonAlertVC.self)
         let alertVC = CommonAlertVC.init(nibName: nibName,
                                          bundle: nibBundle)
@@ -30,6 +32,7 @@ extension UIViewController {
         alertVC.message = message
         alertVC.disclaimer = disclaimer
         alertVC.arrayAction = actions
+        alertVC.arrayActionStyles = actionsStyles
         alertVC.subtitle = subtitle
         alertVC.imageItem = image
         alertVC.imageUrl = imageUrl

@@ -567,9 +567,9 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 self.updateHudDisplay(display: false)
             case .popup, .popupAction:
                 var okayText = "OK"
-                var okayStyle: DNSThemeButtonStyle = DNSThemeButtonStyle.default
+                var okayStyle = BaseStage.defaultOkayButton
                 var cancelText = "CANCEL"
-                var cancelStyle: DNSThemeButtonStyle = DNSThemeButtonStyle.default
+                var cancelStyle = BaseStage.defaultCancelButton
                 var nibName = "DNSBaseStagePopupViewController"
                 var nibBundle: Bundle?
                 if !viewModel.cancelText.isEmpty {
@@ -583,7 +583,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 if !viewModel.actions.isEmpty {
                     if let actionValue = viewModel.actions.values.first {
                         okayText = actionValue
-                        okayStyle = viewModel.actionsStyles.values.first ?? DNSThemeButtonStyle.default
+                        okayStyle = viewModel.actionsStyles.values.first ?? BaseStage.defaultOkayButton
                     }
                 }
                 let actionOkayBlock: DNSStringBlock = { actionText in

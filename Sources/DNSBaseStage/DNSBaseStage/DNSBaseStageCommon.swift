@@ -6,6 +6,7 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSBaseTheme
 import Foundation
 import JKDrawer
 
@@ -21,6 +22,9 @@ public enum DNSBaseStage {
     public typealias Presenter = DNSBaseStagePresenter
     public typealias ViewController = DNSBaseStageViewController
     
+    public static var defaultCancelButton = DNSThemeButtonStyle.default
+    public static var defaultOkayButton = DNSThemeButtonStyle.default
+
     public enum C {
         public static let onBlank = "DNSBaseStage_C_onBlank"
         public static let onClose = "DNSBaseStage_C_onClose"

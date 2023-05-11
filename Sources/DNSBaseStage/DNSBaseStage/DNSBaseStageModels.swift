@@ -7,6 +7,7 @@
 //
 
 import DNSBaseTheme
+import DNSDataObjects
 import DNSError
 import Foundation
 import UIKit
@@ -30,6 +31,8 @@ public protocol DNSBaseStageBaseViewModel {
 }
 
 open class DNSBaseStageModels {
+    typealias BaseStage = DNSBaseStage
+    
     public struct ToastDefaults {
         public var dismissingDirection: Direction = .default
         public var duration: Duration = .default
@@ -291,7 +294,7 @@ open class DNSBaseStageModels {
             public var userData: Any?
 
             public var actionsStyles: [String: DNSThemeButtonStyle] = [:]
-            public var cancelStyle = DNSThemeButtonStyle.default
+            public var cancelStyle = BaseStage.defaultCancelButton
 
             public init(message: String, style: Style, title: String) {
                 self.message = message
@@ -335,7 +338,7 @@ open class DNSBaseStageModels {
             public var userData: Any?
 
             public var actionsStyles: [String: DNSThemeButtonStyle] = [:]
-            public var cancelStyle = DNSThemeButtonStyle.default
+            public var cancelStyle = BaseStage.defaultCancelButton
 
             public init(message: String, percentage: Float = -1, style: Style, title: String) {
                 self.message = message

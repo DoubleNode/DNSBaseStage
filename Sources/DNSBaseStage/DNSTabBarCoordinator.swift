@@ -88,6 +88,20 @@ open class DNSTabBarCoordinator: DNSCoordinator {
     open func reorderCoordinators() {
 //        DNSUIThread.run { }
     }
+    func setBadgeValue(_ value: Int? = nil,
+                       for tabNdx: Int) {
+        guard tabNdx < self.numberOfTabs() else { return }
+        DNSUIThread.run {
+            if let tabItems = self.tabBarController?.tabBar.items {
+                let tabItem = tabItems[tabNdx]
+                if let value {
+                    tabItem.badgeValue = "\(value)"
+                } else {
+                    tabItem.badgeValue = nil
+                }
+            }
+        }
+    }
 
     // MARK: - Object lifecycle
     public init(with tabBarController: DNSUITabBarController? = nil) {

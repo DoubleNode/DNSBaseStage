@@ -77,6 +77,15 @@ open class DNSTabBarCoordinator: DNSCoordinator {
                 self.runCoordinator(for: $0, with: $0 == tabNdx)
             }
     }
+    open func currentCoordinatorNdx() -> Int {
+        var retval = -1
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
+            guard let selectedIndex = self.tabBarController?.selectedIndex else { return }
+            retval = selectedIndex
+        }
+        return retval
+    }
     open func changeCoordinator(to tabNdx: Int) {
         DNSUIThread.run { [weak self] in
             guard let self else { return }

@@ -102,6 +102,7 @@ open class DNSTabBarCoordinator: DNSCoordinator {
         guard tabNdx < self.numberOfTabs() else { return }
         DNSUIThread.run {
             if let tabItems = self.tabBarController?.tabBar.items {
+                guard tabNdx < tabItems.count else { return }
                 let tabItem = tabItems[tabNdx]
                 if let value {
                     tabItem.badgeValue = "\(value)"

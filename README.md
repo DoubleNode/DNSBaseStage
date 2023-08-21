@@ -20,9 +20,9 @@ DNSBaseStage is a collection of base Stage classes used for the DNSFramework
 
 ## Requirements
 
--   iOS 13.0+ / macOS 10.15+ / tvOS 13.0+ / watchOS 6.0+
--   Xcode 11.6+
--   Swift 5.1+
+-   iOS 16.0+ / macOS 13.3+ / tvOS 16.4+ / watchOS 9.4+
+-   Xcode 14.3.1+
+-   Swift 5.8+
 
 ## Installation
 
@@ -34,7 +34,7 @@ Once you have your Swift package set up, adding Alamofire as a dependency is as 
 
 ```swift
 dependencies: [
-.package(url: "https://github.com/DoubleNode/DNSBaseStage.git", from: "1.10.51")
+.package(url: "https://github.com/DoubleNode/DNSBaseStage.git", from: "1.11.0")
 ]
 ```
 
@@ -42,15 +42,15 @@ dependencies: [
 
 -   Alamofire v5.6.4+
 -   AlamofireImage v4.2.0+
--   DNSAppCore v1.10.2+
--   DNSBaseTheme v1.10.28+
--   DNSCore v1.10.48+
--   DNSCrashSystems v1.10.0+
--   DNSCrashWorkers v1.10.53+
--   DNSNetwork v1.10.0+
--   FTLinearActivityIndicator v1.4.3+
+-   DNSAppCore v1.11.0+
+-   DNSBaseTheme v1.11.0+
+-   DNSCore v1.11.2+
+-   DNSCrashSystems v1.11.0+
+-   DNSCrashWorkers v1.11.0+
+-   DNSNetwork v1.11.0+
+-   FTLinearActivityIndicator v1.5.0+
 -   GTBlurView v1.0.2+
--   IQKeyboardManager v6.5.10+
+-   IQKeyboardManager v6.5.12+
 -   JGProgressHUD v2.2.0+
 -   JKDrawer v0.9.1+
 -   Loaf v0.7.0+

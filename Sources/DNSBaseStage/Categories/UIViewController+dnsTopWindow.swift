@@ -15,7 +15,7 @@ public extension UIViewController {
     static var topController: UIViewController? {
         var topController: UIViewController?
         DNSUIThread.run {
-            topController = UIApplication.shared.windows
+            topController = (UIApplication.dnsCurrentScene() as? UIWindowScene)?.windows
                 .filter {$0.isKeyWindow}
                 .first?.rootViewController
             guard topController != nil else { return }

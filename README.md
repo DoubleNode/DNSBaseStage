@@ -34,7 +34,7 @@ Once you have your Swift package set up, adding Alamofire as a dependency is as 
 
 ```swift
 dependencies: [
-.package(url: "https://github.com/DoubleNode/DNSBaseStage.git", from: "1.11.1")
+.package(url: "https://github.com/DoubleNode/DNSBaseStage.git", from: "1.11.2")
 ]
 ```
 

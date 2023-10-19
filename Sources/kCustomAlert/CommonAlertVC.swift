@@ -145,6 +145,7 @@ class CommonAlertVC: UIViewController {
                     let buttonTitle: String = allKeys[0]
                     if buttonCount == 0 {
                         actionButton.setTitle(buttonTitle, for: .normal)
+                        actionButton.accessibilityLabel = buttonTitle
                         if let actionDNSButton = actionButton as? DNSUIButton {
                             actionDNSButton.style = styleDic[buttonTitle] ?? .default
                         }
@@ -153,6 +154,7 @@ class CommonAlertVC: UIViewController {
                         if allKeys.count > 1 {
                             let button2Title: String = allKeys[1]
                             action2Button?.setTitle(button2Title, for: .normal)
+                            action2Button?.accessibilityLabel = button2Title
                             if let action2DNSButton = action2Button as? DNSUIButton {
                                 action2DNSButton.style = styleDic[button2Title] ?? .default
                             }
@@ -161,6 +163,7 @@ class CommonAlertVC: UIViewController {
                             if allKeys.count > 2 {
                                 let button3Title: String = allKeys[2]
                                 action3Button?.setTitle(button3Title, for: .normal)
+                                action3Button?.accessibilityLabel = button3Title
                                 if let action3DNSButton = action3Button as? DNSUIButton {
                                     action3DNSButton.style = styleDic[button3Title] ?? .default
                                 }
@@ -169,6 +172,7 @@ class CommonAlertVC: UIViewController {
                                 if allKeys.count > 3 {
                                     let button4Title: String = allKeys[3]
                                     action4Button?.setTitle(button4Title, for: .normal)
+                                    action4Button?.accessibilityLabel = button4Title
                                     if let action4DNSButton = action4Button as? DNSUIButton {
                                         action4DNSButton.style = styleDic[button4Title] ?? .default
                                     }
@@ -179,6 +183,7 @@ class CommonAlertVC: UIViewController {
                         }
                     } else {
                         cancelButton?.setTitle(buttonTitle, for: .normal)
+                        cancelButton?.accessibilityLabel = buttonTitle
                         if let cancelDNSButton = cancelButton as? DNSUIButton {
                             cancelDNSButton.style = styleDic[buttonTitle] ?? .default
                         }

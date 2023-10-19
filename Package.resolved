@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "bc268c28fb170f494de9e9927c371b8342979ece",
-        "version" : "5.7.1"
+        "revision" : "b2fa556e4e48cbf06cf8c63def138c98f4b811fa",
+        "version" : "5.8.0"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/AlamofireImage.git",
       "state" : {
-        "revision" : "98cbb00ce0ec5fc8e52a5b50a6bfc08d3e5aee10",
-        "version" : "4.2.0"
+        "revision" : "1eaf3b6c6882bed10f6e7b119665599dd2329aa1",
+        "version" : "4.3.0"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankWorkers.git",
       "state" : {
-        "revision" : "f8b19c044cd6111ec0547d567b2f33dfaf58a4dc",
-        "version" : "1.11.0"
+        "revision" : "1a858746c8b8ac2ff6b95e014273ccb360786c53",
+        "version" : "1.11.6"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashWorkers.git",
       "state" : {
-        "revision" : "779379e5da02842a06ae1f0ee7fe4b93e3ef828d",
-        "version" : "1.11.0"
+        "revision" : "f2d01fba0ef03c7d79bffe775c8285ed71578b23",
+        "version" : "1.11.6"
       }
     },
     {
@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/futuretap/FTLinearActivityIndicator.git",
       "state" : {
-        "revision" : "ee13b2b3391ea6375039d5d01aaf3ebe6c33f8cf",
-        "version" : "1.5.0"
+        "revision" : "ddac02505a2d18e265059bafe9381193e578bf15",
+        "version" : "1.7.0"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hackiftekhar/IQKeyboardManager.git",
       "state" : {
-        "revision" : "ea08e08958890043019d248065fe3d825f338087",
-        "version" : "6.5.12"
+        "revision" : "c00b1ae9fa1ad8af4465bb6ca901f6943fc98eba",
+        "version" : "6.5.16"
       }
     },
     {
@@ -248,8 +248,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Nirma/SFSymbol",
       "state" : {
-        "revision" : "c18f260b9b69d1c24e40ad367e8a589563fb8f3d",
-        "version" : "2.2.0"
+        "revision" : "1b127194b976a58ea460a2cbe10f00fa994b1ece",
+        "version" : "2.3.0"
       }
     },
     {

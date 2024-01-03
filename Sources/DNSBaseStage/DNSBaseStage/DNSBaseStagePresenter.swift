@@ -198,8 +198,10 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
             guard let self else { return }
             var errorMessage = response.error.localizedDescription
             if let localizedError = response.error as? LocalizedError {
-                if !(localizedError.failureReason?.isEmpty ?? true) {
-                    errorMessage += "\n\n\(localizedError.failureReason ?? "")"
+                if let failureReason = localizedError.failureReason {
+                    if !failureReason.isEmpty {
+                        errorMessage += "||\(failureReason)"
+                    }
                 }
             }
             

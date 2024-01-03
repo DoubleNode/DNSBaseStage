@@ -558,6 +558,15 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in
             guard let self else { return }
+            var message = viewModel.message
+            var disclaimer = viewModel.disclaimer
+            if message.contains("||") {
+                let messageArray = message.split(separator: "||")
+                if messageArray.count >= 2 {
+                    message = String(messageArray[0])
+                    disclaimer = String(messageArray[1])
+                }
+            }
             switch viewModel.style {
             case .none:
                 break
@@ -667,36 +676,36 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                                              tags: viewModel.tags,
                                              title: viewModel.title,
                                              subtitle: viewModel.subtitle,
-                                             message: viewModel.message,
-                                             disclaimer: viewModel.disclaimer,
+                                             message: message,
+                                             disclaimer: disclaimer,
                                              image: viewModel.image,
                                              imageUrl: viewModel.imageUrl,
                                              actions: actions,
                                              actionsStyles: actionsStyles)
                 }
             case .toastError:
-                self.updateToastDisplay(message: viewModel.message,
+                self.updateToastDisplay(message: message,
                                         state: .error,
                                         presentingDirection: viewModel.presentingDirection,
                                         dismissingDirection: viewModel.dismissingDirection,
                                         duration: viewModel.duration,
                                         location: viewModel.location)
             case .toastInfo:
-                self.updateToastDisplay(message: viewModel.message,
+                self.updateToastDisplay(message: message,
                                         state: .info,
                                         presentingDirection: viewModel.presentingDirection,
                                         dismissingDirection: viewModel.dismissingDirection,
                                         duration: viewModel.duration,
                                         location: viewModel.location)
             case .toastSuccess:
-                self.updateToastDisplay(message: viewModel.message,
+                self.updateToastDisplay(message: message,
                                         state: .success,
                                         presentingDirection: viewModel.presentingDirection,
                                         dismissingDirection: viewModel.dismissingDirection,
                                         duration: viewModel.duration,
                                         location: viewModel.location)
             case .toastWarning:
-                self.updateToastDisplay(message: viewModel.message,
+                self.updateToastDisplay(message: message,
                                         state: .warning,
                                         presentingDirection: viewModel.presentingDirection,
                                         dismissingDirection: viewModel.dismissingDirection,

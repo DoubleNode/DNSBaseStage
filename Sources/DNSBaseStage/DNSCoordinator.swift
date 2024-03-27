@@ -19,6 +19,7 @@ public typealias DNSCoordinatorBlock = () -> Void
 public typealias DNSCoordinatorBoolBlock = (Bool) -> Void
 public typealias DNSCoordinatorChildBlock = (DNSCoordinator?) -> Void
 public typealias DNSCoordinatorChildBoolBlock = (DNSCoordinator?, Bool) -> Void
+public typealias DNSCoordinatorErrorBlock = (Error?) -> Void
 public typealias DNSCoordinatorResultsBlock = (DNSBaseStageBaseResults?) -> Void
 
 open class DNSCoordinator: NSObject {

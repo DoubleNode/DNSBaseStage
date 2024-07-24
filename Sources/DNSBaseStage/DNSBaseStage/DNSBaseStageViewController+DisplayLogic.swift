@@ -308,6 +308,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             if let navDrawerController = self.baseConfigurator?.navDrawerController {
                 DNSUIThread.run { [weak self] in
                     guard let self else { return }
+                    navDrawerController.viewControllers = [UIViewController]()
                     navDrawerController.dismiss(animated: viewModel.animated && animated) {
                         self.baseConfigurator?.navDrawerController = nil
                     }
@@ -315,6 +316,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             } else if let navigationController = self.baseConfigurator?.navigationController {
                 DNSUIThread.run { [weak self] in
                     guard let self else { return }
+                    navigationController.viewControllers = [UIViewController]()
                     navigationController.dismiss(animated: viewModel.animated && animated) {
                         self.baseConfigurator?.navigationController = nil
                     }
@@ -325,6 +327,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 guard navDrawerController.viewControllers.contains(self) else { return }
                 DNSUIThread.run { [weak self] in
                     guard let self else { return }
+                    navDrawerController.viewControllers = [UIViewController]()
                     navDrawerController.dismiss(animated: viewModel.animated) {
                         self.baseConfigurator?.navDrawerController = nil
                     }
@@ -333,6 +336,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 guard navigationController.viewControllers.contains(self) else { return }
                 DNSUIThread.run { [weak self] in
                     guard let self else { return }
+                    navigationController.viewControllers = [UIViewController]()
                     navigationController.dismiss(animated: viewModel.animated) {
                         self.baseConfigurator?.navigationController = nil
                     }

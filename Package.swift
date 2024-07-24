@@ -30,13 +30,13 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.9.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.9.1"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.3.0"),
-        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.11.0"),
-        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.11.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.11.4"),
+        .package(url: "https://github.com/DoubleNode/DNSAppCore.git", from: "1.11.1"),
+        .package(url: "https://github.com/DoubleNode/DNSBaseTheme.git", from: "1.11.1"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.11.6"),
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", from: "1.11.0"),
-        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.11.15"),
+        .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", from: "1.11.17"),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", from: "1.11.0"),
         .package(url: "https://github.com/johankool/Drawer.git", from: "0.9.1"),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", from: "1.7.0"),

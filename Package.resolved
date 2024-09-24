@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "723fa5a6c65812aec4a0d7cc432ee198883b6e00",
-        "version" : "5.9.0"
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNodeOpen/AnimatedField.git",
       "state" : {
-        "revision" : "f208e49c2b5c39bbd49d9ff83d738e917ec9effc",
-        "version" : "2.5.55"
+        "revision" : "a2b81fb8016b696beaba68d4a4a82fd3228187bb",
+        "version" : "2.5.56"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSAppCore.git",
       "state" : {
-        "revision" : "64ca0c752ca516953b4167c274d131e834401bef",
-        "version" : "1.11.0"
+        "revision" : "74d2ee1334d71dc55cef4636545d0fd52eb70713",
+        "version" : "1.11.1"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBaseTheme.git",
       "state" : {
-        "revision" : "5aca1f0203414494cc47bf5bffecb57c07e898ee",
-        "version" : "1.11.0"
+        "revision" : "578c5a01efffa2832867edf1edf0500d60dd553c",
+        "version" : "1.11.1"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankNetwork.git",
       "state" : {
-        "revision" : "9867a63510ae3223fee78f81a57e25c30b354768",
-        "version" : "1.11.1"
+        "revision" : "f37ea99085946856e7144bbda830d2d83627e40a",
+        "version" : "1.11.2"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankSystems.git",
       "state" : {
-        "revision" : "99b8c6385da1ed3a5ef8862693b2e13381900183",
-        "version" : "1.11.0"
+        "revision" : "5d798ff29c33cc5bd16e3c414b3f9c17fc6fb6c4",
+        "version" : "1.11.1"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankWorkers.git",
       "state" : {
-        "revision" : "73a2dae938a4e763c2c3302e0f3947262a57cb7c",
-        "version" : "1.11.15"
+        "revision" : "59802e8b83e771cf18ada89c0a74560e704bdb18",
+        "version" : "1.11.19"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCore.git",
       "state" : {
-        "revision" : "4497b8402bc7232cb3e14b9af85074c7db3d441d",
-        "version" : "1.11.4"
+        "revision" : "3865941b872e85ad1a199612963092d02ba8b7e4",
+        "version" : "1.11.7"
       }
     },
     {
@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCoreThreading.git",
       "state" : {
-        "revision" : "0cca4d7c93f6f2000eae9033b02b6d87d73bfd99",
-        "version" : "1.11.0"
+        "revision" : "6061fa5df1a49ea51043a0760283ffc5d6ccf312",
+        "version" : "1.11.1"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashNetwork.git",
       "state" : {
-        "revision" : "0170cb4ddd01bf1b4fd28ebc8c99e88d4fe4c952",
-        "version" : "1.11.1"
+        "revision" : "58bf523df2b7530c2fd818c5b5316436cd2764aa",
+        "version" : "1.11.2"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCrashWorkers.git",
       "state" : {
-        "revision" : "e9320f2d29191cbc5b7755ad79cb393ea9295cd3",
-        "version" : "1.11.15"
+        "revision" : "58034df82954b8235b5b9770594bdc065265e8f4",
+        "version" : "1.11.17"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataObjects.git",
       "state" : {
-        "revision" : "9be97c7d989cdadf663b88cca5d84e66a38a9b5a",
-        "version" : "1.11.5"
+        "revision" : "91eaa1d16e774f6dcb1100ae275001647ced94e3",
+        "version" : "1.11.8"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSError.git",
       "state" : {
-        "revision" : "351479999b4bf4e11977ee1432185e4ee6d7e6c7",
-        "version" : "1.11.0"
+        "revision" : "d9040c8ced0e3f3166c0554be101342c5d9021c6",
+        "version" : "1.11.1"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSProtocols.git",
       "state" : {
-        "revision" : "8c287d7f99ccde34afd8c1f6dd93d1332e05aa61",
-        "version" : "1.11.8"
+        "revision" : "d89f126dbe2172212a593fa21363fe561977c208",
+        "version" : "1.11.10"
       }
     },
     {
@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/futuretap/FTLinearActivityIndicator.git",
       "state" : {
-        "revision" : "ddac02505a2d18e265059bafe9381193e578bf15",
-        "version" : "1.7.0"
+        "revision" : "4767d37cb53d383aca8bd47d0b0206d8da635032",
+        "version" : "1.8.0"
       }
     },
     {
@@ -257,8 +257,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Juanpe/SkeletonView.git",
       "state" : {
-        "revision" : "739a4f5d78731bebc48811c75fa9e1f4c4cef23e",
-        "version" : "1.30.4"
+        "revision" : "2f5274827d310e32c09325dd3e0007120940988e",
+        "version" : "1.31.0"
       }
     },
     {
@@ -275,8 +275,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
       "state" : {
-        "revision" : "1080914828ef1c9ca9cd2bad50667b3d847dabff",
-        "version" : "2.0.0"
+        "revision" : "8cba041db09596183331d123f337d0eb2e6e8e91",
+        "version" : "2.1.1"
       }
     },
     {

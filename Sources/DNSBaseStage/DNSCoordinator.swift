@@ -164,6 +164,30 @@ open class DNSCoordinator: NSObject {
         completionBlock?(false)
         completionResultsBlock?(nil)
     }
+
+    open func stop(_ configurator: DNSBaseStageConfigurator,
+                   with results: DNSBaseStageBaseResults? = nil) {
+        guard self.runState != .terminated else { return }
+        self.runState = .terminated
+        configurator.endStage()
+        completionBlock?(true)
+        completionResultsBlock?(results)
+    }
+    open func stopAndCancel(_ configurator: DNSBaseStageConfigurator) {
+        guard self.runState != .terminated else { return }
+        self.runState = .terminated
+        configurator.endStage()
+        completionBlock?(false)
+        completionResultsBlock?(nil)
+    }
+    open func cancel(_ configurator: DNSBaseStageConfigurator) {
+        guard self.runState != .terminated else { return }
+        self.runState = .terminated
+        configurator.endStage()
+        completionBlock?(false)
+        completionResultsBlock?(nil)
+    }
+
     open func update(from sender: DNSCoordinator? = nil) {
         guard self.runState != .terminated else { return }
         if sender == nil && parent != sender {

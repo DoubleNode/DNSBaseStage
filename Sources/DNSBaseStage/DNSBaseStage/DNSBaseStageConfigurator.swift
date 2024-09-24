@@ -103,14 +103,16 @@ open class DNSBaseStageConfigurator {
         // ViewController Dependency Injection
         baseViewController.wkrAnalytics = WKRCrashAnalytics()
     }
-    open func endStage(with intent: String,
-                       and dataChanged: Bool,
-                       and results: DNSBaseStageBaseResults?) {
+    open func endStage(with intent: String? = nil,
+                       and dataChanged: Bool = false,
+                       and results: DNSBaseStageBaseResults? = nil) {
         guard !self.ending else { return }
         self.ending = true
         _ = DNSUIThread.run(after: 0.5) { [weak self] in
             guard let self else { return }
-            self.intentBlock?(true, intent, dataChanged, results)
+            if let intent = intent {
+                self.intentBlock?(true, intent, dataChanged, results)
+            }
             self.baseInteractor.removeStage()
         }
     }

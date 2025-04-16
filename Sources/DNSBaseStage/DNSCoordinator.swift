@@ -189,10 +189,10 @@ open class DNSCoordinator: NSObject {
     }
 
     open func update(from sender: DNSCoordinator? = nil) {
-        guard self.runState != .terminated else { return }
         if sender == nil && parent != sender {
             parent?.update(from: self)
         }
+        guard self.runState != .terminated else { return }
         for child in children {
             if child != sender {
                 child.update(from: self)

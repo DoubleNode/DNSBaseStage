@@ -738,7 +738,27 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
                 self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
             }
             // This need to be AFTER the tabBar image assignments above
+            self.title = viewModel.title
             self.stageTitle = viewModel.title
+
+            if viewModel.tabBarHide {
+                self.navigationController?.tabBarItem.image = nil
+                self.navigationController?.tabBarItem.selectedImage = nil
+                self.navigationController?.title = " "
+
+                self.tabBarItem.image = nil
+                self.tabBarItem.selectedImage = nil
+                self.tabBarItem.title = " "
+                
+                var newItems: [UITabBarItem] = []
+                self.tabBarController?.tabBar.items?.forEach { tabBarItem in
+                    if tabBarItem.title == viewModel.title {
+                        tabBarItem.title = " "
+                    }
+                    newItems.append(tabBarItem)
+                }
+                self.tabBarController?.tabBar.setItems(newItems, animated: true)
+            }
         }
     }
 

@@ -163,9 +163,21 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         DNSUIThread.run { [weak self] in
             guard let self else { return }
             self.title = self.stageTitle
-            self.navigationItem.title = self.stageTitle
-            self.tabBarItem.title = self.stageTitle
             self.titleLabel?.text = self.stageTitle
+
+            self.navigationController?.navigationBar.items?.forEach { navigationItem in
+                if navigationItem.title == self.navigationItem.title {
+                    navigationItem.title = self.stageTitle
+                }
+            }
+            self.navigationItem.title = self.stageTitle
+
+            self.tabBarController?.tabBar.items?.forEach { tabBarItem in
+                if tabBarItem.title == self.tabBarItem.title {
+                    tabBarItem.title = self.stageTitle
+                }
+            }
+            self.tabBarItem.title = self.stageTitle
         }
     }
     func updateStageBackTitle() {

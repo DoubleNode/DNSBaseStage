@@ -292,6 +292,7 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         self.utilityAutoTrack("\(#function)")
         
         var viewModel = BaseStage.Models.Title.ViewModel(title: response.title)
+        viewModel.tabBarHide = response.tabBarHide
         if !(response.tabBarImageName.isEmpty) {
             viewModel.tabBarSelectedImage = UIImage(named: "\(response.tabBarImageName)Selected")
             viewModel.tabBarUnselectedImage = UIImage(named: "\(response.tabBarImageName)Unselected")

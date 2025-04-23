@@ -295,6 +295,9 @@ open class DNSBaseStagePresenter: NSObject, DNSBaseStagePresentationLogic {
         if !(response.tabBarImageName.isEmpty) {
             viewModel.tabBarSelectedImage = UIImage(named: "\(response.tabBarImageName)Selected")
             viewModel.tabBarUnselectedImage = UIImage(named: "\(response.tabBarImageName)Unselected")
+        } else {
+            viewModel.tabBarSelectedImage = nil
+            viewModel.tabBarUnselectedImage = nil
         }
         titlePublisher.send(viewModel)
     }

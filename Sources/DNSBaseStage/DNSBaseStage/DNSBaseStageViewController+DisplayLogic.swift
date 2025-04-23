@@ -729,14 +729,14 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
         self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in
             guard let self else { return }
-            if viewModel.tabBarUnselectedImage != nil {
+//            if viewModel.tabBarUnselectedImage != nil {
                 self.tabBarItem.image = viewModel.tabBarUnselectedImage
                 self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage
-            }
-            if viewModel.tabBarSelectedImage != nil {
+//            }
+//            if viewModel.tabBarSelectedImage != nil {
                 self.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
                 self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
-            }
+//            }
             // This need to be AFTER the tabBar image assignments above
             self.stageTitle = viewModel.title
         }

@@ -13,7 +13,7 @@ import UIKit
 
 public typealias DNSUINavigationController = UINavigationController
 
-extension DNSUINavigationController: DNSAppConstantsRootProtocol, UITextFieldDelegate {
+extension DNSUINavigationController: @retroactive DNSAppConstantsRootProtocol, @retroactive UITextFieldDelegate {
     @objc
     open func checkBoxPressed(sender: UIButton) {
         sender.isSelected = !sender.isSelected

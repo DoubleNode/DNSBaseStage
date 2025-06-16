@@ -13,7 +13,7 @@ import UIKit
 
 public typealias DNSUINavDrawerController = DrawerNavigationController
 
-extension DNSUINavDrawerController: DrawerPresenting {
+extension DNSUINavDrawerController: @retroactive DrawerPresenting {
     // MARK: - DrawerPresenting protocols
     public func willOpenDrawer(_ drawer: DrawerPresentable) {
         dnsLog.debug("DNSUINavDrawerController::willOpenDrawer()")

@@ -744,16 +744,16 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             if viewModel.tabBarHide {
                 self.navigationController?.tabBarItem.image = nil
                 self.navigationController?.tabBarItem.selectedImage = nil
-                self.navigationController?.title = " "
+                self.navigationController?.title = ""
 
                 self.tabBarItem.image = nil
                 self.tabBarItem.selectedImage = nil
-                self.tabBarItem.title = " "
+                self.tabBarItem.title = ""
                 
                 var newViewControllers: [UIViewController] = []
                 self.tabBarController?.viewControllers?.forEach { viewController in
                     if viewController.title == viewModel.title {
-                        viewController.title = " "
+                        viewController.title = ""
                     }
                     newViewControllers.append(viewController)
                 }

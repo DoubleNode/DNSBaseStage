@@ -6,9 +6,9 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSBaseTheme
 import Foundation
 import JKDrawer
+import DNSThemeTypes
 
 public enum DNSBaseStage {
     public typealias Configurator = DNSBaseStageConfigurator

@@ -6,11 +6,11 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSBaseTheme
 import DNSDataObjects
 import DNSError
 import Foundation
 import UIKit
+import DNSThemeTypes
 
 public protocol DNSBaseStageBaseInitialization {
 }
@@ -53,7 +53,7 @@ open class DNSBaseStageModels {
         case right
         case vertical
     }
-    public enum Duration {
+    public enum Duration: Equatable {
         case `default`
         case short
         case average

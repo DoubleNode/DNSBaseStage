@@ -7,9 +7,10 @@
 //
 
 import AlamofireImage
-import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
+import DNSThemeObjects
+import DNSThemeTypes
 import UIKit
 
 class CommonAlertVC: UIViewController {

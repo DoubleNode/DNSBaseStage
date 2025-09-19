@@ -8,10 +8,10 @@
 
 import AtomicSwift
 import Combine
-import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
 import DNSError
+import DNSThemeTypes
 import GTBlurView
 import JGProgressHUD
 import JKDrawer

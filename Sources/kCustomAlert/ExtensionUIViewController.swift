@@ -6,9 +6,9 @@
 //  Copyright © 2019 Krishna All rights reserved.
 //
 
-import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
+import DNSThemeTypes
 import UIKit
 
 extension UIViewController {

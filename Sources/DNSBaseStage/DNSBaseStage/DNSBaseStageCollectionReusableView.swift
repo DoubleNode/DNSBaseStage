@@ -7,9 +7,9 @@
 //
 
 import Combine
-import DNSBaseTheme
 import DNSCrashWorkers
 import DNSProtocols
+import DNSThemeObjects
 import UIKit
 
 public protocol DNSBaseStageReusableViewLogic: AnyObject {

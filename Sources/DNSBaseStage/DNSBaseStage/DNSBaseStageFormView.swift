@@ -6,8 +6,8 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSBaseTheme
 import DNSCore
+import DNSThemeObjects
 import UIKit
 
 open class DNSBaseStageFormView: DNSUIView {

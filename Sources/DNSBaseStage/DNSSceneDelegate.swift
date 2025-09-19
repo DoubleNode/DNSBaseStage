@@ -6,9 +6,9 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSBaseTheme
 import DNSCore
 import DNSCoreThreading
+import DNSThemeObjects
 import UIKit
 
 open class DNSSceneDelegate: UIResponder, UIWindowSceneDelegate {

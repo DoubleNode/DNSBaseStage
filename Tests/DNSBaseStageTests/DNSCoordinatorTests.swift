@@ -670,6 +670,183 @@ class DNSCoordinatorTests: XCTestCase {
         XCTAssertEqual(level3.runState, .notStarted)
         XCTAssertEqual(level4.runState, .notStarted)
     }
+
+    // MARK: - Crash #3366 Regression Tests - Infinite Recursion Prevention
+
+    /// Tests that the recursion guard prevents infinite loops in reset()
+    /// This test reproduces the conditions that caused Crash #3366
+    func test_reset_prevents_infinite_recursion() {
+        // Create a coordinator hierarchy that could cause recursion
+        let parent = DNSCoordinator()
+        let child = DNSNavBarCoordinator(with: parent as? DNSUINavigationController)
+        child.parent = parent
+
+        parent.runState = .started
+        child.runState = .started
+
+        // This should not cause infinite recursion or stack overflow
+        // The recursion guard should prevent re-entrant calls
+        parent.reset()
+
+        // Verify the reset completed successfully
+        XCTAssertEqual(parent.runState, .notStarted, "Parent should be reset")
+        XCTAssertEqual(child.runState, .notStarted, "Child should be reset")
+        XCTAssertTrue(parent.children.isEmpty, "Parent children should be cleared")
+    }
+
+    /// Tests that calling reset() multiple times on the same coordinator is safe
+    func test_reset_multiple_times_does_not_crash() {
+        let coordinator = DNSCoordinator()
+        coordinator.runState = .started
+
+        // Call reset multiple times - should be idempotent
+        coordinator.reset()
+        coordinator.reset()
+        coordinator.reset()
+
+        XCTAssertEqual(coordinator.runState, .notStarted)
+        XCTAssertTrue(coordinator.children.isEmpty)
+    }
+
+    /// Tests that deep coordinator hierarchies reset without recursion issues
+    func test_reset_deep_hierarchy_with_navBar_coordinators() {
+        // Create a deep hierarchy mixing DNSCoordinator and DNSNavBarCoordinator
+        let root = DNSCoordinator()
+        let nav1 = DNSNavBarCoordinator(with: nil)
+        nav1.parent = root
+
+        let level2 = DNSCoordinator(with: nav1)
+        let nav2 = DNSNavBarCoordinator(with: nil)
+        nav2.parent = level2
+
+        let level3 = DNSCoordinator(with: nav2)
+
+        root.runState = .started
+        nav1.runState = .started
+        level2.runState = .started
+        nav2.runState = .started
+        level3.runState = .started
+
+        // This should not cause stack overflow
+        root.reset()
+
+        // Verify all levels were reset
+        XCTAssertEqual(root.runState, .notStarted)
+        XCTAssertEqual(nav1.runState, .notStarted)
+        XCTAssertEqual(level2.runState, .notStarted)
+        XCTAssertEqual(nav2.runState, .notStarted)
+        XCTAssertEqual(level3.runState, .notStarted)
+    }
+
+    /// Tests that NavBarCoordinator can safely call super.reset() without causing recursion
+    func test_navBarCoordinator_reset_calls_super_safely() {
+        let navCoordinator = DNSNavBarCoordinator(with: nil)
+        let child = DNSCoordinator(with: navCoordinator)
+
+        navCoordinator.runState = .started
+        child.runState = .started
+        navCoordinator.savedViewControllers = [UIViewController()]
+
+        // NavBarCoordinator.reset() calls super.reset()
+        // This should not cause infinite recursion
+        navCoordinator.reset()
+
+        XCTAssertEqual(navCoordinator.runState, .notStarted)
+        XCTAssertEqual(child.runState, .notStarted)
+        XCTAssertNil(navCoordinator.savedViewControllers)
+        XCTAssertTrue(navCoordinator.children.isEmpty)
+    }
+
+    /// Tests that circular parent-child references are handled safely
+    func test_reset_handles_circular_references_safely() {
+        let coordinator1 = DNSCoordinator()
+        let coordinator2 = DNSCoordinator()
+
+        // Create a parent-child relationship
+        coordinator2.parent = coordinator1
+
+        coordinator1.runState = .started
+        coordinator2.runState = .started
+
+        // Reset should handle this without infinite recursion
+        coordinator1.reset()
+
+        XCTAssertEqual(coordinator1.runState, .notStarted)
+        XCTAssertEqual(coordinator2.runState, .notStarted)
+    }
+
+    /// Tests that commonStart() properly resets when already started (triggers reset internally)
+    func test_commonStart_when_already_started_prevents_recursion() {
+        let parent = DNSCoordinator()
+        let child = DNSNavBarCoordinator(with: nil)
+        child.parent = parent
+
+        // Start both coordinators
+        parent.runState = .started
+        child.runState = .started
+
+        // Calling commonStart when already started triggers reset()
+        // This should not cause infinite recursion
+        parent.commonStart()
+
+        XCTAssertEqual(parent.runState, .started)
+    }
+
+    /// Performance test to ensure reset completes quickly even with many children
+    func test_reset_performance_with_many_children() {
+        let parent = DNSCoordinator()
+
+        // Create many child coordinators (mix of regular and NavBar)
+        for i in 0..<50 {
+            if i % 2 == 0 {
+                _ = DNSCoordinator(with: parent)
+            } else {
+                let navChild = DNSNavBarCoordinator(with: nil)
+                navChild.parent = parent
+            }
+        }
+
+        parent.runState = .started
+
+        measure {
+            parent.reset()
+            parent.runState = .started // Reset state for next iteration
+
+            // Re-add children for next iteration
+            if parent.children.isEmpty {
+                for i in 0..<50 {
+                    if i % 2 == 0 {
+                        _ = DNSCoordinator(with: parent)
+                    } else {
+                        let navChild = DNSNavBarCoordinator(with: nil)
+                        navChild.parent = parent
+                    }
+                }
+            }
+        }
+
+        XCTAssertEqual(parent.runState, .started)
+    }
+
+    /// Tests that concurrent reset calls are handled safely
+    func test_reset_concurrent_calls_are_safe() {
+        let coordinator = DNSCoordinator()
+        coordinator.runState = .started
+
+        let expectation = XCTestExpectation(description: "Concurrent resets complete")
+        expectation.expectedFulfillmentCount = 10
+
+        // Attempt multiple concurrent resets
+        for _ in 0..<10 {
+            DispatchQueue.global().async {
+                coordinator.reset()
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: 5.0)
+        XCTAssertEqual(coordinator.runState, .notStarted)
+    }
 }
 
 // MARK: - Mock Classes

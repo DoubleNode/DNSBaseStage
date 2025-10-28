@@ -48,6 +48,7 @@ open class DNSCoordinator: NSObject {
     @Atomic public var children: [DNSCoordinator] = []
     @Atomic public var runState: RunState = .notStarted
     @Atomic public var latestConfigurator: DNSBaseStageConfigurator?
+    @Atomic private var isResetting: Bool = false
 
     public var isRunning: Bool {
         return self.runState == .started
@@ -140,6 +141,15 @@ open class DNSCoordinator: NSObject {
     }
     
     open func reset() {
+        // Prevent re-entrant calls to avoid infinite recursion
+        guard !isResetting else {
+            DNSCore.reportLog("⚠️ DNSCoordinator.reset() - Prevented recursive reset() call on \(type(of: self))")
+            return
+        }
+
+        isResetting = true
+        defer { isResetting = false }
+
         self.runState = .notStarted
         for child: DNSCoordinator in self.children {
             child.reset()

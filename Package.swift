@@ -39,7 +39,7 @@ let package = Package(
         .package(url: "https://github.com/DoubleNode/DNSCrashSystems.git", .upToNextMajor(from: "1.12.0")),
         .package(url: "https://github.com/DoubleNode/DNSCrashWorkers.git", .upToNextMajor(from: "1.12.1")),
         .package(url: "https://github.com/DoubleNode/DNSNetwork.git", .upToNextMajor(from: "1.12.0")),
-        .package(url: "https://github.com/DoubleNode/DNSThemeObjects.git", .upToNextMajor(from: "1.12.0")),
+        .package(url: "https://github.com/DoubleNode/DNSThemeObjects.git", .upToNextMajor(from: "1.12.1")),
         .package(url: "https://github.com/DoubleNode/DNSThemeTypes.git", .upToNextMajor(from: "1.12.1")),
 //        .package(path: "../DNSAppCore"),
 //        .package(path: "../DNSCore"),

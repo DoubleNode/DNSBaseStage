@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNodeOpen/AnimatedField.git",
       "state" : {
-        "revision" : "978a46e23c6a7a73dd5324531daf3b63edb5f44e",
-        "version" : "2.5.69"
+        "revision" : "1421681b250b2bd73925003889ef6c205f2e3b90",
+        "version" : "3.0.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSBlankWorkers.git",
       "state" : {
-        "revision" : "2c8074918357c4b4375ed6c3e3d321b302eb7cc2",
-        "version" : "1.12.4"
+        "revision" : "fdb032bee7bcd61b6965cf70f2a4a57ad7815ce3",
+        "version" : "1.12.3"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCoreThreading.git",
       "state" : {
-        "revision" : "1d8074373c2a61765e7fb5b68a714cf99577ac8d",
-        "version" : "1.12.1"
+        "revision" : "cc5e2487c762059be53d28f2679bf95a887dda43",
+        "version" : "1.12.0"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataObjects.git",
       "state" : {
-        "revision" : "2ad80c86568c631bac913fdc795daa00373e2a29",
-        "version" : "1.12.1"
+        "revision" : "8d3f98cc256463d5edb6266e7d2d848cc951d843",
+        "version" : "1.12.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSDataTypes.git",
       "state" : {
-        "revision" : "15374fb9de623055da78f1a55aff8cb5b08c9912",
-        "version" : "1.12.2"
+        "revision" : "a62a0f5af14ecbf936c14d71715110dfb30a37c8",
+        "version" : "1.12.0"
       }
     },
     {
@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSProtocols.git",
       "state" : {
-        "revision" : "b021fe822ccaaeece4a66f5f78795e29e7ce1bde",
-        "version" : "1.12.3"
+        "revision" : "7b779ea7761e77914926b1685ff93612387c46f1",
+        "version" : "1.12.1"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSThemeObjects.git",
       "state" : {
-        "revision" : "22b799ac747b4dbcac6f6f25aba4cc670e94a59c",
-        "version" : "1.12.0"
+        "revision" : "7912c6adba95b85e68279a7bd800ebcbd6598aa4",
+        "version" : "1.12.1"
       }
     },
     {

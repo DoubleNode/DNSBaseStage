@@ -76,6 +76,7 @@ open class DNSBaseStageConfigurator {
             return retval!
         }
 
+        // Try to load from storyboard
         var retval: BaseStage.ViewController?
         DNSUIThread.run { [weak self] in
             guard let self else { return }
@@ -83,6 +84,15 @@ open class DNSBaseStageConfigurator {
             // swiftlint:disable:next force_cast line_length
             retval = storyboard.instantiateViewController(withIdentifier: String(describing: self.viewControllerType)) as? BaseStage.ViewController
         }
+
+        // If storyboard loading failed, create programmatically
+        if retval == nil {
+            DNSUIThread.run { [weak self] in
+                guard let self else { return }
+                retval = self.viewControllerType.init(nibName: nil, bundle: nil)
+            }
+        }
+
         return retval!
     }
     open func configureStage() {

@@ -65,6 +65,7 @@ open class DNSBaseStageConfigurator {
         return presenterType.init(configurator: self)
     }
     private func createViewController() -> BaseStage.ViewController {
+        // First, try to load from NIB
         if Bundle.dnsLookupNibBundle(for: viewControllerType) != nil {
             var retval: BaseStage.ViewController?
             DNSUIThread.run { [weak self] in
@@ -76,23 +77,15 @@ open class DNSBaseStageConfigurator {
             return retval!
         }
 
-        // Try to load from storyboard
+        // If no NIB exists, create programmatically
+        // Note: We skip storyboard loading because it throws uncatchable ObjC exceptions
+        // if the view controller identifier doesn't exist in the storyboard.
+        // ViewControllers should either have a NIB or be created programmatically.
         var retval: BaseStage.ViewController?
         DNSUIThread.run { [weak self] in
             guard let self else { return }
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            // swiftlint:disable:next force_cast line_length
-            retval = storyboard.instantiateViewController(withIdentifier: String(describing: self.viewControllerType)) as? BaseStage.ViewController
+            retval = self.viewControllerType.init(nibName: nil, bundle: nil)
         }
-
-        // If storyboard loading failed, create programmatically
-        if retval == nil {
-            DNSUIThread.run { [weak self] in
-                guard let self else { return }
-                retval = self.viewControllerType.init(nibName: nil, bundle: nil)
-            }
-        }
-
         return retval!
     }
     open func configureStage() {

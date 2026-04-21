@@ -725,6 +725,7 @@ extension DNSBaseStageViewController: UIAdaptivePresentationControllerDelegate {
             self.updateSpinnerDisplay(display: viewModel.show)
         }
     }
+
     // MARK: - parent class methods -
     public func updateBlurredViewDisplay(display: Bool) {
         guard let blurredView = self.blurredView else {

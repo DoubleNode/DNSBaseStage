@@ -3,4 +3,6 @@
 /Packages
 /*.xcodeproj
 xcuserdata/
-/.swiftpm
+/.swiftpm/configuration
+/.swiftpm/xcode/package.xcworkspace
+# Intentionally NOT ignoring .swiftpm/xcode/xcshareddata/xcschemes/ so committed schemes are tracked

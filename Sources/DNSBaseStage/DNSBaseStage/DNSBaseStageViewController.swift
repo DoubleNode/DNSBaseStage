@@ -288,12 +288,50 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
     }
 
     // MARK: - Display Logic (Open for Override) -
+    //
+    // Methods in this section are declared open to permit cross-module
+    // subclass overrides. Adding a method here is an API promise — consumers
+    // may rely on override semantics. Prefer keeping display logic in
+    // +DisplayLogic.swift (public, non-overridable) unless a ticket documents
+    // concrete consumer need for override.
+
+    /// Resets the stage's close button to enabled state on the main thread.
     open func displayReset(_ viewModel: BaseStage.Models.Base.ViewModel) {
         self.utilityAutoTrack("\(#function)")
         DNSUIThread.run {
             self.closeButton?.isEnabled = true
         }
     }
+
+    /// Applies the given title view-model to the stage's navigation bar and tab bar.
+    ///
+    /// Updates `self.title`, `self.stageTitle`, and the tab-bar item's image and title
+    /// state based on the values carried in `viewModel`. All mutations are dispatched to
+    /// the main thread via `DNSUIThread.run`, so the method is safe to call from any
+    /// thread. When `viewModel.tabBarHide` is true, the method additionally clears
+    /// tab-bar image and title entries across the tab-bar controller's view controllers
+    /// whose title matches the incoming title, effectively hiding this stage from
+    /// the tab bar.
+    ///
+    /// - Parameter viewModel: A view-model carrying the new `title` string, optional
+    ///   `tabBarUnselectedImage` and `tabBarSelectedImage` assets, and a `tabBarHide`
+    ///   flag that, when true, removes this stage's presence from the tab bar.
+    ///
+    /// - Important: Subclasses MAY override this method to customize title display.
+    ///   Overrides SHOULD call `super.displayTitle(viewModel)` unless they are
+    ///   intentionally replacing the default behavior entirely. The method is guaranteed
+    ///   to execute its UIKit mutations on the main thread (via `DNSUIThread.run`), so
+    ///   override implementations can interact with UIKit directly without additional
+    ///   dispatch. This contract is enforced by the `open` access modifier and the
+    ///   declaration's location in the class body rather than an extension — moving it
+    ///   back to an extension would silently break all consumer overrides through static
+    ///   dispatch.
+    ///
+    /// - Note: This method is invoked internally via a `.sink` subscription to
+    ///   `basePresenter.titlePublisher` (see `stageDidLoad`). Consumers should emit
+    ///   on the title publisher rather than calling `displayTitle(_:)` directly.
+    ///
+    /// - SeeAlso: XDNS-0009 for history on the open-for-override change.
     open func displayTitle(_ viewModel: BaseStage.Models.Title.ViewModel) {
         self.utilityAutoTrack("\(#function)")
         DNSUIThread.run { [weak self] in

@@ -287,11 +287,48 @@ open class DNSBaseStageViewController: DNSUIViewController, DNSBaseStageDisplayL
         self.stageDidClose()
     }
 
-    // MARK: - Display logic -
+    // MARK: - Display Logic (Open for Override) -
     open func displayReset(_ viewModel: BaseStage.Models.Base.ViewModel) {
         self.utilityAutoTrack("\(#function)")
         DNSUIThread.run {
             self.closeButton?.isEnabled = true
+        }
+    }
+    open func displayTitle(_ viewModel: BaseStage.Models.Title.ViewModel) {
+        self.utilityAutoTrack("\(#function)")
+        DNSUIThread.run { [weak self] in
+            guard let self else { return }
+            if viewModel.tabBarUnselectedImage != nil {
+                self.tabBarItem.image = viewModel.tabBarUnselectedImage
+                self.navigationController?.tabBarItem.image = viewModel.tabBarUnselectedImage
+            }
+            if viewModel.tabBarSelectedImage != nil {
+                self.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+                self.navigationController?.tabBarItem.selectedImage = viewModel.tabBarSelectedImage
+            }
+            // This need to be AFTER the tabBar image assignments above
+            self.title = viewModel.title
+            self.stageTitle = viewModel.title
+
+            if viewModel.tabBarHide {
+                self.navigationController?.tabBarItem.image = nil
+                self.navigationController?.tabBarItem.selectedImage = nil
+                self.navigationController?.title = ""
+
+                self.tabBarItem.image = nil
+                self.tabBarItem.selectedImage = nil
+                self.tabBarItem.title = ""
+
+                var newViewControllers: [UIViewController] = []
+                self.tabBarController?.viewControllers?.forEach { viewController in
+                    if viewController.title == viewModel.title {
+                        viewController.title = ""
+                    }
+                    newViewControllers.append(viewController)
+                }
+                self.tabBarController?.setViewControllers(newViewControllers,
+                                                          animated: true)
+            }
         }
     }
 

@@ -51,7 +51,7 @@ let package = Package(
         .package(url: "https://github.com/johankool/Drawer.git", .upToNextMajor(from: "0.9.1")),
         .package(url: "https://github.com/futuretap/FTLinearActivityIndicator.git", .upToNextMajor(from: "1.8.0")),
         .package(url: "https://github.com/gabrieltheodoropoulos/GTBlurView.git", .upToNextMajor(from: "1.0.2")),
-        .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", .upToNextMajor(from: "6.5.16")),
+        .package(url: "https://github.com/DoubleNodeOpen/IQKeyboardManager.git", .upToNextMajor(from: "6.5.16")),
         .package(url: "https://github.com/JonasGessner/JGProgressHUD.git", .upToNextMajor(from: "2.2.0")),
         .package(url: "https://github.com/schmidyy/Loaf.git", .upToNextMajor(from: "0.7.0")),
         .package(url: "https://github.com/DoubleNodeOpen/SFSymbol", .upToNextMajor(from: "3.0.1"))

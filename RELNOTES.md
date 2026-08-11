@@ -18,10 +18,7 @@ All notable changes to DNSBaseStage are documented here. Versions follow [Semant
 **Technical Improvements**
 -   `Package.swift` now resolves `IQKeyboardManager` from `DoubleNodeOpen/IQKeyboardManager` instead of `hackiftekhar/IQKeyboardManager`. The version constraint (`.upToNextMajor(from: "6.5.16")`) is **unchanged**, and the resolved revision is **identical** (`c00b1ae9`, version `6.5.16`) — this is a source-of-supply change only, with zero behavioral change.
 -   Completes the in-house forking of DNSBaseStage's third-party dependencies. `IQKeyboardManager` was the last remaining dependency not yet forked; `AnimatedField`, `AtomicSwift`, `PhoneNumberKit`, `SFSymbol`, `swift-mask-textfield`, and `SwiftyBeaver` were already pointed at DoubleNodeOpen forks.
-
-**Consumer Notes**
--   Because Swift Package Manager derives package identity from the repository URL, consumers will see their `Package.resolved` re-pin the `iqkeyboardmanager` entry to the fork URL on their next dependency resolve. This has been verified to happen **silently** — no duplicate-package-identity error and no action required — including for consumers holding a `Package.resolved` still pointing at the old upstream URL.
--   Optional hygiene: delete `Package.resolved` and re-resolve (or in Xcode: File → Packages → Reset Package Caches) so the recorded package location matches the fork immediately rather than on the next incidental resolve.
+-   **Consumers: no action required.** Because Swift Package Manager derives package identity from the repository URL, your `Package.resolved` will re-pin the `iqkeyboardmanager` entry to the fork URL on the next dependency resolve. This was verified to happen **silently** — no duplicate-package-identity error — including for consumers holding a `Package.resolved` still pointing at the old upstream URL. Optional hygiene only: delete `Package.resolved` and re-resolve (or in Xcode: File → Packages → Reset Package Caches) so the recorded location matches the fork immediately rather than on the next incidental resolve.
 
 **Known Problems**
 -   None identified in this release.
